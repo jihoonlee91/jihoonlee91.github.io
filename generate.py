@@ -497,6 +497,7 @@ def render_publications():
     <h1>Publications</h1>
     <p class="page-intro">{len(DATA['papers'])} publications total &middot; a unified list combining Google Scholar records with additional entries. Also available on my <a href="{esc(DATA['scholar_url'])}" target="_blank" rel="noopener">Google Scholar profile</a>.</p>
     {viz.year_category_chart(DATA['papers'])}
+    {viz.citation_year_chart(DATA.get('citation_stats') or {})}
     {viz.keyword_chart(DATA['papers'])}
     <div class="legend">
       <span class="badge badge-official">Official Link</span> publisher / DOI source

@@ -142,6 +142,68 @@ def year_category_chart(papers):
     </div>'''
 
 
+def citation_year_chart(citation_stats):
+    by_year = citation_stats.get("citations_by_year") or {}
+    if not by_year:
+        return ""
+
+    years = sorted(int(y) for y in by_year)
+    counts = {y: by_year[str(y)] for y in years}
+    max_count = max(counts.values()) or 1
+
+    width, height = 980, 340
+    margin = {"top": 30, "right": 20, "bottom": 40, "left": 36}
+    plot_w = width - margin["left"] - margin["right"]
+    plot_h = height - margin["top"] - margin["bottom"]
+    baseline = margin["top"] + plot_h
+
+    n = len(years)
+    slot_w = plot_w / n
+    bar_w = slot_w * 0.6
+    scale = plot_h / max_count
+
+    bars_svg = []
+    gridlines = []
+    for frac in (0, 0.25, 0.5, 0.75, 1.0):
+        gy = baseline - plot_h * frac
+        gridlines.append(f'<line x1="{margin["left"]}" y1="{gy:.1f}" x2="{width - margin["right"]}" y2="{gy:.1f}" class="viz-grid"/>')
+
+    for i, year in enumerate(years):
+        count = counts[year]
+        x = margin["left"] + i * slot_w + (slot_w - bar_w) / 2
+        bar_h = count * scale
+        y = baseline - bar_h
+        title = f"{year}: {count} citations"
+        if bar_h > 4:
+            path = _rounded_top_rect(x, y, bar_w, bar_h, 4)
+            bars_svg.append(f'<path d="{path}" fill="var(--series-1)"><title>{esc(title)}</title></path>')
+        else:
+            bars_svg.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{bar_w:.1f}" height="{max(bar_h, 0):.1f}" fill="var(--series-1)"><title>{esc(title)}</title></rect>')
+        bars_svg.append(
+            f'<text x="{x + bar_w / 2:.1f}" y="{y - 6:.1f}" class="viz-value-label" text-anchor="middle">{count}</text>'
+        )
+        bars_svg.append(
+            f'<text x="{x + bar_w / 2:.1f}" y="{baseline + 20}" class="viz-axis-label" text-anchor="middle">{year}</text>'
+        )
+
+    table_rows = "".join(f"<tr><th>{year}</th><td>{counts[year]}</td></tr>" for year in years)
+
+    return f'''<div class="viz-block">
+      <h3>Citations by Year</h3>
+      <svg viewBox="0 0 {width} {height}" class="viz-svg" role="img" aria-label="Bar chart of citations received per year, per Google Scholar">
+        {"".join(gridlines)}
+        {"".join(bars_svg)}
+      </svg>
+      <details class="viz-table-toggle">
+        <summary>Table view</summary>
+        <table class="viz-table">
+          <thead><tr><th>Year</th><th>Citations</th></tr></thead>
+          <tbody>{table_rows}</tbody>
+        </table>
+      </details>
+    </div>'''
+
+
 def keyword_chart(papers, top_n=10):
     counter = Counter()
     for p in papers:
