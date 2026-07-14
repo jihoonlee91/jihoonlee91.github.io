@@ -67,9 +67,42 @@ verified field with a guess.
 
 Run `python generate.py` and read its "papers still have no official
 link / PDF" output for the current list — it changes as links get added.
-Roughly 24 domestic-conference papers from the 2015–2018 era have no
-confirmed public link; they either need a manually-verified DBpia URL or a
-self-uploaded preprint PDF (see `CONTENT_GUIDE.md`).
+As of the two most recent research passes (see git log), it's down to 8
+domestic-conference/2015-2018-era papers with no confirmed public link at
+all — both passes independently confirmed DBpia/RISS genuinely have no
+page for these, not a fetch/JS-rendering artifact. Further automated
+attempts are unlikely to find these; a self-uploaded preprint PDF from the
+owner (see `CONTENT_GUIDE.md`) is the realistic path forward.
+
+## Abstracts
+
+- 18 of 43 papers have a verified abstract in `papers.json` as of the two
+  research passes referenced above (see git log for "abstracts" commits).
+  Sources used, roughly in the order tried: the paper's own `official_link`
+  page, CrossRef (`api.crossref.org/works/{doi}`, sometimes JATS-XML
+  abstracts), Semantic Scholar Graph API
+  (`api.semanticscholar.org/graph/v1/paper/DOI:...` or a title search),
+  downloading the PDF (ICAS/EUCASS archive, IPNT conference) and extracting
+  the first-page abstract text, DOAJ's article API, and RISS
+  (`riss.kr`) for a Korean MS/PhD dissertation.
+- A handful of Korean-language domestic papers have a Korean abstract only
+  (used as-published, not translated) — some, like the 2024 domestic
+  journal article, have both a Korean and an English abstract in the
+  source; both are kept, joined by a blank line in the `abstract` field so
+  `generate.py`'s `_abstract_paragraphs()` renders them as two separate
+  paragraphs instead of one run-on block.
+- **The other 25 are confirmed genuinely unavailable, not just
+  "couldn't fetch"**: ~20 DBpia/RISS-linked Korean conference/journal
+  papers whose detail pages render server-side but literally say "no
+  abstract on file" (checked directly, not inferred from a blocked
+  fetch); 2 AIAA ARC papers that return a bot-challenge page to every
+  fetch method tried (WebFetch, curl with a browser UA, via the DOI
+  redirect); and the 8 papers with no `official_link` at all, where a
+  CrossRef/Semantic Scholar title search found no matching record.
+- **Never fabricate or paraphrase-from-title an abstract** — same "wrong is
+  worse than missing" policy as `official_link`. A blank `abstract` field
+  is a legitimate, intentional state for a paper that's been checked and
+  came back empty, not an oversight to "fix" with a guess.
 
 ## Profile / CV data
 

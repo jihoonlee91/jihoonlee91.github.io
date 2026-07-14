@@ -18,9 +18,19 @@ collaborators too, not just an academic-reader lens.
   but nothing exists yet. Don't create a placeholder/empty section; add it
   only once there's an actual project (title, description, stack, link).
 - **Remaining 8 publications with no link** — mostly 2015–2018 domestic
-  conference papers DBpia/RISS/FDCL couldn't confirm. Either find them via
-  another `/check-links` round, or the owner uploads preprint PDFs directly
-  to `papers/pdfs/`.
+  conference papers DBpia/RISS/FDCL couldn't confirm. Two separate research
+  passes (see git log) both came back empty for these specific 8 — DBpia/
+  RISS genuinely have no page for them, not just a fetch/JS-rendering
+  issue. Unlikely to be findable by another automated pass; needs the
+  owner to upload a preprint PDF directly to `papers/pdfs/` if they still
+  have a copy, or confirm there's truly nothing public to link.
+- **Abstracts still missing for 25/43 papers** — same two research passes
+  filled in 18/43 with verified text (CrossRef, Semantic Scholar, DOAJ,
+  RISS, publisher pages); the other 25 are confirmed genuinely unavailable
+  (DBpia/RISS pages with no abstract on file, AIAA ARC's bot-challenge
+  page, or papers with no `official_link` at all) — not just "couldn't
+  fetch." Same owner-upload path as above is the only way forward for most
+  of these.
 - **Patents** — if any exist from the Samsung role, run them through
   `docs/CONTENT_POLICY.md`'s checklist before adding anything.
 - **Talks/presentations** — conference talks, the 2016 Grand Prize
@@ -95,17 +105,27 @@ input:
 - **Notes/writing section** — Chris Olah-style low-pressure short posts.
   Requires the owner to actually write something; don't scaffold an empty
   "Notes" nav item ahead of having a first post, it'll just look unfinished.
-- **Word cloud for keywords** — explicitly discussed and rejected in favor
-  of the current horizontal bar chart (word clouds don't allow precise
-  comparison — see `docs/DESIGN.md` / the dataviz skill). A treemap was
-  offered as a more legitimate alternative if the bar chart ever feels
-  insufficient.
 
 ## Already done (for reference — don't re-suggest these)
 
-Identity tag, unified timeline, category/theme toggle on Publications,
+Identity tag, unified timeline (now grouped by org/school so a multi-year
+stint at one place shows as one branch, not N repeated dots — includes a
+special-cased merge of the PhD-education entry with its lab-experience
+entry when they share the exact same period), category/theme toggle on
+Publications (theme list later split from 4 to 6 — see `docs/DESIGN.md`),
 Frequent Collaborators, dark/light theme, 1600px layout, icon+text social
-badges, BibTeX volume/number/pages + cross-file key dedup, Tech Stack chips
-on Home, "Currently" role pill, favicon, Open Graph/Twitter Card tags,
-schema.org Person+ProfilePage JSON-LD with sameAs links, canonical tags.
-See git log / other docs for detail.
+badges with real per-platform brand marks and colors (replaced the earlier
+initials-in-a-circle placeholder), BibTeX volume/number/pages + cross-file
+key dedup, BibTeX click-to-copy with a hover preview of the entry text,
+"Currently" role pill, favicon, Open Graph/Twitter Card tags, schema.org
+Person+ProfilePage JSON-LD with sameAs links, canonical tags, citations-
+by-year chart, keyword word cloud (word clouds were earlier rejected here
+in favor of a bar chart on precision-of-comparison grounds — the owner
+explicitly asked for the word cloud anyway in a later session; the bar
+chart's imprecision concern was judged an acceptable trade-off once
+title+abstract text gave it more words to draw from), a Life page (Home /
+Publications / CV / **Life**) with per-hobby sections, and DOI/BibTeX/PDF
+link hover previews so a visitor can see where a link goes before clicking.
+The "Tech Stack" chip row that used to sit on Home was removed — it
+duplicated the Skills section on the CV page and visually collided with
+the interests tags right above it. See git log / other docs for detail.

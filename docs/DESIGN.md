@@ -57,17 +57,17 @@ already cover the type scale in use: sizes range 0.8rem–2.1rem, weights
 | `--border` | hairline dividers |
 | `--bg` / `--bg-soft` | page background / card-like surfaces |
 | `--official` / `--official-bg` | "Official Link" badge (green) |
-| `--preprint` / `--preprint-bg` | "Preprint PDF" badge (amber) |
-| `--pending` | "Coming Soon" badge (gray) |
+| `--preprint` / `--preprint-bg` | "Full Text (PDF)" badge (amber) |
+| `--pending` | "No Public Link Yet" badge (gray) |
 | `--tag-bg` | interest chips |
 
 ## Chart color palette (viz.py)
 
-The Publications page renders two static SVG charts (publications-by-year
-stacked bar, keyword-frequency bar) via `viz.py`, following the dataviz
-skill's procedure: pick the form → assign color by job → **validate the
-palette with the skill's script** → apply mark specs → provide a legend/table
-fallback.
+The Publications page renders three static SVG charts (publications-by-year
+stacked bar, citations-by-year bar, keyword word cloud) via `viz.py`,
+following the dataviz skill's procedure: pick the form → assign color by
+job → **validate the palette with the skill's script** → apply mark specs
+→ provide a legend/table fallback.
 
 The 5-slot categorical palette (one slot per publication category) and the
 single sequential blue hue are the skill's documented reference palette
@@ -88,21 +88,32 @@ every chart also ships a legend, direct value labels on segments/bars, and a
 the validator against the new surface before reusing this palette** — the
 contrast checks are surface-relative.
 
-## Badges (Official Link / Preprint PDF / Coming Soon)
+## Badges (Official Link / Full Text (PDF) / No Public Link Yet)
 
 Every publication, on both the Publications list and its own paper page,
 shows a small badge row from `link_badges()` in `generate.py`:
 
 - **Official Link** (green) — `official_link` is set (a DOI or publisher/
-  DBpia/library URL). Label appends "(DOI)" when a `doi` field is present.
-- **Preprint PDF** (amber) — a file exists at `papers/pdfs/<slug>.pdf`.
-- **Coming Soon** (gray) — neither of the above.
-- **BibTeX** (neutral) — always shown, links to `bibtex/<slug>.bib`.
+  DBpia/library URL). Label shows the DOI value directly (not just a
+  "(DOI)" marker) when a `doi` field is present, and a hover tooltip shows
+  the destination — link previews shouldn't require a click. External
+  badges (Official Link, Full Text, BibTeX) open in a new tab; internal
+  site navigation does not.
+- **Full Text (PDF)** (amber) — a file exists at `papers/pdfs/<slug>.pdf`.
+  Named for what it is (a self-hosted copy of the paper) rather than
+  "Preprint," since these aren't necessarily pre-review drafts.
+- **No Public Link Yet** (gray) — neither of the above. Deliberately
+  neutral wording — it doesn't promise a link is coming.
+- **BibTeX** (neutral) — always shown. Clicking copies the entry straight
+  to the clipboard (`copyBibtex()`, prevents the default navigation);
+  the badge still has a real `href` to `bibtex/<slug>.bib` so
+  middle-click/"open in new tab"/"save link as" still gets the raw file.
+  Hovering previews the actual BibTeX text via `data-tooltip`.
 
 These three are deliberately different colors so a visitor can tell at a
 glance whether they're about to land on the publisher's page or a
 self-hosted file — do not merge them into one generic "link" style. A paper
-can show **both** Official Link and Preprint PDF at once (many official
+can show **both** Official Link and Full Text (PDF) at once (many official
 links are paywalled) — see `docs/CONTENT_GUIDE.md`.
 
 ## Home page: identity tag + timeline
@@ -134,9 +145,14 @@ The Publications page has a client-side toggle (`view-toggle`,
   international/domestic journal, international/domestic conference,
   thesis). This is the standard, expected grouping for an academic reader.
 - **By Research Theme** — `THEME_ORDER` in `generate.py`, a hand-assigned
-  `theme` field per paper reflecting actual research sub-areas (Morphing-
-  Wing Aircraft Control; Autonomous Carrier Landing & Guidance; Target
-  Tracking, Sensing & Path Planning; Satellite & Lunar Orbiter GNC).
+  `theme` field per paper reflecting actual research sub-areas
+  (Morphing-Wing Aircraft Control; Autonomous Carrier Landing & Guidance;
+  Target Tracking & Sensing; Path Planning for Search & Rescue; UAV
+  Pitch-Hold Control for Mine Detection; Satellite & Lunar Orbiter GNC).
+  The tracking/planning/pitch-hold split used to be one combined theme —
+  broken apart because the pitch-hold/mine-detection papers are really
+  UAV control work wearing a sensing-mission label, and lumping them in
+  with the actual tracking/path-planning papers obscured that.
 
 **Deliberately not split by "aerospace vs. semiconductor AI"**: every one
 of the 43 publications is aerospace/GNC research from the PhD era — the
@@ -147,7 +163,7 @@ bending an aerospace paper into an unrelated bucket.
 
 When adding a new paper, set its `theme` to the closest existing value in
 `THEME_ORDER`, or add a new theme (and add it to `THEME_ORDER`) if it
-genuinely doesn't fit any of the four.
+genuinely doesn't fit any existing one.
 
 ## Frequent Collaborators (CV page)
 

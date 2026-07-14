@@ -28,8 +28,9 @@ Edit the `papers` array in `papers.json`. Each entry:
   `generate.py`).
 - `theme` must be one of the values in `THEME_ORDER` in `generate.py`
   (currently: Morphing-Wing Aircraft Control; Autonomous Carrier Landing &
-  Guidance; Target Tracking, Sensing & Path Planning; Satellite & Lunar
-  Orbiter GNC) — drives the Publications page's "By Research Theme" toggle
+  Guidance; Target Tracking & Sensing; Path Planning for Search & Rescue;
+  UAV Pitch-Hold Control for Mine Detection; Satellite & Lunar Orbiter
+  GNC) — drives the Publications page's "By Research Theme" toggle
   view. See `docs/DESIGN.md` for why this isn't split along
   aerospace-vs-semiconductor-AI lines. Add a new theme (and add it to
   `THEME_ORDER`) if a paper genuinely doesn't fit any existing one.

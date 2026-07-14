@@ -34,15 +34,16 @@ It is a **static site generator**, not a hand-edited site:
 - `papers.json` — the single source of truth (profile, CV, all 43
   publications).
 - `generate.py` — reads `papers.json`, writes `index.html`,
-  `publications.html`, `cv.html`, `papers/<slug>.html` per paper,
-  `bibtex/*.bib`, `sitemap.xml`, `robots.txt`.
-- `viz.py` — generates the two static SVG charts embedded in
-  `publications.html` (publications-per-year, keyword frequency).
+  `publications.html`, `cv.html`, `life.html`, `papers/<slug>.html` per
+  paper, `bibtex/*.bib`, `sitemap.xml`, `robots.txt`.
+- `viz.py` — generates the three static SVG charts embedded in
+  `publications.html` (publications-per-year, citations-per-year, keyword
+  word cloud).
 - `style.css` — one stylesheet, dark-default theme with a light toggle (see
   `docs/DESIGN.md`).
 
-**Never hand-edit `index.html`, `publications.html`, `cv.html`, or any
-`papers/*.html` file directly** — they're regenerated from `papers.json` by
+**Never hand-edit `index.html`, `publications.html`, `cv.html`, `life.html`,
+or any `papers/*.html` file directly** — they're regenerated from `papers.json` by
 `generate.py` and any manual edit will be silently overwritten on the next
 run. These generated files (plus `bibtex/*.bib`, `sitemap.xml`,
 `robots.txt`) are **gitignored** — GitHub Actions builds them fresh on every
