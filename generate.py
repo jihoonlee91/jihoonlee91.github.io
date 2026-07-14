@@ -434,11 +434,16 @@ def link_badges(p, base="papers/pdfs/", paper_page=False):
 def _render_paper_item(p, i):
     year = p["year"] if p.get("year") else "n.d."
     title_en = f'<div class="paper-title-en">{esc(p["title_en"])}</div>' if p.get("title_en") else ""
+    abstract_html = (
+        f'<details class="paper-abstract-toggle"><summary>Abstract</summary><p>{esc(p["abstract"])}</p></details>'
+        if p.get("abstract") else ""
+    )
     return f'''        <li class="paper">
           <div class="paper-title"><span class="paper-index">{i}.</span> <a href="papers/{esc(p['slug'])}.html">{esc(p['title'])}</a></div>
           {title_en}
           <div class="paper-meta">{esc(p['authors'])}</div>
           <div class="paper-venue">{esc(p['venue'])}{', ' if p['venue'] else ''}{year}{f" &middot; {p['citations']} citations" if p['citations'] else ""}</div>
+          {abstract_html}
           <div class="paper-badges">{link_badges(p)}</div>
         </li>'''
 

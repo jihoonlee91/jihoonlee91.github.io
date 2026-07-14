@@ -750,6 +750,22 @@ a.badge:hover {
   font-size: 0.92rem;
 }
 
+.paper-abstract-toggle {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.paper-abstract-toggle summary {
+  cursor: pointer;
+  color: var(--accent);
+}
+
+.paper-abstract-toggle p {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
 .pending {
   color: var(--preprint);
   font-size: 0.9rem;
