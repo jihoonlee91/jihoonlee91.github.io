@@ -828,6 +828,14 @@
       "Control Allocation"
     ]
   },
+  "life": {
+    "intro": "",
+    "sections": [
+      {"title": "Cycling", "content": ""},
+      {"title": "Triathlon", "content": ""},
+      {"title": "Swimming", "content": ""}
+    ]
+  },
   "instagram_url": "https://www.instagram.com/jihoonlee",
   "facebook_url": "https://www.facebook.com/jihoonlee91",
   "collaborator_affiliations": {

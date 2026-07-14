@@ -244,7 +244,7 @@ def render_social_links(extra_class=""):
 
 
 def render_nav(active, base=""):
-    items = [("index.html", "Home"), ("publications.html", "Publications"), ("cv.html", "CV")]
+    items = [("index.html", "Home"), ("publications.html", "Publications"), ("cv.html", "CV"), ("life.html", "Life")]
     links = "".join(
         f'<a href="{base}{href}" class="{"active" if name == active else ""}">{name}</a>'
         for href, name in items
@@ -673,6 +673,45 @@ def render_cv():
         f.write(html_out)
 
 
+def render_life():
+    life = DATA.get("life") or {}
+    intro_html = f'<p class="page-intro">{esc(life["intro"])}</p>' if life.get("intro") else ""
+
+    sections_html = []
+    for section in life.get("sections", []):
+        content = section.get("content")
+        body = f'<p>{esc(content)}</p>' if content else '<p class="pending">Coming soon.</p>'
+        sections_html.append(f'<section><h2>{esc(section["title"])}</h2>{body}</section>')
+    if not sections_html:
+        sections_html.append('<p class="pending">Nothing added yet.</p>')
+
+    html_out = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{THEME_INIT_SCRIPT}
+<title>Life - {esc(DATA['name'])}</title>
+<meta name="description" content="Outside the lab and the fab — {esc(DATA['name'])}'s life outside of work.">
+{render_common_head('life.html', f"Life - {DATA['name']}", f"Outside the lab and the fab — {DATA['name']}'s life outside of work.")}
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  {render_nav("Life")}
+  <main class="container">
+    <h1>Life</h1>
+    {intro_html}
+    {"".join(sections_html)}
+  </main>
+  <footer class="site-footer"></footer>
+  {THEME_TOGGLE_SCRIPT}
+</body>
+</html>
+'''
+    with open(os.path.join(ROOT, "life.html"), "w", encoding="utf-8") as f:
+        f.write(html_out)
+
+
 def render_paper_page(p):
     meta_tags = [f'<meta name="citation_title" content="{esc(p["title"])}">']
     for author in [a.strip() for a in p["authors"].split(",")]:
@@ -775,6 +814,7 @@ if __name__ == "__main__":
     render_index()
     render_publications()
     render_cv()
+    render_life()
     for paper in DATA["papers"]:
         render_paper_page(paper)
     render_bibtex()
