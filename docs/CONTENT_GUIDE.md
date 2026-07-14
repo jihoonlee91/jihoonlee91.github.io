@@ -17,7 +17,8 @@ Edit the `papers` array in `papers.json`. Each entry:
   "doi": "10.1109/TAES.2018.2867259",
   "abstract": "",
   "official_link": "https://doi.org/10.1109/TAES.2018.2867259",
-  "pdf": "papers/pdfs/2018-sliding-mode-uav-carrier-landing.pdf"
+  "pdf": "papers/pdfs/2018-sliding-mode-uav-carrier-landing.pdf",
+  "theme": "Autonomous Carrier Landing & Guidance"
 }
 ```
 
@@ -25,6 +26,13 @@ Edit the `papers` array in `papers.json`. Each entry:
   `int-conference`, `domestic-conference`, `thesis` — this drives which
   section of `publications.html` the entry lands in (see `CATEGORY_ORDER` in
   `generate.py`).
+- `theme` must be one of the values in `THEME_ORDER` in `generate.py`
+  (currently: Morphing-Wing Aircraft Control; Autonomous Carrier Landing &
+  Guidance; Target Tracking, Sensing & Path Planning; Satellite & Lunar
+  Orbiter GNC) — drives the Publications page's "By Research Theme" toggle
+  view. See `docs/DESIGN.md` for why this isn't split along
+  aerospace-vs-semiconductor-AI lines. Add a new theme (and add it to
+  `THEME_ORDER`) if a paper genuinely doesn't fit any existing one.
 - `title_en` is only for entries whose `title` is in Korean — an English
   translation shown in italics under the title. Leave `null` for
   English-titled papers.
@@ -36,7 +44,15 @@ Edit the `papers` array in `papers.json`. Each entry:
 
 ## Adding a self-hosted (preprint) PDF
 
-For a paper without a public official link:
+A paper can have **both** an `official_link` and a self-hosted PDF at the
+same time — they show as two separate badges (green "Official Link", amber
+"Preprint PDF"), not one replacing the other. This matters because many
+`official_link`s are paywalled (IEEE Xplore, journal publisher pages,
+DBpia): the official link stays as the citable source of record, and the
+preprint PDF gives visitors something they can actually open without a
+subscription.
+
+For any paper — whether or not it already has an `official_link`:
 
 1. Save the PDF as `papers/pdfs/<slug>.pdf` — the filename must exactly
    match the `slug` field.
@@ -78,6 +94,22 @@ and the FDCL lab homepage).
 
 **Before adding anything about current employer work, read
 `docs/CONTENT_POLICY.md` first** — it's a hard gate, not a suggestion.
+
+## Profile-level fields (Home page hero, not per-paper)
+
+- `identity_tag` — the one-line hook under the name (e.g. "Aerospace GNC
+  Researcher → Industrial AI Engineer, Samsung. Seoul."). Keep it to one
+  short sentence; `tagline` and `bio` are for anything longer.
+- `collaborator_affiliations` — a `{"Full Name": "Affiliation string"}` map
+  used only to annotate the CV page's "Frequent Collaborators" list (which
+  computes the actual co-authorship *counts* from `papers.json` itself, not
+  from this map). Add an entry here only for a name that already appears as
+  a paper author; an unlisted collaborator still shows up, just without an
+  affiliation line. See `docs/DESIGN.md` for the `min_count`/`top_n`
+  thresholds that control who counts as "frequent."
+- `education` / `experience` entries can carry an optional `"url"` key to
+  make their first displayed field a link (used for the SNU dissertation
+  and the FDCL lab homepage) — same mechanism for both arrays.
 
 ## Rebuilding after any papers.json change
 

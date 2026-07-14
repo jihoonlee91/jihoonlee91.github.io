@@ -54,12 +54,14 @@ agent can't verify, it must return `null`, not a guess.
 9. **ResearchGate** — blocked entirely during this project (HTTP 403 on
    every fetch attempt, profile page and individual publication pages
    alike). Don't rely on it without an authenticated browser session.
-10. **Playwright/browser automation** — was attempted by several agents as a
-   fallback for JS-rendered pages (DBpia especially) but the browser was
-   reported locked/unavailable every time ("Browser is already in use").
-   If it becomes available in a future session, DBpia's hit rate would
-   likely improve a lot — it's the main blocker, not a lack of matching
-   articles.
+10. **Playwright/browser automation** — mostly reported locked/unavailable
+   ("Browser is already in use") in early rounds, but when it *was*
+   available, it solved DBpia cleanly: using DBpia's own site search (not
+   Google) with the exact Korean title through a real Playwright session
+   confirmed 4/4 papers in one batch, reading title/authors/venue/year
+   straight off the rendered results page. If Playwright is available,
+   prefer it over WebFetch for any DBpia lookup — it was the single biggest
+   swing in hit rate observed across this whole project.
 
 ## How to run another round
 

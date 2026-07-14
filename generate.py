@@ -60,21 +60,73 @@ def has_local_pdf(paper):
 def bibtex_key(paper):
     first_author = paper["authors"].split(",")[0].strip().split(" ")[-1]
     year = paper["year"] or "nd"
-    return re.sub(r"[^A-Za-z0-9]", "", f"{first_author}{year}") or paper["slug"]
+    key = re.sub(r"[^A-Za-z0-9]", "", f"{first_author}{year}")
+    # a Korean (or otherwise non-Latin) author name strips down to nothing
+    # but digits — fall back to the slug so the key stays unique and
+    # actually identifies the paper rather than just its year
+    if not key or not re.search(r"[A-Za-z]", key):
+        return re.sub(r"[^A-Za-z0-9]", "", paper["slug"])
+    return key
 
 
-def to_bibtex(paper):
+def parse_venue(venue):
+    """Split a free-text venue string into (clean_name, volume, number, pages).
+
+    Venue strings look like "IEEE Access, Vol. 11, pp. 40930-40943" or
+    "Sensors, Vol. 23, No. 6, 3075" — pull out the structured bibliographic
+    fields BibTeX/reference managers expect instead of leaving them folded
+    into one free-text journal/booktitle field.
+    """
+    volume = number = pages = None
+    remainder = venue
+
+    m = re.search(r"\bVol\.?\s*(\d+)", remainder, re.IGNORECASE)
+    if m:
+        volume = m.group(1)
+        remainder = remainder[:m.start()] + remainder[m.end():]
+
+    m = re.search(r"\bNo\.?\s*(\d+)", remainder, re.IGNORECASE)
+    if m:
+        number = m.group(1)
+        remainder = remainder[:m.start()] + remainder[m.end():]
+
+    m = re.search(r"\bpp\.?\s*([\d]+-[\d]+)", remainder, re.IGNORECASE)
+    if m:
+        pages = m.group(1)
+        remainder = remainder[:m.start()] + remainder[m.end():]
+
+    # rebuild from non-empty comma-separated pieces, dropping anything the
+    # removals above left blank
+    pieces = [piece.strip() for piece in remainder.split(",")]
+    pieces = [piece for piece in pieces if piece]
+
+    # a lone trailing number (no "pp." prefix) is an MDPI-style article
+    # number, e.g. "Sensors, Vol. 23, No. 6, 3075" -> pages = 3075
+    if pieces and not pages and re.fullmatch(r"\d+", pieces[-1]):
+        pages = pieces.pop()
+
+    clean = ", ".join(pieces)
+    return clean, volume, number, pages
+
+
+def to_bibtex(paper, key):
     is_article = paper["category"] in ("int-journal", "domestic-journal")
     entry_type = "mastersthesis" if paper["category"] == "thesis" else ("article" if is_article else "inproceedings")
-    key = bibtex_key(paper)
     lines = [f"@{entry_type}{{{key},"]
     lines.append(f'  title     = {{{paper["title"]}}},')
     lines.append(f'  author    = {{{paper["authors"].replace(", ", " and ")}}},')
     if paper.get("year"):
         lines.append(f'  year      = {{{paper["year"]}}},')
     if paper.get("venue"):
+        clean_venue, volume, number, pages = parse_venue(paper["venue"])
         field = "journal" if is_article else ("school" if entry_type == "mastersthesis" else "booktitle")
-        lines.append(f'  {field:<9} = {{{paper["venue"]}}},')
+        lines.append(f'  {field:<9} = {{{clean_venue}}},')
+        if volume:
+            lines.append(f'  volume    = {{{volume}}},')
+        if number:
+            lines.append(f'  number    = {{{number}}},')
+        if pages:
+            lines.append(f'  pages     = {{{pages}}},')
     if paper.get("doi"):
         lines.append(f'  doi       = {{{paper["doi"]}}},')
     lines.append("}")
@@ -545,9 +597,21 @@ def render_paper_page(p):
 
 def render_bibtex():
     os.makedirs(os.path.join(ROOT, "bibtex"), exist_ok=True)
+
+    # de-duplicate keys across the WHOLE collection (not just per-file) —
+    # bibtex/all.bib concatenates every entry into one file, so two papers
+    # sharing a base key like "Lee2018" would silently collide there even
+    # though their individual bibtex/<slug>.bib files look fine on their own
+    seen = Counter()
+    keys = {}
+    for p in DATA["papers"]:
+        base = bibtex_key(p)
+        seen[base] += 1
+        keys[p["slug"]] = base if seen[base] == 1 else f"{base}{chr(ord('a') + seen[base] - 2)}"
+
     all_entries = []
     for p in DATA["papers"]:
-        entry = to_bibtex(p)
+        entry = to_bibtex(p, keys[p["slug"]])
         all_entries.append(entry)
         with open(os.path.join(ROOT, "bibtex", f"{p['slug']}.bib"), "w", encoding="utf-8") as f:
             f.write(entry + "\n")

@@ -22,13 +22,21 @@ SVG generation).
 
 ## Layout
 
-- Content width: `max-width: 1180px` on `.container`, `.nav-inner`, and
+- Content width: `max-width: 1600px` on `.container`, `.nav-inner`, and
   `footer.site-footer` — sized for a normal laptop/monitor viewport, not a
-  narrow text column. Do not shrink this back down; an earlier 860px version
-  was reported as too narrow.
+  narrow text column. Widened twice already (860px -> 1180px -> 1600px),
+  each time because it was reported as too cramped — don't shrink it back
+  down.
+- `.bio` has no `max-width`/`ch` cap — an earlier 70ch limit made the intro
+  paragraph wrap narrower than the actual container width, which looked
+  broken on a wide screen. Any new free-text block should default to
+  filling its flex/grid cell rather than adding an arbitrary ch cap.
 - Single mobile breakpoint at `640px` — nav/hero/stats stack and center.
-- Sticky top nav (`.site-nav`) with `Home / Publications / CV` links plus the
-  theme toggle button.
+- Sticky top nav (`.site-nav`) with `Home / Publications / CV` links on the
+  left/center and the theme toggle **in its own flex slot pinned to the far
+  right edge** — it was originally inline with the nav links and moved out
+  on request, so keep it separate from `.nav-links` if the nav is ever
+  restructured.
 
 ## Typography
 
@@ -93,4 +101,85 @@ shows a small badge row from `link_badges()` in `generate.py`:
 
 These three are deliberately different colors so a visitor can tell at a
 glance whether they're about to land on the publisher's page or a
-self-hosted file — do not merge them into one generic "link" style.
+self-hosted file — do not merge them into one generic "link" style. A paper
+can show **both** Official Link and Preprint PDF at once (many official
+links are paywalled) — see `docs/CONTENT_GUIDE.md`.
+
+## Home page: identity tag + timeline
+
+- `identity_tag` in `papers.json` is a single terse sentence rendered right
+  under the name in the hero (`.identity-tag`, accent-colored) — e.g.
+  "Aerospace GNC Researcher → Industrial AI Engineer, Samsung. Seoul."
+  This is a one-second summary, distinct from `tagline` (a slightly longer,
+  muted-color line) and `bio` (the full paragraph). Keep it short; if it
+  needs a comma-separated list of clauses, it's become a tagline instead.
+- The Home page's Timeline section (`render_timeline()` in `generate.py`)
+  merges `experience` and `education` into one reverse-chronological list
+  instead of two separate blocks — this was a deliberate choice (see
+  `docs/LINK_RESEARCH.md`'s companion research on notable personal
+  homepages) to narrate a single continuous arc rather than silo "career"
+  from "school." Sort order comes from `_timeline_sort_key()`, which reads
+  the last 4-digit year in each entry's `period` string ("Present" sorts as
+  newest). If you add a new timeline-eligible section (e.g. a future role
+  change), give it a `period` string in the same format
+  (`"Mon YYYY – Mon YYYY"` or `"Mon YYYY – Present"`) so the sort keeps
+  working without changes to the parser.
+
+## Publications page: category vs. theme grouping
+
+The Publications page has a client-side toggle (`view-toggle`,
+`setPubView()`) between two precomputed groupings of the same 43 papers:
+
+- **By Category** — bibliographic type (`CATEGORY_ORDER` in `generate.py`:
+  international/domestic journal, international/domestic conference,
+  thesis). This is the standard, expected grouping for an academic reader.
+- **By Research Theme** — `THEME_ORDER` in `generate.py`, a hand-assigned
+  `theme` field per paper reflecting actual research sub-areas (Morphing-
+  Wing Aircraft Control; Autonomous Carrier Landing & Guidance; Target
+  Tracking, Sensing & Path Planning; Satellite & Lunar Orbiter GNC).
+
+**Deliberately not split by "aerospace vs. semiconductor AI"**: every one
+of the 43 publications is aerospace/GNC research from the PhD era — the
+current semiconductor-AI day job has no publications to group, so forcing
+that split would misrepresent the actual data. If that changes (e.g. a
+future patent or paper from the industry role), add a new theme rather than
+bending an aerospace paper into an unrelated bucket.
+
+When adding a new paper, set its `theme` to the closest existing value in
+`THEME_ORDER`, or add a new theme (and add it to `THEME_ORDER`) if it
+genuinely doesn't fit any of the four.
+
+## Frequent Collaborators (CV page)
+
+`render_collaborators_section()` in `generate.py` computes co-authorship
+counts directly from `papers.json`'s `papers` array (not a hand-maintained
+list) — it will automatically recompute if papers are added/removed. Only
+`papers.json`'s `collaborator_affiliations` dict (name → affiliation
+string) is hand-maintained, and only for names that actually appear in the
+list; an unlisted co-author still shows up with just their paper count, no
+affiliation line. The `min_count`/`top_n` thresholds
+(`render_collaborators_section(min_count=4, top_n=10)`) control who
+qualifies as "frequent" — raise `min_count` if the list gets too long as
+more papers are added.
+
+## BibTeX generation (`to_bibtex`, `render_bibtex`, `parse_venue`)
+
+- `parse_venue()` pulls `Vol.`/`No.`/`pp. X-Y` (or a bare trailing article
+  number, MDPI-style) out of the free-text `venue` string into proper
+  `volume`/`number`/`pages` BibTeX fields, instead of leaving them folded
+  into the `journal`/`booktitle` field as one blob. If a future paper's
+  venue string uses a format these regexes don't catch, the raw venue
+  falls back into the journal/booktitle field unsplit — not wrong, just
+  less structured.
+- **Citation keys must be unique across `bibtex/all.bib`, not just within
+  each per-paper `.bib` file.** `render_bibtex()` computes all 43 keys
+  together first and appends `a`/`b`/`c`... to any repeat of the same
+  `AuthorYear` base (e.g. three 2018 papers with a first-author surname
+  "Lee" become `Lee2018`, `Lee2018a`, `Lee2018b`) — do not revert to calling
+  `bibtex_key()` independently per file, that's what caused the original
+  collision bug.
+- A first-author name that isn't Latin script (e.g. a Korean-only author
+  list) strips down to nothing alphabetic under `bibtex_key()`'s
+  non-alphanumeric filter — it falls back to the paper's `slug` for the key
+  in that case, so it doesn't collapse to a bare, collision-prone year like
+  `{2024}`.
