@@ -62,10 +62,7 @@
       "organization": "Digital Twin Center, Samsung Electronics",
       "position": "Staff Engineer — Production AI & ML Systems",
       "highlights": [
-        "Own production ML workflows for advanced memory semiconductor engineering across technology development, new product/process development, R&D, and mass production.",
         "Lead the ML workstream within a 20+ person cross-functional Fab AI program spanning AI, software, data, process, and manufacturing organizations.",
-        "Build fab-scale training datasets from 10+ data sources — recipe parameters, equipment logs, sensor traces, metrology, defect signals, and process history.",
-        "Support 30+ process-engineering requests by converting development/manufacturing issues into model-based workflows.",
         "Collaborate with V-NAND and DRAM process engineers to define modeling targets, datasets, validation criteria, and engineering decision rules.",
         "Explore agentic and LLM-assisted decision-support workflows — context retrieval, candidate generation, and human-in-the-loop review."
       ],
@@ -73,12 +70,20 @@
     },
     {
       "organization": "Mechatronics Research, Samsung Electronics",
-      "position": "Staff Engineer — production AI / ML systems for semiconductor manufacturing and process engineering.",
+      "position": "Staff Engineer — Production AI & ML Systems",
+      "highlights": [
+        "Supported 30+ process-engineering requests by converting development/manufacturing issues into model-based workflows.",
+        "Built model-based workflows connecting model outputs to process-condition comparison, recipe screening, and sensitivity analysis for equipment/process engineering teams."
+      ],
       "period": "Jan 2025 – Dec 2025"
     },
     {
       "organization": "Memory Manufacturing Technology Center, Samsung Electronics",
-      "position": "Staff Engineer — production AI / ML systems for semiconductor manufacturing and process engineering.",
+      "position": "Staff Engineer — Production AI & ML Systems",
+      "highlights": [
+        "Built the initial production ML workflows for advanced memory semiconductor engineering across technology development, new product/process development, R&D, and mass production.",
+        "Built fab-scale training datasets from 10+ data sources — recipe parameters, equipment logs, sensor traces, metrology, defect signals, and process history."
+      ],
       "period": "Mar 2023 – Dec 2024"
     },
     {
@@ -179,7 +184,7 @@
       "abstract": "In this study, a multi-level path planning system is proposed for indoor search and rescue operations. Requirements for the path planning system are derived based on the operational concept of the integrated indoor navigation system. Different aspects of various path planning algorithms are assessed, and their suitability to search and rescue operations in structured indoor environments is investigated. A five-step path planning system is proposed, which consists of map pre-processing, segment path planning, graph processing, route optimization, and path post-processing. The proposed method addresses a multi-goal path planning problem in a multi-story building in a computationally efficient way by adopting a graph-based approach while satisfying such requirements as clearance conditions in the pre- and post-processing steps. Furthermore, a multi-query approach is adopted to exploit the response time and earn flexibility with respect to environmental changes. The effectiveness of the proposed path planning system is demonstrated through numerical simulations. The proposed multi-level path planning system successfully adapts to complex indoor environments, enabling more effective navigation for search and rescue operations. Additionally, the system exhibits a high degree of flexibility in response to environmental changes, ensuring that the path planning remains robust and reliable even in dynamically changing situations.",
       "official_link": "https://doi.org/10.1109/ACCESS.2023.3269981",
       "pdf": "papers/pdfs/2023-indoor-path-planning-search-rescue.pdf",
-      "theme": "Target Tracking, Sensing & Path Planning"
+      "theme": "Path Planning for Search & Rescue"
     },
     {
       "slug": "2024-policy-gradient-irl-eso-morphing",
@@ -224,7 +229,7 @@
       "abstract": "A target tracking system with a laser rangefinder is developed, and the performance of the developed system is verified by a numerical simulation and field tests. To develop the target tracking system, appropriate coordinate systems, motion models, and estimation methods are selected, and a range filter is designed to compensate for the measurement errors of the laser rangefinder. The range filter independently processes the range measurements so that the target filter continuously produces the target information. The entire target tracking system development process is described in detail to facilitate future work of a similar nature. A scenario-based Monte Carlo simulation is performed to compare the performances of various state estimation methods. Experimental tests involving a low-speed fishing boat and a drone are performed to verify the performance and effectiveness of the proposed scheme. A separate performance analysis program with a graphical user interface is developed to analyze the simulation and field test results.",
       "official_link": "https://doi.org/10.1109/ACCESS.2021.3060061",
       "pdf": "papers/pdfs/2021-target-tracking-laser-rangefinder.pdf",
-      "theme": "Target Tracking, Sensing & Path Planning"
+      "theme": "Target Tracking & Sensing"
     },
     {
       "slug": "2018-sliding-mode-multidimensional-morphing-uav",
@@ -269,7 +274,7 @@
       "abstract": "A longitudinal altitude and attitude controller is designed for an unmanned aerial vehicle to detect landmines. The UAV considered in this study has two front rotors, two rear rotors, and elevons. Due to the characteristics of the mine detection sensor, the allowable pitch change of the UAV is strictly limited. Therefore, the attitude controller considering the pitch-hold constraint should be designed. To deal with a flight path angle change limit due to the pitch-hold constraint and accurate altitude tracking, a linear model predictive control method is used for altitude control design. Numerical simulation is carried out to demonstrate the performance of the proposed controller.",
       "official_link": "https://doi.org/10.23919/ICCAS52745.2021.9649884",
       "pdf": "papers/pdfs/2021-altitude-tracking-mpc-mine-detection.pdf",
-      "theme": "Target Tracking, Sensing & Path Planning"
+      "theme": "UAV Pitch-Hold Control for Mine Detection"
     },
     {
       "slug": "2022-optimal-policy-pitch-hold-milp",
@@ -284,7 +289,7 @@
       "abstract": "An optimization problem is formulated to maximize the coverage of the detection area for a fixed wing unmanned aerial vehicle (UAV), which performs a landmine detection mission. The UAV has mine detection devices including magnetic field sensors and chemical sensors. Due to the characteristics of the detection sensors, the UAV should fly at a certain altitude above the ground while following the terrain to perform accurate mine detection. Also, the UAV is required to maintain the pitch angle around the trim value when changing the altitude. Consequently, the altitude change rate of the UAV is limited during the mission. To maximize the mine detection capability within the limit, in this study, the entire flight interval is divided into the intervals on which the mines can be detected accurately and the intervals on which accurate detection is not possible. Logical variables are introduced to indicate the satisfaction of the requirements for accurate detection. Constraints on the logical variables are transformed into a set of linear inequalities containing continuous variables and binary integer variables. Finally, the optimization problem is formulated as a mixed-integer linear programming problem. The effectiveness of the proposed method is demonstrated through numerical simulation.",
       "official_link": "https://doi.org/10.1007/s42405-022-00454-7",
       "pdf": "papers/pdfs/2022-optimal-policy-pitch-hold-milp.pdf",
-      "theme": "Target Tracking, Sensing & Path Planning"
+      "theme": "UAV Pitch-Hold Control for Mine Detection"
     },
     {
       "slug": "2020-disturbance-observer-pitch-autopilot",
@@ -375,7 +380,7 @@
       "abstract": "본 논문에서는 실내 재난현장에서 다수의 요구조자를 구출하기 위한 경로계획 시스템을 고려한다. 화재현장에서 경로계획 문제는 일반적인 경로계획 문제와는 다른 요구조건들을 고려해야 한다. 빠른 구조 및 회피를 위해 경로 길이가 중요한 요소이며, 화재로 인해 건물 내부 환경이 빠르게 변화할 수 있다는 특성이 있다. 본 연구에서는 이러한 요소들을 고려한 경로계획 시스템을 개발하며, 지도생성, 지도전처리, 그래프 형성 및 축소, 방문순서 결정, 그리고 경로생성 및 후처리 단계가 포함된다. 지도생성 단계에서는 건물 내부를 격자 형태로 변환하고, 지도전처리 단계에서는 위험 영역을 제거한다. 그래프 형성 및 축소 단계에서는 격자에 나타난 정보를 가중치 그래프로 변환하며, 이 과정에서 두 지점을 잇는 경로의 길이로 가중치를 설정한다. 경로계획에는 A*, RRT, RRT*, PRM-A* 알고리즘을 고려하였다. 방문순서 결정 단계에서는 모든 요구조자를 방문하고 회피하는 경로 길이가 최소가 되도록 방문순서를 결정한다. 끝으로 경로생성 및 후처리단계에서는 결정된 순서에 의해 지도에 경로를 생성하며, 경로의 특성을 개선하는 후처리를 한다. 제안된 경로계획 시스템의 성능을 검증하기 위해 수치 시뮬레이션을 수행하였다.",
       "official_link": "http://ipnt.or.kr/2021IPNT/file/C5-4.pdf",
       "pdf": "papers/pdfs/2021-indoor-path-planning-firefighter-ko.pdf",
-      "theme": "Target Tracking, Sensing & Path Planning"
+      "theme": "Path Planning for Search & Rescue"
     },
     {
       "slug": "2021-control-surface-modeling-longitudinal-ko",
@@ -405,7 +410,7 @@
       "abstract": "",
       "official_link": null,
       "pdf": "papers/pdfs/2021-optimal-policy-pitch-hold-milp-conf.pdf",
-      "theme": "Target Tracking, Sensing & Path Planning"
+      "theme": "UAV Pitch-Hold Control for Mine Detection"
     },
     {
       "slug": "2020-laser-rangefinder-target-tracking-ko",
@@ -420,7 +425,7 @@
       "abstract": "",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE10442093",
       "pdf": "papers/pdfs/2020-laser-rangefinder-target-tracking-ko.pdf",
-      "theme": "Target Tracking, Sensing & Path Planning"
+      "theme": "Target Tracking & Sensing"
     },
     {
       "slug": "2019-asymmetric-morphing-modeling-sim-ko",
@@ -837,7 +842,8 @@
       {"title": "Running", "content": "", "photos": []},
       {"title": "Rowing", "content": "", "photos": []},
       {"title": "Hiking", "content": "", "photos": []},
-      {"title": "Travel", "content": "", "photos": []}
+      {"title": "Travel", "content": "", "photos": []},
+      {"title": "Photography", "content": "", "photos": []}
     ]
   },
   "instagram_url": "https://www.instagram.com/jihoonlee",

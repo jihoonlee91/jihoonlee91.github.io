@@ -210,36 +210,45 @@ def to_bibtex(paper, key):
 
 
 SOCIAL_LINKS = [
-    ("scholar_url", "Google Scholar", "scholar", "S"),
-    ("orcid_url", "ORCID", "orcid", "iD"),
-    ("researchgate_url", "ResearchGate", "rg", "RG"),
-    ("linkedin_url", "LinkedIn", "linkedin", "in"),
-    ("github_url", "GitHub", "github", "GH"),
-    ("instagram_url", "Instagram", "instagram", "IG"),
-    ("facebook_url", "Facebook", "facebook", "f"),
+    ("scholar_url", "Google Scholar", "scholar"),
+    ("orcid_url", "ORCID", "orcid"),
+    ("researchgate_url", "ResearchGate", "rg"),
+    ("linkedin_url", "LinkedIn", "linkedin"),
+    ("github_url", "GitHub", "github"),
+    ("instagram_url", "Instagram", "instagram"),
+    ("facebook_url", "Facebook", "facebook"),
 ]
 
+# Simplified monochrome brand marks (currentColor-filled, so they follow the
+# badge's own text color per theme) rather than a generic circle+initials —
+# kept minimal/geometric per-glyph instead of importing an icon font.
+_SOCIAL_ICON_PATHS = {
+    "scholar": '<path d="M12 2 1 8l11 6 9-4.91V17h2V8L12 2zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>',
+    "orcid": '<circle cx="12" cy="12" r="11" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.8" cy="7.6" r="1.15"/><rect x="6.9" y="10.2" width="1.8" height="7.4"/><path d="M10.4 10.2h3.6c3 0 4.6 1.7 4.6 3.7s-1.6 3.7-4.6 3.7h-3.6v-7.4zm1.8 1.6v4.2h1.7c2 0 2.9-1 2.9-2.1s-.9-2.1-2.9-2.1h-1.7z"/>',
+    "rg": '<rect x="2" y="2" width="20" height="20" rx="4" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="12" y="16" text-anchor="middle" font-size="9" font-weight="700" fill="currentColor">RG</text>',
+    "linkedin": '<path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45z"/>',
+    "github": '<path d="M12 .3a12 12 0 0 0-3.8 23.39c.6.11.82-.26.82-.58l-.01-2.04c-3.34.73-4.04-1.61-4.04-1.61-.55-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.29-1.23 3.29-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22l-.01 3.29c0 .32.21.7.82.58A12 12 0 0 0 12 .3z"/>',
+    "instagram": '<rect x="2.5" y="2.5" width="19" height="19" rx="5.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4.3" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17.4" cy="6.6" r="1.15"/>',
+    "facebook": '<path d="M14.1 21v-8h2.68l.4-3.11h-3.08V7.9c0-.9.25-1.51 1.54-1.51h1.64V3.61A22 22 0 0 0 14.85 3.5c-2.36 0-3.97 1.44-3.97 4.08v2.31H8.2V13h2.68v8h3.22z"/>',
+    "cv": '<rect x="3" y="2" width="18" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 7h10M7 11h10M7 15h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+}
 
-def _icon_badge(initial):
-    return (
-        f'<svg class="social-icon" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true">'
-        f'<circle cx="10" cy="10" r="9.25" fill="none" stroke="currentColor" stroke-width="1.5"/>'
-        f'<text x="10" y="13.5" text-anchor="middle" font-size="{9 if len(initial) > 1 else 11}" '
-        f'font-weight="700" fill="currentColor">{esc(initial)}</text>'
-        f'</svg>'
-    )
+
+def _icon_badge(css_class):
+    inner = _SOCIAL_ICON_PATHS.get(css_class, "")
+    return f'<svg class="social-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">{inner}</svg>'
 
 
 def render_social_links(extra_class=""):
     links = []
-    for key, label, css_class, initial in SOCIAL_LINKS:
+    for key, label, css_class in SOCIAL_LINKS:
         if DATA.get(key):
             links.append(
                 f'<a class="social-btn {css_class}" href="{esc(DATA[key])}" target="_blank" rel="noopener">'
-                f'{_icon_badge(initial)}<span>{label}</span></a>'
+                f'{_icon_badge(css_class)}<span>{label}</span></a>'
             )
     if DATA.get("cv_url"):
-        links.append(f'<a class="social-btn cv" href="{esc(DATA["cv_url"])}" target="_blank" rel="noopener">{_icon_badge("CV")}<span>CV (PDF)</span></a>')
+        links.append(f'<a class="social-btn cv" href="{esc(DATA["cv_url"])}" target="_blank" rel="noopener">{_icon_badge("cv")}<span>CV (PDF)</span></a>')
     return f'<nav class="social-links {extra_class}">{"".join(links)}</nav>'
 
 
@@ -468,7 +477,9 @@ def _render_grouped_sections(groups, order, css_class="pub-category"):
 THEME_ORDER = [
     "Morphing-Wing Aircraft Control",
     "Autonomous Carrier Landing & Guidance",
-    "Target Tracking, Sensing & Path Planning",
+    "Target Tracking & Sensing",
+    "Path Planning for Search & Rescue",
+    "UAV Pitch-Hold Control for Mine Detection",
     "Satellite & Lunar Orbiter GNC",
 ]
 
@@ -747,6 +758,7 @@ LIFE_SECTION_EMOJI = {
     "Rowing": "🚣",
     "Hiking": "🥾",
     "Travel": "✈️",
+    "Photography": "📷",
 }
 
 
