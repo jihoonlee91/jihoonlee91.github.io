@@ -134,23 +134,36 @@ def to_bibtex(paper, key):
 
 
 SOCIAL_LINKS = [
-    ("scholar_url", "Google Scholar", "scholar"),
-    ("orcid_url", "ORCID", "orcid"),
-    ("researchgate_url", "ResearchGate", "rg"),
-    ("linkedin_url", "LinkedIn", "linkedin"),
-    ("github_url", "GitHub", "github"),
-    ("instagram_url", "Instagram", "instagram"),
-    ("facebook_url", "Facebook", "facebook"),
+    ("scholar_url", "Google Scholar", "scholar", "S"),
+    ("orcid_url", "ORCID", "orcid", "iD"),
+    ("researchgate_url", "ResearchGate", "rg", "RG"),
+    ("linkedin_url", "LinkedIn", "linkedin", "in"),
+    ("github_url", "GitHub", "github", "GH"),
+    ("instagram_url", "Instagram", "instagram", "IG"),
+    ("facebook_url", "Facebook", "facebook", "f"),
 ]
+
+
+def _icon_badge(initial):
+    return (
+        f'<svg class="social-icon" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true">'
+        f'<circle cx="10" cy="10" r="9.25" fill="none" stroke="currentColor" stroke-width="1.5"/>'
+        f'<text x="10" y="13.5" text-anchor="middle" font-size="{9 if len(initial) > 1 else 11}" '
+        f'font-weight="700" fill="currentColor">{esc(initial)}</text>'
+        f'</svg>'
+    )
 
 
 def render_social_links(extra_class=""):
     links = []
-    for key, label, css_class in SOCIAL_LINKS:
+    for key, label, css_class, initial in SOCIAL_LINKS:
         if DATA.get(key):
-            links.append(f'<a class="social-btn {css_class}" href="{esc(DATA[key])}" target="_blank" rel="noopener">{label}</a>')
+            links.append(
+                f'<a class="social-btn {css_class}" href="{esc(DATA[key])}" target="_blank" rel="noopener">'
+                f'{_icon_badge(initial)}<span>{label}</span></a>'
+            )
     if DATA.get("cv_url"):
-        links.append(f'<a class="social-btn cv" href="{esc(DATA["cv_url"])}" target="_blank" rel="noopener">CV (PDF)</a>')
+        links.append(f'<a class="social-btn cv" href="{esc(DATA["cv_url"])}" target="_blank" rel="noopener">{_icon_badge("CV")}<span>CV (PDF)</span></a>')
     return f'<nav class="social-links {extra_class}">{"".join(links)}</nav>'
 
 

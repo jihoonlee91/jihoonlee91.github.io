@@ -62,6 +62,16 @@ body {
   transition: background 0.15s ease, color 0.15s ease;
 }
 
+a, button {
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 /* ---- Top nav ---- */
 .site-nav {
   border-bottom: 1px solid var(--border);
@@ -144,8 +154,14 @@ body {
   width: 160px;
   height: 160px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 14px;
   flex-shrink: 0;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+:root[data-theme="light"] .profile-photo {
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
 }
 
 .hero-text h1 {
@@ -216,7 +232,9 @@ body {
 }
 
 .social-btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   padding: 0.35rem 0.85rem;
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -226,9 +244,20 @@ body {
   background: var(--bg-soft);
 }
 
+.social-icon {
+  flex-shrink: 0;
+  color: var(--muted);
+}
+
+.social-btn:hover .social-icon {
+  color: var(--accent);
+}
+
 .social-btn:hover {
   border-color: var(--accent);
   color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* ---- Stats ---- */
@@ -568,6 +597,10 @@ section h2, main > h1 {
   text-decoration: none;
   font-weight: 600;
   border: 1px solid transparent;
+}
+
+a.badge:hover {
+  transform: translateY(-1px);
 }
 
 .badge-official {
