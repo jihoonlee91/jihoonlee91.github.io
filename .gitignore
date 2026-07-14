@@ -9,3 +9,5 @@
 /bibtex/
 /sitemap.xml
 /robots.txt
+__pycache__/
+*.pyc
