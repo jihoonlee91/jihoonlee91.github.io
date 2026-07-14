@@ -236,7 +236,7 @@ _SOCIAL_ICON_PATHS = {
 
 def _icon_badge(css_class):
     inner = _SOCIAL_ICON_PATHS.get(css_class, "")
-    return f'<svg class="social-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">{inner}</svg>'
+    return f'<svg class="social-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">{inner}</svg>'
 
 
 def render_social_links(extra_class=""):
@@ -379,6 +379,35 @@ def render_timeline():
                 "kind": "education",
                 "subitems": subitems,
             })
+    # A grad-school stint (PhD research) and its lab affiliation (work
+    # experience) can share the exact same period and university — that's
+    # one life event, not two, so merge them into a single timeline entry
+    # rather than showing two overlapping dots for the same years.
+    by_period = {}
+    for e in entries:
+        by_period.setdefault(e["period"], []).append(e)
+    merged_entries = []
+    skip_ids = set()
+    for period, group in by_period.items():
+        work = next((e for e in group if e["kind"] == "work" and "Seoul National University" in e["title"] and not e.get("subitems")), None)
+        edu = next((e for e in group if e["kind"] == "education" and e["title"] == "Seoul National University" and not e.get("subitems")), None)
+        if work and edu:
+            advisor_match = re.search(r"Advisor: ([^,)]+)", next(iter(DATA["education"]), {}).get("degree", ""))
+            for ed in DATA["education"]:
+                if ed["school"] == "Seoul National University" and ed["period"] == period:
+                    advisor_match = re.search(r"Advisor: ([^,)]+)", ed["degree"])
+                    break
+            advisor = f" — Advisor: {advisor_match.group(1)}" if advisor_match else ""
+            merged_entries.append({
+                "period": period,
+                "title": f'{work["title"]}',
+                "detail": f'{edu["detail"]}{advisor}',
+                "url": work.get("url") or edu.get("url"),
+                "kind": "education",
+            })
+            skip_ids.add(id(work))
+            skip_ids.add(id(edu))
+    entries = [e for e in entries if id(e) not in skip_ids] + merged_entries
     entries.sort(key=lambda e: _timeline_sort_key(e["period"]), reverse=True)
 
     if not entries:
@@ -814,6 +843,33 @@ LIFE_SECTION_EMOJI = {
 }
 
 
+def _render_race_table(races):
+    if not races:
+        return ""
+    rows = []
+    for r in races:
+        rows.append(
+            "<tr>"
+            f"<td>{esc(r.get('name', ''))}</td>"
+            f"<td>{esc(r.get('date', ''))}</td>"
+            f"<td>{esc(r.get('location', ''))}</td>"
+            f"<td>{esc(r.get('swim', ''))}</td>"
+            f"<td>{esc(r.get('bike', ''))}</td>"
+            f"<td>{esc(r.get('run', ''))}</td>"
+            f"<td>{esc(r.get('total', ''))}</td>"
+            f"<td>{esc(r.get('rank', ''))}</td>"
+            f"<td>{esc(r.get('category', ''))}</td>"
+            "</tr>"
+        )
+    return f'''<details class="viz-table-toggle">
+        <summary>Race results ({len(races)})</summary>
+        <table class="viz-table">
+          <thead><tr><th>Race</th><th>Date</th><th>Location</th><th>Swim</th><th>Bike</th><th>Run</th><th>Total</th><th>Rank</th><th>Category</th></tr></thead>
+          <tbody>{"".join(rows)}</tbody>
+        </table>
+      </details>'''
+
+
 def render_life():
     life = DATA.get("life") or {}
     intro_html = f'<p class="page-intro">{esc(life["intro"])}</p>' if life.get("intro") else ""
@@ -830,9 +886,10 @@ def render_life():
                 for photo in photos
             )
             gallery = f'<div class="life-gallery">{thumbs}</div>'
+        races_html = _render_race_table(section.get("races"))
         emoji = LIFE_SECTION_EMOJI.get(section["title"], "")
         heading = f'{emoji} {esc(section["title"])}'.strip()
-        sections_html.append(f'<section><h2>{heading}</h2>{body}{gallery}</section>')
+        sections_html.append(f'<section><h2>{heading}</h2>{body}{gallery}{races_html}</section>')
     if not sections_html:
         sections_html.append('<p class="pending">Nothing added yet.</p>')
 
