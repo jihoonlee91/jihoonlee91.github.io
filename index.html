@@ -1,25 +1,31 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+(function () {
+  var saved = localStorage.getItem('theme');
+  document.documentElement.setAttribute('data-theme', saved === 'light' ? 'light' : 'dark');
+})();
+</script>
 <title>Jihoon Lee (이지훈)</title>
-<meta name="description" content="Jihoon Lee - Senior ML Engineer | Semiconductor Manufacturing AI · Process Optimization">
+<meta name="description" content="Jihoon Lee - Engineer at the intersection of Aerospace GNC, UAV Control, and Semiconductor / Industrial AI">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <nav class="site-nav"><div class="nav-inner"><a class="brand" href="index.html">Jihoon Lee</a><div class="nav-links"><a href="index.html" class="active">Home</a><a href="publications.html" class="">Publications</a><a href="cv.html" class="">CV</a></div></div></nav>
+  <nav class="site-nav"><div class="nav-inner"><a class="brand" href="index.html">Jihoon Lee</a><div class="nav-links"><a href="index.html" class="active">Home</a><a href="publications.html" class="">Publications</a><a href="cv.html" class="">CV</a><button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle light/dark theme">&#9788;</button></div></div></nav>
   <main class="container">
     <section class="hero">
     <img class="profile-photo" src="assets/profile.jpg" alt="Jihoon Lee">
     <div class="hero-text">
       <h1>Jihoon Lee <span class="name-ko">(이지훈)</span></h1>
-      <p class="tagline">Senior ML Engineer | Semiconductor Manufacturing AI · Process Optimization</p>
+      <p class="tagline">Engineer at the intersection of Aerospace GNC, UAV Control, and Semiconductor / Industrial AI</p>
       <p class="affiliation">Samsung Electronics — Staff Engineer</p>
-      <p class="contact"><span>📍 Seoul, Republic of Korea</span> · <a href="mailto:jihoon91.lee@gmail.com">✉ jihoon91.lee@gmail.com</a></p>
-      <p class="bio">I build AI systems that help semiconductor process engineers make faster and more reliable decisions on process conditions by analyzing multi-source manufacturing data and connecting model outputs to real engineering workflows. My work focuses on advanced memory manufacturing environments, including V-NAND, DRAM-related processes, and HARC etch applications. I own the end-to-end development of production AI decision-support systems — problem formulation, data design, modeling, optimization, recommendation, validation, deployment, monitoring, and workflow integration — supporting process optimization, DOE planning, specification improvement, defect reduction, and recipe-level engineering decisions.</p>
-      <p class="interests"><span class="tag">Semiconductor</span><span class="tag">UAV</span><span class="tag">Control</span><span class="tag">Optimization</span><span class="tag">Data Science</span></p>
-      <nav class="social-links "><a class="social-btn scholar" href="https://scholar.google.co.kr/citations?user=vNY8rPEAAAAJ" target="_blank" rel="noopener">Google Scholar</a><a class="social-btn orcid" href="https://orcid.org/0000-0001-5327-824X" target="_blank" rel="noopener">ORCID</a><a class="social-btn rg" href="https://www.researchgate.net/profile/Jihoon-Lee-6" target="_blank" rel="noopener">ResearchGate</a><a class="social-btn linkedin" href="https://www.linkedin.com/in/jihoon91" target="_blank" rel="noopener">LinkedIn</a><a class="social-btn github" href="https://github.com/jihoonlee91" target="_blank" rel="noopener">GitHub</a></nav>
+      <p class="contact"><a href="https://www.google.com/maps/search/?api=1&amp;query=Seoul,+Republic+of+Korea" target="_blank" rel="noopener">&#128205; Seoul, Republic of Korea</a> &middot; <a href="mailto:jihoon91.lee@gmail.com">&#9993; jihoon91.lee@gmail.com</a></p>
+      <p class="bio">I work at the intersection of aerospace guidance-navigation-control, UAV flight control, and industrial AI for semiconductor manufacturing. My PhD research at Seoul National University&#x27;s Flight Dynamics and Control Lab covered morphing-wing UAV control, guidance algorithms, and autonomous carrier landing systems. I now apply that same control-and-optimization mindset, combined with software engineering and machine learning, to build AI systems that help process engineers make faster and more reliable decisions in advanced memory manufacturing (V-NAND, DRAM, HARC etch). I own the end-to-end development of production AI decision-support systems — problem formulation, data design, modeling, optimization, recommendation, validation, deployment, monitoring, and workflow integration — supporting process optimization, DOE planning, specification improvement, defect reduction, and recipe-level engineering decisions.</p>
+      <p class="interests"><span class="tag">Aerospace GNC</span><span class="tag">UAV</span><span class="tag">Control Systems</span><span class="tag">Semiconductor AI</span><span class="tag">Industrial AI &amp; Manufacturing</span><span class="tag">Optimization</span><span class="tag">Software Engineering</span></p>
+      <nav class="social-links "><a class="social-btn scholar" href="https://scholar.google.co.kr/citations?user=vNY8rPEAAAAJ" target="_blank" rel="noopener">Google Scholar</a><a class="social-btn orcid" href="https://orcid.org/0000-0001-5327-824X" target="_blank" rel="noopener">ORCID</a><a class="social-btn rg" href="https://www.researchgate.net/profile/Jihoon-Lee-6" target="_blank" rel="noopener">ResearchGate</a><a class="social-btn linkedin" href="https://www.linkedin.com/in/jihoon91" target="_blank" rel="noopener">LinkedIn</a><a class="social-btn github" href="https://github.com/jihoonlee91" target="_blank" rel="noopener">GitHub</a><a class="social-btn instagram" href="https://www.instagram.com/jihoonlee" target="_blank" rel="noopener">Instagram</a><a class="social-btn facebook" href="https://www.facebook.com/jihoonlee91" target="_blank" rel="noopener">Facebook</a></nav>
     </div>
   </section>
   <div class="stats-row">
@@ -32,28 +38,28 @@
     <section>
       <div class="section-head">
         <h2>Highlighted Publications</h2>
-        <a class="see-all" href="publications.html">전체 43편 보기 &rarr;</a>
+        <a class="see-all" href="publications.html">View all 43 publications &rarr;</a>
       </div>
       <ul class="paper-list compact">
       <li class="paper-compact">
         <a href="papers/2018-sliding-mode-uav-carrier-landing.html">Sliding mode guidance and control for UAV carrier landing</a>
-        <span class="paper-sub">IEEE Transactions on Aerospace and Electronic Systems, Vol. 55, No. 2, pp. 951-966, 2018 · 인용 79회</span>
+        <span class="paper-sub">IEEE Transactions on Aerospace and Electronic Systems, Vol. 55, No. 2, pp. 951-966, 2018 &middot; 79 citations</span>
       </li>
       <li class="paper-compact">
         <a href="papers/2020-nn-nonlinear-dynamic-inversion-morphing.html">Neural network-based nonlinear dynamic inversion control of variable-span morphing aircraft</a>
-        <span class="paper-sub">Proceedings of the Institution of Mechanical Engineers, Part G: Journal of Aerospace Engineering, Vol. 234, No. 10, pp. 1624-1637, 2020 · 인용 29회</span>
+        <span class="paper-sub">Proceedings of the Institution of Mechanical Engineers, Part G: Journal of Aerospace Engineering, Vol. 234, No. 10, pp. 1624-1637, 2020 &middot; 29 citations</span>
       </li>
       <li class="paper-compact">
         <a href="papers/2019-lpv-variable-span-sweep-morphing.html">Linear parameter-varying control of variable span-sweep morphing aircraft</a>
-        <span class="paper-sub">AIAA SciTech 2019 Forum, San Diego, CA, USA, Jan. 2019, 2019 · 인용 28회</span>
+        <span class="paper-sub">AIAA SciTech 2019 Forum, San Diego, CA, USA, Jan. 2019, 2019 &middot; 28 citations</span>
       </li>
       <li class="paper-compact">
         <a href="papers/2023-indoor-path-planning-search-rescue.html">Multi-level indoor path planning and clearance-based path optimization for search and rescue operations</a>
-        <span class="paper-sub">IEEE Access, Vol. 11, pp. 40930-40943, 2023 · 인용 17회</span>
+        <span class="paper-sub">IEEE Access, Vol. 11, pp. 40930-40943, 2023 &middot; 17 citations</span>
       </li>
       <li class="paper-compact">
         <a href="papers/2024-policy-gradient-irl-eso-morphing.html">Control Design Using Policy-Gradient-Based Integral Reinforcement Learning and Extended State Observer for Morphing Aircraft</a>
-        <span class="paper-sub">IEEE Transactions on Aerospace and Electronic Systems, Vol. 60, No. 5, pp. 6447-6460, 2024 · 인용 10회</span>
+        <span class="paper-sub">IEEE Transactions on Aerospace and Electronic Systems, Vol. 60, No. 5, pp. 6447-6460, 2024 &middot; 10 citations</span>
       </li>
       </ul>
     </section>
@@ -61,5 +67,13 @@
   <footer class="site-footer">
     <p>&copy; Jihoon Lee. Built with a <a href="https://github.com/jihoonlee91/jihoonlee91.github.io">static site generator</a>. Full BibTeX: <a href="bibtex/all.bib">bibtex/all.bib</a></p>
   </footer>
+  <script>
+function toggleTheme() {
+  var html = document.documentElement;
+  var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+}
+</script>
 </body>
 </html>

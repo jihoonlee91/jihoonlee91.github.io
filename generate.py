@@ -11,6 +11,8 @@ import json
 import os
 import re
 
+import viz
+
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
 with open(os.path.join(ROOT, "papers.json"), encoding="utf-8") as f:
@@ -21,12 +23,29 @@ SITE_URL = "https://{}.github.io".format(
 )
 
 CATEGORY_LABELS = {
-    "journal": "Journal Articles",
+    "int-journal": "International Journal Articles",
+    "domestic-journal": "Domestic Journal Articles",
     "int-conference": "International Conference Papers",
     "domestic-conference": "Domestic Conference Papers",
     "thesis": "Ph.D. Dissertation",
 }
-CATEGORY_ORDER = ["journal", "int-conference", "domestic-conference", "thesis"]
+CATEGORY_ORDER = ["int-journal", "domestic-journal", "int-conference", "domestic-conference", "thesis"]
+
+THEME_INIT_SCRIPT = """<script>
+(function () {
+  var saved = localStorage.getItem('theme');
+  document.documentElement.setAttribute('data-theme', saved === 'light' ? 'light' : 'dark');
+})();
+</script>"""
+
+THEME_TOGGLE_SCRIPT = """<script>
+function toggleTheme() {
+  var html = document.documentElement;
+  var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+}
+</script>"""
 
 
 def esc(s):
@@ -44,7 +63,7 @@ def bibtex_key(paper):
 
 
 def to_bibtex(paper):
-    is_article = paper["category"] == "journal"
+    is_article = paper["category"] in ("int-journal", "domestic-journal")
     entry_type = "mastersthesis" if paper["category"] == "thesis" else ("article" if is_article else "inproceedings")
     key = bibtex_key(paper)
     lines = [f"@{entry_type}{{{key},"]
@@ -67,6 +86,8 @@ SOCIAL_LINKS = [
     ("researchgate_url", "ResearchGate", "rg"),
     ("linkedin_url", "LinkedIn", "linkedin"),
     ("github_url", "GitHub", "github"),
+    ("instagram_url", "Instagram", "instagram"),
+    ("facebook_url", "Facebook", "facebook"),
 ]
 
 
@@ -86,7 +107,13 @@ def render_nav(active, base=""):
         f'<a href="{base}{href}" class="{"active" if name == active else ""}">{name}</a>'
         for href, name in items
     )
-    return f'<nav class="site-nav"><div class="nav-inner"><a class="brand" href="{base}index.html">{esc(DATA["name"])}</a><div class="nav-links">{links}</div></div></nav>'
+    return (
+        f'<nav class="site-nav"><div class="nav-inner">'
+        f'<a class="brand" href="{base}index.html">{esc(DATA["name"])}</a>'
+        f'<div class="nav-links">{links}'
+        f'<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle light/dark theme">&#9788;</button>'
+        f'</div></div></nav>'
+    )
 
 
 def render_profile_header():
@@ -111,10 +138,11 @@ def render_profile_header():
 
     contact_parts = []
     if DATA.get("location"):
-        contact_parts.append(f'<span>📍 {esc(DATA["location"])}</span>')
+        maps_url = f"https://www.google.com/maps/search/?api=1&query={DATA['location'].replace(' ', '+')}"
+        contact_parts.append(f'<a href="{esc(maps_url)}" target="_blank" rel="noopener">&#128205; {esc(DATA["location"])}</a>')
     if DATA.get("email"):
-        contact_parts.append(f'<a href="mailto:{esc(DATA["email"])}">✉ {esc(DATA["email"])}</a>')
-    contact_html = f'<p class="contact">{" · ".join(contact_parts)}</p>' if contact_parts else ""
+        contact_parts.append(f'<a href="mailto:{esc(DATA["email"])}">&#9993; {esc(DATA["email"])}</a>')
+    contact_html = f'<p class="contact">{" &middot; ".join(contact_parts)}</p>' if contact_parts else ""
 
     bio_html = f'<p class="bio">{esc(DATA["bio"])}</p>' if DATA.get("bio") else ""
 
@@ -140,14 +168,15 @@ def render_index():
         year = p["year"] if p.get("year") else "n.d."
         rows.append(f'''      <li class="paper-compact">
         <a href="papers/{esc(p['slug'])}.html">{esc(p['title'])}</a>
-        <span class="paper-sub">{esc(p['venue'])}, {year} · 인용 {p['citations']}회</span>
+        <span class="paper-sub">{esc(p['venue'])}, {year} &middot; {p['citations']} citations</span>
       </li>''')
 
     html_out = f'''<!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{THEME_INIT_SCRIPT}
 <title>{esc(DATA['name'])}{' (' + esc(DATA['name_ko']) + ')' if DATA.get('name_ko') else ''}</title>
 <meta name="description" content="{esc(DATA['name'])} - {esc(DATA.get('tagline', ''))}">
 <link rel="stylesheet" href="style.css">
@@ -160,7 +189,7 @@ def render_index():
     <section>
       <div class="section-head">
         <h2>Highlighted Publications</h2>
-        <a class="see-all" href="publications.html">전체 {len(DATA['papers'])}편 보기 &rarr;</a>
+        <a class="see-all" href="publications.html">View all {len(DATA['papers'])} publications &rarr;</a>
       </div>
       <ul class="paper-list compact">
 {chr(10).join(rows)}
@@ -168,8 +197,9 @@ def render_index():
     </section>
   </main>
   <footer class="site-footer">
-    <p>&copy; {esc(DATA['name'])}. Built with a <a href="https://github.com/{esc(DATA['github_url'].rstrip('/').rsplit('/', 1)[-1])}/{esc(DATA['github_url'].rstrip('/').rsplit('/', 1)[-1])}.github.io">static site generator</a>. Full BibTeX: <a href="bibtex/all.bib">bibtex/all.bib</a></p>
+    <p>&copy; {esc(DATA['name'])}. Built with a <a href="{esc(DATA['github_url'])}/{esc(DATA['github_url'].rstrip('/').rsplit('/', 1)[-1])}.github.io">static site generator</a>. Full BibTeX: <a href="bibtex/all.bib">bibtex/all.bib</a></p>
   </footer>
+  {THEME_TOGGLE_SCRIPT}
 </body>
 </html>
 '''
@@ -183,12 +213,12 @@ def link_badges(p, base="papers/pdfs/", paper_page=False):
     local_pdf = has_local_pdf(p)
     badges = []
     if official:
-        badges.append(f'<a class="badge badge-official" href="{esc(official)}" target="_blank" rel="noopener">공식 링크{" (DOI)" if p.get("doi") else ""}</a>')
+        badges.append(f'<a class="badge badge-official" href="{esc(official)}" target="_blank" rel="noopener">Official Link{" (DOI)" if p.get("doi") else ""}</a>')
     if local_pdf:
         pdf_path = ("../" if paper_page else "") + p["pdf"]
         badges.append(f'<a class="badge badge-preprint" href="{esc(pdf_path)}">Preprint PDF</a>')
     if not official and not local_pdf:
-        badges.append('<span class="badge badge-pending">PDF 준비 중</span>')
+        badges.append('<span class="badge badge-pending">Coming Soon</span>')
     bib_path = ("../" if paper_page else "") + f'bibtex/{p["slug"]}.bib'
     badges.append(f'<a class="badge badge-bibtex" href="{esc(bib_path)}">BibTeX</a>')
     return "".join(badges)
@@ -213,7 +243,7 @@ def render_publications():
           <div class="paper-title"><span class="paper-index">{i}.</span> <a href="papers/{esc(p['slug'])}.html">{esc(p['title'])}</a></div>
           {title_en}
           <div class="paper-meta">{esc(p['authors'])}</div>
-          <div class="paper-venue">{esc(p['venue'])}{', ' if p['venue'] else ''}{year}{f" · 인용 {p['citations']}회" if p['citations'] else ""}</div>
+          <div class="paper-venue">{esc(p['venue'])}{', ' if p['venue'] else ''}{year}{f" &middot; {p['citations']} citations" if p['citations'] else ""}</div>
           <div class="paper-badges">{link_badges(p)}</div>
         </li>''')
         sections.append(f'''    <section class="pub-category">
@@ -224,29 +254,33 @@ def render_publications():
     </section>''')
 
     html_out = f'''<!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{THEME_INIT_SCRIPT}
 <title>Publications - {esc(DATA['name'])}</title>
-<meta name="description" content="{esc(DATA['name'])}의 전체 논문 목록 (저널/국제학회/국내학회/학위논문)">
+<meta name="description" content="Full publication list of {esc(DATA['name'])} (Journal / International Conference / Domestic Conference / Ph.D. Dissertation)">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
   {render_nav("Publications")}
   <main class="container">
     <h1>Publications</h1>
-    <p class="page-intro">총 {len(DATA['papers'])}편 · Google Scholar와 개인 정리 목록을 통합한 전체 목록입니다. <a href="{esc(DATA['scholar_url'])}" target="_blank" rel="noopener">Google Scholar 프로필</a>에서도 확인할 수 있습니다.</p>
+    <p class="page-intro">{len(DATA['papers'])} publications total &middot; a unified list combining Google Scholar records with additional entries. Also available on my <a href="{esc(DATA['scholar_url'])}" target="_blank" rel="noopener">Google Scholar profile</a>.</p>
+    {viz.year_category_chart(DATA['papers'])}
+    {viz.keyword_chart(DATA['papers'])}
     <div class="legend">
-      <span class="badge badge-official">공식 링크</span> 출판사/DOI 원문
-      <span class="badge badge-preprint">Preprint PDF</span> 직접 업로드한 파일
-      <span class="badge badge-pending">PDF 준비 중</span> 아직 링크 없음
+      <span class="badge badge-official">Official Link</span> publisher / DOI source
+      <span class="badge badge-preprint">Preprint PDF</span> self-hosted file
+      <span class="badge badge-pending">Coming Soon</span> not available yet
     </div>
 {chr(10).join(sections)}
   </main>
   <footer class="site-footer">
     <p>Full BibTeX: <a href="bibtex/all.bib">bibtex/all.bib</a></p>
   </footer>
+  {THEME_TOGGLE_SCRIPT}
 </body>
 </html>
 '''
@@ -256,11 +290,13 @@ def render_publications():
 
 def render_list_section(title, items, fields):
     if not items:
-        return f'<section><h2>{title}</h2><p class="pending">아직 등록된 내용이 없습니다.</p></section>'
+        return f'<section><h2>{title}</h2><p class="pending">Nothing added yet.</p></section>'
     rows = []
     for item in items:
         parts = [esc(item.get(f, "")) for f in fields]
-        rows.append(f'<li>{" — ".join(p for p in parts if p)}</li>')
+        if item.get("url") and parts:
+            parts[0] = f'<a href="{esc(item["url"])}" target="_blank" rel="noopener">{parts[0]}</a>'
+        rows.append(f'<li>{" &mdash; ".join(p for p in parts if p)}</li>')
     return f'''<section>
     <h2>{title}</h2>
     <ul class="plain-list">
@@ -297,13 +333,14 @@ def render_cv():
 
     cv_download = ""
     if DATA.get("cv_url"):
-        cv_download = f'<p><a class="badge badge-official" href="{esc(DATA["cv_url"])}" target="_blank" rel="noopener">CV 다운로드 (PDF)</a></p>'
+        cv_download = f'<p><a class="badge badge-official" href="{esc(DATA["cv_url"])}" target="_blank" rel="noopener">Download CV (PDF)</a></p>'
 
     html_out = f'''<!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{THEME_INIT_SCRIPT}
 <title>CV - {esc(DATA['name'])}</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -319,6 +356,7 @@ def render_cv():
     {projects_html}
   </main>
   <footer class="site-footer"></footer>
+  {THEME_TOGGLE_SCRIPT}
 </body>
 </html>
 '''
@@ -337,7 +375,8 @@ def render_paper_page(p):
     if p.get("doi"):
         meta_tags.append(f'<meta name="citation_doi" content="{esc(p["doi"])}">')
     if has_local_pdf(p):
-        meta_tags.append(f'<meta name="citation_pdf_url" content="{SITE_URL}/{p['pdf']}">')
+        pdf_url = f"{SITE_URL}/{p['pdf']}"
+        meta_tags.append(f'<meta name="citation_pdf_url" content="{esc(pdf_url)}">')
 
     title_en_html = f'<p class="paper-title-en">{esc(p["title_en"])}</p>' if p.get("title_en") else ""
     abstract_html = f'<p class="abstract">{esc(p["abstract"])}</p>' if p.get("abstract") else ""
@@ -345,10 +384,11 @@ def render_paper_page(p):
     scholar_search = f"https://scholar.google.com/scholar?q={p['title'].replace(' ', '+')}"
 
     html_out = f'''<!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{THEME_INIT_SCRIPT}
 <title>{esc(p['title'])}</title>
 {chr(10).join(meta_tags)}
 <link rel="stylesheet" href="../style.css">
@@ -356,15 +396,16 @@ def render_paper_page(p):
 <body>
   {render_nav("Publications", base="../")}
   <main class="container">
-    <p><a href="../publications.html">&larr; 전체 목록으로</a></p>
+    <p><a href="../publications.html">&larr; Back to Publications</a></p>
     <h1>{esc(p['title'])}</h1>
     {title_en_html}
     <p class="paper-meta">{esc(p['authors'])}</p>
-    <p class="paper-venue">{esc(p['venue'])}{', ' if p['venue'] else ''}{year}{f" · 인용 {p['citations']}회" if p['citations'] else ""}</p>
+    <p class="paper-venue">{esc(p['venue'])}{', ' if p['venue'] else ''}{year}{f" &middot; {p['citations']} citations" if p['citations'] else ""}</p>
     {abstract_html}
     <div class="paper-badges large">{link_badges(p, paper_page=True)}</div>
-    <p class="scholar-search"><a href="{esc(scholar_search)}" target="_blank" rel="noopener">Google Scholar에서 검색 &rarr;</a></p>
+    <p class="scholar-search"><a href="{esc(scholar_search)}" target="_blank" rel="noopener">Search on Google Scholar &rarr;</a></p>
   </main>
+  {THEME_TOGGLE_SCRIPT}
 </body>
 </html>
 '''
@@ -418,6 +459,6 @@ if __name__ == "__main__":
     missing_pdf = [p["slug"] for p in DATA["papers"] if not p.get("official_link") and not has_local_pdf(p)]
     print(f"Site generated: {len(DATA['papers'])} papers.")
     if missing_pdf:
-        print(f"\n공식 링크/PDF가 모두 없는 논문 {len(missing_pdf)}편:")
+        print(f"\n{len(missing_pdf)} papers still have no official link / PDF:")
         for slug in missing_pdf:
             print(f"  - papers/pdfs/{slug}.pdf")

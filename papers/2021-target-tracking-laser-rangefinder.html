@@ -1,8 +1,14 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+(function () {
+  var saved = localStorage.getItem('theme');
+  document.documentElement.setAttribute('data-theme', saved === 'light' ? 'light' : 'dark');
+})();
+</script>
 <title>Performance verification of a target tracking system with a laser rangefinder</title>
 <meta name="citation_title" content="Performance verification of a target tracking system with a laser rangefinder">
 <meta name="citation_author" content="Jihoon Lee">
@@ -17,16 +23,24 @@
 <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <nav class="site-nav"><div class="nav-inner"><a class="brand" href="../index.html">Jihoon Lee</a><div class="nav-links"><a href="../index.html" class="">Home</a><a href="../publications.html" class="active">Publications</a><a href="../cv.html" class="">CV</a></div></div></nav>
+  <nav class="site-nav"><div class="nav-inner"><a class="brand" href="../index.html">Jihoon Lee</a><div class="nav-links"><a href="../index.html" class="">Home</a><a href="../publications.html" class="active">Publications</a><a href="../cv.html" class="">CV</a><button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle light/dark theme">&#9788;</button></div></div></nav>
   <main class="container">
-    <p><a href="../publications.html">&larr; 전체 목록으로</a></p>
+    <p><a href="../publications.html">&larr; Back to Publications</a></p>
     <h1>Performance verification of a target tracking system with a laser rangefinder</h1>
     
     <p class="paper-meta">Jihoon Lee, Suwon Lee, Youngjun Lee, Youdan Kim, Yongjun Heo, Taedong Yoon</p>
-    <p class="paper-venue">IEEE Access, Vol. 9, pp. 30993-31009, 2021 · 인용 8회</p>
+    <p class="paper-venue">IEEE Access, Vol. 9, pp. 30993-31009, 2021 &middot; 8 citations</p>
     
-    <div class="paper-badges large"><a class="badge badge-official" href="https://doi.org/10.1109/ACCESS.2021.3060061" target="_blank" rel="noopener">공식 링크 (DOI)</a><a class="badge badge-bibtex" href="../bibtex/2021-target-tracking-laser-rangefinder.bib">BibTeX</a></div>
-    <p class="scholar-search"><a href="https://scholar.google.com/scholar?q=Performance+verification+of+a+target+tracking+system+with+a+laser+rangefinder" target="_blank" rel="noopener">Google Scholar에서 검색 &rarr;</a></p>
+    <div class="paper-badges large"><a class="badge badge-official" href="https://doi.org/10.1109/ACCESS.2021.3060061" target="_blank" rel="noopener">Official Link (DOI)</a><a class="badge badge-bibtex" href="../bibtex/2021-target-tracking-laser-rangefinder.bib">BibTeX</a></div>
+    <p class="scholar-search"><a href="https://scholar.google.com/scholar?q=Performance+verification+of+a+target+tracking+system+with+a+laser+rangefinder" target="_blank" rel="noopener">Search on Google Scholar &rarr;</a></p>
   </main>
+  <script>
+function toggleTheme() {
+  var html = document.documentElement;
+  var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+}
+</script>
 </body>
 </html>

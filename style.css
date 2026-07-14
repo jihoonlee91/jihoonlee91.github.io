@@ -1,4 +1,30 @@
 :root {
+  --fg: #e5e7eb;
+  --muted: #9ca3af;
+  --accent: #60a5fa;
+  --accent-dark: #93c5fd;
+  --border: #2d333b;
+  --bg: #0d1117;
+  --bg-soft: #161b22;
+  --official: #4ade80;
+  --official-bg: #0f2b1a;
+  --preprint: #fbbf24;
+  --preprint-bg: #2b2107;
+  --pending: #6b7280;
+  --tag-bg: #1e2a4a;
+
+  /* categorical palette (validated with dataviz skill's validate_palette.js
+     against this site's dark surface #0d1117 — see docs/DESIGN.md) */
+  --series-1: #3987e5; /* blue   */
+  --series-2: #c98500; /* yellow */
+  --series-3: #199e70; /* aqua   */
+  --series-4: #008300; /* green  */
+  --series-5: #9085e9; /* violet */
+  --viz-grid: #2c2c2a;
+  --viz-ink: #c3c2b7;
+}
+
+:root[data-theme="light"] {
   --fg: #1a1a1a;
   --muted: #6b7280;
   --accent: #1d4ed8;
@@ -11,6 +37,16 @@
   --preprint: #b45309;
   --preprint-bg: #fffbeb;
   --pending: #9ca3af;
+  --tag-bg: #eef2ff;
+
+  /* categorical palette (validated against this site's light surface #ffffff) */
+  --series-1: #2a78d6;
+  --series-2: #eda100;
+  --series-3: #1baf7a;
+  --series-4: #008300;
+  --series-5: #4a3aa7;
+  --viz-grid: #e1e0d9;
+  --viz-ink: #52514e;
 }
 
 * { box-sizing: border-box; }
@@ -23,6 +59,7 @@ body {
   background: var(--bg);
   margin: 0;
   line-height: 1.65;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 /* ---- Top nav ---- */
@@ -35,9 +72,9 @@ body {
 }
 
 .nav-inner {
-  max-width: 860px;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 0.9rem 1.25rem;
+  padding: 0.9rem 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -54,6 +91,7 @@ body {
 
 .nav-links {
   display: flex;
+  align-items: center;
   gap: 1.25rem;
 }
 
@@ -71,24 +109,40 @@ body {
   border-bottom-color: var(--accent);
 }
 
+.theme-toggle {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  color: var(--fg);
+  border-radius: 6px;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+}
+
 /* ---- Layout ---- */
 .container {
-  max-width: 860px;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 2rem 1.25rem 4rem;
+  padding: 2.5rem 2rem 4rem;
 }
 
 /* ---- Hero ---- */
 .hero {
   display: flex;
-  gap: 2rem;
+  gap: 2.5rem;
   align-items: flex-start;
   margin-bottom: 1.5rem;
 }
 
 .profile-photo {
-  width: 140px;
-  height: 140px;
+  width: 160px;
+  height: 160px;
   object-fit: cover;
   border-radius: 10px;
   flex-shrink: 0;
@@ -96,7 +150,7 @@ body {
 
 .hero-text h1 {
   margin: 0 0 0.25rem;
-  font-size: 2rem;
+  font-size: 2.1rem;
 }
 
 .name-ko {
@@ -130,7 +184,7 @@ body {
 .bio {
   font-size: 0.95rem;
   margin: 0.75rem 0;
-  max-width: 60ch;
+  max-width: 70ch;
 }
 
 .interests {
@@ -139,7 +193,7 @@ body {
 
 .tag {
   display: inline-block;
-  background: #eef2ff;
+  background: var(--tag-bg);
   color: var(--accent);
   border-radius: 999px;
   padding: 0.15rem 0.7rem;
@@ -174,7 +228,7 @@ body {
 /* ---- Stats ---- */
 .stats-row {
   display: flex;
-  gap: 2rem;
+  gap: 2.5rem;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   padding: 1rem 0;
@@ -234,6 +288,91 @@ section h2, main > h1 {
 
 .page-intro a {
   color: var(--accent);
+}
+
+/* ---- Charts (viz.py) ---- */
+.viz-block {
+  margin: 1.5rem 0 2.5rem;
+}
+
+.viz-block h3 {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  color: var(--fg);
+}
+
+.viz-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.viz-grid {
+  stroke: var(--viz-grid);
+  stroke-width: 1;
+}
+
+.viz-axis-label {
+  fill: var(--viz-ink);
+  font-size: 11px;
+}
+
+.viz-value-label {
+  fill: var(--fg);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.viz-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  margin-top: 0.75rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.viz-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.viz-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.viz-table-toggle {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.viz-table-toggle summary {
+  cursor: pointer;
+  color: var(--accent);
+}
+
+.viz-table {
+  margin-top: 0.75rem;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  width: 100%;
+}
+
+.viz-table th,
+.viz-table td {
+  border: 1px solid var(--border);
+  padding: 0.3rem 0.5rem;
+  text-align: center;
+}
+
+.viz-table th:first-child,
+.viz-table td:first-child {
+  text-align: left;
 }
 
 /* ---- Legend ---- */
@@ -353,28 +492,29 @@ section h2, main > h1 {
 .badge-official {
   background: var(--official-bg);
   color: var(--official);
-  border-color: #bbf7d0;
+  border-color: var(--official);
 }
 
 .badge-official:hover {
   background: var(--official);
-  color: #fff;
+  color: var(--bg);
 }
 
 .badge-preprint {
   background: var(--preprint-bg);
   color: var(--preprint);
-  border-color: #fde68a;
+  border-color: var(--preprint);
 }
 
 .badge-preprint:hover {
   background: var(--preprint);
-  color: #fff;
+  color: var(--bg);
 }
 
 .badge-pending {
-  background: #f3f4f6;
+  background: var(--bg-soft);
   color: var(--pending);
+  border-color: var(--border);
 }
 
 .badge-bibtex {
@@ -441,9 +581,9 @@ section h2, main > h1 {
 }
 
 footer.site-footer {
-  max-width: 860px;
+  max-width: 1180px;
   margin: 2rem auto 0;
-  padding: 1.5rem 1.25rem 3rem;
+  padding: 1.5rem 2rem 3rem;
   color: var(--muted);
   font-size: 0.8rem;
 }
@@ -478,6 +618,11 @@ footer.site-footer a {
   .nav-inner {
     justify-content: center;
     text-align: center;
+    padding: 0.9rem 1.25rem;
+  }
+
+  .container {
+    padding: 2rem 1.25rem 4rem;
   }
 
   .skill-row {

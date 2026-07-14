@@ -1,8 +1,14 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+(function () {
+  var saved = localStorage.getItem('theme');
+  document.documentElement.setAttribute('data-theme', saved === 'light' ? 'light' : 'dark');
+})();
+</script>
 <title>모핑항공기의 심층신경망 기반 게인스케줄링 연구</title>
 <meta name="citation_title" content="모핑항공기의 심층신경망 기반 게인스케줄링 연구">
 <meta name="citation_author" content="이지훈">
@@ -10,19 +16,28 @@
 <meta name="citation_author" content="윤의찬">
 <meta name="citation_publication_date" content="2024">
 <meta name="citation_journal_title" content="한국항공우주학회지, Vol. 52, No. 4, pp. 297-306">
+<meta name="citation_doi" content="10.5139/jksas.2024.52.4.297">
 <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <nav class="site-nav"><div class="nav-inner"><a class="brand" href="../index.html">Jihoon Lee</a><div class="nav-links"><a href="../index.html" class="">Home</a><a href="../publications.html" class="active">Publications</a><a href="../cv.html" class="">CV</a></div></div></nav>
+  <nav class="site-nav"><div class="nav-inner"><a class="brand" href="../index.html">Jihoon Lee</a><div class="nav-links"><a href="../index.html" class="">Home</a><a href="../publications.html" class="active">Publications</a><a href="../cv.html" class="">CV</a><button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle light/dark theme">&#9788;</button></div></div></nav>
   <main class="container">
-    <p><a href="../publications.html">&larr; 전체 목록으로</a></p>
+    <p><a href="../publications.html">&larr; Back to Publications</a></p>
     <h1>모핑항공기의 심층신경망 기반 게인스케줄링 연구</h1>
     <p class="paper-title-en">Deep Neural Network-Based Gain Scheduling Study for Morphing Aircraft</p>
     <p class="paper-meta">이지훈, 이수원, 윤의찬</p>
     <p class="paper-venue">한국항공우주학회지, Vol. 52, No. 4, pp. 297-306, 2024</p>
     
-    <div class="paper-badges large"><span class="badge badge-pending">PDF 준비 중</span><a class="badge badge-bibtex" href="../bibtex/2024-dnn-gain-scheduling-morphing-ko.bib">BibTeX</a></div>
-    <p class="scholar-search"><a href="https://scholar.google.com/scholar?q=모핑항공기의+심층신경망+기반+게인스케줄링+연구" target="_blank" rel="noopener">Google Scholar에서 검색 &rarr;</a></p>
+    <div class="paper-badges large"><a class="badge badge-official" href="https://doi.org/10.5139/jksas.2024.52.4.297" target="_blank" rel="noopener">Official Link (DOI)</a><a class="badge badge-bibtex" href="../bibtex/2024-dnn-gain-scheduling-morphing-ko.bib">BibTeX</a></div>
+    <p class="scholar-search"><a href="https://scholar.google.com/scholar?q=모핑항공기의+심층신경망+기반+게인스케줄링+연구" target="_blank" rel="noopener">Search on Google Scholar &rarr;</a></p>
   </main>
+  <script>
+function toggleTheme() {
+  var html = document.documentElement;
+  var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+}
+</script>
 </body>
 </html>

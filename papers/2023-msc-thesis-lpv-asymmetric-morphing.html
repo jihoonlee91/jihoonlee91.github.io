@@ -1,26 +1,40 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+(function () {
+  var saved = localStorage.getItem('theme');
+  document.documentElement.setAttribute('data-theme', saved === 'light' ? 'light' : 'dark');
+})();
+</script>
 <title>Self-Scheduled Parameter-Varying Control of Asymmetric Variable-Span Morphing Unmanned Aerial Vehicle</title>
 <meta name="citation_title" content="Self-Scheduled Parameter-Varying Control of Asymmetric Variable-Span Morphing Unmanned Aerial Vehicle">
 <meta name="citation_author" content="Jihoon Lee">
 <meta name="citation_publication_date" content="2023">
-<meta name="citation_journal_title" content="Ph.D. Dissertation, Seoul National University (Advisor: Prof. Youdan Kim)">
+<meta name="citation_journal_title" content="Ph.D. Dissertation, Seoul National University (Advisor: Prof. Youdan Kim, now retired)">
 <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <nav class="site-nav"><div class="nav-inner"><a class="brand" href="../index.html">Jihoon Lee</a><div class="nav-links"><a href="../index.html" class="">Home</a><a href="../publications.html" class="active">Publications</a><a href="../cv.html" class="">CV</a></div></div></nav>
+  <nav class="site-nav"><div class="nav-inner"><a class="brand" href="../index.html">Jihoon Lee</a><div class="nav-links"><a href="../index.html" class="">Home</a><a href="../publications.html" class="active">Publications</a><a href="../cv.html" class="">CV</a><button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle light/dark theme">&#9788;</button></div></div></nav>
   <main class="container">
-    <p><a href="../publications.html">&larr; 전체 목록으로</a></p>
+    <p><a href="../publications.html">&larr; Back to Publications</a></p>
     <h1>Self-Scheduled Parameter-Varying Control of Asymmetric Variable-Span Morphing Unmanned Aerial Vehicle</h1>
     
     <p class="paper-meta">Jihoon Lee</p>
-    <p class="paper-venue">Ph.D. Dissertation, Seoul National University (Advisor: Prof. Youdan Kim), 2023</p>
+    <p class="paper-venue">Ph.D. Dissertation, Seoul National University (Advisor: Prof. Youdan Kim, now retired), 2023</p>
     
-    <div class="paper-badges large"><span class="badge badge-pending">PDF 준비 중</span><a class="badge badge-bibtex" href="../bibtex/2023-msc-thesis-lpv-asymmetric-morphing.bib">BibTeX</a></div>
-    <p class="scholar-search"><a href="https://scholar.google.com/scholar?q=Self-Scheduled+Parameter-Varying+Control+of+Asymmetric+Variable-Span+Morphing+Unmanned+Aerial+Vehicle" target="_blank" rel="noopener">Google Scholar에서 검색 &rarr;</a></p>
+    <div class="paper-badges large"><a class="badge badge-official" href="https://dcollection.snu.ac.kr/common/orgView/000000176713" target="_blank" rel="noopener">Official Link</a><a class="badge badge-bibtex" href="../bibtex/2023-msc-thesis-lpv-asymmetric-morphing.bib">BibTeX</a></div>
+    <p class="scholar-search"><a href="https://scholar.google.com/scholar?q=Self-Scheduled+Parameter-Varying+Control+of+Asymmetric+Variable-Span+Morphing+Unmanned+Aerial+Vehicle" target="_blank" rel="noopener">Search on Google Scholar &rarr;</a></p>
   </main>
+  <script>
+function toggleTheme() {
+  var html = document.documentElement;
+  var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+}
+</script>
 </body>
 </html>
