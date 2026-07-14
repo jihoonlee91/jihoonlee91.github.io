@@ -59,7 +59,7 @@
   ],
   "experience": [
     {
-      "organization": "Digital Twin Center, Samsung Electronics (Hwaseong)",
+      "organization": "Digital Twin Center, Samsung Electronics",
       "position": "Staff Engineer — Production AI & ML Systems",
       "highlights": [
         "Own production ML workflows for advanced memory semiconductor engineering across technology development, new product/process development, R&D, and mass production.",
@@ -72,12 +72,12 @@
       "period": "Jan 2026 – Present"
     },
     {
-      "organization": "Equipment Technology Research Institute, Samsung Electronics (Hwaseong)",
+      "organization": "Mechatronics Research, Samsung Electronics",
       "position": "Staff Engineer — production AI / ML systems for semiconductor manufacturing and process engineering.",
       "period": "Jan 2025 – Dec 2025"
     },
     {
-      "organization": "Memory Manufacturing Technology Center, Samsung Electronics (Hwaseong)",
+      "organization": "Memory Manufacturing Technology Center, Samsung Electronics",
       "position": "Staff Engineer — production AI / ML systems for semiconductor manufacturing and process engineering.",
       "period": "Mar 2023 – Dec 2024"
     },
@@ -831,9 +831,13 @@
   "life": {
     "intro": "",
     "sections": [
-      {"title": "Cycling", "content": ""},
-      {"title": "Triathlon", "content": ""},
-      {"title": "Swimming", "content": ""}
+      {"title": "Cycling", "content": "", "photos": []},
+      {"title": "Triathlon", "content": "", "photos": []},
+      {"title": "Swimming", "content": "", "photos": []},
+      {"title": "Running", "content": "", "photos": []},
+      {"title": "Rowing", "content": "", "photos": []},
+      {"title": "Hiking", "content": "", "photos": []},
+      {"title": "Travel", "content": "", "photos": []}
     ]
   },
   "instagram_url": "https://www.instagram.com/jihoonlee",

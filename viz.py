@@ -29,6 +29,15 @@ STOPWORDS = {
     "system", "systems", "study", "analysis", "development", "design", "via", "towards", "toward",
     "approach", "technique", "method", "methods", "model", "modeling", "scheme", "evaluation",
     "verification", "during", "under", "its", "into", "is", "as", "at", "part", "primary", "conceptual",
+    "proposed", "propose", "proposes", "presented", "present", "shown", "shows", "show", "considering",
+    "considered", "demonstrate", "demonstrated", "demonstrates", "effectiveness", "numerical", "results",
+    "result", "performed", "perform", "obtained", "used", "use", "studies", "investigated", "investigate",
+    "designed", "verify", "verified", "compared", "comparison", "such", "that", "this", "these", "those",
+    "can", "which", "also", "due", "each", "when", "while", "where", "than", "then", "however", "therefore",
+    "case", "cases", "order", "various", "different", "several", "new", "novel", "well", "one", "two",
+    "three", "first", "second", "final", "finally", "paper", "author", "authors", "work", "problem",
+    "problems", "process", "processes", "given", "provide", "provides", "provided", "make", "makes",
+    "made", "not", "only", "both", "were", "was", "are", "been", "has", "have", "had", "will", "may",
 }
 
 
@@ -207,8 +216,13 @@ def citation_year_chart(citation_stats):
 def keyword_chart(papers, top_n=25):
     counter = Counter()
     for p in papers:
-        text = p.get("title_en") or p["title"]
-        for word in re.findall(r"[A-Za-z][A-Za-z\-]+", text):
+        title = p.get("title_en") or p["title"]
+        for word in re.findall(r"[A-Za-z][A-Za-z\-]+", title):
+            w = word.lower().strip("-")
+            if len(w) > 2 and w not in STOPWORDS:
+                counter[w] += 3  # title words weigh more than abstract words
+        abstract = p.get("abstract") or ""
+        for word in re.findall(r"[A-Za-z][A-Za-z\-]+", abstract):
             w = word.lower().strip("-")
             if len(w) > 2 and w not in STOPWORDS:
                 counter[w] += 1

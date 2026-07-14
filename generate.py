@@ -561,18 +561,52 @@ def render_list_section(title, items, fields):
   </section>'''
 
 
+def _group_consecutive_by_parent(items, name_field, split_char=", "):
+    """Group consecutive items whose name_field shares a common trailing
+    ", Parent" segment (e.g. "Digital Twin Center, Samsung Electronics"),
+    so multiple roles/degrees at the same org render under one header
+    instead of repeating the parent name on every row."""
+    groups = []
+    for item in items:
+        name = item.get(name_field, "")
+        if split_char in name:
+            sub, parent = name.rsplit(split_char, 1)
+        else:
+            sub, parent = None, name
+        if groups and groups[-1]["parent"] == parent:
+            groups[-1]["items"].append((sub, item))
+        else:
+            groups.append({"parent": parent, "items": [(sub, item)]})
+    return groups
+
+
 def render_experience_section(items):
     if not items:
         return '<section><h2>Experience</h2><p class="pending">Nothing added yet.</p></section>'
-    rows = []
-    for item in items:
-        header = f'{esc(item.get("organization", ""))} &mdash; {esc(item.get("position", ""))} &mdash; {esc(item.get("period", ""))}'
+
+    def render_role(sub, item):
+        label_parts = [p for p in (sub, item.get("position", "")) if p]
+        header = f'{esc(" &mdash; ".join(label_parts))} &mdash; {esc(item.get("period", ""))}'
         highlights = item.get("highlights")
         if highlights:
             bullets = "".join(f"<li>{esc(h)}</li>" for h in highlights)
-            rows.append(f'<li>{header}<ul class="experience-highlights">{bullets}</ul></li>')
+            return f'<li>{header}<ul class="experience-highlights">{bullets}</ul></li>'
+        return f'<li>{header}</li>'
+
+    groups = _group_consecutive_by_parent(items, "organization")
+    rows = []
+    for g in groups:
+        if len(g["items"]) == 1:
+            sub, item = g["items"][0]
+            org = f'{sub}, {g["parent"]}' if sub else g["parent"]
+            header = f'{esc(org)} &mdash; {esc(item.get("position", ""))} &mdash; {esc(item.get("period", ""))}'
+            highlights = item.get("highlights")
+            bullets = f'<ul class="experience-highlights">{"".join(f"<li>{esc(h)}</li>" for h in highlights)}</ul>' if highlights else ""
+            rows.append(f'<li>{header}{bullets}</li>')
         else:
-            rows.append(f'<li>{header}</li>')
+            sub_rows = "".join(render_role(sub, item) for sub, item in g["items"])
+            rows.append(f'<li class="experience-group"><div class="experience-company">{esc(g["parent"])}</div><ul class="experience-roles">{sub_rows}</ul></li>')
+
     return f'''<section>
     <h2>Experience</h2>
     <ul class="plain-list">
@@ -629,8 +663,40 @@ def render_collaborators_section(min_count=4, top_n=10):
   </section>'''
 
 
+def render_education_section(items):
+    if not items:
+        return '<section><h2>Education</h2><p class="pending">Nothing added yet.</p></section>'
+
+    groups = _group_consecutive_by_parent(items, "school", split_char="\x00")  # school has no built-in "Sub, Parent" split
+    rows = []
+    for g in groups:
+        if len(g["items"]) == 1:
+            _, item = g["items"][0]
+            degree = esc(item.get("degree", ""))
+            if item.get("url"):
+                degree = f'<a href="{esc(item["url"])}" target="_blank" rel="noopener">{degree}</a>'
+            rows.append(f'<li>{esc(g["parent"])} &mdash; {degree} &mdash; {esc(item.get("period", ""))}</li>')
+        else:
+            sub_rows = []
+            for _, item in g["items"]:
+                degree = esc(item.get("degree", ""))
+                if item.get("url"):
+                    degree = f'<a href="{esc(item["url"])}" target="_blank" rel="noopener">{degree}</a>'
+                sub_rows.append(f'<li>{degree} &mdash; {esc(item.get("period", ""))}</li>')
+            rows.append(
+                f'<li class="experience-group"><div class="experience-company">{esc(g["parent"])}</div>'
+                f'<ul class="experience-roles">{"".join(sub_rows)}</ul></li>'
+            )
+    return f'''<section>
+    <h2>Education</h2>
+    <ul class="plain-list">
+      {"".join(rows)}
+    </ul>
+  </section>'''
+
+
 def render_cv():
-    education_html = render_list_section("Education", DATA.get("education", []), ["school", "degree", "period"])
+    education_html = render_education_section(DATA.get("education", []))
     experience_html = render_experience_section(DATA.get("experience", []))
     projects_html = render_list_section("Projects", DATA.get("projects", []), ["title", "description", "period"])
     awards_html = render_awards_section()
@@ -673,6 +739,17 @@ def render_cv():
         f.write(html_out)
 
 
+LIFE_SECTION_EMOJI = {
+    "Cycling": "🚴",
+    "Triathlon": "🏅",
+    "Swimming": "🏊",
+    "Running": "🏃",
+    "Rowing": "🚣",
+    "Hiking": "🥾",
+    "Travel": "✈️",
+}
+
+
 def render_life():
     life = DATA.get("life") or {}
     intro_html = f'<p class="page-intro">{esc(life["intro"])}</p>' if life.get("intro") else ""
@@ -681,7 +758,17 @@ def render_life():
     for section in life.get("sections", []):
         content = section.get("content")
         body = f'<p>{esc(content)}</p>' if content else '<p class="pending">Coming soon.</p>'
-        sections_html.append(f'<section><h2>{esc(section["title"])}</h2>{body}</section>')
+        photos = section.get("photos") or []
+        gallery = ""
+        if photos:
+            thumbs = "".join(
+                f'<a href="{esc(photo)}" target="_blank" rel="noopener"><img class="life-photo" src="{esc(photo)}" alt="{esc(section["title"])} photo" loading="lazy"></a>'
+                for photo in photos
+            )
+            gallery = f'<div class="life-gallery">{thumbs}</div>'
+        emoji = LIFE_SECTION_EMOJI.get(section["title"], "")
+        heading = f'{emoji} {esc(section["title"])}'.strip()
+        sections_html.append(f'<section><h2>{heading}</h2>{body}{gallery}</section>')
     if not sections_html:
         sections_html.append('<p class="pending">Nothing added yet.</p>')
 
