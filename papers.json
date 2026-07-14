@@ -48,7 +48,7 @@
     },
     {
       "school": "Yonsei University",
-      "degree": "B.S., Mechanical Engineering, Department of Mechanical Engineering, College of Engineering (Advisor: Prof. Woongsup Yoon) — Thesis: \"Modeling and PIDE Control Simulation of a Quadrotor\" (Advisor: Prof. Jongsoo Lee)",
+      "degree": "B.S., Mechanical Engineering (Advisor: Prof. Woongsup Yoon) — Thesis: \"Modeling and PIDE Control Simulation of a Quadrotor\" (Advisor: Prof. Jongsoo Lee)",
       "period": "Feb 2010 – Aug 2014"
     },
     {
@@ -346,7 +346,7 @@
       "year": 2024,
       "citations": 0,
       "doi": "10.5139/jksas.2024.52.4.297",
-      "abstract": "",
+      "abstract": "본 연구에서는 심층신경망을 사용하여 다수의 선형시스템에 대해 자동화된 게인스케줄링을 수행하는 방법론에 대해 다룬다. 제어대상 플랫폼은 모핑항공기 단주기운동 동역학 시스템에 대한 PID 제어기를 고려하였다. 모핑항공기 동역학 시스템은 모핑 파라미터에 대한 선형 파라미터 가변 시스템으로 모델링할 수 있으며, 모핑파라미터가 변함에 따라 서로 다른 선형시스템으로 간주된다. 선형 파라미터 가변 시스템 동역학 시뮬레이터를 포함한 심층신경망 구조를 사용하여 단위계단함수 응답을 최적화하도록 학습함으로써 모핑파라미터에 따라 제어게인을 출력하는 게인스케줄러 신경망을 훈련한다. 제안한 방법론을 통해 학습된 게인스케줄러의 성능을 사람이 튜닝한 게인스케줄러와 비교한다. A methodology is presented in this study for the automated gain scheduling of multiple linear systems utilizing deep neural networks. The focus is on a morphing aircraft's short-period dynamic motion and the application of a PID controller. The morphing aircraft dynamics system can be effectively modeled as a linear parameter-varying system in relation to the morphing parameters. As the morphing parameters change, different linear systems are considered. To address this, a deep neural network structure is employed, integrating an LPV system dynamics simulator. The gain scheduler neural network is trained to optimize the unit step response, enabling it to output control gains based on the morphing parameters. A performance comparison is conducted between the scheduler trained using the proposed methodology and a manually-tuned scheduler.",
       "official_link": "https://doi.org/10.5139/jksas.2024.52.4.297",
       "pdf": "papers/pdfs/2024-dnn-gain-scheduling-morphing-ko.pdf",
       "theme": "Morphing-Wing Aircraft Control"
@@ -361,7 +361,7 @@
       "year": 2023,
       "citations": 0,
       "doi": null,
-      "abstract": "",
+      "abstract": "In this dissertation, a novel framework for flight control of a morphing unmanned aerial vehicle (UAV) is proposed. The proposed method uses asymmetric span morphing for lateral-directional motion control considering the dynamic characteristics of the morphing actuators while exploiting the advantages of symmetric span morphing for longitudinal flight performance enhancement. The proposed control system is self-scheduled based on linear parameter-varying (LPV) methods, which guarantees stability and performance for the variations of the morphing configuration and the flight condition. Therefore, the morphing UAV is allowed to swiftly metamorphose into the optimal configuration to maximize the system-level benefit according to the maneuvering command and the flight condition. First, a high-fidelity nonlinear model of an asymmetric variable-span morphing UAV is obtained from the NASA generic transport model. The impacts of morphing on the center of mass, inertia matrix, and aerodynamic coefficients are modeled based on the asymmetrically damaged wing model. The span variation ratios of the left and right wings are decomposed into symmetric and asymmetric morphing parameters, which are considered as the scheduling parameter and the control input, respectively. The nonlinear model is decoupled and linearized to obtain point-wise linear time-invariant (LTI) models for the longitudinal and lateral-directional motions throughout the grid points over the entire rectangularized scheduling parameter domain. The LPV model of the morphing UAV is derived for the longitudinal and lateral-directional motions by associating the family of LTI models through interpolation. Second, the longitudinal and lateral-directional control augmentation systems are designed based on LPV methods to track the normal acceleration command and the angle of sideslip and the roll rate commands, respectively. The inherent dynamic characteristics of the morphing actuator, such as low bandwidth, are considered in the control design procedure through a frequency-dependent weighting filter. The span morphing strategy to assist the intended maneuver is studied considering the impacts of morphing on various aspects. Numerical simulations are performed to demonstrate the effectiveness of the proposed control scheme for pushover-pullup maneuver and high-g turn. Finally, the longitudinal and lateral-directional autopilots are designed based on LPV methods to track the airspeed and altitude commands and the angle of sideslip and roll angle commands, respectively. A nonlinear guidance law is coupled with the autopilots to enable three-dimensional trajectory tracking. Numerical simulation results for the trajectory-tracking flight show that the proposed controller shows satisfactory performance, while the closed-loop system using the conventional gain-scheduled controller may lose stability when the scheduling parameter varies rapidly or widely.",
       "official_link": "https://dcollection.snu.ac.kr/common/orgView/000000176713",
       "pdf": "papers/pdfs/2023-msc-thesis-lpv-asymmetric-morphing.pdf",
       "catalog_link": "https://snu-primo.hosted.exlibrisgroup.com/primo-explore/fulldisplay?docid=82SNU_INST51891008620002591&context=L&vid=82SNU&lang=ko_KR&search_scope=ALL&adaptor=Local%20Search%20Engine&tab=all&query=any,contains,self-scheduled",
@@ -407,7 +407,7 @@
       "year": 2021,
       "citations": 0,
       "doi": null,
-      "abstract": "",
+      "abstract": "An optimization problem is formulated to maximize the coverage of the detection area for a fixed wing unmanned aerial vehicle (UAV), which performs a landmine detection mission. The UAV has mine detection devices including magnetic field sensors and chemical sensors. Due to the characteristics of the detection sensors, the UAV should fly at a certain altitude above the ground while following the terrain to perform accurate mine detection. Also, the UAV is required to maintain the pitch angle around the trim value when changing the altitude. Consequently, the altitude change rate of the UAV is limited during the mission. To maximize the mine detection capability within the limit, in this study, the entire flight interval is divided into the intervals on which the mines can be detected accurately and the intervals on which accurate detection is not possible. Logical variables are introduced to indicate the satisfaction of the requirements for accurate detection. Constraints on the logical variables are transformed into a set of linear inequalities containing continuous variables and binary integer variables. Finally, the optimization problem is formulated as a mixed-integer linear programming problem. The effectiveness of the proposed method is demonstrated through numerical simulation.",
       "official_link": null,
       "pdf": "papers/pdfs/2021-optimal-policy-pitch-hold-milp-conf.pdf",
       "theme": "UAV Pitch-Hold Control for Mine Detection"
@@ -836,96 +836,14 @@
   "life": {
     "intro": "Outside of aerospace research and semiconductor AI, most of my free time goes into moving — on a bike, in the water, or on a trail. I rowed competitively in college, and these days that's turned into a mix of running, swimming, and cycling for triathlon training, with hiking, travel, and photography filling in the rest.",
     "sections": [
-      {"title": "Cycling", "content": "Mostly non-competitive — gran fondo rides and long-distance training miles that double as the bike leg of triathlon prep.", "photos": []},
-      {
-        "title": "Triathlon",
-        "content": "Doing local triathlons since 2019 with my club, 야생연어 (Wild Salmon) — mostly age-group amateur races around Korea, a few of which happened to be World/Asia Cup stops in Tongyeong, Yeongdo, and Sejong.",
-        "photos": [],
-        "races": [
-          {"name": "제26회 문화체육관광부장관배 전국 트라이애슬론 선수권 대회", "date": "2026.06.26 – 28", "location": "전북 익산시 익산국제철인3종경기장 일원", "swim": "28:30", "bike": "1:12:42", "run": "54:49", "total": "2:39:40", "rank": "14", "category": "35-39세 남"},
-          {"name": "제22회 대구광역시장배 전국 철인3종 대회", "date": "2026.05.09 – 10", "location": "대구광역시 수성못 일원", "swim": "27:12", "bike": "1:07:37", "run": "51:29", "total": "2:32:52", "rank": "37", "category": "동호인 35-39세 남"},
-          {"name": "2025 고령군수배 대가야 전국 철인3종 대회", "date": "2025.10.18 – 19", "location": "경북 고령군 다산문화공원 일원", "swim": "24:32", "bike": "1:17:39", "run": "50:38", "total": "2:37:38", "rank": "15", "category": "30-34세 남"},
-          {"name": "제17회 전국해양스포츠제전", "date": "2025.08.30 – 09.01", "location": "경기 시흥시 거북섬 일원", "swim": "27:51", "bike": "1:10:59", "run": "59:50", "total": "2:41:52", "rank": "6", "category": "동호인 30-34세 남"},
-          {"name": "2025 LOTTE AQUATHLON 롯데 아쿠아슬론 대회", "date": "2025.07.05 – 06", "location": "서울특별시 석촌호수 및 롯데월드타워", "swim": "28:34", "bike": "—", "run": "37:54", "total": "1:10:47", "rank": "17", "category": "30-34세 남"},
-          {"name": "제6회 충청북도지사배 충주탄금호 전국 철인3종 경기대회", "date": "2025.06.07 – 08", "location": "충주시 탄금호 국제조정경기장 일원", "swim": "12:58", "bike": "1:05:49", "run": "52:55", "total": "2:15:44", "rank": "10", "category": "동호인 30-34세 남"},
-          {"name": "2024 고령군수배 대가야 전국 철인3종 대회", "date": "2024.11.02 – 03", "location": "경북 고령군 다산문화공원 일원", "swim": "13:10", "bike": "1:20:41", "run": "47:41", "total": "2:29:19", "rank": "10", "category": "동호인 30-34세 남"},
-          {"name": "2024 통영 월드 트라이애슬론 컵", "date": "2024.10.24 – 27", "location": "경남 통영시 트라이애슬론광장 일원", "swim": "26:46", "bike": "1:17:41", "run": "49:58", "total": "2:38:12", "rank": "16", "category": "동호인 30-34세 남"},
-          {"name": "「시화호30주년」 기념 거북섬 철인3종 대회", "date": "2024.10.05 – 06", "location": "경기도 시흥시 시화해역 및 거북섬 일원", "swim": "27:20", "bike": "1:10:46", "run": "52:11", "total": "2:33:46", "rank": "6", "category": "30-34세 남"},
-          {"name": "제24회 문화체육관광부장관배 전국 트라이애슬론 선수권 대회", "date": "2024.08.29 – 09.01", "location": "전북 익산시 익산국제철인3종경기장 일원", "swim": "26:27", "bike": "1:12:34", "run": "59:22", "total": "2:40:46", "rank": "9", "category": "동호인 30-34세 남"},
-          {"name": "제16회 전국해양스포츠제전", "date": "2024.07.31 – 08.03", "location": "충남 보령시 대천해수욕장 일원", "swim": "26:33", "bike": "1:06:08", "run": "1:01:24", "total": "2:39:36", "rank": "6", "category": "동호인 30-34세 남"},
-          {"name": "제5회 양산시장배 황산 전국 철인3종 대회", "date": "2024.05.17 – 19", "location": "경남 양산시 황산공원 일원", "swim": "27:14", "bike": "1:08:37", "run": "56:57", "total": "2:36:19", "rank": "9", "category": "동호인 30-34세 남"},
-          {"name": "제20회 대구광역시장배 전국 철인3종 대회", "date": "2024.05.11 – 12", "location": "대구광역시 수성못 일원", "swim": "25:41", "bike": "1:09:37", "run": "51:58", "total": "2:32:45", "rank": "15", "category": "동호인 30-34세 남"},
-          {"name": "2023 통영 월드 트라이애슬론 컵", "date": "2023.10.19 – 22", "location": "경남 통영시 트라이애슬론광장 일원", "swim": "28:46", "bike": "1:16:14", "run": "57:43", "total": "2:46:46", "rank": "32", "category": "동호인 30-34세 남"},
-          {"name": "제23회 문화체육관광부장관배 전국 트라이애슬론 선수권 대회", "date": "2023.08.31 – 09.03", "location": "전북 익산시 익산국제철인3종경기장 일원", "swim": "31:36", "bike": "1:12:46", "run": "1:09:29", "total": "2:56:45", "rank": "12", "category": "동호인 30-34세 남"},
-          {"name": "2023 영도 월드 트라이애슬론 컵", "date": "2023.08.03 – 06", "location": "부산광역시 국립해양박물관 일원", "swim": "29:14", "bike": "1:03:28", "run": "54:02", "total": "2:29:32", "rank": "7", "category": "동호인 30-34세 남"},
-          {"name": "제26회 설봉 철인3종 대회", "date": "2023.07.15 – 16", "location": "경기 이천시 설봉저수지 일원", "swim": "29:01", "bike": "1:06:50", "run": "1:09:21", "total": "2:48:19", "rank": "10", "category": "동호인 30-34세 남"},
-          {"name": "2023 세종 아시아 트라이애슬론 컵", "date": "2023.06.29 – 07.02", "location": "세종시 세종호수공원 일원", "swim": "27:53", "bike": "1:06:53", "run": "52:50", "total": "2:29:49", "rank": "6", "category": "동호인 30-34세 남"},
-          {"name": "제4회 충청북도지사배 충주 탄금호 철인3종경기 대회", "date": "2023.06.10 – 11", "location": "충북 충주시 탄금호 국제조정경기장 일원", "swim": "27:04", "bike": "1:01:04", "run": "46:02", "total": "2:18:52", "rank": "6", "category": "동호인 30-34세 남"},
-          {"name": "제4회 양산시장배 황산 전국 철인3종 대회", "date": "2023.05.19 – 21", "location": "경남 양산시 황산공원 일원", "swim": "29:25", "bike": "1:06:40", "run": "55:17", "total": "2:35:26", "rank": "10", "category": "동호인 30-34세 남"},
-          {"name": "2022 통영 월드 트라이애슬론 컵", "date": "2022.10.13 – 16", "location": "경남 통영시 도남동 트라이애슬론광장", "swim": "28:11", "bike": "1:15:39", "run": "46:57", "total": "2:33:55", "rank": "15", "category": "동호인 30-34세 남"},
-          {"name": "제2회 창원특례시 마산만 전국 트라이애슬론 대회", "date": "2022.09.24 – 25", "location": "창원시 마산합포구 3.15 해양누리공원", "swim": "27:03", "bike": "1:05:52", "run": "54:08", "total": "2:31:05", "rank": "10", "category": "동호인 30-34세 남"},
-          {"name": "제22회 문화체육관광부장관배 전국 트라이애슬론 선수권 대회", "date": "2022.09.01 – 04", "location": "익산시 웅포면 웅포캠핑장", "swim": "31:11", "bike": "1:09:30", "run": "54:08", "total": "2:37:39", "rank": "4", "category": "동호인 30-34세 남"},
-          {"name": "제15회 전국해양스포츠제전", "date": "2022.08.11 – 14", "location": "군산시 비응도 일원", "swim": "—", "bike": "1:08:52", "run": "56:59", "total": "2:08:10", "rank": "12", "category": "동호인 30-34세 남"},
-          {"name": "제3회 충청북도지사배 충주탄금호 철인3종경기 대회", "date": "2022.06.25 – 26", "location": "충주탄금호 조정경기장", "swim": "29:05", "bike": "1:00:52", "run": "53:17", "total": "2:26:22", "rank": "6", "category": "동호인 30-34세 남"},
-          {"name": "2022 세종 아시아 스프린트 챔피언십 대회", "date": "2022.06.02 – 05", "location": "세종 호수공원 일원", "swim": "27:55", "bike": "1:09:29", "run": "48:45", "total": "2:29:20", "rank": "14", "category": "동호인 30-34세 남"},
-          {"name": "제18회 대구광역시장배 전국 철인3종 대회", "date": "2022.05.21 – 22", "location": "대구광역시 수성구 두산동 수성못일원", "swim": "—", "bike": "—", "run": "—", "total": "—", "rank": "—", "category": "동호인 30-34세 남"},
-          {"name": "2021 海맑은 마산만 전국 트라이애슬론 대회", "date": "2021.11.13 – 14", "location": "경남 창원시 마산해양신도시", "swim": "15:13", "bike": "1:04:46", "run": "50:59", "total": "2:17:14", "rank": "8", "category": "동호인 30-34세 남"},
-          {"name": "제21회 문화체육관광부장관배 철인3종 선수권 대회 겸 제50회 전국소년체육대회", "date": "2021.09.09 – 12", "location": "전북 익산시 웅포면", "swim": "5:52", "bike": "1:11:37", "run": "57:13", "total": "2:18:31", "rank": "9", "category": "동호인 30-34세 남"},
-          {"name": "제7회 은총이와 함께하는 철인3종 대회", "date": "2019.09.28 – 29", "location": "서울 마포구 상암동 한강난지공원", "swim": "34:40", "bike": "1:10:12", "run": "1:03:42", "total": "2:57:08", "rank": "14", "category": "동호인 25-29세 남"},
-          {"name": "제17회 서울특별시철인3종협회장배 아쿠아슬론 대회", "date": "2019.07.20 – 21", "location": "서울특별시 마포구 상암동 한강난지공원 및 주변도로", "swim": "32:52", "bike": "—", "run": "1:15:26", "total": "1:53:49", "rank": "33", "category": "20대 남"}
-        ]
-      },
-      {
-        "title": "Swimming",
-        "content": "Open-water races and masters swim meets around Seoul/Incheon since 2019.",
-        "photos": [],
-        "records": [
-          {"name": "14th National Marine Sports Festival — Open Water Swimming", "detail": "1km M20-29: 21:04 (4th/11) · 3.2km M20-29: 1:09:14 (2nd/4) — 시화호", "date": "2019-08-17 – 18"},
-          {"name": "2019 서울대·포스코 스포츠센터 친선 수영대회", "detail": "Men's Advanced Freestyle 50m Prelim: 34.59 (2nd/7, 8th/36 overall) · Final: 34.81 (7th/8) · Mixed Medley Relay 100m Freestyle", "date": "2019-10-12"},
-          {"name": "2019 아레나 코리아 마스터즈 수영대회", "detail": "Men's Freestyle 50m Prelim: 35.10 · 100m Prelim: 1:22.56 — 인천 문학박태환수영장", "date": "2019-12-21 – 22"},
-          {"name": "15th National Marine Sports Festival — Open Water Swimming", "detail": "2km M30-39: 49:41.3 (8th/14)", "date": "2022-08-13 – 14"},
-          {"name": "오산시장배 수영대회", "detail": "Men's Freestyle 50m: 34.04 · Breaststroke 50m: 40.79", "date": "2025-07-05"}
-        ]
-      },
-      {
-        "title": "Running",
-        "content": "10km-to-half-marathon road races around Seoul. I run a lot more than I log, so this is a partial list, 2018-2022.",
-        "photos": [],
-        "records": [
-          {"name": "제17회 서울신문 하프마라톤대회", "detail": "5km — 상암동 월드컵공원 평화의 광장", "date": "2018-05-19"},
-          {"name": "영등포구 육상연맹 회장배 마라톤", "detail": "10km: 1:13:19 — 여의도 한강시민공원", "date": "2019-08-25"},
-          {"name": "2019 아디다스 MBC+ 마이런 서울", "detail": "10km: 1:00:05 — 여의도공원", "date": "2019-09-01"},
-          {"name": "2019 슈퍼블루마라톤", "detail": "10km: 58:31 — 상암 월드컵공원", "date": "2019-10-05"},
-          {"name": "2019 서울달리기대회", "detail": "10km: 55:42 — 서울광장", "date": "2019-10-13"},
-          {"name": "제7회 시즌오픈레이스", "detail": "10km: 50:02 — 한강시민공원 잠실청소년광장", "date": "2020-01-12"},
-          {"name": "제4회 철원 똥바람 알통구보 대회", "detail": "9km: 43:38 — 한탄강 승일공원", "date": "2020-01-18"},
-          {"name": "애프터눈 레이스", "detail": "하프: 1:56:19 — 안양천 영롱이야구장", "date": "2020-06-27"},
-          {"name": "2022 Seoul Race", "detail": "Half Course — Seoul Square", "date": "2022-10-09"},
-          {"name": "2022 SonKeeChung Peace Marathon", "detail": "Full Course — Seoul Olympic Stadium", "date": "2022-11-20"}
-        ]
-      },
-      {
-        "title": "Rowing",
-        "content": "Where it all started — rowed men's eight (4 seat) for Yonsei University's crew back in college, and still show up for the club's annual alumni race most years.",
-        "photos": [],
-        "club_url": "https://cafe.naver.com/yonseirowing",
-        "club_label": "Yonsei Rowing Club"
-      },
-      {
-        "title": "Hiking",
-        "content": "Long solo/small-team ridge traverses in Korea's national parks.",
-        "photos": [],
-        "records": [
-          {"name": "북도사수불", "detail": "Solo — 14:04:45 (incomplete)", "date": "2020-09-15"},
-          {"name": "덕유산 육구종주", "detail": "Winter, Solo — 13:23:15", "date": "2021-01-30"},
-          {"name": "지리산 화대종주", "detail": "Solo — 13:56:11", "date": "2021-05-01"},
-          {"name": "지리산 성중종주", "detail": "3-person team — 13:18:36", "date": "2021-09-18"},
-          {"name": "설악산 공룡능선 (서→동)", "detail": "Solo — 1:14:25 (Strava KOM, held 4 times)", "date": "2021-11-04"},
-          {"name": "불수사도북", "detail": "3-person team — 19:27:53", "date": "2022-04-01"}
-        ]
-      },
-      {"title": "Travel", "content": "Been lucky enough to travel to China, Japan, Vietnam, India, the US, Brazil, Australia, and a good chunk of Europe (Italy, France, Germany, Austria, Switzerland, Norway, Russia, Cyprus).", "photos": []},
-      {"title": "Photography", "content": "Got an honorable mention (입선) at the 2018 Asia Culture International Photo Contest — nothing serious, just a fun hobby alongside the travel.", "photos": []}
+      {"title": "Cycling", "content": "", "photos": []},
+      {"title": "Triathlon", "content": "", "photos": []},
+      {"title": "Swimming", "content": "", "photos": []},
+      {"title": "Running", "content": "", "photos": []},
+      {"title": "Rowing", "content": "", "photos": []},
+      {"title": "Hiking", "content": "", "photos": []},
+      {"title": "Travel", "content": "", "photos": []},
+      {"title": "Photography", "content": "", "photos": []}
     ]
   },
   "instagram_url": "https://www.instagram.com/jihoonlee",
