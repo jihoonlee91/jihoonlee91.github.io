@@ -353,15 +353,32 @@ def render_timeline():
                 "kind": "work",
                 "subitems": subitems,
             })
-    for e in DATA.get("education", []):
-        degree_short = e["degree"].split(" — ")[0]
-        entries.append({
-            "period": e["period"],
-            "title": e["school"],
-            "detail": degree_short,
-            "url": e.get("url"),
-            "kind": "education",
-        })
+    edu_groups = _group_consecutive_by_parent(DATA.get("education", []), "school", split_char="\x00")
+    for g in edu_groups:
+        if len(g["items"]) == 1:
+            _, e = g["items"][0]
+            entries.append({
+                "period": e["period"],
+                "title": g["parent"],
+                "detail": e["degree"].split(" — ")[0],
+                "url": e.get("url"),
+                "kind": "education",
+            })
+        else:
+            start = g["items"][-1][1]["period"].split(" – ")[0]
+            end = g["items"][0][1]["period"].split(" – ")[-1]
+            subitems = [
+                {"period": e["period"], "title": e["degree"].split(" — ")[0], "detail": ""}
+                for _, e in g["items"]
+            ]
+            entries.append({
+                "period": f"{start} – {end}",
+                "title": g["parent"],
+                "detail": f'{len(g["items"])} degrees',
+                "url": None,
+                "kind": "education",
+                "subitems": subitems,
+            })
     entries.sort(key=lambda e: _timeline_sort_key(e["period"]), reverse=True)
 
     if not entries:
@@ -435,7 +452,7 @@ def render_index():
     </section>
   </main>
   <footer class="site-footer">
-    <p>&copy; {esc(DATA['name'])}. Built with a <a href="{esc(DATA['github_url'])}/{esc(DATA['github_url'].rstrip('/').rsplit('/', 1)[-1])}.github.io">static site generator</a>. Full BibTeX: <a href="bibtex/all.bib">bibtex/all.bib</a></p>
+    <p>&copy; {esc(DATA['name'])}. Built with a <a href="{esc(DATA['github_url'])}/{esc(DATA['github_url'].rstrip('/').rsplit('/', 1)[-1])}.github.io" target="_blank" rel="noopener">static site generator</a>. Full BibTeX: <a href="bibtex/all.bib" target="_blank" rel="noopener">bibtex/all.bib</a></p>
   </footer>
   {THEME_TOGGLE_SCRIPT}
 </body>
@@ -460,13 +477,16 @@ def link_badges(p, base="papers/pdfs/", paper_page=False):
         )
     if local_pdf:
         pdf_path = ("../" if paper_page else "") + p["pdf"]
-        badges.append(f'<a class="badge badge-preprint" href="{esc(pdf_path)}" data-tooltip="{esc(pdf_path)}">Preprint PDF</a>')
+        badges.append(
+            f'<a class="badge badge-preprint" href="{esc(pdf_path)}" target="_blank" rel="noopener" '
+            f'data-tooltip="{esc(pdf_path)}">Full Text (PDF)</a>'
+        )
     if not official and not local_pdf:
-        badges.append('<span class="badge badge-pending">PDF Coming Soon</span>')
+        badges.append('<span class="badge badge-pending">No Public Link Yet</span>')
     bib_path = ("../" if paper_page else "") + f'bibtex/{p["slug"]}.bib'
     bib_preview = to_bibtex(p, bibtex_key(p))
     badges.append(
-        f'<a class="badge badge-bibtex" href="{esc(bib_path)}" data-tooltip="{esc(bib_preview)}" '
+        f'<a class="badge badge-bibtex" href="{esc(bib_path)}" target="_blank" rel="noopener" data-tooltip="{esc(bib_preview)}" '
         f'onclick="return copyBibtex(this, event)">BibTeX</a>'
     )
     return "".join(badges)
@@ -561,8 +581,8 @@ def render_publications():
     {viz.keyword_chart(DATA['papers'])}
     <div class="legend">
       <span class="badge badge-official">Official Link</span> publisher / DOI source
-      <span class="badge badge-preprint">Preprint PDF</span> self-hosted file
-      <span class="badge badge-pending">PDF Coming Soon</span> not available yet
+      <span class="badge badge-preprint">Full Text (PDF)</span> self-hosted file
+      <span class="badge badge-pending">No Public Link Yet</span> not available
     </div>
     <div class="view-toggle">
       <button class="view-toggle-btn active" data-view="category" onclick="setPubView('category')">By Category</button>
@@ -576,7 +596,7 @@ def render_publications():
     </div>
   </main>
   <footer class="site-footer">
-    <p>Full BibTeX: <a href="bibtex/all.bib">bibtex/all.bib</a></p>
+    <p>Full BibTeX: <a href="bibtex/all.bib" target="_blank" rel="noopener">bibtex/all.bib</a></p>
   </footer>
   {THEME_TOGGLE_SCRIPT}
   {VIEW_TOGGLE_SCRIPT}
