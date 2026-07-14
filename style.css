@@ -72,7 +72,7 @@ body {
 }
 
 .nav-inner {
-  max-width: 1180px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0.9rem 2rem;
   display: flex;
@@ -127,7 +127,7 @@ body {
 
 /* ---- Layout ---- */
 .container {
-  max-width: 1180px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 2.5rem 2rem 4rem;
 }
@@ -184,7 +184,6 @@ body {
 .bio {
   font-size: 0.95rem;
   margin: 0.75rem 0;
-  max-width: 70ch;
 }
 
 .interests {
@@ -581,7 +580,7 @@ section h2, main > h1 {
 }
 
 footer.site-footer {
-  max-width: 1180px;
+  max-width: 1600px;
   margin: 2rem auto 0;
   padding: 1.5rem 2rem 3rem;
   color: var(--muted);

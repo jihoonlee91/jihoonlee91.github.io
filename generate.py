@@ -110,9 +110,9 @@ def render_nav(active, base=""):
     return (
         f'<nav class="site-nav"><div class="nav-inner">'
         f'<a class="brand" href="{base}index.html">{esc(DATA["name"])}</a>'
-        f'<div class="nav-links">{links}'
+        f'<div class="nav-links">{links}</div>'
         f'<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle light/dark theme">&#9788;</button>'
-        f'</div></div></nav>'
+        f'</div></nav>'
     )
 
 
