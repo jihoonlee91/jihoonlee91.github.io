@@ -1025,7 +1025,7 @@ def render_bibtex():
 
 
 def render_sitemap():
-    urls = [f"{SITE_URL}/index.html", f"{SITE_URL}/publications.html", f"{SITE_URL}/cv.html"]
+    urls = [f"{SITE_URL}/index.html", f"{SITE_URL}/publications.html", f"{SITE_URL}/cv.html", f"{SITE_URL}/life.html"]
     for p in DATA["papers"]:
         urls.append(f"{SITE_URL}/papers/{p['slug']}.html")
     body = "\n".join(f"  <url><loc>{u}</loc></url>" for u in urls)
