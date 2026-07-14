@@ -266,15 +266,6 @@ def render_profile_header():
         tags = "".join(f'<span class="tag">{esc(t)}</span>' for t in DATA["interests"])
         interests_html = f'<p class="interests">{tags}</p>'
 
-    skills = DATA.get("skills") or {}
-    stack_terms = []
-    for cat in ("Programming", "Domains"):
-        stack_terms.extend(skills.get(cat, []))
-    stack_html = ""
-    if stack_terms:
-        chips = "".join(f'<span class="tag stack-tag">{esc(t)}</span>' for t in stack_terms)
-        stack_html = f'<p class="interests stack"><span class="stack-label">Stack</span>{chips}</p>'
-
     contact_parts = []
     if DATA.get("location"):
         maps_url = f"https://www.google.com/maps/search/?api=1&query={DATA['location'].replace(' ', '+')}"
@@ -295,7 +286,6 @@ def render_profile_header():
       {contact_html}
       {bio_html}
       {interests_html}
-      {stack_html}
       {render_social_links()}
     </div>
   </section>
@@ -405,17 +395,21 @@ def render_index():
 def link_badges(p, base="papers/pdfs/", paper_page=False):
     """Render clearly distinguished official-link vs preprint/PDF vs BibTeX badges."""
     official = p.get("official_link")
+    doi = p.get("doi")
     local_pdf = has_local_pdf(p)
     badges = []
     if official:
-        badges.append(f'<a class="badge badge-official" href="{esc(official)}" target="_blank" rel="noopener">Official Link{" (DOI)" if p.get("doi") else ""}</a>')
+        label = f"Official Link &middot; DOI: {esc(doi)}" if doi else "Official Link"
+        tooltip = f' data-tooltip="doi.org/{esc(doi)}"' if doi else ""
+        badges.append(f'<a class="badge badge-official" href="{esc(official)}" target="_blank" rel="noopener"{tooltip}>{label}</a>')
     if local_pdf:
         pdf_path = ("../" if paper_page else "") + p["pdf"]
         badges.append(f'<a class="badge badge-preprint" href="{esc(pdf_path)}">Preprint PDF</a>')
     if not official and not local_pdf:
         badges.append('<span class="badge badge-pending">PDF Coming Soon</span>')
     bib_path = ("../" if paper_page else "") + f'bibtex/{p["slug"]}.bib'
-    badges.append(f'<a class="badge badge-bibtex" href="{esc(bib_path)}">BibTeX</a>')
+    bib_preview = to_bibtex(p, bibtex_key(p))
+    badges.append(f'<a class="badge badge-bibtex" href="{esc(bib_path)}" data-tooltip="{esc(bib_preview)}">BibTeX</a>')
     return "".join(badges)
 
 

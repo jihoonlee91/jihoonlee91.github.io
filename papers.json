@@ -54,14 +54,24 @@
     {
       "school": "Yonsei University",
       "degree": "B.S., Astronomy (Double Major Program), Department of Astronomy, College of Science",
-      "period": "– Aug 2014"
+      "period": "Mar 2013 – Aug 2014"
     }
   ],
   "experience": [
     {
-      "organization": "Samsung Electronics (Hwaseong)",
-      "position": "Staff Engineer — owns dataset construction, predictive modeling, and training pipelines for production AI systems used in semiconductor manufacturing and process engineering workflows. Leads ML development within a cross-functional AI system project involving 20+ engineers across AI, software, data, process, and manufacturing organizations. Collaborates with V-NAND and DRAM process engineers to define targets, datasets, validation criteria, and engineering decision rules.",
-      "period": "Mar 2023 – Present"
+      "organization": "Digital Twin Center, Samsung Electronics (Hwaseong)",
+      "position": "Staff Engineer — owns dataset construction, predictive modeling, and training pipelines for production AI systems used in semiconductor manufacturing and process engineering workflows. Leads ML development within a cross-functional AI system project involving 20+ engineers across AI, software, data, process, and manufacturing organizations. Collaborates with V-NAND and DRAM process engineers to define targets, datasets, validation criteria, and engineering decision rules. Builds fab-scale training datasets from 10+ engineering and manufacturing data sources (recipe parameters, equipment logs, sensor traces, metrology, defect signals, process history) and supports 30+ process-engineering requests by converting development/manufacturing issues into model-based workflows. Explores agentic and LLM-assisted decision-support workflows — context retrieval, candidate generation, and human-in-the-loop review — for process knowledge retrieval and experiment planning.",
+      "period": "Jan 2026 – Present"
+    },
+    {
+      "organization": "Equipment Technology Research Institute, Samsung Electronics (Hwaseong)",
+      "position": "Staff Engineer — production AI / ML systems for semiconductor manufacturing and process engineering.",
+      "period": "Jan 2025 – Dec 2025"
+    },
+    {
+      "organization": "Memory Manufacturing Technology Center, Samsung Electronics (Hwaseong)",
+      "position": "Staff Engineer — production AI / ML systems for semiconductor manufacturing and process engineering.",
+      "period": "Mar 2023 – Dec 2024"
     },
     {
       "organization": "Flight Dynamics and Control Lab, Seoul National University",
@@ -759,12 +769,14 @@
   ],
   "skills": {
     "Programming": [
-      "MATLAB",
       "Python",
-      "LaTeX",
-      "Simulink",
+      "SQL",
+      "MATLAB",
       "C",
-      "C++"
+      "C++",
+      "Linux / Shell",
+      "LaTeX",
+      "Simulink"
     ],
     "Domains": [
       "Control",
@@ -773,6 +785,21 @@
       "Motion Planning",
       "Filtering",
       "Machine Learning"
+    ],
+    "Production ML & Data": [
+      "scikit-learn",
+      "PyTorch / TensorFlow",
+      "Apache Airflow",
+      "MySQL / MongoDB",
+      "HPC / GPU Training",
+      "MLOps (Training → Monitoring)"
+    ],
+    "Agentic AI & Decision Support": [
+      "Context Retrieval",
+      "Candidate Generation",
+      "Risk-Aware Ranking",
+      "Human-in-the-Loop Review",
+      "LLM-Assisted Engineering Workflows"
     ],
     "Languages": [
       "Korean (Native)",

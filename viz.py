@@ -204,7 +204,7 @@ def citation_year_chart(citation_stats):
     </div>'''
 
 
-def keyword_chart(papers, top_n=10):
+def keyword_chart(papers, top_n=25):
     counter = Counter()
     for p in papers:
         text = p.get("title_en") or p["title"]
@@ -217,33 +217,57 @@ def keyword_chart(papers, top_n=10):
     if not top:
         return ""
 
-    width, height = 980, 40 * len(top) + 20
-    margin = {"left": 170, "right": 60, "top": 10, "bottom": 10}
-    plot_w = width - margin["left"] - margin["right"]
     max_count = top[0][1]
-    row_h = 40
-    bar_h = 18
+    min_count = top[-1][1]
+    span = max_count - min_count or 1
+    min_font, max_font = 13, 38
 
-    rows = []
-    for i, (word, count) in enumerate(top):
-        y = margin["top"] + i * row_h
-        bar_w = (count / max_count) * plot_w
-        rows.append(
-            f'<text x="{margin["left"] - 12}" y="{y + bar_h / 2 + 5}" text-anchor="end" class="viz-axis-label">{esc(word)}</text>'
-        )
-        rows.append(
-            f'<rect x="{margin["left"]}" y="{y}" width="{bar_w:.1f}" height="{bar_h}" rx="4" fill="var(--series-1)"><title>{esc(word)}: {count}</title></rect>'
-        )
-        rows.append(
-            f'<text x="{margin["left"] + bar_w + 8:.1f}" y="{y + bar_h / 2 + 5}" class="viz-value-label">{count}</text>'
-        )
+    def font_size(count):
+        t = ((count - min_count) / span) ** 0.5
+        return min_font + t * (max_font - min_font)
+
+    width = 980
+    max_row_width = width - 40
+    row_gap = 14
+
+    rows, row = [], []
+    row_width = 0
+    for word, count in top:
+        fs = font_size(count)
+        w = len(word) * fs * 0.58 + 20
+        if row and row_width + w > max_row_width:
+            rows.append(row)
+            row, row_width = [], 0
+        row.append((word, count, fs, w))
+        row_width += w
+    if row:
+        rows.append(row)
+
+    elements = []
+    y = 12
+    for row in rows:
+        row_width = sum(w for _, _, _, w in row)
+        row_height = max(fs for _, _, fs, _ in row)
+        x = (width - row_width) / 2
+        baseline = y + row_height
+        for word, count, fs, w in row:
+            weight = 700 if fs > (min_font + max_font) / 2 else 500
+            opacity = 0.55 + 0.45 * ((fs - min_font) / (max_font - min_font) if max_font > min_font else 1)
+            elements.append(
+                f'<text x="{x + w / 2:.1f}" y="{baseline:.1f}" text-anchor="middle" '
+                f'font-size="{fs:.1f}" font-weight="{weight}" fill="var(--series-1)" '
+                f'opacity="{opacity:.2f}">{esc(word)}<title>{esc(word)}: {count}</title></text>'
+            )
+            x += w
+        y = baseline + row_gap
+    height = y + 8
 
     table_rows = "".join(f"<tr><th>{esc(word)}</th><td>{count}</td></tr>" for word, count in top)
 
     return f'''<div class="viz-block">
       <h3>Top Research Keywords</h3>
-      <svg viewBox="0 0 {width} {height}" class="viz-svg" role="img" aria-label="Horizontal bar chart of the most frequent keywords across publication titles">
-        {"".join(rows)}
+      <svg viewBox="0 0 {width} {height:.0f}" class="viz-svg" role="img" aria-label="Word cloud of the most frequent keywords across publication titles, sized by frequency">
+        {"".join(elements)}
       </svg>
       <details class="viz-table-toggle">
         <summary>Table view</summary>
