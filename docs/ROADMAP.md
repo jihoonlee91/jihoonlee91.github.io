@@ -31,17 +31,6 @@ collaborators too, not just an academic-reader lens.
 
 ## Technical/SEO gaps (no new content needed, just implementation)
 
-- **No favicon** — every page currently has none; add one (simple
-  monogram or a small logo) via `<link rel="icon">` in each page's `<head>`.
-- **No Open Graph / Twitter Card meta tags** — sharing a link to this site
-  in Slack/Twitter/LinkedIn currently renders with no preview image/
-  description. Add `og:title`, `og:description`, `og:image` (profile
-  photo), `og:url`, and `twitter:card` to every page's `<head>`.
-- **No structured data (JSON-LD)** — a `schema.org/Person` block on the
-  homepage (name, affiliation, sameAs: [scholar/orcid/linkedin/github
-  URLs]) and `schema.org/ScholarlyArticle` on each paper page would help
-  Google understand the site beyond plain HTML and could improve how it
-  shows up in search results / Google Scholar's own crawling.
 - **No print stylesheet for `cv.html`** — a `@media print` block hiding the
   nav/footer and tightening spacing would let a visitor "print to PDF" a
   clean CV directly from the browser, without needing a separately
@@ -55,6 +44,51 @@ collaborators too, not just an academic-reader lens.
   `CLAUDE.md`), but if Korean-speaking recruiters/visitors become a bigger
   audience, a `/ko/` mirror or a language switcher could be considered
   later. Not planned now — would roughly double the maintenance surface.
+- **Non-square profile photo used as OG/Twitter image** — `assets/profile.jpg`
+  is 142×189 (portrait), not the recommended ~1200×630 landscape OG card.
+  Works fine as-is but a proper landscape "og-card.png" (name + tagline
+  over a clean background) would look better in link previews. Needs image
+  editing not available in this environment — flagging for the owner or a
+  future session with image tooling.
+- **`apple-touch-icon`** — not added (needs a proper square PNG; the
+  profile photo isn't square and `favicon.svg` alone covers modern
+  browsers/bookmarks fine per current research, see git history for the
+  research findings this is based on).
+
+## Recruiter- and collaborator-facing content gaps (research-backed, need owner input)
+
+Three rounds of research (recruiter-scanning behavior, academic-collaborator
+discovery, and general personal-site benchmarking — see git log around
+"multiple research rounds" commits for full findings) converged on the same
+few gaps. None of these can be fabricated — they need the owner's actual
+input:
+
+- **Explicit "why GNC/UAV control transfers to industrial AI" sentence.**
+  Recruiters unfamiliar with control theory won't infer the connection
+  themselves — the bio should say it outright, not imply it. Currently
+  hinted at but not spelled out as its own callout.
+- **Explicit collaboration call-to-action** — e.g. "Open to collaborating
+  on X, Y, Z — reach out at [email]" rather than expecting a visitor to
+  infer openness from a CV. Doubles as the "Open to" line already listed
+  above.
+- **Quantified outcomes wherever possible** — recruiters and collaborators
+  both respond more to "reduced X by Y%" than a bare list of
+  responsibilities. Needs real numbers from the owner; do not estimate or
+  round from vague statements.
+- **A "selected work" or case-study section distinct from Publications** —
+  2-4 short write-ups (problem → approach → outcome) would show
+  production/deployment thinking that a pure publication list can't. Gated
+  by `docs/CONTENT_POLICY.md` for anything about the Samsung role.
+- **Per-paper code/data links or arXiv/green-OA mirrors**, where they
+  actually exist — cited as the single most concrete signal a paper is
+  reusable, and would independently improve citation counts for older
+  aerospace-venue papers. Needs a research pass to check which of the 43
+  papers actually have a public code repo or preprint mirror — don't
+  assume none exist without checking.
+- **Backlinks from owned profiles** — the owner should set the "homepage"
+  field on the Google Scholar profile, ResearchGate, and any lab page they
+  can edit to point back to this site. This can't be done from this repo;
+  it's an action item for the owner on those platforms.
 
 ## Content/structure ideas considered but intentionally not done (yet)
 
@@ -72,4 +106,6 @@ collaborators too, not just an academic-reader lens.
 Identity tag, unified timeline, category/theme toggle on Publications,
 Frequent Collaborators, dark/light theme, 1600px layout, icon+text social
 badges, BibTeX volume/number/pages + cross-file key dedup, Tech Stack chips
-on Home, "Currently" role pill. See git log / other docs for detail.
+on Home, "Currently" role pill, favicon, Open Graph/Twitter Card tags,
+schema.org Person+ProfilePage JSON-LD with sameAs links, canonical tags.
+See git log / other docs for detail.

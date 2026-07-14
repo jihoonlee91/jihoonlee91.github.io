@@ -766,6 +766,20 @@
     "Languages": [
       "Korean (Native)",
       "English (Advanced)"
+    ],
+    "Methods": [
+      "Guidance, Navigation & Control (GNC)",
+      "Sliding Mode Control",
+      "LPV / Gain-Scheduling Control",
+      "Nonlinear Dynamic Inversion",
+      "Model Predictive Control",
+      "Reinforcement Learning",
+      "Neural Networks / Deep Learning",
+      "Gaussian Processes",
+      "Mixed-Integer Linear Programming",
+      "Path Planning",
+      "Sensor Fusion & Target Tracking",
+      "Control Allocation"
     ]
   },
   "instagram_url": "https://www.instagram.com/jihoonlee",

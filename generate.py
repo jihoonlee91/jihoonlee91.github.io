@@ -53,6 +53,70 @@ def esc(s):
     return html.escape(s or "", quote=True)
 
 
+def render_common_head(page_path, title, description, base=""):
+    """Favicon, theme-color, canonical, and Open Graph/Twitter Card tags —
+    shared across every page so link previews (Slack/LinkedIn/Twitter) and
+    search engines get consistent metadata. See docs/ROADMAP.md."""
+    url = f"{SITE_URL}/{page_path}"
+    photo_url = f"{SITE_URL}/{DATA['photo']}" if DATA.get("photo") else ""
+    tags = [
+        f'<link rel="canonical" href="{esc(url)}">',
+        f'<link rel="icon" href="{base}favicon.svg" type="image/svg+xml">',
+        '<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">',
+        '<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">',
+        '<meta property="og:type" content="profile">',
+        f'<meta property="og:title" content="{esc(title)}">',
+        f'<meta property="og:description" content="{esc(description)}">',
+        f'<meta property="og:url" content="{esc(url)}">',
+    ]
+    if photo_url:
+        tags.append(f'<meta property="og:image" content="{esc(photo_url)}">')
+    tags += [
+        '<meta name="twitter:card" content="summary">',
+        f'<meta name="twitter:title" content="{esc(title)}">',
+        f'<meta name="twitter:description" content="{esc(description)}">',
+    ]
+    if photo_url:
+        tags.append(f'<meta name="twitter:image" content="{esc(photo_url)}">')
+    return "\n".join(tags)
+
+
+def render_person_jsonld():
+    """schema.org Person + ProfilePage graph for the homepage only — sameAs
+    links are what let Google disambiguate this identity across Scholar/
+    ORCID/LinkedIn/GitHub, especially for a common-format Korean name
+    spanning two unrelated fields. See docs/ROADMAP.md."""
+    same_as = [DATA[k] for k in ("scholar_url", "orcid_url", "researchgate_url", "linkedin_url", "github_url") if DATA.get(k)]
+    affiliation = DATA.get("affiliation", "")
+    org_name, _, job_title = affiliation.partition(" — ")
+    person = {
+        "@type": "Person",
+        "@id": f"{SITE_URL}/#person",
+        "name": DATA["name"],
+        "url": f"{SITE_URL}/",
+        "sameAs": same_as,
+    }
+    if job_title:
+        person["jobTitle"] = job_title
+    if org_name:
+        person["worksFor"] = {"@type": "Organization", "name": org_name}
+    graph = {
+        "@context": "https://schema.org",
+        "@graph": [
+            person,
+            {
+                "@type": "ProfilePage",
+                "@id": f"{SITE_URL}/#profilepage",
+                "url": f"{SITE_URL}/",
+                "mainEntity": {"@id": f"{SITE_URL}/#person"},
+            },
+        ],
+    }
+    if DATA.get("photo"):
+        graph["@graph"][0]["image"] = f"{SITE_URL}/{DATA['photo']}"
+    return f'<script type="application/ld+json">{json.dumps(graph, ensure_ascii=False)}</script>'
+
+
 def has_local_pdf(paper):
     return os.path.isfile(os.path.join(ROOT, paper["pdf"]))
 
@@ -306,6 +370,8 @@ def render_index():
 {THEME_INIT_SCRIPT}
 <title>{esc(DATA['name'])}{' (' + esc(DATA['name_ko']) + ')' if DATA.get('name_ko') else ''}</title>
 <meta name="description" content="{esc(DATA['name'])} - {esc(DATA.get('tagline', ''))}">
+{render_common_head('index.html', DATA['name'], DATA.get('tagline', ''))}
+{render_person_jsonld()}
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -422,6 +488,7 @@ def render_publications():
 {THEME_INIT_SCRIPT}
 <title>Publications - {esc(DATA['name'])}</title>
 <meta name="description" content="Full publication list of {esc(DATA['name'])} (Journal / International Conference / Domestic Conference / Ph.D. Dissertation)">
+{render_common_head('publications.html', f"Publications - {DATA['name']}", f"{len(DATA['papers'])} publications by {DATA['name']} — journal articles, conference papers, and PhD dissertation.")}
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -543,6 +610,8 @@ def render_cv():
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {THEME_INIT_SCRIPT}
 <title>CV - {esc(DATA['name'])}</title>
+<meta name="description" content="CV of {esc(DATA['name'])} — education, experience, awards, and skills.">
+{render_common_head('cv.html', f"CV - {DATA['name']}", f"Education, experience, awards, and skills — {DATA['name']}.")}
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -594,6 +663,7 @@ def render_paper_page(p):
 {THEME_INIT_SCRIPT}
 <title>{esc(p['title'])}</title>
 <meta name="description" content="{esc(meta_description)}">
+{render_common_head(f"papers/{p['slug']}.html", p['title'], meta_description, base="../")}
 {chr(10).join(meta_tags)}
 <link rel="stylesheet" href="../style.css">
 </head>

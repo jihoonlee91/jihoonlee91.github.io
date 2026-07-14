@@ -183,3 +183,22 @@ more papers are added.
   non-alphanumeric filter — it falls back to the paper's `slug` for the key
   in that case, so it doesn't collapse to a bare, collision-prone year like
   `{2024}`.
+
+## Head metadata (favicon, OG/Twitter, JSON-LD)
+
+`render_common_head()` in `generate.py` is called once per page and emits:
+canonical link, `favicon.svg` link, `theme-color` (light/dark via media
+query), Open Graph tags, and Twitter Card tags — all derived from that
+page's own title/description/URL, not hardcoded per page. `favicon.svg`
+(repo root, static file, not generated) uses `prefers-color-scheme` inside
+its own `<style>` block since a standalone favicon can't read this site's
+CSS custom properties.
+
+`render_person_jsonld()` runs on the homepage only, emitting a
+`schema.org` `Person` + `ProfilePage` graph. The `sameAs` array (Scholar/
+ORCID/ResearchGate/LinkedIn/GitHub) is the highest-value field — it's what
+lets Google disambiguate this identity, which matters more than usual for
+a common-format Korean name spanning two unrelated fields (aerospace vs.
+industrial AI). `affiliation` is split on `" — "` into `worksFor`
+(Organization) and `jobTitle` — don't feed the combined string into
+`jobTitle` directly, that was a bug caught and fixed once already.
