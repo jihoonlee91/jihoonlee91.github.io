@@ -13,29 +13,36 @@
 
 ---
 
-Personal academic homepage — publications, CV, and contact info. This repo
-**is** a static site generator, not a hand-built site: edit `papers.json`,
-run `generate.py`, and the whole site (`index.html`, `publications.html`,
-`cv.html`, per-paper pages, BibTeX, sitemap) is rebuilt from it.
+Personal homepage — publications, CV, and contact info. This repo
+**is** a static site generator, not a hand-built site: `papers.json` is the
+only source of truth committed to git. `generate.py` + `viz.py` build
+`index.html`, `publications.html`, `cv.html`, per-paper pages, BibTeX,
+sitemap, and robots.txt from it — **those generated files are build output,
+not source, and are gitignored** (see `.gitignore`). GitHub Actions builds
+them fresh on every deploy; running `generate.py` locally is just for
+previewing in a browser before you push.
 
 ```
-papers.json  →  generate.py + viz.py  →  index.html / publications.html / cv.html
-                                          papers/<slug>.html   (Google Scholar meta tags)
-                                          bibtex/<slug>.bib
-                                          sitemap.xml, robots.txt
+papers.json  →  generate.py + viz.py  →  index.html / publications.html / cv.html   (gitignored)
+                                          papers/<slug>.html   (Google Scholar meta tags, gitignored)
+                                          bibtex/<slug>.bib    (gitignored)
+                                          sitemap.xml, robots.txt (gitignored)
 ```
+
+Only `papers.json`, `papers/pdfs/*.pdf` (self-hosted preprints), `assets/`,
+and the Python/CSS source are committed.
 
 ## Quick start
 
 ```bash
 # after editing papers.json
-python generate.py
+python generate.py   # optional — just to preview locally, e.g. open index.html
 git add -A && git commit -m "..." && git push
 ```
 
-Pushing to `main` also triggers `.github/workflows/build.yml`, which runs
-`generate.py` again and deploys to GitHub Pages — so even a hand-edited
-`papers.json` pushed without a local rebuild still goes live correctly.
+Pushing to `main` triggers `.github/workflows/build.yml`, which runs
+`generate.py` on GitHub's runner and deploys the result to GitHub Pages — you
+never need to commit generated HTML/BibTeX yourself.
 
 ## Documentation
 
@@ -46,6 +53,7 @@ Pushing to `main` also triggers `.github/workflows/build.yml`, which runs
 | [`docs/CONTENT_GUIDE.md`](docs/CONTENT_GUIDE.md) | How to add/edit a publication, upload a preprint PDF, edit CV content |
 | [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md) | Where every field came from (Scholar, ORCID, weebly, DBpia) and what's still unverified |
 | [`docs/CONTENT_POLICY.md`](docs/CONTENT_POLICY.md) | **Confidentiality checklist — read before adding anything about current employer work** |
+| [`docs/LINK_RESEARCH.md`](docs/LINK_RESEARCH.md) | Runbook for using research agents to find official links for the remaining papers |
 
 ## Status
 

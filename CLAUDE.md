@@ -4,7 +4,7 @@ Guidance for Claude Code sessions working in this repo.
 
 ## What this is
 
-Jihoon Lee's personal academic homepage, served at
+Jihoon Lee's personal homepage, served at
 **https://jihoonlee91.github.io** via GitHub Pages from this repo
 (`jihoonlee91/jihoonlee91.github.io`). The repo name must stay exactly
 `<username>.github.io` — that's a GitHub Pages requirement for a root-domain
