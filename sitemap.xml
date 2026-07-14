@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://jihoonlee91.github.io/index.html</loc></url>
+  <url><loc>https://jihoonlee91.github.io/publications.html</loc></url>
+  <url><loc>https://jihoonlee91.github.io/cv.html</loc></url>
   <url><loc>https://jihoonlee91.github.io/papers/2018-sliding-mode-uav-carrier-landing.html</loc></url>
   <url><loc>https://jihoonlee91.github.io/papers/2020-nn-nonlinear-dynamic-inversion-morphing.html</loc></url>
   <url><loc>https://jihoonlee91.github.io/papers/2019-lpv-variable-span-sweep-morphing.html</loc></url>
