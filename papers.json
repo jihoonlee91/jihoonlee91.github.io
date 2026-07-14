@@ -18,7 +18,6 @@
   "linkedin_url": "https://www.linkedin.com/in/jihoon91",
   "orcid_url": "https://orcid.org/0000-0001-5327-824X",
   "researchgate_url": "https://www.researchgate.net/profile/Jihoon-Lee-6",
-  "cv_url": "",
   "tagline": "Engineer at the intersection of Aerospace GNC, UAV Control, and Semiconductor / Industrial AI",
   "bio": "I work at the intersection of aerospace guidance-navigation-control, UAV flight control, and industrial AI for semiconductor manufacturing. My PhD research at Seoul National University's Flight Dynamics and Control Lab covered morphing-wing UAV control, guidance algorithms, and autonomous carrier landing systems. I now apply that same control-and-optimization mindset, combined with software engineering and machine learning, to build AI systems that help process engineers make faster and more reliable decisions in advanced memory manufacturing (V-NAND, DRAM, HARC etch). I own the end-to-end development of production AI decision-support systems — problem formulation, data design, modeling, optimization, recommendation, validation, deployment, monitoring, and workflow integration — supporting process optimization, DOE planning, specification improvement, defect reduction, and recipe-level engineering decisions.",
   "citation_stats": {
@@ -651,7 +650,7 @@
       "citations": 0,
       "doi": null,
       "abstract": "",
-      "official_link": null,
+      "official_link": "https://www.semanticscholar.org/paper/ff69e6ec959220c09503f2311ad970810d3d6d42",
       "pdf": "papers/pdfs/2015-stochastic-risk-wave-off-decision.pdf"
     },
     {
