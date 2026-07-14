@@ -146,11 +146,13 @@ def render_profile_header():
     contact_html = f'<p class="contact">{" &middot; ".join(contact_parts)}</p>' if contact_parts else ""
 
     bio_html = f'<p class="bio">{esc(DATA["bio"])}</p>' if DATA.get("bio") else ""
+    identity_tag_html = f'<p class="identity-tag">{esc(DATA["identity_tag"])}</p>' if DATA.get("identity_tag") else ""
 
     return f'''<section class="hero">
     {photo_html}
     <div class="hero-text">
       <h1>{esc(DATA['name'])}{' <span class="name-ko">(' + esc(DATA['name_ko']) + ')</span>' if DATA.get('name_ko') else ''}</h1>
+      {identity_tag_html}
       <p class="tagline">{esc(DATA.get('tagline', ''))}</p>
       <p class="affiliation">{esc(DATA.get('affiliation', ''))}</p>
       {contact_html}
@@ -160,6 +162,56 @@ def render_profile_header():
     </div>
   </section>
   {stats_html}'''
+
+
+def _timeline_sort_key(period):
+    if "Present" in period:
+        return 9999
+    years = re.findall(r"\d{4}", period)
+    return int(years[-1]) if years else 0
+
+
+def render_timeline():
+    entries = []
+    for e in DATA.get("experience", []):
+        entries.append({
+            "period": e["period"],
+            "title": e["organization"],
+            "detail": e["position"].split(" — ")[0] if " — " in e["position"] else e["position"],
+            "url": e.get("url"),
+            "kind": "work",
+        })
+    for e in DATA.get("education", []):
+        degree_short = e["degree"].split(" — ")[0]
+        entries.append({
+            "period": e["period"],
+            "title": e["school"],
+            "detail": degree_short,
+            "url": e.get("url"),
+            "kind": "education",
+        })
+    entries.sort(key=lambda e: _timeline_sort_key(e["period"]), reverse=True)
+
+    if not entries:
+        return ""
+
+    rows = []
+    for e in entries:
+        title = f'<a href="{esc(e["url"])}" target="_blank" rel="noopener">{esc(e["title"])}</a>' if e.get("url") else esc(e["title"])
+        rows.append(f'''      <li class="timeline-item timeline-{e['kind']}">
+        <div class="timeline-period">{esc(e['period'])}</div>
+        <div class="timeline-body">
+          <div class="timeline-title">{title}</div>
+          <div class="timeline-detail">{esc(e['detail'])}</div>
+        </div>
+      </li>''')
+
+    return f'''<section>
+      <h2>Timeline</h2>
+      <ul class="timeline">
+{chr(10).join(rows)}
+      </ul>
+    </section>'''
 
 
 def render_index():
@@ -186,6 +238,8 @@ def render_index():
   {render_nav("Home")}
   <main class="container">
     {render_profile_header()}
+
+    {render_timeline()}
 
     <section>
       <div class="section-head">
@@ -225,34 +279,66 @@ def link_badges(p, base="papers/pdfs/", paper_page=False):
     return "".join(badges)
 
 
-def render_publications():
-    by_category = {c: [] for c in CATEGORY_ORDER}
-    for p in DATA["papers"]:
-        by_category.setdefault(p["category"], []).append(p)
-
-    sections = []
-    for cat in CATEGORY_ORDER:
-        papers = by_category.get(cat) or []
-        if not papers:
-            continue
-        papers = sorted(papers, key=lambda p: -(p["year"] or 0))
-        items = []
-        for i, p in enumerate(papers, 1):
-            year = p["year"] if p.get("year") else "n.d."
-            title_en = f'<div class="paper-title-en">{esc(p["title_en"])}</div>' if p.get("title_en") else ""
-            items.append(f'''        <li class="paper">
+def _render_paper_item(p, i):
+    year = p["year"] if p.get("year") else "n.d."
+    title_en = f'<div class="paper-title-en">{esc(p["title_en"])}</div>' if p.get("title_en") else ""
+    return f'''        <li class="paper">
           <div class="paper-title"><span class="paper-index">{i}.</span> <a href="papers/{esc(p['slug'])}.html">{esc(p['title'])}</a></div>
           {title_en}
           <div class="paper-meta">{esc(p['authors'])}</div>
           <div class="paper-venue">{esc(p['venue'])}{', ' if p['venue'] else ''}{year}{f" &middot; {p['citations']} citations" if p['citations'] else ""}</div>
           <div class="paper-badges">{link_badges(p)}</div>
-        </li>''')
-        sections.append(f'''    <section class="pub-category">
-      <h2>{CATEGORY_LABELS[cat]} <span class="count">({len(papers)})</span></h2>
+        </li>'''
+
+
+def _render_grouped_sections(groups, order, css_class="pub-category"):
+    sections = []
+    for key in order:
+        papers = groups.get(key) or []
+        if not papers:
+            continue
+        papers = sorted(papers, key=lambda p: -(p["year"] or 0))
+        items = [_render_paper_item(p, i) for i, p in enumerate(papers, 1)]
+        sections.append(f'''    <section class="{css_class}">
+      <h2>{esc(key)} <span class="count">({len(papers)})</span></h2>
       <ul class="paper-list">
 {chr(10).join(items)}
       </ul>
     </section>''')
+    return "\n".join(sections)
+
+
+THEME_ORDER = [
+    "Morphing-Wing Aircraft Control",
+    "Autonomous Carrier Landing & Guidance",
+    "Target Tracking, Sensing & Path Planning",
+    "Satellite & Lunar Orbiter GNC",
+]
+
+VIEW_TOGGLE_SCRIPT = """<script>
+function setPubView(view) {
+  document.getElementById('view-category').style.display = view === 'category' ? '' : 'none';
+  document.getElementById('view-theme').style.display = view === 'theme' ? '' : 'none';
+  document.querySelectorAll('.view-toggle-btn').forEach(function (b) {
+    b.classList.toggle('active', b.dataset.view === view);
+  });
+}
+</script>"""
+
+
+def render_publications():
+    by_category = {c: [] for c in CATEGORY_ORDER}
+    by_theme = {t: [] for t in THEME_ORDER}
+    for p in DATA["papers"]:
+        by_category.setdefault(p["category"], []).append(p)
+        by_theme.setdefault(p.get("theme") or "Other", []).append(p)
+
+    category_labels_map = {c: CATEGORY_LABELS[c] for c in CATEGORY_ORDER}
+    category_sections = _render_grouped_sections(
+        {category_labels_map[c]: papers for c, papers in by_category.items()},
+        [category_labels_map[c] for c in CATEGORY_ORDER],
+    )
+    theme_sections = _render_grouped_sections(by_theme, THEME_ORDER + ["Other"], css_class="pub-category pub-theme")
 
     html_out = f'''<!DOCTYPE html>
 <html lang="en">
@@ -276,12 +362,22 @@ def render_publications():
       <span class="badge badge-preprint">Preprint PDF</span> self-hosted file
       <span class="badge badge-pending">Coming Soon</span> not available yet
     </div>
-{chr(10).join(sections)}
+    <div class="view-toggle">
+      <button class="view-toggle-btn active" data-view="category" onclick="setPubView('category')">By Category</button>
+      <button class="view-toggle-btn" data-view="theme" onclick="setPubView('theme')">By Research Theme</button>
+    </div>
+    <div id="view-category">
+{category_sections}
+    </div>
+    <div id="view-theme" style="display:none">
+{theme_sections}
+    </div>
   </main>
   <footer class="site-footer">
     <p>Full BibTeX: <a href="bibtex/all.bib">bibtex/all.bib</a></p>
   </footer>
   {THEME_TOGGLE_SCRIPT}
+  {VIEW_TOGGLE_SCRIPT}
 </body>
 </html>
 '''

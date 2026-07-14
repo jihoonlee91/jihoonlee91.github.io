@@ -104,7 +104,8 @@
       "doi": "10.1109/TAES.2018.2867259",
       "abstract": "",
       "official_link": "https://doi.org/10.1109/TAES.2018.2867259",
-      "pdf": "papers/pdfs/2018-sliding-mode-uav-carrier-landing.pdf"
+      "pdf": "papers/pdfs/2018-sliding-mode-uav-carrier-landing.pdf",
+      "theme": "Autonomous Carrier Landing & Guidance"
     },
     {
       "slug": "2020-nn-nonlinear-dynamic-inversion-morphing",
@@ -118,7 +119,8 @@
       "doi": "10.1177/0954410019846713",
       "abstract": "",
       "official_link": "https://doi.org/10.1177/0954410019846713",
-      "pdf": "papers/pdfs/2020-nn-nonlinear-dynamic-inversion-morphing.pdf"
+      "pdf": "papers/pdfs/2020-nn-nonlinear-dynamic-inversion-morphing.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2019-lpv-variable-span-sweep-morphing",
@@ -132,7 +134,8 @@
       "doi": "10.2514/6.2019-0106",
       "abstract": "",
       "official_link": "https://doi.org/10.2514/6.2019-0106",
-      "pdf": "papers/pdfs/2019-lpv-variable-span-sweep-morphing.pdf"
+      "pdf": "papers/pdfs/2019-lpv-variable-span-sweep-morphing.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2023-indoor-path-planning-search-rescue",
@@ -146,7 +149,8 @@
       "doi": "10.1109/ACCESS.2023.3269981",
       "abstract": "",
       "official_link": "https://doi.org/10.1109/ACCESS.2023.3269981",
-      "pdf": "papers/pdfs/2023-indoor-path-planning-search-rescue.pdf"
+      "pdf": "papers/pdfs/2023-indoor-path-planning-search-rescue.pdf",
+      "theme": "Target Tracking, Sensing & Path Planning"
     },
     {
       "slug": "2024-policy-gradient-irl-eso-morphing",
@@ -160,7 +164,8 @@
       "doi": "10.1109/TAES.2024.3403543",
       "abstract": "",
       "official_link": "https://doi.org/10.1109/TAES.2024.3403543",
-      "pdf": "papers/pdfs/2024-policy-gradient-irl-eso-morphing.pdf"
+      "pdf": "papers/pdfs/2024-policy-gradient-irl-eso-morphing.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2019-dnn-feedback-dynamic-soaring",
@@ -174,7 +179,8 @@
       "doi": "10.1016/j.ifacol.2019.11.079",
       "abstract": "",
       "official_link": "https://doi.org/10.1016/j.ifacol.2019.11.079",
-      "pdf": "papers/pdfs/2019-dnn-feedback-dynamic-soaring.pdf"
+      "pdf": "papers/pdfs/2019-dnn-feedback-dynamic-soaring.pdf",
+      "theme": "Autonomous Carrier Landing & Guidance"
     },
     {
       "slug": "2021-target-tracking-laser-rangefinder",
@@ -188,7 +194,8 @@
       "doi": "10.1109/ACCESS.2021.3060061",
       "abstract": "",
       "official_link": "https://doi.org/10.1109/ACCESS.2021.3060061",
-      "pdf": "papers/pdfs/2021-target-tracking-laser-rangefinder.pdf"
+      "pdf": "papers/pdfs/2021-target-tracking-laser-rangefinder.pdf",
+      "theme": "Target Tracking, Sensing & Path Planning"
     },
     {
       "slug": "2018-sliding-mode-multidimensional-morphing-uav",
@@ -202,7 +209,8 @@
       "doi": "10.23919/ECC.2018.8550259",
       "abstract": "",
       "official_link": "https://doi.org/10.23919/ECC.2018.8550259",
-      "pdf": "papers/pdfs/2018-sliding-mode-multidimensional-morphing-uav.pdf"
+      "pdf": "papers/pdfs/2018-sliding-mode-multidimensional-morphing-uav.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2023-self-scheduled-lpv-asymmetric-morphing-uav",
@@ -216,7 +224,8 @@
       "doi": "10.3390/s23063075",
       "abstract": "",
       "official_link": "https://doi.org/10.3390/s23063075",
-      "pdf": "papers/pdfs/2023-self-scheduled-lpv-asymmetric-morphing-uav.pdf"
+      "pdf": "papers/pdfs/2023-self-scheduled-lpv-asymmetric-morphing-uav.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2021-altitude-tracking-mpc-mine-detection",
@@ -230,7 +239,8 @@
       "doi": "10.23919/ICCAS52745.2021.9649884",
       "abstract": "",
       "official_link": "https://doi.org/10.23919/ICCAS52745.2021.9649884",
-      "pdf": "papers/pdfs/2021-altitude-tracking-mpc-mine-detection.pdf"
+      "pdf": "papers/pdfs/2021-altitude-tracking-mpc-mine-detection.pdf",
+      "theme": "Target Tracking, Sensing & Path Planning"
     },
     {
       "slug": "2022-optimal-policy-pitch-hold-milp",
@@ -244,7 +254,8 @@
       "doi": "10.1007/s42405-022-00454-7",
       "abstract": "",
       "official_link": "https://doi.org/10.1007/s42405-022-00454-7",
-      "pdf": "papers/pdfs/2022-optimal-policy-pitch-hold-milp.pdf"
+      "pdf": "papers/pdfs/2022-optimal-policy-pitch-hold-milp.pdf",
+      "theme": "Target Tracking, Sensing & Path Planning"
     },
     {
       "slug": "2020-disturbance-observer-pitch-autopilot",
@@ -258,7 +269,8 @@
       "doi": "10.2514/6.2020-1087",
       "abstract": "",
       "official_link": "https://doi.org/10.2514/6.2020-1087",
-      "pdf": "papers/pdfs/2020-disturbance-observer-pitch-autopilot.pdf"
+      "pdf": "papers/pdfs/2020-disturbance-observer-pitch-autopilot.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2019-adaptive-control-allocation-non-affine",
@@ -272,7 +284,8 @@
       "doi": "10.13009/EUCASS2019-163",
       "abstract": "",
       "official_link": "https://doi.org/10.13009/EUCASS2019-163",
-      "pdf": "papers/pdfs/2019-adaptive-control-allocation-non-affine.pdf"
+      "pdf": "papers/pdfs/2019-adaptive-control-allocation-non-affine.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2021-aircraft-autopilot-asymmetric-morphing",
@@ -286,7 +299,8 @@
       "doi": null,
       "abstract": "",
       "official_link": "https://icas.org/ICAS_ARCHIVE/ICAS2020/data/papers/ICAS2020_0959_paper.pdf",
-      "pdf": "papers/pdfs/2021-aircraft-autopilot-asymmetric-morphing.pdf"
+      "pdf": "papers/pdfs/2021-aircraft-autopilot-asymmetric-morphing.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2024-dnn-gain-scheduling-morphing-ko",
@@ -300,7 +314,8 @@
       "doi": "10.5139/jksas.2024.52.4.297",
       "abstract": "",
       "official_link": "https://doi.org/10.5139/jksas.2024.52.4.297",
-      "pdf": "papers/pdfs/2024-dnn-gain-scheduling-morphing-ko.pdf"
+      "pdf": "papers/pdfs/2024-dnn-gain-scheduling-morphing-ko.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2023-msc-thesis-lpv-asymmetric-morphing",
@@ -315,7 +330,8 @@
       "abstract": "",
       "official_link": "https://dcollection.snu.ac.kr/common/orgView/000000176713",
       "pdf": "papers/pdfs/2023-msc-thesis-lpv-asymmetric-morphing.pdf",
-      "catalog_link": "https://snu-primo.hosted.exlibrisgroup.com/primo-explore/fulldisplay?docid=82SNU_INST51891008620002591&context=L&vid=82SNU&lang=ko_KR&search_scope=ALL&adaptor=Local%20Search%20Engine&tab=all&query=any,contains,self-scheduled"
+      "catalog_link": "https://snu-primo.hosted.exlibrisgroup.com/primo-explore/fulldisplay?docid=82SNU_INST51891008620002591&context=L&vid=82SNU&lang=ko_KR&search_scope=ALL&adaptor=Local%20Search%20Engine&tab=all&query=any,contains,self-scheduled",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2021-indoor-path-planning-firefighter-ko",
@@ -329,7 +345,8 @@
       "doi": null,
       "abstract": "",
       "official_link": "http://ipnt.or.kr/2021IPNT/file/C5-4.pdf",
-      "pdf": "papers/pdfs/2021-indoor-path-planning-firefighter-ko.pdf"
+      "pdf": "papers/pdfs/2021-indoor-path-planning-firefighter-ko.pdf",
+      "theme": "Target Tracking, Sensing & Path Planning"
     },
     {
       "slug": "2021-control-surface-modeling-longitudinal-ko",
@@ -343,7 +360,8 @@
       "doi": null,
       "abstract": "",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11031427",
-      "pdf": "papers/pdfs/2021-control-surface-modeling-longitudinal-ko.pdf"
+      "pdf": "papers/pdfs/2021-control-surface-modeling-longitudinal-ko.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2021-optimal-policy-pitch-hold-milp-conf",
@@ -357,7 +375,8 @@
       "doi": null,
       "abstract": "",
       "official_link": null,
-      "pdf": "papers/pdfs/2021-optimal-policy-pitch-hold-milp-conf.pdf"
+      "pdf": "papers/pdfs/2021-optimal-policy-pitch-hold-milp-conf.pdf",
+      "theme": "Target Tracking, Sensing & Path Planning"
     },
     {
       "slug": "2020-laser-rangefinder-target-tracking-ko",
@@ -371,7 +390,8 @@
       "doi": null,
       "abstract": "",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE10442093",
-      "pdf": "papers/pdfs/2020-laser-rangefinder-target-tracking-ko.pdf"
+      "pdf": "papers/pdfs/2020-laser-rangefinder-target-tracking-ko.pdf",
+      "theme": "Target Tracking, Sensing & Path Planning"
     },
     {
       "slug": "2019-asymmetric-morphing-modeling-sim-ko",
@@ -385,7 +405,8 @@
       "doi": null,
       "abstract": "",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE09317850",
-      "pdf": "papers/pdfs/2019-asymmetric-morphing-modeling-sim-ko.pdf"
+      "pdf": "papers/pdfs/2019-asymmetric-morphing-modeling-sim-ko.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2019-adp-model-free-controller-ko",
@@ -399,7 +420,8 @@
       "doi": null,
       "abstract": "",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE09317891",
-      "pdf": "papers/pdfs/2019-adp-model-free-controller-ko.pdf"
+      "pdf": "papers/pdfs/2019-adp-model-free-controller-ko.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2019-gaussian-process-inverse-dynamics-ko",
@@ -413,7 +435,8 @@
       "doi": null,
       "abstract": "",
       "official_link": "https://fdcl.snu.ac.kr/publication/%ea%b0%80%ec%9a%b0%ec%8b%9c%ec%95%88-%ed%94%84%eb%a1%9c%ec%84%b8%ec%8a%a4%eb%a5%bc-%ec%9d%b4%ec%9a%a9%ed%95%9c-%eb%aa%a8%ed%95%91-%ed%95%ad%ea%b3%b5%ea%b8%b0-%ec%97%ad%eb%8f%99%ec%97%ad%ed%95%99/",
-      "pdf": "papers/pdfs/2019-gaussian-process-inverse-dynamics-ko.pdf"
+      "pdf": "papers/pdfs/2019-gaussian-process-inverse-dynamics-ko.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2019-flight-control-nonlinear-dynamic-inversion-gold",
@@ -427,7 +450,8 @@
       "doi": null,
       "abstract": "",
       "official_link": null,
-      "pdf": "papers/pdfs/2019-flight-control-nonlinear-dynamic-inversion-gold.pdf"
+      "pdf": "papers/pdfs/2019-flight-control-nonlinear-dynamic-inversion-gold.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2018-hierarchical-flight-control-morphing-ko",
@@ -441,7 +465,8 @@
       "doi": null,
       "abstract": "",
       "official_link": null,
-      "pdf": "papers/pdfs/2018-hierarchical-flight-control-morphing-ko.pdf"
+      "pdf": "papers/pdfs/2018-hierarchical-flight-control-morphing-ko.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2018-robust-control-allocation-morphing-ko",
@@ -455,7 +480,8 @@
       "doi": null,
       "abstract": "",
       "official_link": "https://fdcl.snu.ac.kr/publication/%eb%aa%a8%ed%95%91-%ed%95%ad%ea%b3%b5%ea%b8%b0%eb%a5%bc-%ec%9c%84%ed%95%9c-%ea%b0%95%ea%b1%b4-%ed%8f%90%eb%a3%a8%ed%94%84-%ec%a1%b0%ec%a2%85%eb%a0%a5-%ed%95%a0%eb%8b%b9-%ea%b8%b0%eb%b2%95/",
-      "pdf": "papers/pdfs/2018-robust-control-allocation-morphing-ko.pdf"
+      "pdf": "papers/pdfs/2018-robust-control-allocation-morphing-ko.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2018-performance-map-hierarchical-control-ko",
@@ -469,7 +495,8 @@
       "doi": null,
       "abstract": "",
       "official_link": null,
-      "pdf": "papers/pdfs/2018-performance-map-hierarchical-control-ko.pdf"
+      "pdf": "papers/pdfs/2018-performance-map-hierarchical-control-ko.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2018-frequency-apportioned-control-allocation",
@@ -483,7 +510,8 @@
       "doi": null,
       "abstract": "",
       "official_link": null,
-      "pdf": "papers/pdfs/2018-frequency-apportioned-control-allocation.pdf"
+      "pdf": "papers/pdfs/2018-frequency-apportioned-control-allocation.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2018-quasi-lpv-modeling-optimal-control",
@@ -497,7 +525,8 @@
       "doi": null,
       "abstract": "",
       "official_link": "https://icas.org/ICAS_ARCHIVE/ICAS2018/data/papers/ICAS2018_0218_paper.pdf",
-      "pdf": "papers/pdfs/2018-quasi-lpv-modeling-optimal-control.pdf"
+      "pdf": "papers/pdfs/2018-quasi-lpv-modeling-optimal-control.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2018-control-allocation-span-sweep-morphing-ko",
@@ -511,7 +540,8 @@
       "doi": null,
       "abstract": "",
       "official_link": null,
-      "pdf": "papers/pdfs/2018-control-allocation-span-sweep-morphing-ko.pdf"
+      "pdf": "papers/pdfs/2018-control-allocation-span-sweep-morphing-ko.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2017-quasi-lpv-longitudinal-modeling-ko",
@@ -525,7 +555,8 @@
       "doi": null,
       "abstract": "",
       "official_link": null,
-      "pdf": "papers/pdfs/2017-quasi-lpv-longitudinal-modeling-ko.pdf"
+      "pdf": "papers/pdfs/2017-quasi-lpv-longitudinal-modeling-ko.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2017-nn-nonlinear-dynamic-inversion-conf",
@@ -539,7 +570,8 @@
       "doi": "10.13009/eucass2017-195",
       "abstract": "",
       "official_link": "https://doi.org/10.13009/eucass2017-195",
-      "pdf": "papers/pdfs/2017-nn-nonlinear-dynamic-inversion-conf.pdf"
+      "pdf": "papers/pdfs/2017-nn-nonlinear-dynamic-inversion-conf.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2017-variable-span-morphing-flight-control-design-ko",
@@ -553,7 +585,8 @@
       "doi": null,
       "abstract": "",
       "official_link": null,
-      "pdf": "papers/pdfs/2017-variable-span-morphing-flight-control-design-ko.pdf"
+      "pdf": "papers/pdfs/2017-variable-span-morphing-flight-control-design-ko.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2017-morphing-transition-flight-control-ko",
@@ -567,7 +600,8 @@
       "doi": null,
       "abstract": "",
       "official_link": "https://www.riss.kr/search/detail/DetailView.do?p_mat_type=1a0202e37d52c72d&control_no=2d1adfa02a95e8717f7a54760bb41745",
-      "pdf": "papers/pdfs/2017-morphing-transition-flight-control-ko.pdf"
+      "pdf": "papers/pdfs/2017-morphing-transition-flight-control-ko.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     },
     {
       "slug": "2017-lunar-orbiter-attitude-simulator-ko",
@@ -581,7 +615,8 @@
       "doi": null,
       "abstract": "",
       "official_link": "https://www.riss.kr/search/detail/DetailView.do?p_mat_type=1a0202e37d52c72d&control_no=0a8e81a645958d86b7998d826d417196",
-      "pdf": "papers/pdfs/2017-lunar-orbiter-attitude-simulator-ko.pdf"
+      "pdf": "papers/pdfs/2017-lunar-orbiter-attitude-simulator-ko.pdf",
+      "theme": "Satellite & Lunar Orbiter GNC"
     },
     {
       "slug": "2017-srp-modeling-lunar-transfer-ko",
@@ -595,7 +630,8 @@
       "doi": null,
       "abstract": "",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE07188704",
-      "pdf": "papers/pdfs/2017-srp-modeling-lunar-transfer-ko.pdf"
+      "pdf": "papers/pdfs/2017-srp-modeling-lunar-transfer-ko.pdf",
+      "theme": "Satellite & Lunar Orbiter GNC"
     },
     {
       "slug": "2016-nonlinear-adaptive-attitude-maneuver-ko",
@@ -609,7 +645,8 @@
       "doi": null,
       "abstract": "",
       "official_link": "https://www.riss.kr/search/detail/DetailView.do?p_mat_type=1a0202e37d52c72d&control_no=78e1f0e52d35259db36097776a77e665",
-      "pdf": "papers/pdfs/2016-nonlinear-adaptive-attitude-maneuver-ko.pdf"
+      "pdf": "papers/pdfs/2016-nonlinear-adaptive-attitude-maneuver-ko.pdf",
+      "theme": "Satellite & Lunar Orbiter GNC"
     },
     {
       "slug": "2016-autocode-lunar-orbiter-control-ko",
@@ -623,7 +660,8 @@
       "doi": null,
       "abstract": "",
       "official_link": null,
-      "pdf": "papers/pdfs/2016-autocode-lunar-orbiter-control-ko.pdf"
+      "pdf": "papers/pdfs/2016-autocode-lunar-orbiter-control-ko.pdf",
+      "theme": "Satellite & Lunar Orbiter GNC"
     },
     {
       "slug": "2016-nn-carrier-landing-risk-assessment-ko",
@@ -637,7 +675,8 @@
       "doi": null,
       "abstract": "",
       "official_link": null,
-      "pdf": "papers/pdfs/2016-nn-carrier-landing-risk-assessment-ko.pdf"
+      "pdf": "papers/pdfs/2016-nn-carrier-landing-risk-assessment-ko.pdf",
+      "theme": "Autonomous Carrier Landing & Guidance"
     },
     {
       "slug": "2015-stochastic-risk-wave-off-decision",
@@ -651,7 +690,8 @@
       "doi": null,
       "abstract": "",
       "official_link": "https://www.semanticscholar.org/paper/ff69e6ec959220c09503f2311ad970810d3d6d42",
-      "pdf": "papers/pdfs/2015-stochastic-risk-wave-off-decision.pdf"
+      "pdf": "papers/pdfs/2015-stochastic-risk-wave-off-decision.pdf",
+      "theme": "Autonomous Carrier Landing & Guidance"
     },
     {
       "slug": "2015-autonomous-uav-takeoff-landing-carrier",
@@ -665,7 +705,8 @@
       "doi": null,
       "abstract": "",
       "official_link": null,
-      "pdf": "papers/pdfs/2015-autonomous-uav-takeoff-landing-carrier.pdf"
+      "pdf": "papers/pdfs/2015-autonomous-uav-takeoff-landing-carrier.pdf",
+      "theme": "Autonomous Carrier Landing & Guidance"
     },
     {
       "slug": "2015-uav-auto-landing-decision-making-ko",
@@ -679,7 +720,8 @@
       "doi": null,
       "abstract": "",
       "official_link": null,
-      "pdf": "papers/pdfs/2015-uav-auto-landing-decision-making-ko.pdf"
+      "pdf": "papers/pdfs/2015-uav-auto-landing-decision-making-ko.pdf",
+      "theme": "Autonomous Carrier Landing & Guidance"
     },
     {
       "slug": "model-following-adaptive-transition-spectrum-ko",
@@ -693,7 +735,8 @@
       "doi": null,
       "abstract": "",
       "official_link": "https://www.riss.kr/search/detail/DetailView.do?p_mat_type=1a0202e37d52c72d&control_no=c7455e51c31ea404e9810257f7042666",
-      "pdf": "papers/pdfs/model-following-adaptive-transition-spectrum-ko.pdf"
+      "pdf": "papers/pdfs/model-following-adaptive-transition-spectrum-ko.pdf",
+      "theme": "Morphing-Wing Aircraft Control"
     }
   ],
   "location": "Seoul, Republic of Korea",
@@ -737,5 +780,6 @@
     "Chan Gook Park": "Seoul National University",
     "Youngjun Lee": "Seoul National University",
     "Suwon Lee": "Assistant Professor, Kookmin University"
-  }
+  },
+  "identity_tag": "Aerospace GNC Researcher → Industrial AI Engineer, Samsung. Seoul."
 }
