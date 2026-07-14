@@ -50,6 +50,12 @@ verified field with a guess.
   including via the profile page and individual publication pages). Has not
   yielded any data; don't rely on it as a link source without an
   authenticated browser session.
+- **FDCL lab site** (`fdcl.snu.ac.kr/publication/...`) — the owner's PhD lab
+  (Flight Dynamics and Control Lab) publishes some domestic-conference
+  papers directly on its own site with a dedicated page per paper. Found 2
+  links this way after DBpia/RISS attempts failed for the same papers —
+  worth checking directly (`fdcl.snu.ac.kr/publication/`) for any remaining
+  unlinked domestic paper by a lab member before trying other sources.
 - **SNU dissertation link**: found directly on the owner's own weebly
   `about.html` page, which linked both a library catalog record
   (`snu-primo.hosted.exlibrisgroup.com`) and the full-text repository

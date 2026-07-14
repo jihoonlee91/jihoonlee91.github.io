@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python generate.py)",
+      "Bash(git status)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(gh run list*)",
+      "Bash(gh run view*)",
+      "Bash(gh repo view*)",
+      "Bash(gh auth status)",
+      "Bash(ls *)",
+      "Bash(grep *)"
+    ]
+  }
+}

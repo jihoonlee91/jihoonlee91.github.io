@@ -10,6 +10,7 @@ import html
 import json
 import os
 import re
+from collections import Counter
 
 import viz
 
@@ -324,12 +325,42 @@ def render_skills_section():
     return f'<section><h2>Skills</h2><div class="skill-table">{rows}</div></section>'
 
 
+OWN_NAME_VARIANTS = {"jihoon lee", "j lee", "이지훈", "jihoon", "jh lee"}
+
+
+def render_collaborators_section(min_count=4, top_n=10):
+    counter = Counter()
+    for p in DATA["papers"]:
+        for a in p["authors"].split(","):
+            name = a.strip()
+            if name and name.lower() not in OWN_NAME_VARIANTS:
+                counter[name] += 1
+
+    affiliations = DATA.get("collaborator_affiliations", {})
+    frequent = [(name, count) for name, count in counter.most_common() if count >= min_count][:top_n]
+    if not frequent:
+        return ""
+
+    rows = []
+    for name, count in frequent:
+        affil = affiliations.get(name, "")
+        detail = f"{esc(affil)} &middot; {count} co-authored papers" if affil else f"{count} co-authored papers"
+        rows.append(f'<li><strong>{esc(name)}</strong><br>{detail}</li>')
+
+    return f'''<section>
+    <h2>Frequent Collaborators</h2>
+    <p class="page-intro">Co-authors on {min_count}+ publications together, out of {sum(1 for _ in DATA["papers"])} total.</p>
+    <ul class="plain-list">{"".join(rows)}</ul>
+  </section>'''
+
+
 def render_cv():
     education_html = render_list_section("Education", DATA.get("education", []), ["school", "degree", "period"])
     experience_html = render_list_section("Experience", DATA.get("experience", []), ["organization", "position", "period"])
     projects_html = render_list_section("Projects", DATA.get("projects", []), ["title", "description", "period"])
     awards_html = render_awards_section()
     skills_html = render_skills_section()
+    collaborators_html = render_collaborators_section()
 
     cv_download = ""
     if DATA.get("cv_url"):
@@ -354,6 +385,7 @@ def render_cv():
     {awards_html}
     {skills_html}
     {projects_html}
+    {collaborators_html}
   </main>
   <footer class="site-footer"></footer>
   {THEME_TOGGLE_SCRIPT}

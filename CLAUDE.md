@@ -25,12 +25,27 @@ It is a **static site generator**, not a hand-edited site:
 **Never hand-edit `index.html`, `publications.html`, `cv.html`, or any
 `papers/*.html` file directly** — they're regenerated from `papers.json` by
 `generate.py` and any manual edit will be silently overwritten on the next
-run (including the one GitHub Actions runs automatically on every push).
-Edit `papers.json` and/or `generate.py`/`viz.py`/`style.css`, then run:
+run. These generated files (plus `bibtex/*.bib`, `sitemap.xml`,
+`robots.txt`) are **gitignored** — GitHub Actions builds them fresh on every
+push to `main` and deploys straight from the runner's filesystem, so they
+are never committed to this repo. Edit `papers.json` and/or
+`generate.py`/`viz.py`/`style.css`, then run:
 
 ```bash
-python generate.py
+python generate.py   # local preview only — not required before pushing
 ```
+
+## Project slash commands
+
+`.claude/commands/` has three commands scoped to this repo:
+`/rebuild` (regenerate + report status without committing), `/check-links`
+(report which papers still lack a verified link, per `docs/LINK_RESEARCH.md`),
+and `/add-paper` (add a new publication entry with the right schema).
+`.claude/settings.json` allowlists a handful of read-only commands used
+constantly in this repo (git status/log/diff, gh run/repo view,
+`python generate.py`) — it deliberately does **not** allowlist
+`git commit`/`git push`/`git add`, since auto-approving those would widen
+standing permissions beyond what was explicitly asked for.
 
 ## Read before touching content
 
@@ -56,8 +71,9 @@ python generate.py
   title+authors+year match. If you can't verify a link, leave the field
   `null` — a wrong link is worse than a missing one, especially for a
   public academic identity site.
-- Widths: content container is `1180px` max — an earlier `860px` version
-  was reported as too narrow for laptop/desktop; don't shrink it back down.
+- Widths: content container is `1600px` max (widened twice from an initial
+  `860px`, then `1180px`, both reported as too narrow for laptop/desktop
+  screens) — don't shrink it back down.
 - Site language is English throughout the UI (nav, badges, section
   headers) — the CV/papers are in English and the audience is
   international academic readers via Google Scholar. Korean paper titles

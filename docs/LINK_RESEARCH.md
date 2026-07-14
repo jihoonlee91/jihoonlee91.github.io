@@ -30,10 +30,15 @@ agent can't verify, it must return `null`, not a guess.
 4. **RISS** (`riss.kr`) — Korean thesis/dissertation and conference-paper
    aggregator. Worked well for several domestic KSAS conference papers when
    DBpia failed; server-rendered enough for `WebFetch` to read directly.
-5. **Direct plain-title WebSearch (no `site:` restriction)** — surfaced a
+5. **The author's own PhD lab site** (for this project: `fdcl.snu.ac.kr`,
+   Flight Dynamics and Control Lab) — some labs publish a dedicated page per
+   paper under `/publication/`. Worth checking directly for any co-author
+   who has an active lab site, especially for domestic papers that don't
+   show up elsewhere.
+6. **Direct plain-title WebSearch (no `site:` restriction)** — surfaced a
    direct PDF on a conference's own site once (`ipnt.or.kr`), and pointed at
    working DBpia nodeIds a `site:dbpia.co.kr` search missed.
-6. **DBpia** (`dbpia.co.kr`) — the single biggest source of Korean articles,
+7. **DBpia** (`dbpia.co.kr`) — the single biggest source of Korean articles,
    but also the least reliable to automate: author pages and
    table-of-contents listings are JavaScript-rendered, so `WebFetch` mostly
    sees an empty shell. Success rate here was low (roughly 6 of ~24
@@ -41,15 +46,15 @@ agent can't verify, it must return `null`, not a guess.
    actually fetching the specific `articleDetail?nodeId=...` URL and
    confirming the visible title/author text — a `site:dbpia.co.kr <title>`
    search alone never confirmed anything by itself.
-7. **Semantic Scholar** (`semanticscholar.org` / its Graph API) — occasional
+8. **Semantic Scholar** (`semanticscholar.org` / its Graph API) — occasional
    hits for conference papers with no DOI; the public search API is rate
    limited (429s came back fast when queried programmatically in a tight
    loop), so prefer letting an agent use it once per paper via WebSearch/
    WebFetch rather than scripting many rapid calls.
-8. **ResearchGate** — blocked entirely during this project (HTTP 403 on
+9. **ResearchGate** — blocked entirely during this project (HTTP 403 on
    every fetch attempt, profile page and individual publication pages
    alike). Don't rely on it without an authenticated browser session.
-9. **Playwright/browser automation** — was attempted by several agents as a
+10. **Playwright/browser automation** — was attempted by several agents as a
    fallback for JS-rendered pages (DBpia especially) but the browser was
    reported locked/unavailable every time ("Browser is already in use").
    If it becomes available in a future session, DBpia's hit rate would
