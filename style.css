@@ -282,6 +282,24 @@ a, button {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
+/* Brand-colored hover state per platform — text stays var(--fg)/var(--accent)
+   per the design system's "text never wears the series color" rule; only the
+   icon and border pick up the brand hue, so identity isn't color-only. */
+.social-btn.scholar:hover { border-color: #4285f4; }
+.social-btn.scholar:hover .social-icon { color: #4285f4; }
+.social-btn.orcid:hover { border-color: #a6ce39; }
+.social-btn.orcid:hover .social-icon { color: #a6ce39; }
+.social-btn.rg:hover { border-color: #00ccbb; }
+.social-btn.rg:hover .social-icon { color: #00ccbb; }
+.social-btn.linkedin:hover { border-color: #0a66c2; }
+.social-btn.linkedin:hover .social-icon { color: #0a66c2; }
+.social-btn.github:hover { border-color: var(--fg); }
+.social-btn.github:hover .social-icon { color: var(--fg); }
+.social-btn.instagram:hover { border-color: #e1306c; }
+.social-btn.instagram:hover .social-icon { color: #e1306c; }
+.social-btn.facebook:hover { border-color: #1877f2; }
+.social-btn.facebook:hover .social-icon { color: #1877f2; }
+
 /* ---- Stats ---- */
 .stats-row {
   display: flex;
