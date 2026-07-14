@@ -54,6 +54,7 @@ never need to commit generated HTML/BibTeX yourself.
 | [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md) | Where every field came from (Scholar, ORCID, weebly, DBpia) and what's still unverified |
 | [`docs/CONTENT_POLICY.md`](docs/CONTENT_POLICY.md) | **Confidentiality checklist — read before adding anything about current employer work** |
 | [`docs/LINK_RESEARCH.md`](docs/LINK_RESEARCH.md) | Runbook for using research agents to find official links for the remaining papers |
+| [`docs/ROADMAP.md`](docs/ROADMAP.md) | Ideas not yet done — check here before proposing something that might already be planned |
 
 ## Status
 

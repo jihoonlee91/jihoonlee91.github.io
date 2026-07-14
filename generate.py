@@ -202,6 +202,15 @@ def render_profile_header():
         tags = "".join(f'<span class="tag">{esc(t)}</span>' for t in DATA["interests"])
         interests_html = f'<p class="interests">{tags}</p>'
 
+    skills = DATA.get("skills") or {}
+    stack_terms = []
+    for cat in ("Programming", "Domains"):
+        stack_terms.extend(skills.get(cat, []))
+    stack_html = ""
+    if stack_terms:
+        chips = "".join(f'<span class="tag stack-tag">{esc(t)}</span>' for t in stack_terms)
+        stack_html = f'<p class="interests stack"><span class="stack-label">Stack</span>{chips}</p>'
+
     contact_parts = []
     if DATA.get("location"):
         maps_url = f"https://www.google.com/maps/search/?api=1&query={DATA['location'].replace(' ', '+')}"
@@ -218,10 +227,11 @@ def render_profile_header():
     <div class="hero-text">
       <h1>{esc(DATA['name'])}{' <span class="name-ko">(' + esc(DATA['name_ko']) + ')</span>' if DATA.get('name_ko') else ''}</h1>
       {identity_tag_html}
-      <p class="affiliation">{esc(DATA.get('affiliation', ''))}</p>
+      <p class="current-role">&#128295; Currently: {esc(DATA.get('affiliation', ''))}</p>
       {contact_html}
       {bio_html}
       {interests_html}
+      {stack_html}
       {render_social_links()}
     </div>
   </section>

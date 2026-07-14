@@ -188,9 +188,15 @@ a, button {
   margin: 0 0 0.15rem;
 }
 
-.affiliation {
-  color: var(--muted);
-  margin: 0 0 0.4rem;
+.current-role {
+  display: inline-block;
+  background: var(--tag-bg);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  margin: 0 0 0.75rem;
 }
 
 .contact {
@@ -221,6 +227,22 @@ a, button {
   padding: 0.15rem 0.7rem;
   font-size: 0.8rem;
   margin: 0 0.3rem 0.3rem 0;
+}
+
+.stack-tag {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.stack-label {
+  display: inline-block;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-right: 0.5rem;
 }
 
 /* ---- Social links ---- */

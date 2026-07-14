@@ -2,6 +2,25 @@
 
 Guidance for Claude Code sessions working in this repo.
 
+## Who this site is for
+
+Not a single-audience academic CV page. Three audiences need to be served
+at once, and any new section/content decision should check it doesn't
+serve one at the expense of the others:
+
+- **General information sharing** — anyone who just wants to know who this
+  person is, professionally.
+- **Recruiters / hiring managers** — need current role, skills, experience,
+  and contact info fast. This is why the "Currently" role pill, Tech Stack
+  chips, and CV page exist and are kept prominent, not buried under the
+  43-paper publication list.
+- **Research collaborators / academic peers** — need the publication
+  record, research themes, Scholar/ORCID links. This is most of the
+  content by volume, but shouldn't crowd out the other two audiences —
+  see the earlier decision to stop calling this an "academic homepage" and
+  the benchmarking-driven additions (identity tag, timeline, Tech Stack) in
+  git history for how this tension has been handled so far.
+
 ## What this is
 
 Jihoon Lee's personal homepage, served at
