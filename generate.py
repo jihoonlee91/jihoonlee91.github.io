@@ -218,7 +218,6 @@ def render_profile_header():
     <div class="hero-text">
       <h1>{esc(DATA['name'])}{' <span class="name-ko">(' + esc(DATA['name_ko']) + ')</span>' if DATA.get('name_ko') else ''}</h1>
       {identity_tag_html}
-      <p class="tagline">{esc(DATA.get('tagline', ''))}</p>
       <p class="affiliation">{esc(DATA.get('affiliation', ''))}</p>
       {contact_html}
       {bio_html}
@@ -338,7 +337,7 @@ def link_badges(p, base="papers/pdfs/", paper_page=False):
         pdf_path = ("../" if paper_page else "") + p["pdf"]
         badges.append(f'<a class="badge badge-preprint" href="{esc(pdf_path)}">Preprint PDF</a>')
     if not official and not local_pdf:
-        badges.append('<span class="badge badge-pending">Coming Soon</span>')
+        badges.append('<span class="badge badge-pending">PDF Coming Soon</span>')
     bib_path = ("../" if paper_page else "") + f'bibtex/{p["slug"]}.bib'
     badges.append(f'<a class="badge badge-bibtex" href="{esc(bib_path)}">BibTeX</a>')
     return "".join(badges)
@@ -425,7 +424,7 @@ def render_publications():
     <div class="legend">
       <span class="badge badge-official">Official Link</span> publisher / DOI source
       <span class="badge badge-preprint">Preprint PDF</span> self-hosted file
-      <span class="badge badge-pending">Coming Soon</span> not available yet
+      <span class="badge badge-pending">PDF Coming Soon</span> not available yet
     </div>
     <div class="view-toggle">
       <button class="view-toggle-btn active" data-view="category" onclick="setPubView('category')">By Category</button>
