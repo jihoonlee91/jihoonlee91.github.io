@@ -303,7 +303,7 @@ def render_profile_header():
     <div class="hero-text">
       <h1>{esc(DATA['name'])}{' <span class="name-ko">(' + esc(DATA['name_ko']) + ')</span>' if DATA.get('name_ko') else ''}</h1>
       {identity_tag_html}
-      <p class="current-role">&#128295; Currently: {esc(DATA.get('affiliation', ''))}</p>
+      <p class="current-role">&#128187; Currently: {esc(DATA.get('affiliation', ''))}</p>
       {contact_html}
       {bio_html}
       {interests_html}
