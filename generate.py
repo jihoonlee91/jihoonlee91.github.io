@@ -382,6 +382,7 @@ def render_paper_page(p):
     abstract_html = f'<p class="abstract">{esc(p["abstract"])}</p>' if p.get("abstract") else ""
     year = p["year"] if p.get("year") else "n.d."
     scholar_search = f"https://scholar.google.com/scholar?q={p['title'].replace(' ', '+')}"
+    meta_description = f"{p['authors']} — {p['venue']}{', ' + str(year) if p.get('year') else ''}. By {DATA['name']}."
 
     html_out = f'''<!DOCTYPE html>
 <html lang="en">
@@ -390,6 +391,7 @@ def render_paper_page(p):
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {THEME_INIT_SCRIPT}
 <title>{esc(p['title'])}</title>
+<meta name="description" content="{esc(meta_description)}">
 {chr(10).join(meta_tags)}
 <link rel="stylesheet" href="../style.css">
 </head>

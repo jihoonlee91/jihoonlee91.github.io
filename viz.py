@@ -176,9 +176,18 @@ def keyword_chart(papers, top_n=10):
             f'<text x="{margin["left"] + bar_w + 8:.1f}" y="{y + bar_h / 2 + 5}" class="viz-value-label">{count}</text>'
         )
 
+    table_rows = "".join(f"<tr><th>{esc(word)}</th><td>{count}</td></tr>" for word, count in top)
+
     return f'''<div class="viz-block">
       <h3>Top Research Keywords</h3>
       <svg viewBox="0 0 {width} {height}" class="viz-svg" role="img" aria-label="Horizontal bar chart of the most frequent keywords across publication titles">
         {"".join(rows)}
       </svg>
+      <details class="viz-table-toggle">
+        <summary>Table view</summary>
+        <table class="viz-table">
+          <thead><tr><th>Keyword</th><th>Occurrences</th></tr></thead>
+          <tbody>{table_rows}</tbody>
+        </table>
+      </details>
     </div>'''

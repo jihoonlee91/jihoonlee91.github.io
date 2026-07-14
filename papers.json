@@ -328,7 +328,7 @@
       "citations": 0,
       "doi": null,
       "abstract": "",
-      "official_link": null,
+      "official_link": "http://ipnt.or.kr/2021IPNT/file/C5-4.pdf",
       "pdf": "papers/pdfs/2021-indoor-path-planning-firefighter-ko.pdf"
     },
     {
@@ -342,7 +342,7 @@
       "citations": 0,
       "doi": null,
       "abstract": "",
-      "official_link": null,
+      "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11031427",
       "pdf": "papers/pdfs/2021-control-surface-modeling-longitudinal-ko.pdf"
     },
     {
@@ -370,7 +370,7 @@
       "citations": 0,
       "doi": null,
       "abstract": "",
-      "official_link": null,
+      "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE10442093",
       "pdf": "papers/pdfs/2020-laser-rangefinder-target-tracking-ko.pdf"
     },
     {
@@ -384,7 +384,7 @@
       "citations": 0,
       "doi": null,
       "abstract": "",
-      "official_link": null,
+      "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE09317850",
       "pdf": "papers/pdfs/2019-asymmetric-morphing-modeling-sim-ko.pdf"
     },
     {
@@ -566,7 +566,7 @@
       "citations": 0,
       "doi": null,
       "abstract": "",
-      "official_link": null,
+      "official_link": "https://www.riss.kr/search/detail/DetailView.do?p_mat_type=1a0202e37d52c72d&control_no=2d1adfa02a95e8717f7a54760bb41745",
       "pdf": "papers/pdfs/2017-morphing-transition-flight-control-ko.pdf"
     },
     {
@@ -580,7 +580,7 @@
       "citations": 0,
       "doi": null,
       "abstract": "",
-      "official_link": null,
+      "official_link": "https://www.riss.kr/search/detail/DetailView.do?p_mat_type=1a0202e37d52c72d&control_no=0a8e81a645958d86b7998d826d417196",
       "pdf": "papers/pdfs/2017-lunar-orbiter-attitude-simulator-ko.pdf"
     },
     {
@@ -608,7 +608,7 @@
       "citations": 0,
       "doi": null,
       "abstract": "",
-      "official_link": null,
+      "official_link": "https://www.riss.kr/search/detail/DetailView.do?p_mat_type=1a0202e37d52c72d&control_no=78e1f0e52d35259db36097776a77e665",
       "pdf": "papers/pdfs/2016-nonlinear-adaptive-attitude-maneuver-ko.pdf"
     },
     {
@@ -692,7 +692,7 @@
       "citations": 0,
       "doi": null,
       "abstract": "",
-      "official_link": null,
+      "official_link": "https://www.riss.kr/search/detail/DetailView.do?p_mat_type=1a0202e37d52c72d&control_no=c7455e51c31ea404e9810257f7042666",
       "pdf": "papers/pdfs/model-following-adaptive-transition-spectrum-ko.pdf"
     }
   ],
