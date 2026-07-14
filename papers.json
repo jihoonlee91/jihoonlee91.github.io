@@ -19,7 +19,7 @@
   "orcid_url": "https://orcid.org/0000-0001-5327-824X",
   "researchgate_url": "https://www.researchgate.net/profile/Jihoon-Lee-6",
   "tagline": "Engineer at the intersection of Aerospace GNC and Semiconductor Industrial AI",
-  "bio": "My PhD research at Seoul National University's Flight Dynamics and Control Lab covered morphing-wing UAV control, guidance algorithms, and autonomous carrier landing systems. I now apply that same control-and-optimization mindset, combined with software engineering and machine learning, to build AI systems that help process engineers make faster and more reliable decisions in advanced memory manufacturing (V-NAND, DRAM, HARC etch). I own the end-to-end development of production AI decision-support systems — problem formulation, data design, modeling, optimization, recommendation, validation, deployment, monitoring, and workflow integration — supporting process optimization, DOE planning, specification improvement, defect reduction, and recipe-level engineering decisions.",
+  "bio": "My PhD research at Seoul National University's Flight Dynamics and Control Lab covered morphing-wing UAV control, guidance algorithms, and autonomous carrier landing systems. I now apply that same control-and-optimization mindset, combined with software engineering and machine learning, to build AI systems that help process and equipment engineers make faster and more reliable decisions in advanced memory semiconductor manufacturing (V-NAND, DRAM). I own the end-to-end development of production AI decision-support systems — problem formulation, data design, modeling, optimization, recommendation, validation, deployment, monitoring, and workflow integration — supporting process optimization, DOE planning, specification improvement, defect reduction, and recipe-level engineering decisions.",
   "citation_stats": {
     "citations_all": 216,
     "citations_since_2021": 198,
@@ -859,5 +859,5 @@
     "Youngjun Lee": "Seoul National University",
     "Suwon Lee": "Assistant Professor, Kookmin University"
   },
-  "identity_tag": "Aerospace GNC Researcher → Industrial AI Engineer"
+  "identity_tag": "Aerospace GNC Researcher → Semiconductor AI Engineer"
 }

@@ -322,14 +322,37 @@ def _timeline_sort_key(period):
 
 def render_timeline():
     entries = []
-    for e in DATA.get("experience", []):
-        entries.append({
-            "period": e["period"],
-            "title": e["organization"],
-            "detail": e["position"].split(" — ")[0] if " — " in e["position"] else e["position"],
-            "url": e.get("url"),
-            "kind": "work",
-        })
+    work_groups = _group_consecutive_by_parent(DATA.get("experience", []), "organization")
+    for g in work_groups:
+        if len(g["items"]) == 1:
+            sub, e = g["items"][0]
+            org = f'{sub}, {g["parent"]}' if sub else g["parent"]
+            entries.append({
+                "period": e["period"],
+                "title": org,
+                "detail": e["position"].split(" — ")[0] if " — " in e["position"] else e["position"],
+                "url": e.get("url"),
+                "kind": "work",
+            })
+        else:
+            start = g["items"][-1][1]["period"].split(" – ")[0]
+            end = g["items"][0][1]["period"].split(" – ")[-1]
+            subitems = [
+                {
+                    "period": e["period"],
+                    "title": sub or g["parent"],
+                    "detail": e["position"].split(" — ")[0] if " — " in e["position"] else e["position"],
+                }
+                for sub, e in g["items"]
+            ]
+            entries.append({
+                "period": f"{start} – {end}",
+                "title": g["parent"],
+                "detail": f'{len(g["items"])} internal roles',
+                "url": None,
+                "kind": "work",
+                "subitems": subitems,
+            })
     for e in DATA.get("education", []):
         degree_short = e["degree"].split(" — ")[0]
         entries.append({
@@ -347,11 +370,20 @@ def render_timeline():
     rows = []
     for e in entries:
         title = f'<a href="{esc(e["url"])}" target="_blank" rel="noopener">{esc(e["title"])}</a>' if e.get("url") else esc(e["title"])
+        subitems_html = ""
+        if e.get("subitems"):
+            sub_rows = "".join(f'''        <li class="timeline-subitem">
+          <span class="timeline-subitem-period">{esc(s['period'])}</span>
+          <span class="timeline-subitem-title">{esc(s['title'])}</span>
+          <span class="timeline-subitem-detail">{esc(s['detail'])}</span>
+        </li>''' for s in e["subitems"])
+            subitems_html = f'<ul class="timeline-subitems">{sub_rows}</ul>'
         rows.append(f'''      <li class="timeline-item timeline-{e['kind']}">
         <div class="timeline-period">{esc(e['period'])}</div>
         <div class="timeline-body">
           <div class="timeline-title">{title}</div>
           <div class="timeline-detail">{esc(e['detail'])}</div>
+          {subitems_html}
         </div>
       </li>''')
 
