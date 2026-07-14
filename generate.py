@@ -870,6 +870,22 @@ def _render_race_table(races):
       </details>'''
 
 
+def _render_records_table(records, label="Records"):
+    if not records:
+        return ""
+    rows = "".join(
+        f"<tr><td>{esc(r.get('name', ''))}</td><td>{esc(r.get('detail', ''))}</td><td>{esc(r.get('date', ''))}</td></tr>"
+        for r in records
+    )
+    return f'''<details class="viz-table-toggle">
+        <summary>{esc(label)} ({len(records)})</summary>
+        <table class="viz-table">
+          <thead><tr><th>Event</th><th>Result</th><th>Date</th></tr></thead>
+          <tbody>{rows}</tbody>
+        </table>
+      </details>'''
+
+
 def render_life():
     life = DATA.get("life") or {}
     intro_html = f'<p class="page-intro">{esc(life["intro"])}</p>' if life.get("intro") else ""
@@ -878,6 +894,9 @@ def render_life():
     for section in life.get("sections", []):
         content = section.get("content")
         body = f'<p>{esc(content)}</p>' if content else '<p class="pending">Coming soon.</p>'
+        club_html = ""
+        if section.get("club_url"):
+            club_html = f'<p><a href="{esc(section["club_url"])}" target="_blank" rel="noopener">{esc(section.get("club_label") or "Club page")} &rarr;</a></p>'
         photos = section.get("photos") or []
         gallery = ""
         if photos:
@@ -887,9 +906,10 @@ def render_life():
             )
             gallery = f'<div class="life-gallery">{thumbs}</div>'
         races_html = _render_race_table(section.get("races"))
+        records_html = _render_records_table(section.get("records"), label="Records")
         emoji = LIFE_SECTION_EMOJI.get(section["title"], "")
         heading = f'{emoji} {esc(section["title"])}'.strip()
-        sections_html.append(f'<section><h2>{heading}</h2>{body}{gallery}{races_html}</section>')
+        sections_html.append(f'<section><h2>{heading}</h2>{body}{club_html}{gallery}{races_html}{records_html}</section>')
     if not sections_html:
         sections_html.append('<p class="pending">Nothing added yet.</p>')
 

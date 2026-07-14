@@ -875,10 +875,54 @@
           {"name": "제17회 서울특별시철인3종협회장배 아쿠아슬론 대회", "date": "2019.07.20 – 21", "location": "서울특별시 마포구 상암동 한강난지공원 및 주변도로", "swim": "32:52", "bike": "—", "run": "1:15:26", "total": "1:53:49", "rank": "33", "category": "20대 남"}
         ]
       },
-      {"title": "Swimming", "content": "", "photos": []},
-      {"title": "Running", "content": "", "photos": []},
-      {"title": "Rowing", "content": "", "photos": []},
-      {"title": "Hiking", "content": "", "photos": []},
+      {
+        "title": "Swimming",
+        "content": "Open-water races and masters swim meets around Seoul/Incheon since 2019.",
+        "photos": [],
+        "records": [
+          {"name": "14th National Marine Sports Festival — Open Water Swimming", "detail": "1km M20-29: 21:04 (4th/11) · 3.2km M20-29: 1:09:14 (2nd/4) — 시화호", "date": "2019-08-17 – 18"},
+          {"name": "2019 서울대·포스코 스포츠센터 친선 수영대회", "detail": "Men's Advanced Freestyle 50m Prelim: 34.59 (2nd/7, 8th/36 overall) · Final: 34.81 (7th/8) · Mixed Medley Relay 100m Freestyle", "date": "2019-10-12"},
+          {"name": "2019 아레나 코리아 마스터즈 수영대회", "detail": "Men's Freestyle 50m Prelim: 35.10 · 100m Prelim: 1:22.56 — 인천 문학박태환수영장", "date": "2019-12-21 – 22"},
+          {"name": "15th National Marine Sports Festival — Open Water Swimming", "detail": "2km M30-39: 49:41.3 (8th/14)", "date": "2022-08-13 – 14"}
+        ]
+      },
+      {
+        "title": "Running",
+        "content": "10km-to-half-marathon road races around Seoul, 2018-2022.",
+        "photos": [],
+        "records": [
+          {"name": "제17회 서울신문 하프마라톤대회", "detail": "5km — 상암동 월드컵공원 평화의 광장", "date": "2018-05-19"},
+          {"name": "영등포구 육상연맹 회장배 마라톤", "detail": "10km: 1:13:19 — 여의도 한강시민공원", "date": "2019-08-25"},
+          {"name": "2019 아디다스 MBC+ 마이런 서울", "detail": "10km: 1:00:05 — 여의도공원", "date": "2019-09-01"},
+          {"name": "2019 슈퍼블루마라톤", "detail": "10km: 58:31 — 상암 월드컵공원", "date": "2019-10-05"},
+          {"name": "2019 서울달리기대회", "detail": "10km: 55:42 — 서울광장", "date": "2019-10-13"},
+          {"name": "제7회 시즌오픈레이스", "detail": "10km: 50:02 — 한강시민공원 잠실청소년광장", "date": "2020-01-12"},
+          {"name": "제4회 철원 똥바람 알통구보 대회", "detail": "9km: 43:38 — 한탄강 승일공원", "date": "2020-01-18"},
+          {"name": "애프터눈 레이스", "detail": "하프: 1:56:19 — 안양천 영롱이야구장", "date": "2020-06-27"},
+          {"name": "2022 Seoul Race", "detail": "Half Course — Seoul Square", "date": "2022-10-09"},
+          {"name": "2022 SonKeeChung Peace Marathon", "detail": "Full Course — Seoul Olympic Stadium", "date": "2022-11-20"}
+        ]
+      },
+      {
+        "title": "Rowing",
+        "content": "Where it started: rowed men's eight (4 seat) for Yonsei University's crew, winning the National Collegiate Rowing Championship in 2013. Still race the club's annual alumni regatta most years since — four wins between 2015 and 2025.",
+        "photos": [],
+        "club_url": "https://cafe.naver.com/yonseirowing",
+        "club_label": "Yonsei Rowing Club"
+      },
+      {
+        "title": "Hiking",
+        "content": "Long solo/small-team ridge traverses in Korea's national parks.",
+        "photos": [],
+        "records": [
+          {"name": "북도사수불", "detail": "Solo — 14:04:45 (incomplete)", "date": "2020-09-15"},
+          {"name": "덕유산 육구종주", "detail": "Winter, Solo — 13:23:15", "date": "2021-01-30"},
+          {"name": "지리산 화대종주", "detail": "Solo — 13:56:11", "date": "2021-05-01"},
+          {"name": "지리산 성중종주", "detail": "3-person team — 13:18:36", "date": "2021-09-18"},
+          {"name": "설악산 공룡능선 (서→동)", "detail": "Solo — 1:14:25 (Strava KOM, held 4 times)", "date": "2021-11-04"},
+          {"name": "불수사도북", "detail": "3-person team — 19:27:53", "date": "2022-04-01"}
+        ]
+      },
       {"title": "Travel", "content": "", "photos": []},
       {"title": "Photography", "content": "", "photos": []}
     ]
