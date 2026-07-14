@@ -521,11 +521,18 @@ def link_badges(p, base="papers/pdfs/", paper_page=False):
     return "".join(badges)
 
 
+def _abstract_paragraphs(text):
+    """Abstracts that carry both a Korean and an English version (separated
+    by a blank line in the source data) render as two distinct <p> tags
+    instead of one run-on paragraph."""
+    return "".join(f"<p>{esc(para.strip())}</p>" for para in text.split("\n\n") if para.strip())
+
+
 def _render_paper_item(p, i):
     year = p["year"] if p.get("year") else "n.d."
     title_en = f'<div class="paper-title-en">{esc(p["title_en"])}</div>' if p.get("title_en") else ""
     abstract_html = (
-        f'<details class="paper-abstract-toggle"><summary>Abstract</summary><p>{esc(p["abstract"])}</p></details>'
+        f'<details class="paper-abstract-toggle"><summary>Abstract</summary>{_abstract_paragraphs(p["abstract"])}</details>'
         if p.get("abstract") else ""
     )
     return f'''        <li class="paper">
@@ -956,7 +963,7 @@ def render_paper_page(p):
         meta_tags.append(f'<meta name="citation_pdf_url" content="{esc(pdf_url)}">')
 
     title_en_html = f'<p class="paper-title-en">{esc(p["title_en"])}</p>' if p.get("title_en") else ""
-    abstract_html = f'<p class="abstract">{esc(p["abstract"])}</p>' if p.get("abstract") else ""
+    abstract_html = f'<div class="abstract">{_abstract_paragraphs(p["abstract"])}</div>' if p.get("abstract") else ""
     year = p["year"] if p.get("year") else "n.d."
     scholar_search = f"https://scholar.google.com/scholar?q={p['title'].replace(' ', '+')}"
     meta_description = f"{p['authors']} — {p['venue']}{', ' + str(year) if p.get('year') else ''}. By {DATA['name']}."

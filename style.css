@@ -842,6 +842,16 @@ a.badge:hover {
   font-size: 0.92rem;
 }
 
+.abstract p,
+.paper-abstract-toggle p {
+  margin: 0;
+}
+
+.abstract p + p,
+.paper-abstract-toggle p + p {
+  margin-top: 0.75rem;
+}
+
 .paper-abstract-toggle {
   margin-top: 0.4rem;
   font-size: 0.85rem;
