@@ -906,7 +906,8 @@ def render_life():
             )
             gallery = f'<div class="life-gallery">{thumbs}</div>'
         races_html = _render_race_table(section.get("races"))
-        records_html = _render_records_table(section.get("records"), label="Records")
+        records_label = "Hikes" if section["title"] == "Hiking" else "Records"
+        records_html = _render_records_table(section.get("records"), label=records_label)
         emoji = LIFE_SECTION_EMOJI.get(section["title"], "")
         heading = f'{emoji} {esc(section["title"])}'.strip()
         sections_html.append(f'<section><h2>{heading}</h2>{body}{club_html}{gallery}{races_html}{records_html}</section>')

@@ -836,7 +836,7 @@
   "life": {
     "intro": "Outside of aerospace research and semiconductor AI, most of my free time goes into moving — on a bike, in the water, or on a trail. I rowed competitively in college, and these days that's turned into a mix of running, swimming, and cycling for triathlon training, with hiking, travel, and photography filling in the rest.",
     "sections": [
-      {"title": "Cycling", "content": "", "photos": []},
+      {"title": "Cycling", "content": "Mostly non-competitive — gran fondo rides and long-distance training miles that double as the bike leg of triathlon prep.", "photos": []},
       {
         "title": "Triathlon",
         "content": "Racing triathlon since 2019, mostly under the 야생연어 (Wild Salmon) club — 31 races and counting across sprint, olympic, and aquathlon distances, including 6 World Triathlon / Asia Cup starts in Tongyeong, Yeongdo, and Sejong.",
@@ -888,7 +888,7 @@
       },
       {
         "title": "Running",
-        "content": "10km-to-half-marathon road races around Seoul, 2018-2022.",
+        "content": "10km-to-half-marathon road races around Seoul. I run a lot more than I log, so this is a partial list, 2018-2022.",
         "photos": [],
         "records": [
           {"name": "제17회 서울신문 하프마라톤대회", "detail": "5km — 상암동 월드컵공원 평화의 광장", "date": "2018-05-19"},
