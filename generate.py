@@ -46,6 +46,18 @@ function toggleTheme() {
   html.setAttribute('data-theme', next);
   localStorage.setItem('theme', next);
 }
+
+function copyBibtex(el, ev) {
+  var text = el.getAttribute('data-tooltip');
+  if (navigator.clipboard && text) {
+    navigator.clipboard.writeText(text);
+    var orig = el.textContent;
+    el.textContent = 'Copied!';
+    setTimeout(function () { el.textContent = orig; }, 1200);
+  }
+  ev.preventDefault();
+  return false;
+}
 </script>"""
 
 
@@ -400,16 +412,22 @@ def link_badges(p, base="papers/pdfs/", paper_page=False):
     badges = []
     if official:
         label = f"Official Link &middot; DOI: {esc(doi)}" if doi else "Official Link"
-        tooltip = f' data-tooltip="doi.org/{esc(doi)}"' if doi else ""
-        badges.append(f'<a class="badge badge-official" href="{esc(official)}" target="_blank" rel="noopener"{tooltip}>{label}</a>')
+        tooltip_target = f"doi.org/{doi}" if doi else official
+        badges.append(
+            f'<a class="badge badge-official" href="{esc(official)}" target="_blank" rel="noopener" '
+            f'data-tooltip="{esc(tooltip_target)}">{label}</a>'
+        )
     if local_pdf:
         pdf_path = ("../" if paper_page else "") + p["pdf"]
-        badges.append(f'<a class="badge badge-preprint" href="{esc(pdf_path)}">Preprint PDF</a>')
+        badges.append(f'<a class="badge badge-preprint" href="{esc(pdf_path)}" data-tooltip="{esc(pdf_path)}">Preprint PDF</a>')
     if not official and not local_pdf:
         badges.append('<span class="badge badge-pending">PDF Coming Soon</span>')
     bib_path = ("../" if paper_page else "") + f'bibtex/{p["slug"]}.bib'
     bib_preview = to_bibtex(p, bibtex_key(p))
-    badges.append(f'<a class="badge badge-bibtex" href="{esc(bib_path)}" data-tooltip="{esc(bib_preview)}">BibTeX</a>')
+    badges.append(
+        f'<a class="badge badge-bibtex" href="{esc(bib_path)}" data-tooltip="{esc(bib_preview)}" '
+        f'onclick="return copyBibtex(this, event)">BibTeX</a>'
+    )
     return "".join(badges)
 
 
@@ -538,6 +556,26 @@ def render_list_section(title, items, fields):
   </section>'''
 
 
+def render_experience_section(items):
+    if not items:
+        return '<section><h2>Experience</h2><p class="pending">Nothing added yet.</p></section>'
+    rows = []
+    for item in items:
+        header = f'{esc(item.get("organization", ""))} &mdash; {esc(item.get("position", ""))} &mdash; {esc(item.get("period", ""))}'
+        highlights = item.get("highlights")
+        if highlights:
+            bullets = "".join(f"<li>{esc(h)}</li>" for h in highlights)
+            rows.append(f'<li>{header}<ul class="experience-highlights">{bullets}</ul></li>')
+        else:
+            rows.append(f'<li>{header}</li>')
+    return f'''<section>
+    <h2>Experience</h2>
+    <ul class="plain-list">
+      {"".join(rows)}
+    </ul>
+  </section>'''
+
+
 def render_awards_section():
     awards = DATA.get("awards") or []
     if not awards:
@@ -588,7 +626,7 @@ def render_collaborators_section(min_count=4, top_n=10):
 
 def render_cv():
     education_html = render_list_section("Education", DATA.get("education", []), ["school", "degree", "period"])
-    experience_html = render_list_section("Experience", DATA.get("experience", []), ["organization", "position", "period"])
+    experience_html = render_experience_section(DATA.get("experience", []))
     projects_html = render_list_section("Projects", DATA.get("projects", []), ["title", "description", "period"])
     awards_html = render_awards_section()
     skills_html = render_skills_section()

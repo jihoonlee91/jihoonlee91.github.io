@@ -711,6 +711,19 @@ a.badge:hover {
   font-size: 0.95rem;
 }
 
+.experience-highlights {
+  list-style: disc;
+  margin: 0.5rem 0 0;
+  padding-left: 1.4rem;
+}
+
+.experience-highlights li {
+  padding: 0.2rem 0;
+  border-bottom: none;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
 .skill-table {
   margin: 0.5rem 0 1.5rem;
 }

@@ -60,7 +60,15 @@
   "experience": [
     {
       "organization": "Digital Twin Center, Samsung Electronics (Hwaseong)",
-      "position": "Staff Engineer — owns dataset construction, predictive modeling, and training pipelines for production AI systems used in semiconductor manufacturing and process engineering workflows. Leads ML development within a cross-functional AI system project involving 20+ engineers across AI, software, data, process, and manufacturing organizations. Collaborates with V-NAND and DRAM process engineers to define targets, datasets, validation criteria, and engineering decision rules. Builds fab-scale training datasets from 10+ engineering and manufacturing data sources (recipe parameters, equipment logs, sensor traces, metrology, defect signals, process history) and supports 30+ process-engineering requests by converting development/manufacturing issues into model-based workflows. Explores agentic and LLM-assisted decision-support workflows — context retrieval, candidate generation, and human-in-the-loop review — for process knowledge retrieval and experiment planning.",
+      "position": "Staff Engineer — Production AI & ML Systems",
+      "highlights": [
+        "Own production ML workflows for advanced memory semiconductor engineering across technology development, new product/process development, R&D, and mass production.",
+        "Lead the ML workstream within a 20+ person cross-functional Fab AI program spanning AI, software, data, process, and manufacturing organizations.",
+        "Build fab-scale training datasets from 10+ data sources — recipe parameters, equipment logs, sensor traces, metrology, defect signals, and process history.",
+        "Support 30+ process-engineering requests by converting development/manufacturing issues into model-based workflows.",
+        "Collaborate with V-NAND and DRAM process engineers to define modeling targets, datasets, validation criteria, and engineering decision rules.",
+        "Explore agentic and LLM-assisted decision-support workflows — context retrieval, candidate generation, and human-in-the-loop review."
+      ],
       "period": "Jan 2026 – Present"
     },
     {
