@@ -745,6 +745,7 @@ def render_publications():
     {render_section_nav([("Insights", "insights"), ("Browse publications", "browse")])}
     <div class="viz-dashboard" id="insights">
       {viz.year_category_chart(DATA['papers'])}
+      {viz.venue_statistics(DATA['papers'])}
       {viz.citation_year_chart(DATA.get('citation_stats') or {})}
       {viz.keyword_chart(DATA['papers'], extra_texts=_cv_keyword_texts())}
     </div>

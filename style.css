@@ -544,6 +544,81 @@ section h2, main > h1 {
   margin: 1.5rem 0;
 }
 
+.viz-note {
+  margin: -0.25rem 0 1rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.venue-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem 1.75rem;
+}
+
+.venue-group {
+  min-width: 0;
+}
+
+.venue-group-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.venue-group-head h4 {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.venue-group-head span {
+  color: var(--muted);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.venue-list {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0;
+}
+
+.venue-row {
+  display: grid;
+  grid-template-columns: minmax(9rem, 1.8fr) minmax(4rem, 1fr) 1.5rem;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.3rem 0;
+  font-size: 0.8rem;
+}
+
+.venue-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.venue-bar-track {
+  height: 0.38rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--border);
+}
+
+.venue-bar {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--series-1);
+}
+
+.venue-count {
+  color: var(--fg);
+  text-align: right;
+}
+
 .viz-grid {
   stroke: var(--viz-grid);
   stroke-width: 1;
@@ -1205,6 +1280,23 @@ footer.site-footer a {
 @media (max-width: 900px) {
   .section-nav {
     display: none;
+  }
+
+  .venue-groups {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .venue-group-head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .venue-row {
+    grid-template-columns: minmax(0, 1fr) 3rem 1.25rem;
+    gap: 0.45rem;
   }
 }
 

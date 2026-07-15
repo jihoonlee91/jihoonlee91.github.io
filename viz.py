@@ -1,8 +1,10 @@
-"""Static SVG chart generation for the Publications page.
+"""Static visualization generation for the Publications page.
 
-Two charts, both built as plain inline SVG (no JS charting lib) so they stay
-crawlable and theme-reactive via CSS custom properties:
+Charts use plain inline SVG (no JS charting library), while venue statistics
+use semantic HTML. Everything stays crawlable and theme-reactive:
   - Publications per year, stacked by category (magnitude + identity)
+  - Publication venues, grouped by journal/conference series
+  - Citations received per year
   - Top research keywords by frequency (magnitude, single hue)
 
 Categorical palette (5 slots) and single sequential hue were validated with
@@ -212,6 +214,75 @@ def citation_year_chart(citation_stats):
           <tbody>{table_rows}</tbody>
         </table>
       </details>
+    </div>'''
+
+
+VENUE_PATTERNS = (
+    (r"AIAA SciTech \d{4} Forum", "AIAA SciTech Forum"),
+    (r"IFAC Symposium on Automatic Control in Aerospace", "IFAC Symposium on Automatic Control in Aerospace (ACA)"),
+    (r"European Control Conference \(ECC\)", "European Control Conference (ECC)"),
+    (r"International Conference on Control, Automation and Systems \(ICCAS\)", "ICCAS"),
+    (r"European Conference for Aeronautics and Space Sciences \(EUCASS\)", "EUCASS"),
+    (r"Congress of the International Council of the Aeronautical Sciences \(ICAS\)", "ICAS Congress"),
+    (r"Asia-Pacific International Symposium on Aerospace Technology \(APISAT\)", "APISAT"),
+    (r"IPNT Conference", "IPNT Conference"),
+    (r"KSAS (?:Spring|Fall) Conference", "KSAS Conference"),
+    (r"SASE (?:Spring|Fall) Conference", "SASE Conference"),
+    (r"Aviation-Specialized University Conference", "Aviation-Specialized University Conference"),
+)
+
+
+def _canonical_venue(paper):
+    venue = paper.get("venue") or "Unspecified venue"
+    category = paper.get("category")
+    if category in ("int-journal", "domestic-journal"):
+        return re.split(r",\s+Vol\.", venue, maxsplit=1)[0]
+    if category == "thesis":
+        return "Seoul National University"
+    for pattern, label in VENUE_PATTERNS:
+        if re.search(pattern, venue, flags=re.IGNORECASE):
+            return label
+    return venue.split(",", 1)[0]
+
+
+def venue_statistics(papers):
+    """Summarize publication destinations by venue series, not event year."""
+    grouped = {category: Counter() for category in CATEGORY_ORDER}
+    for paper in papers:
+        category = paper.get("category")
+        if category in grouped:
+            grouped[category][_canonical_venue(paper)] += 1
+
+    max_count = max((count for venues in grouped.values() for count in venues.values()), default=1)
+    sections = []
+    for category in CATEGORY_ORDER:
+        venues = grouped[category]
+        if not venues:
+            continue
+        paper_count = sum(venues.values())
+        venue_count = len(venues)
+        rows = []
+        for name, count in sorted(venues.items(), key=lambda item: (-item[1], item[0].lower())):
+            width = max(4, count / max_count * 100)
+            rows.append(f'''<li class="venue-row">
+              <span class="venue-name">{esc(name)}</span>
+              <span class="venue-bar-track" aria-hidden="true"><span class="venue-bar" style="width:{width:.1f}%"></span></span>
+              <strong class="venue-count">{count}</strong>
+            </li>''')
+        paper_word = "publication" if paper_count == 1 else "publications"
+        venue_word = "venue" if venue_count == 1 else "venues"
+        sections.append(f'''<section class="venue-group">
+          <div class="venue-group-head">
+            <h4>{esc(CATEGORY_SHORT[category])}</h4>
+            <span>{paper_count} {paper_word} · {venue_count} {venue_word}</span>
+          </div>
+          <ul class="venue-list">{"".join(rows)}</ul>
+        </section>''')
+
+    return f'''<div class="viz-block venue-stats">
+      <h3>Publication Venues</h3>
+      <p class="viz-note">Journal titles and recurring conference series are grouped across years.</p>
+      <div class="venue-groups">{"".join(sections)}</div>
     </div>'''
 
 
