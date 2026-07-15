@@ -59,7 +59,9 @@
       "organization": "Digital Twin Center, Samsung Electronics",
       "position": "Staff Engineer — Production AI & ML Systems",
       "highlights": [
-        "Develop AI and software for semiconductor digital-twin and engineering decision-support applications."
+        "Lead ML development within a cross-functional semiconductor Fab AI program spanning AI, software, data, process, and manufacturing teams.",
+        "Partner with memory process engineers to define modeling targets, datasets, validation criteria, and engineering decision rules.",
+        "Develop agentic and LLM-assisted decision-support workflows with context retrieval, candidate generation, and human-in-the-loop review."
       ],
       "period": "Jan 2026 – Present"
     },
@@ -67,7 +69,8 @@
       "organization": "Mechatronics Research, Samsung Electronics",
       "position": "Staff Engineer — Production AI & ML Systems",
       "highlights": [
-        "Built model-based AI workflows for semiconductor equipment and process engineering."
+        "Translated semiconductor development and manufacturing challenges into model-based AI workflows.",
+        "Connected model outputs to process-condition comparison, operating-condition screening, and sensitivity analysis for equipment and process engineering."
       ],
       "period": "Jan 2025 – Dec 2025"
     },
@@ -75,7 +78,8 @@
       "organization": "Memory Manufacturing Technology Center, Samsung Electronics",
       "position": "Staff Engineer — Production AI & ML Systems",
       "highlights": [
-        "Developed production ML workflows for advanced memory semiconductor engineering."
+        "Built production ML workflows for advanced memory engineering across technology development, R&D, and manufacturing.",
+        "Developed scalable training datasets integrating equipment, sensor, metrology, defect, and process-history data."
       ],
       "period": "Mar 2023 – Dec 2024"
     },
