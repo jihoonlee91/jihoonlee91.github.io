@@ -466,6 +466,7 @@ section h2, main > h1 {
 
 .viz-svg {
   width: 100%;
+  max-width: 540px;
   height: auto;
   display: block;
 }
@@ -767,6 +768,68 @@ a.badge:hover {
   color: var(--accent);
 }
 
+/* ---- Wiki ---- */
+.wiki-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.wiki-card {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+
+.wiki-card h2 {
+  margin: 0.35rem 0 0.65rem;
+  font-size: 1.15rem;
+}
+
+.wiki-card p {
+  margin: 0.45rem 0;
+}
+
+.wiki-meta {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.wiki-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.9rem;
+}
+
+.wiki-article {
+  max-width: 1100px;
+}
+
+.wiki-header {
+  padding: 1rem 0 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.wiki-notice {
+  margin: 1.5rem 0;
+  padding: 1rem 1.1rem;
+  background: var(--bg-soft);
+  border-left: 4px solid var(--accent);
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.wiki-section {
+  margin-top: 2rem;
+}
+
+.wiki-section li + li {
+  margin-top: 0.45rem;
+}
+
 /* ---- CV / plain lists ---- */
 .plain-list {
   list-style: none;
@@ -925,5 +988,49 @@ footer.site-footer a {
 
   .skill-cat {
     flex: none;
+  }
+}
+
+/* ---- Print (primarily for cv.html — "print to PDF" a clean CV) ---- */
+@media print {
+  .site-nav,
+  .theme-toggle,
+  footer.site-footer,
+  .hero-photo,
+  .social-links,
+  .stats-row,
+  .interests {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  .container {
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  h1 {
+    margin-top: 0;
+  }
+
+  section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.75em;
+    color: #555;
   }
 }

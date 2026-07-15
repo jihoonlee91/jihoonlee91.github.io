@@ -33,8 +33,9 @@ It is a **static site generator**, not a hand-edited site:
 
 - `papers.json` — the single source of truth (profile, CV, all 43
   publications).
+- `wiki.json` — public wiki-note metadata and structured note content.
 - `generate.py` — reads `papers.json`, writes `index.html`,
-  `publications.html`, `cv.html`, `life.html`, `papers/<slug>.html` per
+  `publications.html`, `cv.html`, `wiki.html`, `wiki/<slug>.html`, `life.html`, `papers/<slug>.html` per
   paper, `bibtex/*.bib`, `sitemap.xml`, `robots.txt`.
 - `viz.py` — generates the three static SVG charts embedded in
   `publications.html` (publications-per-year, citations-per-year, keyword
@@ -42,8 +43,8 @@ It is a **static site generator**, not a hand-edited site:
 - `style.css` — one stylesheet, dark-default theme with a light toggle (see
   `docs/DESIGN.md`).
 
-**Never hand-edit `index.html`, `publications.html`, `cv.html`, `life.html`,
-or any `papers/*.html` file directly** — they're regenerated from `papers.json` by
+**Never hand-edit `index.html`, `publications.html`, `cv.html`, `wiki.html`, `life.html`,
+or any `wiki/*.html` or `papers/*.html` file directly** — they're regenerated from `papers.json` and `wiki.json` by
 `generate.py` and any manual edit will be silently overwritten on the next
 run. These generated files (plus `bibtex/*.bib`, `sitemap.xml`,
 `robots.txt`) are **gitignored** — GitHub Actions builds them fresh on every
@@ -70,11 +71,9 @@ standing permissions beyond what was explicitly asked for.
 ## Read before touching content
 
 - **`docs/CONTENT_POLICY.md` — read this first if you're adding or editing
-  anything about the site owner's current job.** The owner works on AI for
-  semiconductor manufacturing at Samsung Electronics; this is a public site.
-  Screen every new sentence in `experience`/`projects`/`bio` against that
-  doc's checklist before committing. This is a hard gate, not a style
-  preference.
+  anything about the site owner's current or former employment.** This is a
+  public site and repository. Do not publish substantive employer-work
+  descriptions. This is a hard gate, not a style preference.
 - `docs/DESIGN.md` — design tokens, theme system, chart palette, why the
   three link badges are different colors. Follow it rather than
   reinventing a convention.

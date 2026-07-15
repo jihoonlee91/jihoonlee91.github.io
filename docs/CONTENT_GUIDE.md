@@ -93,13 +93,14 @@ These are plain arrays/objects in `papers.json` (`education`, `experience`,
 `"url"` key to make its first field a link (used for the SNU dissertation
 and the FDCL lab homepage).
 
-**Before adding anything about current employer work, read
-`docs/CONTENT_POLICY.md` first** — it's a hard gate, not a suggestion.
+**Before adding anything about employment, read `docs/CONTENT_POLICY.md`
+first** — substantive employer-work descriptions do not belong on this
+public site.
 
 ## Profile-level fields (Home page hero, not per-paper)
 
 - `identity_tag` — the one-line hook under the name (e.g. "Aerospace GNC
-  Researcher → Industrial AI Engineer, Samsung. Seoul."). Keep it to one
+  Researcher → AI & Software Engineer."). Keep it to one
   short sentence; `tagline` and `bio` are for anything longer.
 - `collaborator_affiliations` — a `{"Full Name": "Affiliation string"}` map
   used only to annotate the CV page's "Frequent Collaborators" list (which
@@ -123,3 +124,14 @@ Regenerates `index.html`, `publications.html`, `cv.html`, every
 commit and push — `.github/workflows/build.yml` also runs `generate.py` on
 every push to `main` as a safety net (so even a hand-edited `papers.json`
 pushed without a local regen still gets built).
+
+## Adding a public Wiki note
+
+Add a note object to `wiki.json` with a unique lowercase hyphenated `slug`,
+title, summary, dates, tags, notice, structured sections, and verified public
+sources. `generate.py` creates the Wiki index and `wiki/<slug>.html`.
+
+Wiki notes are public and search-indexed. Do not include raw case evidence,
+personal identifiers, compensation, employer-confidential systems, internal
+metrics, process details, or unsupported legal conclusions. Current-employer
+content remains subject to `docs/CONTENT_POLICY.md`.

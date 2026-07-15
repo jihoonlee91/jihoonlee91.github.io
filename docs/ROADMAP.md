@@ -13,7 +13,13 @@ collaborators too, not just an academic-reader lens.
   collaborators both benefit from a one-line signal of what the owner is
   open to right now (e.g. consulting, collaboration, not job-hunting,
   open to X). Don't guess this — it changes over time and is the owner's
-  call, not an inference from the CV.
+  call, not an inference from the CV. **Explicitly not inferred from the
+  owner's private career documents** (resumes and non-public planning materials)
+  reviewed in a later session — those describe career intent in a
+  different, non-public context (e.g. an immigration filing) and
+  publishing anything derived from them without the owner's explicit
+  say-so could have real professional consequences. Wait for the owner to
+  state this directly.
 - **Side projects section** — explicitly wanted (see conversation history)
   but nothing exists yet. Don't create a placeholder/empty section; add it
   only once there's an actual project (title, description, stack, link).
@@ -31,8 +37,8 @@ collaborators too, not just an academic-reader lens.
   page, or papers with no `official_link` at all) — not just "couldn't
   fetch." Same owner-upload path as above is the only way forward for most
   of these.
-- **Patents** — if any exist from the Samsung role, run them through
-  `docs/CONTENT_POLICY.md`'s checklist before adding anything.
+- **Patents** — add only independently public records after applying
+  `docs/CONTENT_POLICY.md`; do not add non-public employer context.
 - **Talks/presentations** — conference talks, the 2016 Grand Prize
   presentation, internal tech talks (non-confidential), etc.
 - **Now/Currently blurb** — a short "what I'm focused on right now" line,
@@ -41,10 +47,6 @@ collaborators too, not just an academic-reader lens.
 
 ## Technical/SEO gaps (no new content needed, just implementation)
 
-- **No print stylesheet for `cv.html`** — a `@media print` block hiding the
-  nav/footer and tightening spacing would let a visitor "print to PDF" a
-  clean CV directly from the browser, without needing a separately
-  maintained CV PDF.
 - **Custom domain** — currently `jihoonlee91.github.io`; if the owner ever
   buys a personal domain, `docs/DESIGN.md`/`README.md` would need a CNAME
   file and a DNS note (see the earlier conversation about this trade-off —
@@ -54,12 +56,6 @@ collaborators too, not just an academic-reader lens.
   `CLAUDE.md`), but if Korean-speaking recruiters/visitors become a bigger
   audience, a `/ko/` mirror or a language switcher could be considered
   later. Not planned now — would roughly double the maintenance surface.
-- **Non-square profile photo used as OG/Twitter image** — `assets/profile.jpg`
-  is 142×189 (portrait), not the recommended ~1200×630 landscape OG card.
-  Works fine as-is but a proper landscape "og-card.png" (name + tagline
-  over a clean background) would look better in link previews. Needs image
-  editing not available in this environment — flagging for the owner or a
-  future session with image tooling.
 - **`apple-touch-icon`** — not added (needs a proper square PNG; the
   profile photo isn't square and `favicon.svg` alone covers modern
   browsers/bookmarks fine per current research, see git history for the
@@ -73,10 +69,10 @@ discovery, and general personal-site benchmarking — see git log around
 few gaps. None of these can be fabricated — they need the owner's actual
 input:
 
-- **Explicit "why GNC/UAV control transfers to industrial AI" sentence.**
-  Recruiters unfamiliar with control theory won't infer the connection
-  themselves — the bio should say it outright, not imply it. Currently
-  hinted at but not spelled out as its own callout.
+- ~~Explicit "why GNC/UAV control transfers to industrial AI" sentence~~ —
+  done (see `papers.json` `bio`), sourced from the owner's own resume
+  materials but rewritten generic — no employer name, team, or numbers
+  carried over per `docs/CONTENT_POLICY.md`.
 - **Explicit collaboration call-to-action** — e.g. "Open to collaborating
   on X, Y, Z — reach out at [email]" rather than expecting a visitor to
   infer openness from a CV. Doubles as the "Open to" line already listed
@@ -88,13 +84,7 @@ input:
 - **A "selected work" or case-study section distinct from Publications** —
   2-4 short write-ups (problem → approach → outcome) would show
   production/deployment thinking that a pure publication list can't. Gated
-  by `docs/CONTENT_POLICY.md` for anything about the Samsung role.
-- **Per-paper code/data links or arXiv/green-OA mirrors**, where they
-  actually exist — cited as the single most concrete signal a paper is
-  reusable, and would independently improve citation counts for older
-  aerospace-venue papers. Needs a research pass to check which of the 43
-  papers actually have a public code repo or preprint mirror — don't
-  assume none exist without checking.
+  by `docs/CONTENT_POLICY.md` for anything connected to employer work.
 - **Backlinks from owned profiles** — the owner should set the "homepage"
   field on the Google Scholar profile, ResearchGate, and any lab page they
   can edit to point back to this site. This can't be done from this repo;
@@ -102,9 +92,9 @@ input:
 
 ## Content/structure ideas considered but intentionally not done (yet)
 
-- **Notes/writing section** — Chris Olah-style low-pressure short posts.
-  Requires the owner to actually write something; don't scaffold an empty
-  "Notes" nav item ahead of having a first post, it'll just look unfinished.
+- **Wiki/notes section** — implemented for public technical notes.
+  Add future notes to `wiki.json`; keep employer-confidential
+  and personal evidence outside the public repository.
 
 ## Already done (for reference — don't re-suggest these)
 
@@ -129,3 +119,10 @@ link hover previews so a visitor can see where a link goes before clicking.
 The "Tech Stack" chip row that used to sit on Home was removed — it
 duplicated the Skills section on the CV page and visually collided with
 the interests tags right above it. See git log / other docs for detail.
+
+A `cv.html` print stylesheet
+(`@media print` in `style.css`), and a proper landscape OG/Twitter card
+(`assets/og-card.png`, 1200×630, generated via a headless-browser screenshot
+of a themed HTML card rather than hand-drawn — see git log). The arXiv/code
+research pass for all 43 papers came back negative for every paper (see
+`docs/DATA_SOURCES.md`) — don't re-run without new information.

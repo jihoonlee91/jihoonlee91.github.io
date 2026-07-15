@@ -13,23 +13,23 @@
 
 ---
 
-Personal homepage — publications, CV, and contact info. This repo
-**is** a static site generator, not a hand-built site: `papers.json` is the
-only source of truth committed to git. `generate.py` + `viz.py` build
-`index.html`, `publications.html`, `cv.html`, per-paper pages, BibTeX,
+Personal homepage — publications, CV, public wiki notes, and contact info. This repo
+**is** a static site generator, not a hand-built site: `papers.json` and
+`wiki.json` are the content sources committed to git. `generate.py` + `viz.py` build
+`index.html`, `publications.html`, `cv.html`, `wiki.html`, per-wiki-note pages, per-paper pages, BibTeX,
 sitemap, and robots.txt from it — **those generated files are build output,
 not source, and are gitignored** (see `.gitignore`). GitHub Actions builds
 them fresh on every deploy; running `generate.py` locally is just for
 previewing in a browser before you push.
 
 ```
-papers.json  →  generate.py + viz.py  →  index.html / publications.html / cv.html   (gitignored)
+papers.json + wiki.json  →  generate.py + viz.py  →  index.html / publications.html / cv.html / wiki.html   (gitignored)
                                           papers/<slug>.html   (Google Scholar meta tags, gitignored)
                                           bibtex/<slug>.bib    (gitignored)
                                           sitemap.xml, robots.txt (gitignored)
 ```
 
-Only `papers.json`, `papers/pdfs/*.pdf` (self-hosted preprints), `assets/`,
+Only `papers.json`, `wiki.json`, `papers/pdfs/*.pdf` (self-hosted preprints), `assets/`,
 and the Python/CSS source are committed.
 
 ## Quick start
@@ -52,7 +52,7 @@ never need to commit generated HTML/BibTeX yourself.
 | [`docs/DESIGN.md`](docs/DESIGN.md) | Design tokens, dark/light theme system, chart color palette |
 | [`docs/CONTENT_GUIDE.md`](docs/CONTENT_GUIDE.md) | How to add/edit a publication, upload a preprint PDF, edit CV content |
 | [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md) | Where every field came from (Scholar, ORCID, weebly, DBpia) and what's still unverified |
-| [`docs/CONTENT_POLICY.md`](docs/CONTENT_POLICY.md) | **Confidentiality checklist — read before adding anything about current employer work** |
+| [`docs/CONTENT_POLICY.md`](docs/CONTENT_POLICY.md) | **Confidentiality policy — read before adding anything about employment** |
 | [`docs/LINK_RESEARCH.md`](docs/LINK_RESEARCH.md) | Runbook for using research agents to find official links for the remaining papers |
 | [`docs/ROADMAP.md`](docs/ROADMAP.md) | Ideas not yet done — check here before proposing something that might already be planned |
 

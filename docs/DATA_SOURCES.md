@@ -104,6 +104,29 @@ owner (see `CONTENT_GUIDE.md`) is the realistic path forward.
   is a legitimate, intentional state for a paper that's been checked and
   came back empty, not an oversight to "fix" with a guess.
 
+## arXiv preprints / code repositories
+
+Checked for all 43 papers (3 parallel research passes, one per ~15-paper
+batch) against the arXiv API (`export.arxiv.org/api/query?search_query=ti:...`)
+and Semantic Scholar's `externalIds`, plus a GitHub search per paper title +
+"Jihoon Lee"/"SNU FDCL". **Result: zero arXiv preprints, zero paper-specific
+code repos, for any of the 43.** This is expected for the field — GNC/aerospace
+controls venues (AIAA, IEEE TAES, KSAS domestic conferences, EUCASS) don't
+have arXiv-mirroring culture the way ML/CS does, and this is theory/simulation
+work without a natural "release the code" artifact per paper. Not worth
+re-running without new information (e.g. the owner confirming a specific
+paper does have a preprint somewhere non-obvious).
+
+One research pass did find the owner's own public GitHub repos
+(`gtm-lpv-control`, `gtm-morphing-sim`, `morphing-hinf-control-learning`,
+`morphing-dl-gain-scheduler`, `argos-vtol-model`, `morphing-flight-control-doc`)
+that are topically related to the morphing-aircraft-control papers but whose
+READMEs don't explicitly cite any specific paper — so none were added as a
+per-paper `code` link (would violate the no-fabrication rule). Whether any of
+these are worth surfacing as their own item (e.g. under Side Projects, or a
+general "code" note) is an owner call, not automated — see
+`docs/ACTION_ITEMS.md`.
+
 ## Profile / CV data
 
 - Name, affiliation, tagline, bio, experience, education, awards, skills,

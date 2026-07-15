@@ -120,7 +120,7 @@ links are paywalled) — see `docs/CONTENT_GUIDE.md`.
 
 - `identity_tag` in `papers.json` is a single terse sentence rendered right
   under the name in the hero (`.identity-tag`, accent-colored) — e.g.
-  "Aerospace GNC Researcher → Industrial AI Engineer, Samsung. Seoul."
+  "Aerospace GNC Researcher → AI & Software Engineer."
   This is a one-second summary, distinct from `tagline` (a slightly longer,
   muted-color line) and `bio` (the full paragraph). Keep it short; if it
   needs a comma-separated list of clauses, it's become a tagline instead.

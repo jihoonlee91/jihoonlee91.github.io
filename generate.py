@@ -1,5 +1,5 @@
-"""Generate the full static site (Home / Publications / CV / paper pages / BibTeX)
-from papers.json.
+"""Generate the full static site (Home / Publications / CV / Wiki / Life /
+paper pages / BibTeX) from papers.json and wiki.json.
 
 Run `python generate.py` after editing papers.json (e.g. adding an
 official_link/doi, or dropping a PDF into papers/pdfs/) to rebuild the site.
@@ -18,6 +18,9 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 
 with open(os.path.join(ROOT, "papers.json"), encoding="utf-8") as f:
     DATA = json.load(f)
+
+with open(os.path.join(ROOT, "wiki.json"), encoding="utf-8") as f:
+    WIKI_DATA = json.load(f)
 
 SITE_URL = "https://{}.github.io".format(
     DATA["github_url"].rstrip("/").rsplit("/", 1)[-1]
@@ -88,7 +91,10 @@ def render_common_head(page_path, title, description, base=""):
     shared across every page so link previews (Slack/LinkedIn/Twitter) and
     search engines get consistent metadata. See docs/ROADMAP.md."""
     url = f"{SITE_URL}/{page_path}"
-    photo_url = f"{SITE_URL}/{DATA['photo']}" if DATA.get("photo") else ""
+    # Landscape OG/Twitter card (1200x630) — a properly-sized link-preview
+    # image, distinct from the portrait profile photo used elsewhere on the
+    # site. See docs/ROADMAP.md.
+    card_url = f"{SITE_URL}/assets/og-card.png"
     tags = [
         f'<link rel="canonical" href="{esc(url)}">',
         f'<link rel="icon" href="{base}favicon.svg" type="image/svg+xml">',
@@ -98,16 +104,14 @@ def render_common_head(page_path, title, description, base=""):
         f'<meta property="og:title" content="{esc(title)}">',
         f'<meta property="og:description" content="{esc(description)}">',
         f'<meta property="og:url" content="{esc(url)}">',
-    ]
-    if photo_url:
-        tags.append(f'<meta property="og:image" content="{esc(photo_url)}">')
-    tags += [
-        '<meta name="twitter:card" content="summary">',
+        f'<meta property="og:image" content="{esc(card_url)}">',
+        '<meta property="og:image:width" content="1200">',
+        '<meta property="og:image:height" content="630">',
+        '<meta name="twitter:card" content="summary_large_image">',
         f'<meta name="twitter:title" content="{esc(title)}">',
         f'<meta name="twitter:description" content="{esc(description)}">',
+        f'<meta name="twitter:image" content="{esc(card_url)}">',
     ]
-    if photo_url:
-        tags.append(f'<meta name="twitter:image" content="{esc(photo_url)}">')
     return "\n".join(tags)
 
 
@@ -128,8 +132,10 @@ def render_person_jsonld():
     }
     if job_title:
         person["jobTitle"] = job_title
-    if org_name:
-        person["worksFor"] = {"@type": "Organization", "name": org_name}
+        if org_name:
+            person["worksFor"] = {"@type": "Organization", "name": org_name}
+    elif affiliation:
+        person["jobTitle"] = affiliation
     graph = {
         "@context": "https://schema.org",
         "@graph": [
@@ -271,7 +277,10 @@ def render_social_links(extra_class=""):
 
 
 def render_nav(active, base=""):
-    items = [("index.html", "Home"), ("publications.html", "Publications"), ("cv.html", "CV"), ("life.html", "Life")]
+    items = [("index.html", "Home"), ("publications.html", "Publications"), ("cv.html", "CV")]
+    if WIKI_DATA.get("notes"):
+        items.append(("wiki.html", "Wiki"))
+    items.append(("life.html", "Life"))
     links = "".join(
         f'<a href="{base}{href}" class="{"active" if name == active else ""}">{name}</a>'
         for href, name in items
@@ -338,6 +347,34 @@ def _timeline_sort_key(period):
     return int(years[-1]) if years else 0
 
 
+def render_side_projects():
+    """Live, non-work software projects — evidence of current hands-on
+    engineering for the recruiter audience (see CLAUDE.md), distinct from
+    the CV page's funded research 'projects'. Reuses the compact paper-list
+    styles so it needs no new CSS."""
+    items = DATA.get("side_projects") or []
+    if not items:
+        return ""
+    rows = []
+    for sp in items:
+        links = [f'<a href="{esc(sp["url"])}" target="_blank" rel="noopener">{esc(sp["name"])}</a>']
+        sub_bits = [esc(sp.get("description", ""))]
+        meta = " · ".join(esc(b) for b in (sp.get("stack"), sp.get("period")) if b)
+        repo = sp.get("repo")
+        repo_link = f' · <a href="{esc(repo)}" target="_blank" rel="noopener">GitHub</a>' if repo else ""
+        rows.append(f'''      <li class="paper-compact">
+        {links[0]}
+        <span class="paper-sub">{sub_bits[0]}</span>
+        <span class="paper-sub">{meta}{repo_link}</span>
+      </li>''')
+    return f'''<section>
+      <h2>Side Projects</h2>
+      <ul class="paper-list compact">
+{chr(10).join(rows)}
+      </ul>
+    </section>'''
+
+
 def render_timeline():
     entries = []
     work_groups = _group_consecutive_by_parent(DATA.get("experience", []), "organization")
@@ -386,7 +423,11 @@ def render_timeline():
             start = g["items"][-1][1]["period"].split(" – ")[0]
             end = g["items"][0][1]["period"].split(" – ")[-1]
             subitems = [
-                {"period": e["period"], "title": e["degree"].split(" — ")[0], "detail": ""}
+                {
+                    "period": e["period"],
+                    "title": e["degree"].split(" — ")[0],
+                    "detail": e["degree"].split(" — ", 1)[1] if " — " in e["degree"] else "",
+                }
                 for _, e in g["items"]
             ]
             entries.append({
@@ -487,6 +528,8 @@ def render_index():
     {render_profile_header()}
 
     {render_timeline()}
+
+    {render_side_projects()}
 
     <section>
       <div class="section-head">
@@ -680,7 +723,7 @@ def render_list_section(title, items, fields):
 
 def _group_consecutive_by_parent(items, name_field, split_char=", "):
     """Group consecutive items whose name_field shares a common trailing
-    ", Parent" segment (e.g. "Digital Twin Center, Samsung Electronics"),
+    ", Parent" segment (e.g. "Research Group, Parent Organization"),
     so multiple roles/degrees at the same org render under one header
     instead of repeating the parent name on every row."""
     groups = []
@@ -703,7 +746,7 @@ def render_experience_section(items):
 
     def render_role(sub, item):
         label_parts = [p for p in (sub, item.get("position", "")) if p]
-        header = f'{esc(" &mdash; ".join(label_parts))} &mdash; {esc(item.get("period", ""))}'
+        header = f'{" &mdash; ".join(esc(p) for p in label_parts)} &mdash; {esc(item.get("period", ""))}'
         highlights = item.get("highlights")
         if highlights:
             bullets = "".join(f"<li>{esc(h)}</li>" for h in highlights)
@@ -946,8 +989,8 @@ def render_life():
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {THEME_INIT_SCRIPT}
 <title>Life - {esc(DATA['name'])}</title>
-<meta name="description" content="Outside the lab and the fab — {esc(DATA['name'])}'s life outside of work.">
-{render_common_head('life.html', f"Life - {DATA['name']}", f"Outside the lab and the fab — {DATA['name']}'s life outside of work.")}
+<meta name="description" content="Outside research and engineering — {esc(DATA['name'])}'s life outside of work.">
+{render_common_head('life.html', f"Life - {DATA['name']}", f"Outside research and engineering — {DATA['name']}'s life outside of work.")}
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -963,6 +1006,102 @@ def render_life():
 </html>
 '''
     with open(os.path.join(ROOT, "life.html"), "w", encoding="utf-8") as f:
+        f.write(html_out)
+
+
+def _wiki_tags(tags):
+    return "".join(f'<span class="tag">{esc(tag)}</span>' for tag in tags or [])
+
+
+def render_wiki_index():
+    notes = sorted(WIKI_DATA.get("notes", []), key=lambda note: note.get("updated", note.get("published", "")), reverse=True)
+    cards = []
+    for note in notes:
+        cards.append(f'''<article class="wiki-card">
+          <p class="wiki-meta">Updated {esc(note.get("updated") or note.get("published", ""))}</p>
+          <h2><a href="wiki/{esc(note['slug'])}.html">{esc(note['title'])}</a></h2>
+          <p>{esc(note.get('summary', ''))}</p>
+          <div class="wiki-tags">{_wiki_tags(note.get('tags'))}</div>
+        </article>''')
+    body = "".join(cards) if cards else '<p class="pending">No notes published yet.</p>'
+    description = "Public notes on engineering, research, and career development."
+    html_out = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{THEME_INIT_SCRIPT}
+<title>Wiki - {esc(DATA['name'])}</title>
+<meta name="description" content="{esc(description)}">
+{render_common_head('wiki.html', f"Wiki - {DATA['name']}", description)}
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  {render_nav("Wiki")}
+  <main class="container">
+    <h1>Wiki</h1>
+    <p class="page-intro">Working notes on engineering, research, and career development. These pages share public frameworks and sources, not confidential work or personal records.</p>
+    <div class="wiki-grid">{body}</div>
+  </main>
+  <footer class="site-footer"></footer>
+  {THEME_TOGGLE_SCRIPT}
+</body>
+</html>
+'''
+    with open(os.path.join(ROOT, "wiki.html"), "w", encoding="utf-8") as f:
+        f.write(html_out)
+
+
+def render_wiki_page(note):
+    sections = []
+    for section in note.get("sections", []):
+        paragraphs = "".join(f'<p>{esc(p)}</p>' for p in section.get("paragraphs", []))
+        bullets = section.get("bullets") or []
+        bullet_html = "" if not bullets else f'<ul>{"".join(f"<li>{esc(item)}</li>" for item in bullets)}</ul>'
+        sections.append(f'<section class="wiki-section"><h2>{esc(section["heading"])}</h2>{paragraphs}{bullet_html}</section>')
+
+    sources = note.get("sources") or []
+    source_html = ""
+    if sources:
+        source_items = "".join(
+            f'<li><a href="{esc(source["url"])}" target="_blank" rel="noopener">{esc(source["label"])}</a>'
+            f'{f" — {esc(source.get("description"))}" if source.get("description") else ""}</li>'
+            for source in sources
+        )
+        source_html = f'<section class="wiki-section"><h2>Public sources</h2><ul>{source_items}</ul></section>'
+
+    description = note.get("summary", "")
+    html_out = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{THEME_INIT_SCRIPT}
+<title>{esc(note['title'])} - {esc(DATA['name'])}</title>
+<meta name="description" content="{esc(description)}">
+{render_common_head(f"wiki/{note['slug']}.html", f"{note['title']} - {DATA['name']}", description, base="../")}
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  {render_nav("Wiki", base="../")}
+  <main class="container wiki-article">
+    <p><a href="../wiki.html">&larr; Back to Wiki</a></p>
+    <header class="wiki-header">
+      <p class="wiki-meta">Published {esc(note.get('published', ''))} &middot; Updated {esc(note.get('updated', note.get('published', '')))}</p>
+      <h1>{esc(note['title'])}</h1>
+      <p class="page-intro">{esc(description)}</p>
+      <div class="wiki-tags">{_wiki_tags(note.get('tags'))}</div>
+    </header>
+    <aside class="wiki-notice">{esc(note.get('notice', ''))}</aside>
+    {"".join(sections)}
+    {source_html}
+  </main>
+  <footer class="site-footer"></footer>
+  {THEME_TOGGLE_SCRIPT}
+</body>
+</html>
+'''
+    with open(os.path.join(ROOT, "wiki", f"{note['slug']}.html"), "w", encoding="utf-8") as f:
         f.write(html_out)
 
 
@@ -1044,6 +1183,10 @@ def render_bibtex():
 
 def render_sitemap():
     urls = [f"{SITE_URL}/index.html", f"{SITE_URL}/publications.html", f"{SITE_URL}/cv.html", f"{SITE_URL}/life.html"]
+    if WIKI_DATA.get("notes"):
+        urls.append(f"{SITE_URL}/wiki.html")
+    for note in WIKI_DATA.get("notes", []):
+        urls.append(f"{SITE_URL}/wiki/{note['slug']}.html")
     for p in DATA["papers"]:
         urls.append(f"{SITE_URL}/papers/{p['slug']}.html")
     body = "\n".join(f"  <url><loc>{u}</loc></url>" for u in urls)
@@ -1065,9 +1208,14 @@ def render_robots():
 if __name__ == "__main__":
     os.makedirs(os.path.join(ROOT, "papers"), exist_ok=True)
     os.makedirs(os.path.join(ROOT, "papers", "pdfs"), exist_ok=True)
+    os.makedirs(os.path.join(ROOT, "wiki"), exist_ok=True)
     render_index()
     render_publications()
     render_cv()
+    if WIKI_DATA.get("notes"):
+        render_wiki_index()
+    for note in WIKI_DATA.get("notes", []):
+        render_wiki_page(note)
     render_life()
     for paper in DATA["papers"]:
         render_paper_page(paper)

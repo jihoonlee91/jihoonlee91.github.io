@@ -1,7 +1,7 @@
 {
   "name": "Jihoon Lee",
   "name_ko": "이지훈",
-  "affiliation": "Samsung Electronics — Staff Engineer",
+  "affiliation": "Semiconductor AI & Software Engineer",
   "email": "jihoon91.lee@gmail.com",
   "interests": [
     "Aerospace GNC",
@@ -18,8 +18,8 @@
   "linkedin_url": "https://www.linkedin.com/in/jihoon91",
   "orcid_url": "https://orcid.org/0000-0001-5327-824X",
   "researchgate_url": "https://www.researchgate.net/profile/Jihoon-Lee-6",
-  "tagline": "Engineer at the intersection of Aerospace GNC and Semiconductor Industrial AI",
-  "bio": "My PhD research at Seoul National University's Flight Dynamics and Control Lab covered morphing-wing UAV control, guidance algorithms, and autonomous carrier landing systems. I now apply that same control-and-optimization mindset, combined with software engineering and machine learning, to build AI systems that help process and equipment engineers make faster and more reliable decisions in advanced memory semiconductor manufacturing (V-NAND, DRAM). I own the end-to-end development of production AI decision-support systems — problem formulation, data design, modeling, optimization, recommendation, validation, deployment, monitoring, and workflow integration — supporting process optimization, DOE planning, specification improvement, defect reduction, and recipe-level engineering decisions.",
+  "tagline": "Engineer interested in Aerospace GNC, Semiconductor AI, and reliable software",
+  "bio": "My PhD research at Seoul National University's Flight Dynamics and Control Lab covered morphing-wing UAV control, guidance algorithms, and autonomous carrier landing systems. The common thread across that work was designing algorithms that keep a complex physical system stable and performant under changing conditions and uncertainty — a control-and-optimization mindset that transfers directly to industrial AI: building reliable, uncertainty-aware decision-support systems for complex manufacturing and engineering environments, not just aerospace ones. My current professional interests include software engineering, machine learning, optimization, and trustworthy decision-support methods for complex engineering systems. This public profile describes only general technical interests and publicly documented academic work; it does not describe any employer project, internal system, dataset, process, product, or business result.",
   "citation_stats": {
     "citations_all": 216,
     "citations_since_2021": 198,
@@ -48,43 +48,23 @@
     },
     {
       "school": "Yonsei University",
-      "degree": "B.S., Mechanical Engineering, Department of Mechanical Engineering, College of Engineering (Advisor: Prof. Woongsup Yoon) — Thesis: \"Modeling and PIDE Control Simulation of a Quadrotor\" (Advisor: Prof. Jongsoo Lee)",
+      "degree": "B.S., Mechanical Engineering (Advisor: Prof. Woongsup Yoon) — Thesis: \"Modeling and PIDE Control Simulation of a Quadrotor\" (Advisor: Prof. Jongsoo Lee)",
       "period": "Feb 2010 – Aug 2014"
     },
     {
       "school": "Yonsei University",
-      "degree": "B.S., Astronomy (Double Major Program), Department of Astronomy, College of Science",
+      "degree": "B.S., Astronomy (Double Major Program)",
       "period": "Mar 2013 – Aug 2014"
     }
   ],
   "experience": [
     {
-      "organization": "Digital Twin Center, Samsung Electronics",
-      "position": "Staff Engineer — Production AI & ML Systems",
+      "organization": "Samsung Electronics",
+      "position": "Staff Engineer, AI & Software",
       "highlights": [
-        "Lead the ML workstream within a 20+ person cross-functional Fab AI program spanning AI, software, data, process, and manufacturing organizations.",
-        "Collaborate with V-NAND and DRAM process engineers to define modeling targets, datasets, validation criteria, and engineering decision rules.",
-        "Explore agentic and LLM-assisted decision-support workflows — context retrieval, candidate generation, and human-in-the-loop review."
+        "Work in software engineering, machine learning, and optimization for complex engineering applications."
       ],
-      "period": "Jan 2026 – Present"
-    },
-    {
-      "organization": "Mechatronics Research, Samsung Electronics",
-      "position": "Staff Engineer — Production AI & ML Systems",
-      "highlights": [
-        "Supported 30+ process-engineering requests by converting development/manufacturing issues into model-based workflows.",
-        "Built model-based workflows connecting model outputs to process-condition comparison, recipe screening, and sensitivity analysis for equipment/process engineering teams."
-      ],
-      "period": "Jan 2025 – Dec 2025"
-    },
-    {
-      "organization": "Memory Manufacturing Technology Center, Samsung Electronics",
-      "position": "Staff Engineer — Production AI & ML Systems",
-      "highlights": [
-        "Built the initial production ML workflows for advanced memory semiconductor engineering across technology development, new product/process development, R&D, and mass production.",
-        "Built fab-scale training datasets from 10+ data sources — recipe parameters, equipment logs, sensor traces, metrology, defect signals, and process history."
-      ],
-      "period": "Mar 2023 – Dec 2024"
+      "period": "Mar 2023 — Present"
     },
     {
       "organization": "Flight Dynamics and Control Lab, Seoul National University",
@@ -933,9 +913,9 @@
   "facebook_url": "https://www.facebook.com/jihoonlee91",
   "collaborator_affiliations": {
     "Youdan Kim": "Seoul National University",
-    "Seungyun Jung": "Samsung Electronics",
+    "Seungyun Jung": "Semiconductor Industry",
     "Hanna Lee": "Seoul National University",
-    "Seong-hun Kim": "Samsung Advanced Institute of Technology",
+    "Seong-hun Kim": "Research Institute",
     "Seungkeun Kim": "Professor of Aerospace Engineering, Chungnam National University",
     "Seokwon Lee": "Chung-Ang University",
     "Chan Gook Park": "Seoul National University",

@@ -249,21 +249,39 @@ def keyword_chart(papers, extra_texts=None, top_n=32):
     max_count = top[0][1]
     min_count = top[-1][1]
     span = max_count - min_count or 1
-    min_font, max_font = 14, 60
+    min_font, max_font = 12, 68
 
     def font_size(count):
-        t = ((count - min_count) / span) ** 0.5
+        t = ((count - min_count) / span) ** 0.55
         return min_font + t * (max_font - min_font)
 
-    search_radius_cap = 2200
+    # Deterministic (not random, so regenerating the site doesn't churn the
+    # SVG on every run) but varied tilt sequence, cycled by index — reads as
+    # organically scattered rather than a mechanical alternation.
+    tilt_sequence = [0, -13, 10, -19, 15, -7, 6, -16, 12, 0, -10, 17, -5, 8, -14, 3]
+
+    search_radius_cap = 2600
     placed_boxes = []
     elements = []
-    for word, count in top:
+    # Cycle through the site's full categorical palette (not just one hue)
+    # and vary tilt per word (see tilt_sequence), so the cloud reads as an
+    # actual varied word-cloud rather than a size-sorted list in one color.
+    for idx, (word, count) in enumerate(top):
         fs = font_size(count)
         w = len(word) * fs * 0.62
         h = fs * 1.15
-        angle = 0.0
-        radius = 0.0
+        tilt = tilt_sequence[idx % len(tilt_sequence)]
+        if tilt:
+            # Conservative axis-aligned box for a rotated label, so the
+            # collision check doesn't let a tilted word overlap its
+            # upright neighbors.
+            rad = math.radians(abs(tilt))
+            w, h = (
+                abs(w * math.cos(rad)) + abs(h * math.sin(rad)),
+                abs(w * math.sin(rad)) + abs(h * math.cos(rad)),
+            )
+        angle = idx * 0.6  # stagger each word's spiral start so same-size
+        radius = 0.0        # words don't all fan out along the same ray
         spot = None
         while radius < search_radius_cap:
             cx = radius * math.cos(angle)
@@ -273,16 +291,18 @@ def keyword_chart(papers, extra_texts=None, top_n=32):
                 spot = (cx, cy)
                 placed_boxes.append(box)
                 break
-            angle += 0.35
-            radius += 2.2
+            angle += 0.24
+            radius += 1.5
         if spot is None:
             continue
         tx, ty = spot
         weight_css = 700 if fs > (min_font + max_font) / 2 else 500
-        opacity = 0.55 + 0.45 * ((fs - min_font) / (max_font - min_font) if max_font > min_font else 1)
+        opacity = 0.7 + 0.3 * ((fs - min_font) / (max_font - min_font) if max_font > min_font else 1)
+        color = f"var({SLOT_VARS[idx % len(SLOT_VARS)]})"
+        transform = f' transform="rotate({tilt} {tx:.1f} {ty:.1f})"' if tilt else ""
         elements.append(
-            f'<text x="{tx:.1f}" y="{ty + fs * 0.34:.1f}" text-anchor="middle" '
-            f'font-size="{fs:.1f}" font-weight="{weight_css}" fill="var(--series-1)" '
+            f'<text x="{tx:.1f}" y="{ty + fs * 0.34:.1f}" text-anchor="middle"{transform} '
+            f'font-size="{fs:.1f}" font-weight="{weight_css}" fill="{color}" '
             f'opacity="{opacity:.2f}">{esc(word)}<title>{esc(word)}: {count}</title></text>'
         )
 
