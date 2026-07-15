@@ -781,9 +781,8 @@ def render_list_section(title, items, fields):
 
 def render_projects_section(projects):
     """Like render_list_section but each project can also point at the
-    specific publications it produced (related_papers, matched by slug
-    against DATA['papers']) — turns "Projects" from a bare funding-agency
-    list into something that actually connects to the publication record."""
+    publications it produced by slug (related_papers) or by research theme
+    (related_themes), connecting each funded project to its research record."""
     if not projects:
         return '<section><h2>Projects</h2><p class="pending">Nothing added yet.</p></section>'
     papers_by_slug = {p["slug"]: p for p in DATA.get("papers", [])}
@@ -797,7 +796,14 @@ def render_projects_section(projects):
         if collaborators:
             names = ", ".join(esc(name) for name in collaborators)
             line += f'<div class="project-collaborators"><strong>Primary collaborators:</strong> {names}</div>'
-        slugs = proj.get("related_papers") or []
+        slugs = list(proj.get("related_papers") or [])
+        themes = set(proj.get("related_themes") or [])
+        if themes:
+            themed_papers = sorted(
+                (p for p in DATA.get("papers", []) if p.get("theme") in themes),
+                key=lambda p: (-(p.get("year") or 0), (p.get("title_en") or p["title"]).lower()),
+            )
+            slugs.extend(p["slug"] for p in themed_papers if p["slug"] not in slugs)
         links = []
         for slug in slugs:
             p = papers_by_slug.get(slug)
