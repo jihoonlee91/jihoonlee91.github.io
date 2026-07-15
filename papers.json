@@ -94,7 +94,13 @@
     {
       "title": "Development of Ground Control and Communication System for VTOL Fixed-Wing Drone",
       "description": "수직이착륙 고정익 드론 및 지상 제어, 통신 시스템 — Agency for Defense Development (ADD)",
-      "period": "Mar 2021 – Feb 2022"
+      "period": "Mar 2021 – Feb 2022",
+      "related_papers": [
+        "2022-optimal-policy-pitch-hold-milp",
+        "2021-altitude-tracking-mpc-mine-detection",
+        "2021-optimal-policy-pitch-hold-milp-conf",
+        "2021-control-surface-modeling-longitudinal-ko"
+      ]
     },
     {
       "title": "Development of Location System for Firefighters Based on Wireless Communication",
@@ -398,7 +404,7 @@
       "abstract": "",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11031427",
       "pdf": "papers/pdfs/2021-control-surface-modeling-longitudinal-ko.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "UAV Pitch-Hold Control for Mine Detection"
     },
     {
       "slug": "2021-optimal-policy-pitch-hold-milp-conf",
