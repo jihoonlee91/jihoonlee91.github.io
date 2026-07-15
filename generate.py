@@ -237,8 +237,14 @@ def to_bibtex(paper, key):
 SOCIAL_LINKS = [
     ("scholar_url", "Google Scholar", "scholar"),
     ("orcid_url", "ORCID", "orcid"),
+    ("researchgate_url", "ResearchGate", "rg"),
     ("linkedin_url", "LinkedIn", "linkedin"),
     ("github_url", "GitHub", "github"),
+]
+
+LIFE_SOCIAL_LINKS = [
+    ("instagram_url", "Instagram", "instagram"),
+    ("facebook_url", "Facebook", "facebook"),
 ]
 
 # Simplified monochrome brand marks (currentColor-filled, so they follow the
@@ -261,15 +267,15 @@ def _icon_badge(css_class):
     return f'<svg class="social-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">{inner}</svg>'
 
 
-def render_social_links(extra_class=""):
+def render_social_links(extra_class="", links_config=None, include_cv=True):
     links = []
-    for key, label, css_class in SOCIAL_LINKS:
+    for key, label, css_class in links_config or SOCIAL_LINKS:
         if DATA.get(key):
             links.append(
                 f'<a class="social-btn {css_class}" href="{esc(DATA[key])}" target="_blank" rel="noopener">'
                 f'{_icon_badge(css_class)}<span>{label}</span></a>'
             )
-    if DATA.get("cv_url"):
+    if include_cv and DATA.get("cv_url"):
         links.append(f'<a class="social-btn cv" href="{esc(DATA["cv_url"])}" target="_blank" rel="noopener">{_icon_badge("cv")}<span>CV (PDF)</span></a>')
     return f'<nav class="social-links {extra_class}">{"".join(links)}</nav>'
 
@@ -1061,6 +1067,11 @@ def _render_records_table(records, label="Records"):
 def render_life():
     life = DATA.get("life") or {}
     intro_html = f'<p class="page-intro">{esc(life["intro"])}</p>' if life.get("intro") else ""
+    life_socials = render_social_links(
+        extra_class="life-social-links",
+        links_config=LIFE_SOCIAL_LINKS,
+        include_cv=False,
+    )
 
     sections_html = []
     for section in life.get("sections", []):
@@ -1111,6 +1122,10 @@ def render_life():
       {intro_html}
     </header>
     <div class="life-grid">{"".join(sections_html)}</div>
+    <section class="life-section life-social-section">
+      <h2>Social</h2>
+      {life_socials}
+    </section>
   </main>
   <footer class="site-footer"></footer>
   {THEME_TOGGLE_SCRIPT}
