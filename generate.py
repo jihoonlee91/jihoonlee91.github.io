@@ -1098,10 +1098,13 @@ def render_life():
                 if isinstance(photo, dict):
                     src = photo.get("src", "")
                     alt = photo.get("alt") or f'{section["title"]} photo'
+                    featured = photo.get("featured", False)
                 else:
                     src = photo
                     alt = f'{section["title"]} photo'
-                thumbs += f'<a href="{esc(src)}" target="_blank" rel="noopener"><img class="life-photo" src="{esc(src)}" alt="{esc(alt)}" loading="lazy"></a>'
+                    featured = False
+                link_class = "life-photo-link life-photo-link-featured" if featured else "life-photo-link"
+                thumbs += f'<a class="{link_class}" href="{esc(src)}" target="_blank" rel="noopener"><img class="life-photo" src="{esc(src)}" alt="{esc(alt)}" loading="lazy"></a>'
             gallery = f'<div class="life-gallery">{thumbs}</div>'
         races_html = ""
         records_html = ""

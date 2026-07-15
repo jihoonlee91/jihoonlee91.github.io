@@ -848,6 +848,15 @@ a.badge:hover {
   margin-top: 1rem;
 }
 
+.life-photo-link {
+  display: block;
+  min-width: 0;
+}
+
+.life-photo-link-featured {
+  grid-column: 1 / -1;
+}
+
 .life-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -885,7 +894,8 @@ a.badge:hover {
 
 @media (max-width: 700px) {
   .life-gallery {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
   }
 }
 

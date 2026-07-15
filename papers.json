@@ -949,13 +949,13 @@
         "title": "Photography",
         "content": "Photography helps me document people, places, and movement. ‘Gazes of India,’ a seven-image series photographed in Delhi, Varanasi, and Kolkata, was selected at the 2018 Asia Culture International Photo Contest.",
         "photos": [
+          {"src": "assets/life/gazes-of-india-07.jpg", "alt": "Monkey overlooking the Ganges and Varanasi at sunset", "featured": true},
           {"src": "assets/life/gazes-of-india-01.jpg", "alt": "View of a city road framed through a cycle rickshaw"},
           {"src": "assets/life/gazes-of-india-02.jpg", "alt": "Street-side tea vendor pouring steaming milk"},
           {"src": "assets/life/gazes-of-india-03.jpg", "alt": "A market lane seen across crowded rooftops"},
           {"src": "assets/life/gazes-of-india-04.jpg", "alt": "Crowded evening market"},
           {"src": "assets/life/gazes-of-india-05.jpg", "alt": "Schoolchildren smiling from the back of a vehicle"},
-          {"src": "assets/life/gazes-of-india-06.jpg", "alt": "Boats and people along the Ganges at night in Varanasi"},
-          {"src": "assets/life/gazes-of-india-07.jpg", "alt": "Monkey overlooking the Ganges and Varanasi at sunset"}
+          {"src": "assets/life/gazes-of-india-06.jpg", "alt": "Boats and people along the Ganges at night in Varanasi"}
         ]
       }
     ]
