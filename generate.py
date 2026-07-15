@@ -721,6 +721,41 @@ def render_list_section(title, items, fields):
   </section>'''
 
 
+def render_projects_section(projects):
+    """Like render_list_section but each project can also point at the
+    specific publications it produced (related_papers, matched by slug
+    against DATA['papers']) — turns "Projects" from a bare funding-agency
+    list into something that actually connects to the publication record."""
+    if not projects:
+        return '<section><h2>Projects</h2><p class="pending">Nothing added yet.</p></section>'
+    papers_by_slug = {p["slug"]: p for p in DATA.get("papers", [])}
+    rows = []
+    for proj in projects:
+        parts = [esc(proj.get(f, "")) for f in ("title", "description", "period")]
+        if proj.get("url") and parts:
+            parts[0] = f'<a href="{esc(proj["url"])}" target="_blank" rel="noopener">{parts[0]}</a>'
+        line = f'<li>{" &mdash; ".join(p for p in parts if p)}'
+        slugs = proj.get("related_papers") or []
+        links = []
+        for slug in slugs:
+            p = papers_by_slug.get(slug)
+            if not p:
+                continue
+            links.append(f'<a href="papers/{esc(slug)}.html">{esc(p.get("title_en") or p["title"])} ({p["year"]})</a>')
+        if links:
+            label = "Selected related publications" if proj.get("related_note") else "Related publications"
+            note = f' <em>({esc(proj["related_note"])})</em>' if proj.get("related_note") else ""
+            line += f'<span class="paper-sub">{label}: {", ".join(links)}{note}</span>'
+        line += "</li>"
+        rows.append(line)
+    return f'''<section>
+    <h2>Projects</h2>
+    <ul class="plain-list">
+      {"".join(rows)}
+    </ul>
+  </section>'''
+
+
 def _group_consecutive_by_parent(items, name_field, split_char=", "):
     """Group consecutive items whose name_field shares a common trailing
     ", Parent" segment (e.g. "Research Group, Parent Organization"),
@@ -828,21 +863,32 @@ def render_education_section(items):
         return '<section><h2>Education</h2><p class="pending">Nothing added yet.</p></section>'
 
     groups = _group_consecutive_by_parent(items, "school", split_char="\x00")  # school has no built-in "Sub, Parent" split
+
+    def _split_degree(item):
+        """Split off the (department/lab/advisor/thesis) tail from the short
+        degree title, so a long single-line entry doesn't turn into a
+        wall-of-text link — the tail renders as a separate muted line."""
+        primary, _, detail = item.get("degree", "").partition(" — ")
+        primary_html = esc(primary)
+        if item.get("url"):
+            primary_html = f'<a href="{esc(item["url"])}" target="_blank" rel="noopener">{primary_html}</a>'
+        detail_html = f'<span class="paper-sub">{esc(detail)}</span>' if detail else ""
+        return primary_html, detail_html
+
     rows = []
     for g in groups:
         if len(g["items"]) == 1:
             _, item = g["items"][0]
-            degree = esc(item.get("degree", ""))
-            if item.get("url"):
-                degree = f'<a href="{esc(item["url"])}" target="_blank" rel="noopener">{degree}</a>'
-            rows.append(f'<li>{esc(g["parent"])} &mdash; {degree} &mdash; {esc(item.get("period", ""))}</li>')
+            primary_html, detail_html = _split_degree(item)
+            rows.append(
+                f'<li><strong>{esc(g["parent"])}</strong> &mdash; {primary_html} '
+                f'&mdash; {esc(item.get("period", ""))}{detail_html}</li>'
+            )
         else:
             sub_rows = []
             for _, item in g["items"]:
-                degree = esc(item.get("degree", ""))
-                if item.get("url"):
-                    degree = f'<a href="{esc(item["url"])}" target="_blank" rel="noopener">{degree}</a>'
-                sub_rows.append(f'<li>{degree} &mdash; {esc(item.get("period", ""))}</li>')
+                primary_html, detail_html = _split_degree(item)
+                sub_rows.append(f'<li>{primary_html} &mdash; {esc(item.get("period", ""))}{detail_html}</li>')
             rows.append(
                 f'<li class="experience-group"><div class="experience-company">{esc(g["parent"])}</div>'
                 f'<ul class="experience-roles">{"".join(sub_rows)}</ul></li>'
@@ -858,7 +904,7 @@ def render_education_section(items):
 def render_cv():
     education_html = render_education_section(DATA.get("education", []))
     experience_html = render_experience_section(DATA.get("experience", []))
-    projects_html = render_list_section("Projects", DATA.get("projects", []), ["title", "description", "period"])
+    projects_html = render_projects_section(DATA.get("projects", []))
     awards_html = render_awards_section()
     skills_html = render_skills_section()
     collaborators_html = render_collaborators_section()
