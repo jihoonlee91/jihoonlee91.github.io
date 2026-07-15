@@ -2,6 +2,29 @@
 
 Guidance for Claude Code sessions working in this repo.
 
+## Hard rule: no job-search / immigration content, ever, in this repo
+
+**Never add anything to this repo — file content, commit message, or
+docs/*.md note — that relates to a job application, an employer the owner
+is applying to or interviewing with, or an immigration/visa process.**
+This includes material sourced from the owner's personal career-document
+folders (resumes prepared for a specific application, application-portal
+files, petition drafts). If a file path or pasted content looks like it's
+from one of those folders, don't pull content from it into this repo —
+ask the owner to paste just the specific fact needed instead. This is a
+standing rule regardless of whether the repo is currently public or
+private (see below) — a private repo can flip back to public, and old
+commits are easy to miss when that happens. Violating this once already
+required a force-push history rewrite; don't create a second one.
+
+## Repo visibility
+
+This repo is **currently private** (owner's call, so drafts don't become
+instant public disclosures — see `docs/CONTENT_POLICY.md`). Don't assume
+it's public, and don't assume it'll stay private either — always write
+content as if it could go public at any time. Making it public again is
+the owner's decision alone; don't suggest or attempt it.
+
 ## Who this site is for
 
 Not a single-audience academic CV page. Three audiences need to be served

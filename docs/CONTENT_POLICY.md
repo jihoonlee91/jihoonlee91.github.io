@@ -1,16 +1,31 @@
 # Content Policy — Confidentiality Check Before Publishing
 
-This site and its Git history are public and may be indexed or copied. **Do
-not publish substantive descriptions of current or former employer work.** A
-`git push` is a public disclosure that cannot be assumed retractable because
-search engines, caches, and forks may retain it.
+**Repo status (2026-07-16): private.** The owner set this repo private
+deliberately, to work on content without every draft being an instant public
+disclosure, and intends to review everything before flipping it back to
+public. While private, drafting is not itself a publication event — but
+still write as if it could go public at any moment, since the point of the
+review pass is catching mistakes, not relying on privacy as the actual
+safety net. Treat `git push` to a private repo as reversible-with-review, not
+as consequence-free.
+
+**Do not publish substantive descriptions of current or former employer
+work** once the repo is public again. Before that point, a `git push` here
+stays within GitHub's private-repo boundary (only the owner and anyone they
+explicitly grant access to can see it) — it is not the same event as a push
+to a public repo, which search engines, caches, and forks can retain
+permanently.
 
 ## Rule
 
 Before adding or editing any text that touches employer work
 (`experience`, `projects`, `bio`, `skills`, or any new section) in
-`papers.json`, apply this policy. If unsure, leave it out; generalization is
-not sufficient when the underlying fact is not cleared for publication.
+`papers.json`, apply this policy. The owner has said not to over-apply this
+by default — they're reviewing everything before it goes public again, so
+don't strip detail preemptively out of caution alone. The "never include"
+list below is the actual hard line (real trade secrets, unreleased product
+info, customer names); everything else is a normal editorial judgment call,
+not a compliance gate.
 
 **Never include:**
 
