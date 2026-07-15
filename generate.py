@@ -435,11 +435,13 @@ def render_timeline():
                 "period": e["period"],
                 "title": org,
                 "detail": e["position"].split(" — ")[0] if " — " in e["position"] else e["position"],
+                "focus": e.get("focus"),
                 "url": e.get("url"),
                 "kind": "work",
             })
         else:
             combined_period = _combined_period([e for _, e in g["items"]])
+            positions = list(dict.fromkeys(e["position"] for _, e in g["items"]))
             subitems = [
                 {
                     "period": e["period"],
@@ -451,7 +453,8 @@ def render_timeline():
             entries.append({
                 "period": combined_period,
                 "title": g["parent"],
-                "detail": f'{len(g["items"])} internal roles',
+                "detail": positions[0] if len(positions) == 1 else f'{len(g["items"])} internal roles',
+                "focus": next((e.get("focus") for _, e in g["items"] if e.get("focus")), None),
                 "url": None,
                 "kind": "work",
                 "subitems": subitems,
@@ -464,6 +467,7 @@ def render_timeline():
                 "period": e["period"],
                 "title": g["parent"],
                 "detail": e["degree"].split(" — ")[0],
+                "focus": e.get("focus"),
                 "url": e.get("url"),
                 "kind": "education",
             })
@@ -481,6 +485,7 @@ def render_timeline():
                 "period": combined_period,
                 "title": g["parent"],
                 "detail": f'{len(g["items"])} degrees',
+                "focus": next((e.get("focus") for _, e in g["items"] if e.get("focus")), None),
                 "url": None,
                 "kind": "education",
                 "subitems": subitems,
@@ -509,6 +514,7 @@ def render_timeline():
                 "period": period,
                 "title": edu["title"],
                 "detail": f'{edu["detail"]} · {lab_name}{advisor}',
+                "focus": edu.get("focus") or work.get("focus"),
                 "url": work.get("url") or edu.get("url"),
                 "kind": "education",
             })
@@ -523,6 +529,7 @@ def render_timeline():
     rows = []
     for e in entries:
         title = f'<a href="{esc(e["url"])}" target="_blank" rel="noopener">{esc(e["title"])}</a>' if e.get("url") else esc(e["title"])
+        focus_html = f'<div class="timeline-focus"><span>Focus</span>{esc(e["focus"])}</div>' if e.get("focus") else ""
         subitems_html = ""
         if e.get("subitems"):
             sub_rows = "".join(f'''        <li class="timeline-subitem">
@@ -536,6 +543,7 @@ def render_timeline():
         <div class="timeline-body">
           <div class="timeline-title">{title}</div>
           <div class="timeline-detail">{esc(e['detail'])}</div>
+          {focus_html}
           {subitems_html}
         </div>
       </li>''')

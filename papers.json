@@ -41,6 +41,7 @@
       "school": "Seoul National University",
       "degree": "Ph.D., Aerospace Engineering (MS-PhD Integrated Course) — Department of Mechanical and Aerospace Engineering, College of Engineering. Flight Dynamics and Control Lab (Advisor: Prof. Youdan Kim, now retired). Dissertation: \"Self-Scheduled Parameter-Varying Control of Asymmetric Variable-Span Morphing Unmanned Aerial Vehicle\"",
       "period": "Sep 2014 – Feb 2023",
+      "focus": "Aerospace GNC · UAV Guidance & Control · Optimization",
       "url": "https://dcollection.snu.ac.kr/common/orgView/000000176713"
     },
     {
@@ -58,6 +59,7 @@
     {
       "organization": "Digital Twin Center, Samsung Electronics",
       "position": "Staff Engineer — Production AI & ML Systems",
+      "focus": "Semiconductor AI · Production ML Systems · Engineering Software",
       "highlights": [
         "Lead ML development within a cross-functional semiconductor Fab AI program spanning AI, software, data, process, and manufacturing teams.",
         "Partner with memory process engineers to define modeling targets, datasets, validation criteria, and engineering decision rules.",
@@ -68,6 +70,7 @@
     {
       "organization": "Mechatronics Research, Samsung Electronics",
       "position": "Staff Engineer — Production AI & ML Systems",
+      "focus": "Semiconductor AI · Production ML Systems · Engineering Software",
       "highlights": [
         "Translated semiconductor development and manufacturing challenges into model-based AI workflows.",
         "Connected model outputs to process-condition comparison, operating-condition screening, and sensitivity analysis for equipment and process engineering."
@@ -77,6 +80,7 @@
     {
       "organization": "Memory Manufacturing Technology Center, Samsung Electronics",
       "position": "Staff Engineer — Production AI & ML Systems",
+      "focus": "Semiconductor AI · Production ML Systems · Engineering Software",
       "highlights": [
         "Built production ML workflows for advanced memory engineering across technology development, R&D, and manufacturing.",
         "Developed scalable training datasets integrating equipment, sensor, metrology, defect, and process-history data."
@@ -87,6 +91,7 @@
       "organization": "Flight Dynamics and Control Lab, Seoul National University",
       "position": "Graduate Student Researcher — see Projects below for selected funded work.",
       "period": "Sep 2014 – Feb 2023",
+      "focus": "Aerospace GNC · UAV Guidance & Control · Optimization",
       "url": "https://fdcl.snu.ac.kr/"
     }
   ],
