@@ -554,7 +554,7 @@ section h2, main > h1 {
 
 .viz-dashboard {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: 1fr;
   gap: 1rem;
   align-items: start;
   margin: 1.5rem 0;
