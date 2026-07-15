@@ -322,16 +322,6 @@ def render_profile_header():
     if DATA.get("photo") and os.path.isfile(os.path.join(ROOT, DATA["photo"])):
         photo_html = f'<img class="profile-photo" src="{esc(DATA["photo"])}" alt="{esc(DATA["name"])}">'
 
-    stats = DATA.get("citation_stats") or {}
-    stats_html = ""
-    if stats:
-        stats_html = f'''<div class="stats-row">
-      <div class="stat"><span class="stat-num">{stats.get('citations_all', '-')}</span><span class="stat-label">Citations</span></div>
-      <div class="stat"><span class="stat-num">{stats.get('h_index_all', '-')}</span><span class="stat-label">h-index</span></div>
-      <div class="stat"><span class="stat-num">{stats.get('i10_index_all', '-')}</span><span class="stat-label">i10-index</span></div>
-      <div class="stat"><span class="stat-num">{len(DATA['papers'])}</span><span class="stat-label">Publications</span></div>
-    </div>'''
-
     interests_html = ""
     if DATA.get("interests"):
         tags = "".join(f'<span class="tag">{esc(t)}</span>' for t in DATA["interests"])
@@ -358,8 +348,7 @@ def render_profile_header():
       {interests_html}
       {render_social_links()}
     </div>
-  </section>
-  {stats_html}'''
+  </section>'''
 
 
 def _timeline_sort_key(period):
