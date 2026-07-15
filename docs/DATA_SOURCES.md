@@ -27,6 +27,14 @@ verified field with a guess.
 
 ## Official links (DOI / publisher / repository)
 
+The JSON field remains named `official_link` for compatibility, but the site
+labels each link by its actual source. A DOI or publisher page is preferred;
+for Korean conference papers, use a verified DBpia article page before RISS.
+RISS is retained only as a fallback index when no deeper publisher or DBpia
+record has been confirmed. Lab pages and institutional repositories are valid
+publication sources, while discovery-only services such as Semantic Scholar
+should not be presented as official publisher links.
+
 - **ORCID public API** (`https://pub.orcid.org/v3.0/{orcid}/works`, no auth
   needed) — reliable, machine-readable, gave 13 confirmed DOIs in one fetch.
   Prefer this over scraping publisher sites directly.

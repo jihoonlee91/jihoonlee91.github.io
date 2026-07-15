@@ -11,6 +11,7 @@ import json
 import os
 import re
 from collections import Counter
+from urllib.parse import urlparse
 
 import viz
 
@@ -578,14 +579,32 @@ def render_index():
         f.write(html_out)
 
 
+def publication_source_label(url, doi=None):
+    """Name the actual publication source instead of calling every index an official link."""
+    host = urlparse(url).netloc.lower().removeprefix("www.")
+    if doi or host == "doi.org":
+        return f"DOI &middot; {esc(doi)}" if doi else "DOI"
+    source_labels = {
+        "dbpia.co.kr": "DBpia",
+        "riss.kr": "RISS",
+        "riss.or.kr": "RISS",
+        "dcollection.snu.ac.kr": "SNU Repository",
+        "fdcl.snu.ac.kr": "SNU FDCL",
+        "icas.org": "ICAS Archive",
+        "ipnt.or.kr": "IPNT Proceedings",
+        "semanticscholar.org": "Semantic Scholar",
+    }
+    return source_labels.get(host, "Publisher Page")
+
+
 def link_badges(p, base="papers/pdfs/", paper_page=False):
-    """Render clearly distinguished official-link vs preprint/PDF vs BibTeX badges."""
+    """Render publication-source, self-hosted PDF, and BibTeX badges."""
     official = p.get("official_link")
     doi = p.get("doi")
     local_pdf = has_local_pdf(p)
     badges = []
     if official:
-        label = f"Official Link &middot; DOI: {esc(doi)}" if doi else "Official Link"
+        label = publication_source_label(official, doi)
         tooltip_target = f"doi.org/{doi}" if doi else official
         badges.append(
             f'<a class="badge badge-official" href="{esc(official)}" target="_blank" rel="noopener" '
@@ -709,7 +728,7 @@ def render_publications():
     </div>
     <div class="publication-toolbar" id="browse">
       <div class="legend">
-        <span class="badge badge-official">Official Link</span> publisher / DOI source
+        <span class="badge badge-official">Publication Source</span> DOI, publisher, repository, or scholarly database
         <span class="badge badge-preprint">Full Text (PDF)</span> self-hosted file
         <span class="badge badge-pending">No Public Link Yet</span> not available
       </div>
