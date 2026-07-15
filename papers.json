@@ -6,11 +6,8 @@
   "interests": [
     "Semiconductor AI",
     "Software Engineering",
-    "Industrial AI & Manufacturing",
     "Aerospace GNC",
-    "UAV",
-    "Control Systems",
-    "Optimization"
+    "Control & Optimization"
   ],
   "photo": "assets/profile.jpg",
   "scholar_url": "https://scholar.google.co.kr/citations?user=vNY8rPEAAAAJ",
@@ -19,7 +16,7 @@
   "orcid_url": "https://orcid.org/0000-0001-5327-824X",
   "researchgate_url": "https://www.researchgate.net/profile/Jihoon-Lee-6",
   "tagline": "Semiconductor AI & Software Engineer with an Aerospace GNC background",
-  "bio": "Ph.D. in Aerospace Engineering. Background in UAV guidance, control, and optimization.",
+  "bio": "I build AI and software for complex engineering systems, with a current focus on semiconductor applications. My Ph.D. research in Aerospace Engineering focused on UAV guidance, flight control, and optimization. The common thread is reliable decision-making for complex physical systems.",
   "citation_stats": {
     "citations_all": 216,
     "citations_since_2021": 198,
@@ -59,32 +56,12 @@
   ],
   "experience": [
     {
-      "organization": "Digital Twin Center, Samsung Electronics",
-      "position": "Staff Engineer — Production AI & ML Systems",
+      "organization": "Samsung Electronics",
+      "position": "Staff Engineer — AI & Software",
       "highlights": [
-        "Lead the ML workstream within a 20+ person cross-functional Fab AI program spanning AI, software, data, process, and manufacturing organizations.",
-        "Collaborate with V-NAND and DRAM process engineers to define modeling targets, datasets, validation criteria, and engineering decision rules.",
-        "Explore agentic and LLM-assisted decision-support workflows — context retrieval, candidate generation, and human-in-the-loop review."
+        "Develop AI and software for complex semiconductor engineering applications."
       ],
-      "period": "Jan 2026 – Present"
-    },
-    {
-      "organization": "Mechatronics Research, Samsung Electronics",
-      "position": "Staff Engineer — Production AI & ML Systems",
-      "highlights": [
-        "Supported 30+ process-engineering requests by converting development/manufacturing issues into model-based workflows.",
-        "Built model-based workflows connecting model outputs to process-condition comparison, recipe screening, and sensitivity analysis for equipment/process engineering teams."
-      ],
-      "period": "Jan 2025 – Dec 2025"
-    },
-    {
-      "organization": "Memory Manufacturing Technology Center, Samsung Electronics",
-      "position": "Staff Engineer — Production AI & ML Systems",
-      "highlights": [
-        "Built the initial production ML workflows for advanced memory semiconductor engineering across technology development, new product/process development, R&D, and mass production.",
-        "Built fab-scale training datasets from 10+ data sources — recipe parameters, equipment logs, sensor traces, metrology, defect signals, and process history."
-      ],
-      "period": "Mar 2023 – Dec 2024"
+      "period": "Mar 2023 — Present"
     },
     {
       "organization": "Flight Dynamics and Control Lab, Seoul National University",
@@ -960,5 +937,5 @@
     "Youngjun Lee": "Seoul National University",
     "Suwon Lee": "Assistant Professor, Kookmin University"
   },
-  "identity_tag": "AI & software for complex engineering systems, grounded in Aerospace GNC"
+  "identity_tag": "Semiconductor AI & Software Engineer"
 }

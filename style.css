@@ -1,8 +1,8 @@
-:root {
+:root[data-theme="dark"] {
   --fg: #e5e7eb;
   --muted: #9ca3af;
-  --accent: #60a5fa;
-  --accent-dark: #93c5fd;
+  --accent: #7db7ff;
+  --accent-dark: #a8d0ff;
   --border: #2d333b;
   --bg: #0d1117;
   --bg-soft: #161b22;
@@ -24,7 +24,7 @@
   --viz-ink: #c3c2b7;
 }
 
-:root[data-theme="light"] {
+:root {
   --fg: #1a1a1a;
   --muted: #6b7280;
   --accent: #1d4ed8;
@@ -66,6 +66,11 @@ a, button {
   transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
 }
 
+a,
+a:visited {
+  color: var(--accent);
+}
+
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
@@ -82,7 +87,7 @@ a, button {
 }
 
 .nav-inner {
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0.9rem 2rem;
   display: flex;
@@ -137,7 +142,7 @@ a, button {
 
 /* ---- Layout ---- */
 .container {
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2.5rem 2rem 4rem;
 }
@@ -148,10 +153,8 @@ a, button {
   gap: 2.5rem;
   align-items: flex-start;
   margin-bottom: 1.5rem;
-  padding: 1.75rem;
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: 14px;
+  padding: 0.5rem 0 2rem;
+  border-bottom: 1px solid var(--border);
 }
 
 .profile-photo {
@@ -164,7 +167,7 @@ a, button {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
-:root[data-theme="light"] .profile-photo {
+:root:not([data-theme="dark"]) .profile-photo {
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
 }
 
@@ -305,7 +308,7 @@ a, button {
 .stats-row {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.75rem;
+  gap: 0;
   padding: 0;
   margin: 1.5rem 0 2rem;
 }
@@ -313,10 +316,11 @@ a, button {
 .stat {
   display: flex;
   flex-direction: column;
-  padding: 0.9rem 1rem;
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  padding: 0.75rem 1rem;
+}
+
+.stat + .stat {
+  border-left: 1px solid var(--border);
 }
 
 .stat-num {
@@ -384,11 +388,10 @@ section h2, main > h1 {
   align-items: center;
   gap: 0.35rem;
   margin: 0 0 1.25rem;
-  padding: 0.45rem;
+  padding: 0 0 0.55rem;
   overflow-x: auto;
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
 }
 
 .section-nav a {
@@ -397,27 +400,24 @@ section h2, main > h1 {
   color: var(--muted);
   text-decoration: none;
   font-size: 0.84rem;
-  border-radius: 6px;
+  border-bottom: 2px solid transparent;
 }
 
 .section-nav a:hover {
   color: var(--accent);
-  background: var(--tag-bg);
+  border-bottom-color: var(--accent);
 }
 
 .home-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: 1fr;
+  gap: 2rem;
   align-items: start;
 }
 
 .home-panel {
   min-width: 0;
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.25rem;
+  padding: 0;
 }
 
 .home-panel > section > h2,
@@ -837,17 +837,15 @@ a.badge:hover {
 
 .life-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 1rem;
 }
 
 .life-section {
   min-width: 0;
   margin: 0;
-  padding: 1.1rem 1.25rem;
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: 12px;
+  padding: 1rem 0;
+  border-top: 1px solid var(--border);
 }
 
 .life-section-wide {
@@ -994,18 +992,38 @@ a.badge:hover {
   margin: 0.5rem 0 1.5rem;
 }
 
+.related-label {
+  margin-top: 0.55rem;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.related-publications {
+  margin: 0.3rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.related-publications li {
+  padding: 0.15rem 0;
+  border: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.related-publications a {
+  color: var(--accent);
+}
+
 .cv-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 1rem;
 }
 
 .cv-panel {
   min-width: 0;
-  padding: 1.1rem 1.25rem;
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: 12px;
+  padding: 1rem 0;
+  border-top: 1px solid var(--border);
 }
 
 .cv-panel > section > h2 {
@@ -1070,7 +1088,7 @@ a.badge:hover {
 }
 
 footer.site-footer {
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 2rem auto 0;
   padding: 1.5rem 2rem 3rem;
   color: var(--muted);
@@ -1145,6 +1163,13 @@ footer.site-footer a {
   .cv-span,
   .life-section-wide {
     grid-column: auto;
+  }
+
+  .home-panel:first-child,
+  .home-panel:last-child {
+    padding-left: 0;
+    padding-right: 0;
+    border-right: 0;
   }
 
   .publication-toolbar {

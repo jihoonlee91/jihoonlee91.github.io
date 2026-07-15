@@ -56,14 +56,14 @@ def _cv_keyword_texts():
 THEME_INIT_SCRIPT = """<script>
 (function () {
   var saved = localStorage.getItem('theme');
-  document.documentElement.setAttribute('data-theme', saved === 'light' ? 'light' : 'dark');
+  document.documentElement.setAttribute('data-theme', saved === 'dark' ? 'dark' : 'light');
 })();
 </script>"""
 
 THEME_TOGGLE_SCRIPT = """<script>
 function toggleTheme() {
   var html = document.documentElement;
-  var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   html.setAttribute('data-theme', next);
   localStorage.setItem('theme', next);
 }
@@ -236,11 +236,8 @@ def to_bibtex(paper, key):
 SOCIAL_LINKS = [
     ("scholar_url", "Google Scholar", "scholar"),
     ("orcid_url", "ORCID", "orcid"),
-    ("researchgate_url", "ResearchGate", "rg"),
     ("linkedin_url", "LinkedIn", "linkedin"),
     ("github_url", "GitHub", "github"),
-    ("instagram_url", "Instagram", "instagram"),
-    ("facebook_url", "Facebook", "facebook"),
 ]
 
 # Simplified monochrome brand marks (currentColor-filled, so they follow the
@@ -330,7 +327,6 @@ def render_profile_header():
     <div class="hero-text">
       <h1>{esc(DATA['name'])}{' <span class="name-ko">(' + esc(DATA['name_ko']) + ')</span>' if DATA.get('name_ko') else ''}</h1>
       {identity_tag_html}
-      <p class="current-role">&#128187; Currently: {esc(DATA.get('affiliation', ''))}</p>
       {contact_html}
       {bio_html}
       {interests_html}
@@ -551,8 +547,6 @@ def render_index():
   {render_nav("Home")}
   <main class="container">
     {render_profile_header()}
-
-    {render_section_nav([("Timeline", "timeline"), ("Highlights", "highlights")])}
 
     <div class="home-grid">
       <div class="home-panel">
@@ -783,7 +777,8 @@ def render_projects_section(projects):
         if links:
             label = "Selected related publications" if proj.get("related_note") else "Related publications"
             note = f' <em>({esc(proj["related_note"])})</em>' if proj.get("related_note") else ""
-            line += f'<span class="paper-sub">{label}: {", ".join(links)}{note}</span>'
+            related_items = "".join(f'<li>{link}</li>' for link in links)
+            line += f'<div class="related-label">{label}{note}</div><ul class="related-publications">{related_items}</ul>'
         line += "</li>"
         rows.append(line)
     return f'''<section>

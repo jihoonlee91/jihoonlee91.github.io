@@ -63,7 +63,7 @@ It is a **static site generator**, not a hand-edited site:
 - `viz.py` — generates the three static SVG charts embedded in
   `publications.html` (publications-per-year, citations-per-year, keyword
   word cloud).
-- `style.css` — one stylesheet, dark-default theme with a light toggle (see
+- `style.css` — one stylesheet, light-default theme with a dark toggle (see
   `docs/DESIGN.md`).
 
 **Never hand-edit `index.html`, `publications.html`, `cv.html`, `wiki.html`, `life.html`,
@@ -113,7 +113,7 @@ standing permissions beyond what was explicitly asked for.
   title+authors+year match. If you can't verify a link, leave the field
   `null` — a wrong link is worse than a missing one, especially for a
   public academic identity site.
-- Widths: content container is `1280px` max, reduced from `1600px` after a
+- Widths: content container is `1200px` max, reduced from `1600px` after a
   wide-desktop review to improve line length and information density.
 - Site language is English throughout the UI (nav, badges, section
   headers) — the CV/papers are in English and the audience is
@@ -124,7 +124,7 @@ standing permissions beyond what was explicitly asked for.
   docs (this file, `README.md`, `docs/*.md`) are written in Korean/English
   as fits the human maintainer — that's a separate decision from the
   site's own UI language.
-- Theme: dark is the default, light is a toggle (not the other way around).
+- Theme: light is the default; dark is available through the toggle.
 - When adding a new publication category or badge type, update
   `CATEGORY_LABELS`/`CATEGORY_ORDER` in `generate.py` and the legend in
   `render_publications()` together — don't let them drift out of sync.

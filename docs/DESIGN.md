@@ -4,11 +4,10 @@ Static site, no build tooling beyond Python + plain CSS. Everything below is
 implemented in `style.css` (tokens, layout, components) and `viz.py` (chart
 SVG generation).
 
-## Theme: dark default, light opt-in
+## Theme: light default, dark opt-in
 
-- `:root` in `style.css` defines the **dark** palette (this is the default —
-  no `data-theme` attribute needed).
-- `:root[data-theme="light"]` overrides every token for light mode.
+- `:root` in `style.css` defines the **light** palette.
+- `:root[data-theme="dark"]` overrides every token for dark mode.
 - `generate.py`'s `THEME_INIT_SCRIPT` runs in `<head>` on every page, before
   paint, reading `localStorage.theme` and setting `data-theme` on `<html>` —
   this avoids a flash of the wrong theme.
@@ -22,7 +21,7 @@ SVG generation).
 
 ## Layout
 
-- Content width: `max-width: 1280px` on `.container`, `.nav-inner`, and
+- Content width: `max-width: 1200px` on `.container`, `.nav-inner`, and
   `footer.site-footer` — reduced from 1600px after a wide-desktop review to
   improve line length while retaining multi-column layouts.
 - `.bio` has no `max-width`/`ch` cap — an earlier 70ch limit made the intro
