@@ -1076,8 +1076,9 @@ a.badge:hover {
 }
 
 .experience-company {
-  font-weight: 600;
-  margin-bottom: 0.4rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
 }
 
 .experience-roles {
@@ -1091,6 +1092,48 @@ a.badge:hover {
   padding: 0.5rem 0 0.5rem 0.8rem;
   border-bottom: none;
   font-size: 0.95rem;
+}
+
+.experience-entry {
+  padding: 0.85rem 0 !important;
+}
+
+.experience-role-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.experience-role-head strong {
+  color: var(--fg);
+}
+
+.experience-role-head > span {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.experience-position {
+  margin-top: 0.15rem;
+  color: var(--fg);
+  font-size: 0.9rem;
+}
+
+.experience-focus {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.45rem;
+  margin-top: 0.3rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.experience-focus span {
+  color: var(--accent);
+  font-weight: 700;
 }
 
 .experience-highlights {
@@ -1325,6 +1368,16 @@ footer.site-footer a {
 }
 
 @media (max-width: 560px) {
+  .experience-role-head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .experience-role-head > span {
+    white-space: normal;
+  }
+
   .venue-group-head {
     align-items: flex-start;
     flex-direction: column;

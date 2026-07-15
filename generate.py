@@ -870,14 +870,20 @@ def render_experience_section(items):
     if not items:
         return '<section><h2>Experience</h2><p class="pending">Nothing added yet.</p></section>'
 
-    def render_role(sub, item):
-        label_parts = [p for p in (sub, item.get("position", "")) if p]
-        header = f'{" &mdash; ".join(esc(p) for p in label_parts)} &mdash; {esc(item.get("period", ""))}'
+    def render_focus(item):
+        return f'<div class="experience-focus"><span>Focus</span>{esc(item["focus"])}</div>' if item.get("focus") else ""
+
+    def render_role(sub, item, show_focus=True):
+        role_title = esc(sub or item.get("position", ""))
+        position = esc(item.get("position", "")) if sub else ""
+        header = f'<div class="experience-role-head"><strong>{role_title}</strong><span>{esc(item.get("period", ""))}</span></div>'
+        position_html = f'<div class="experience-position">{position}</div>' if position else ""
+        focus_html = render_focus(item) if show_focus else ""
         highlights = item.get("highlights")
         if highlights:
             bullets = "".join(f"<li>{esc(h)}</li>" for h in highlights)
-            return f'<li>{header}<ul class="experience-highlights">{bullets}</ul></li>'
-        return f'<li>{header}</li>'
+            return f'<li class="experience-role">{header}{position_html}{focus_html}<ul class="experience-highlights">{bullets}</ul></li>'
+        return f'<li class="experience-role">{header}{position_html}{focus_html}</li>'
 
     groups = _group_consecutive_by_parent(items, "organization")
     rows = []
@@ -885,13 +891,20 @@ def render_experience_section(items):
         if len(g["items"]) == 1:
             sub, item = g["items"][0]
             org = f'{sub}, {g["parent"]}' if sub else g["parent"]
-            header = f'{esc(org)} &mdash; {esc(item.get("position", ""))} &mdash; {esc(item.get("period", ""))}'
-            highlights = item.get("highlights")
-            bullets = f'<ul class="experience-highlights">{"".join(f"<li>{esc(h)}</li>" for h in highlights)}</ul>' if highlights else ""
-            rows.append(f'<li>{header}{bullets}</li>')
+            org_html = f'<a href="{esc(item["url"])}" target="_blank" rel="noopener">{esc(org)}</a>' if item.get("url") else esc(org)
+            highlights = "".join(f"<li>{esc(h)}</li>" for h in item.get("highlights") or [])
+            highlights_html = f'<ul class="experience-highlights">{highlights}</ul>' if highlights else ""
+            rows.append(f'''<li class="experience-entry">
+              <div class="experience-role-head"><strong>{org_html}</strong><span>{esc(item.get("period", ""))}</span></div>
+              <div class="experience-position">{esc(item.get("position", ""))}</div>
+              {render_focus(item)}
+              {highlights_html}
+            </li>''')
         else:
-            sub_rows = "".join(render_role(sub, item) for sub, item in g["items"])
-            rows.append(f'<li class="experience-group"><div class="experience-company">{esc(g["parent"])}</div><ul class="experience-roles">{sub_rows}</ul></li>')
+            focuses = list(dict.fromkeys(item.get("focus") for _, item in g["items"] if item.get("focus")))
+            group_focus = f'<div class="experience-focus"><span>Focus</span>{esc(focuses[0])}</div>' if len(focuses) == 1 else ""
+            sub_rows = "".join(render_role(sub, item, show_focus=len(focuses) != 1) for sub, item in g["items"])
+            rows.append(f'<li class="experience-group"><div class="experience-company">{esc(g["parent"])}</div>{group_focus}<ul class="experience-roles">{sub_rows}</ul></li>')
 
     return f'''<section>
     <h2>Experience</h2>

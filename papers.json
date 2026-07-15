@@ -89,9 +89,15 @@
     },
     {
       "organization": "Flight Dynamics and Control Lab, Seoul National University",
-      "position": "Graduate Student Researcher — see Projects below for selected funded work.",
+      "position": "Graduate Student Researcher — Aerospace GNC & Autonomous Systems",
       "period": "Sep 2014 – Feb 2023",
       "focus": "Aerospace GNC · UAV Guidance & Control · Optimization",
+      "highlights": [
+        "Conducted doctoral research in guidance, navigation, and control for UAVs and aerospace systems, with emphasis on morphing-aircraft modeling, nonlinear and LPV control, and optimization.",
+        "Developed and validated algorithms for autonomous carrier landing, lunar-orbiter attitude control, target tracking, and indoor search-and-rescue path planning.",
+        "Applied MATLAB/Simulink, Python, C/C++, numerical optimization, machine learning, and high-fidelity simulation to research prototypes and source-code deliverables.",
+        "Contributed to funded research programs with government and industry partners, including ADD, MOTIE, KFI, and LIG Nex1; results were disseminated through journal and conference publications."
+      ],
       "url": "https://fdcl.snu.ac.kr/"
     }
   ],
