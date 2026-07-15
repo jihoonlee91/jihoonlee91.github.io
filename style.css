@@ -689,24 +689,53 @@ section h2, main > h1 {
 
 /* ---- View toggle (Publications page) ---- */
 .view-toggle {
-  display: flex;
-  gap: 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 0.35rem;
   margin: 0;
 }
 
-.view-toggle-btn {
-  background: var(--bg-soft);
+.view-control {
+  flex: 0 0 auto;
+  padding: 0.6rem;
   border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-soft);
+}
+
+.view-toggle-label {
+  display: block;
+  margin: 0 0 0.35rem 0.15rem;
   color: var(--muted);
-  border-radius: 6px;
-  padding: 0.4rem 0.9rem;
-  font-size: 0.88rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.view-toggle-btn {
+  min-height: 2.5rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--fg);
+  border-radius: 7px;
+  padding: 0.55rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.view-toggle-btn:hover:not(.active) {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .view-toggle-btn.active {
-  color: var(--accent);
+  background: var(--accent);
+  color: var(--bg);
   border-color: var(--accent);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
 /* ---- Legend ---- */
@@ -1270,6 +1299,14 @@ footer.site-footer a {
   .publication-toolbar {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .view-control {
+    width: 100%;
+  }
+
+  .view-toggle {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .viz-dashboard {

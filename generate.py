@@ -704,7 +704,9 @@ function setPubView(view) {
   document.getElementById('view-category').style.display = view === 'category' ? '' : 'none';
   document.getElementById('view-theme').style.display = view === 'theme' ? '' : 'none';
   document.querySelectorAll('.view-toggle-btn').forEach(function (b) {
-    b.classList.toggle('active', b.dataset.view === view);
+    var isActive = b.dataset.view === view;
+    b.classList.toggle('active', isActive);
+    b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
   });
 }
 </script>"""
@@ -755,9 +757,12 @@ def render_publications():
         <span class="badge badge-preprint">Full Text (PDF)</span> self-hosted file
         <span class="badge badge-pending">No Public Link Yet</span> not available
       </div>
-      <div class="view-toggle">
-        <button class="view-toggle-btn active" data-view="category" onclick="setPubView('category')">By Category</button>
-        <button class="view-toggle-btn" data-view="theme" onclick="setPubView('theme')">By Research Theme</button>
+      <div class="view-control">
+        <span class="view-toggle-label">View publications by</span>
+        <div class="view-toggle" role="group" aria-label="Group publications by">
+          <button type="button" class="view-toggle-btn active" data-view="category" aria-pressed="true" onclick="setPubView('category')">Category</button>
+          <button type="button" class="view-toggle-btn" data-view="theme" aria-pressed="false" onclick="setPubView('theme')">Research Theme</button>
+        </div>
       </div>
     </div>
     <div id="view-category">
