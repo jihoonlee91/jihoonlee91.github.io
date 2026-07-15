@@ -228,7 +228,7 @@ def _boxes_overlap(a, b, pad=3):
     return not (ax1 + pad < bx0 or bx1 + pad < ax0 or ay1 + pad < by0 or by1 + pad < ay0)
 
 
-def keyword_chart(papers, extra_texts=None, top_n=32):
+def keyword_chart(papers, extra_texts=None, top_n=64):
     """Spiral-packed word cloud (Wordle-style): largest word centered, each
     subsequent word walks an outward spiral until it finds a free spot,
     checked against every word already placed. Draws from paper titles
@@ -249,7 +249,7 @@ def keyword_chart(papers, extra_texts=None, top_n=32):
     max_count = top[0][1]
     min_count = top[-1][1]
     span = max_count - min_count or 1
-    min_font, max_font = 12, 68
+    min_font, max_font = 10, 62
 
     def font_size(count):
         t = ((count - min_count) / span) ** 0.55

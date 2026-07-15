@@ -103,7 +103,7 @@ stint at one place shows as one branch, not N repeated dots — includes a
 special-cased merge of the PhD-education entry with its lab-experience
 entry when they share the exact same period), category/theme toggle on
 Publications (theme list later split from 4 to 6 — see `docs/DESIGN.md`),
-Frequent Collaborators, dark/light theme, 1600px layout, icon+text social
+Frequent Collaborators, dark/light theme, responsive 1280px layout, icon+text social
 badges with real per-platform brand marks and colors (replaced the earlier
 initials-in-a-circle placeholder), BibTeX volume/number/pages + cross-file
 key dedup, BibTeX click-to-copy with a hover preview of the entry text,

@@ -4,13 +4,13 @@
   "affiliation": "Semiconductor AI & Software Engineer",
   "email": "jihoon91.lee@gmail.com",
   "interests": [
+    "Semiconductor AI",
+    "Software Engineering",
+    "Industrial AI & Manufacturing",
     "Aerospace GNC",
     "UAV",
     "Control Systems",
-    "Semiconductor AI",
-    "Industrial AI & Manufacturing",
-    "Optimization",
-    "Software Engineering"
+    "Optimization"
   ],
   "photo": "assets/profile.jpg",
   "scholar_url": "https://scholar.google.co.kr/citations?user=vNY8rPEAAAAJ",
@@ -18,8 +18,8 @@
   "linkedin_url": "https://www.linkedin.com/in/jihoon91",
   "orcid_url": "https://orcid.org/0000-0001-5327-824X",
   "researchgate_url": "https://www.researchgate.net/profile/Jihoon-Lee-6",
-  "tagline": "Engineer interested in Aerospace GNC, Semiconductor AI, and reliable software",
-  "bio": "My PhD research at Seoul National University's Flight Dynamics and Control Lab covered morphing-wing UAV control, guidance algorithms, and autonomous carrier landing systems. The common thread across that work was designing algorithms that keep a complex physical system stable and performant under changing conditions and uncertainty — a control-and-optimization mindset that transfers directly to industrial AI: building reliable, uncertainty-aware decision-support systems for complex manufacturing and engineering environments, not just aerospace ones. My current professional interests include software engineering, machine learning, optimization, and trustworthy decision-support methods for complex engineering systems. This public profile describes only general technical interests and publicly documented academic work; it does not describe any employer project, internal system, dataset, process, product, or business result.",
+  "tagline": "Semiconductor AI & Software Engineer with an Aerospace GNC background",
+  "bio": "Ph.D. in Aerospace Engineering. Background in UAV guidance, control, and optimization.",
   "citation_stats": {
     "citations_all": 216,
     "citations_since_2021": 198,
@@ -852,12 +852,12 @@
     ]
   },
   "life": {
-    "intro": "Outside of aerospace research and semiconductor AI, most of my free time goes into moving — on a bike, in the water, or on a trail. I rowed competitively in college, and these days that's turned into a mix of running, swimming, and cycling for triathlon training, with hiking, travel, and photography filling in the rest.",
+    "intro": "Outside work, I spend most of my time cycling, swimming, running, hiking, traveling, and taking photos.",
     "sections": [
-      {"title": "Cycling", "content": "Mostly non-competitive — gran fondo rides and long-distance training miles that double as the bike leg of triathlon prep.", "photos": []},
+      {"title": "Cycling", "content": "Long-distance rides and triathlon training.", "photos": []},
       {
         "title": "Triathlon",
-        "content": "Doing local triathlons since 2019 with my club, 야생연어 (Wild Salmon) — mostly age-group amateur races around Korea, a few of which happened to be World/Asia Cup stops in Tongyeong, Yeongdo, and Sejong. Also managed to survive one full-distance (Ironman-length) race, Challenge Gunsan Saemangeum, in 2024.",
+        "content": "Age-group triathlete since 2019; completed a full-distance race in 2024.",
         "photos": [],
         "races": [
           {"name": "제26회 문화체육관광부장관배 전국 트라이애슬론 선수권 대회", "date": "2026.06.26 – 28", "location": "전북 익산시 익산국제철인3종경기장 일원", "swim": "28:30", "bike": "1:12:42", "run": "54:49", "total": "2:39:40", "rank": "14", "category": "35-39세 남"},
@@ -896,7 +896,7 @@
       },
       {
         "title": "Swimming",
-        "content": "Open-water races and masters swim meets around Seoul/Incheon since 2019.",
+        "content": "Open-water and masters swimming.",
         "photos": [],
         "records": [
           {"name": "14th National Marine Sports Festival — Open Water Swimming", "detail": "1km M20-29: 21:04 (4th/11) · 3.2km M20-29: 1:09:14 (2nd/4) — 시화호", "date": "2019-08-17 – 18"},
@@ -908,7 +908,7 @@
       },
       {
         "title": "Running",
-        "content": "10km-to-half-marathon road races around Seoul. I run a lot more than I log, so this is a partial list, 2018-2022.",
+        "content": "Road running from 10K to marathon distances.",
         "photos": [],
         "records": [
           {"name": "제17회 서울신문 하프마라톤대회", "detail": "5km — 상암동 월드컵공원 평화의 광장", "date": "2018-05-19"},
@@ -925,14 +925,14 @@
       },
       {
         "title": "Rowing",
-        "content": "Where it all started — rowed men's eight (4 seat) for Yonsei University's crew back in college, and still show up for the club's annual alumni race most years.",
+        "content": "Former Yonsei University men's eight rower.",
         "photos": [],
         "club_url": "https://cafe.naver.com/yonseirowing",
         "club_label": "Yonsei Rowing Club"
       },
       {
         "title": "Hiking",
-        "content": "Long solo/small-team ridge traverses in Korea's national parks.",
+        "content": "Long-distance ridge hikes in Korea.",
         "photos": [],
         "records": [
           {"name": "북도사수불", "detail": "Solo — 14:04:45 (incomplete)", "date": "2020-09-15"},
@@ -943,8 +943,8 @@
           {"name": "불수사도북", "detail": "3-person team — 19:27:53", "date": "2022-04-01"}
         ]
       },
-      {"title": "Travel", "content": "Been lucky enough to travel to China, Japan, Vietnam, India, the US, Brazil, Australia, and a good chunk of Europe (Italy, France, Germany, Austria, Switzerland, Norway, Russia, Cyprus).", "photos": []},
-      {"title": "Photography", "content": "Got an honorable mention (입선) at the 2018 Asia Culture International Photo Contest — nothing serious, just a fun hobby alongside the travel.", "photos": []}
+      {"title": "Travel", "content": "Travel across Asia, Europe, the Americas, and Australia.", "photos": []},
+      {"title": "Photography", "content": "Honorable mention at the 2018 Asia Culture International Photo Contest.", "photos": []}
     ]
   },
   "instagram_url": "https://www.instagram.com/jihoonlee",
@@ -960,5 +960,5 @@
     "Youngjun Lee": "Seoul National University",
     "Suwon Lee": "Assistant Professor, Kookmin University"
   },
-  "identity_tag": "Aerospace GNC Researcher → Semiconductor AI Engineer"
+  "identity_tag": "AI & software for complex engineering systems, grounded in Aerospace GNC"
 }

@@ -22,11 +22,9 @@ SVG generation).
 
 ## Layout
 
-- Content width: `max-width: 1600px` on `.container`, `.nav-inner`, and
-  `footer.site-footer` — sized for a normal laptop/monitor viewport, not a
-  narrow text column. Widened twice already (860px -> 1180px -> 1600px),
-  each time because it was reported as too cramped — don't shrink it back
-  down.
+- Content width: `max-width: 1280px` on `.container`, `.nav-inner`, and
+  `footer.site-footer` — reduced from 1600px after a wide-desktop review to
+  improve line length while retaining multi-column layouts.
 - `.bio` has no `max-width`/`ch` cap — an earlier 70ch limit made the intro
   paragraph wrap narrower than the actual container width, which looked
   broken on a wide screen. Any new free-text block should default to

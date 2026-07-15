@@ -347,6 +347,27 @@ def _timeline_sort_key(period):
     return int(years[-1]) if years else 0
 
 
+def _combined_period(items):
+    """Return the earliest start and latest end across grouped entries."""
+    periods = [item.get("period", "") for item in items]
+
+    def start_year(period):
+        years = re.findall(r"\d{4}", period)
+        return int(years[0]) if years else 9999
+
+    def end_year(period):
+        if "Present" in period:
+            return 9999
+        years = re.findall(r"\d{4}", period)
+        return int(years[-1]) if years else 0
+
+    start_period = min(periods, key=start_year)
+    end_period = max(periods, key=end_year)
+    start = re.split(r"\s+[–—]\s+", start_period, maxsplit=1)[0]
+    end = re.split(r"\s+[–—]\s+", end_period, maxsplit=1)[-1]
+    return f"{start} – {end}"
+
+
 def render_side_projects():
     """Live, non-work software projects — evidence of current hands-on
     engineering for the recruiter audience (see CLAUDE.md), distinct from
@@ -375,6 +396,11 @@ def render_side_projects():
     </section>'''
 
 
+def render_section_nav(items):
+    links = "".join(f'<a href="#{esc(anchor)}">{esc(label)}</a>' for label, anchor in items)
+    return f'<nav class="section-nav" aria-label="On this page">{links}</nav>'
+
+
 def render_timeline():
     entries = []
     work_groups = _group_consecutive_by_parent(DATA.get("experience", []), "organization")
@@ -390,8 +416,7 @@ def render_timeline():
                 "kind": "work",
             })
         else:
-            start = g["items"][-1][1]["period"].split(" – ")[0]
-            end = g["items"][0][1]["period"].split(" – ")[-1]
+            combined_period = _combined_period([e for _, e in g["items"]])
             subitems = [
                 {
                     "period": e["period"],
@@ -401,7 +426,7 @@ def render_timeline():
                 for sub, e in g["items"]
             ]
             entries.append({
-                "period": f"{start} – {end}",
+                "period": combined_period,
                 "title": g["parent"],
                 "detail": f'{len(g["items"])} internal roles',
                 "url": None,
@@ -420,8 +445,7 @@ def render_timeline():
                 "kind": "education",
             })
         else:
-            start = g["items"][-1][1]["period"].split(" – ")[0]
-            end = g["items"][0][1]["period"].split(" – ")[-1]
+            combined_period = _combined_period([e for _, e in g["items"]])
             subitems = [
                 {
                     "period": e["period"],
@@ -431,7 +455,7 @@ def render_timeline():
                 for _, e in g["items"]
             ]
             entries.append({
-                "period": f"{start} – {end}",
+                "period": combined_period,
                 "title": g["parent"],
                 "detail": f'{len(g["items"])} degrees',
                 "url": None,
@@ -457,10 +481,11 @@ def render_timeline():
                     advisor_match = re.search(r"Advisor: ([^,)]+)", ed["degree"])
                     break
             advisor = f" — Advisor: {advisor_match.group(1)}" if advisor_match else ""
+            lab_name = work["title"].split(", ", 1)[0]
             merged_entries.append({
                 "period": period,
-                "title": f'{work["title"]}',
-                "detail": f'{edu["detail"]}{advisor}',
+                "title": edu["title"],
+                "detail": f'{edu["detail"]} · {lab_name}{advisor}',
                 "url": work.get("url") or edu.get("url"),
                 "kind": "education",
             })
@@ -492,7 +517,7 @@ def render_timeline():
         </div>
       </li>''')
 
-    return f'''<section>
+    return f'''<section id="timeline">
       <h2>Timeline</h2>
       <ul class="timeline">
 {chr(10).join(rows)}
@@ -527,19 +552,25 @@ def render_index():
   <main class="container">
     {render_profile_header()}
 
-    {render_timeline()}
+    {render_section_nav([("Timeline", "timeline"), ("Highlights", "highlights")])}
 
-    {render_side_projects()}
-
-    <section>
-      <div class="section-head">
-        <h2>Highlighted Publications</h2>
-        <a class="see-all" href="publications.html">View all {len(DATA['papers'])} publications &rarr;</a>
+    <div class="home-grid">
+      <div class="home-panel">
+        {render_timeline()}
       </div>
-      <ul class="paper-list compact">
+      <div class="home-panel">
+        {render_side_projects()}
+        <section id="highlights">
+          <div class="section-head">
+            <h2>Highlighted Publications</h2>
+            <a class="see-all" href="publications.html">View all {len(DATA['papers'])} publications &rarr;</a>
+          </div>
+          <ul class="paper-list compact">
 {chr(10).join(rows)}
-      </ul>
-    </section>
+          </ul>
+        </section>
+      </div>
+    </div>
   </main>
   <footer class="site-footer">
     <p>&copy; {esc(DATA['name'])}. Built with a <a href="{esc(DATA['github_url'])}/{esc(DATA['github_url'].rstrip('/').rsplit('/', 1)[-1])}.github.io" target="_blank" rel="noopener">static site generator</a>. Full BibTeX: <a href="bibtex/all.bib" target="_blank" rel="noopener">bibtex/all.bib</a></p>
@@ -671,19 +702,26 @@ def render_publications():
 <body>
   {render_nav("Publications")}
   <main class="container">
-    <h1>Publications</h1>
-    <p class="page-intro">{len(DATA['papers'])} publications total &middot; a unified list combining Google Scholar records with additional entries. Also available on my <a href="{esc(DATA['scholar_url'])}" target="_blank" rel="noopener">Google Scholar profile</a>.</p>
-    {viz.year_category_chart(DATA['papers'])}
-    {viz.citation_year_chart(DATA.get('citation_stats') or {})}
-    {viz.keyword_chart(DATA['papers'], extra_texts=_cv_keyword_texts())}
-    <div class="legend">
-      <span class="badge badge-official">Official Link</span> publisher / DOI source
-      <span class="badge badge-preprint">Full Text (PDF)</span> self-hosted file
-      <span class="badge badge-pending">No Public Link Yet</span> not available
+    <header class="page-header">
+      <h1>Publications</h1>
+      <p class="page-intro">{len(DATA['papers'])} publications total &middot; a unified list combining Google Scholar records with additional entries. Also available on my <a href="{esc(DATA['scholar_url'])}" target="_blank" rel="noopener">Google Scholar profile</a>.</p>
+    </header>
+    {render_section_nav([("Insights", "insights"), ("Browse publications", "browse")])}
+    <div class="viz-dashboard" id="insights">
+      {viz.year_category_chart(DATA['papers'])}
+      {viz.citation_year_chart(DATA.get('citation_stats') or {})}
+      {viz.keyword_chart(DATA['papers'], extra_texts=_cv_keyword_texts())}
     </div>
-    <div class="view-toggle">
-      <button class="view-toggle-btn active" data-view="category" onclick="setPubView('category')">By Category</button>
-      <button class="view-toggle-btn" data-view="theme" onclick="setPubView('theme')">By Research Theme</button>
+    <div class="publication-toolbar" id="browse">
+      <div class="legend">
+        <span class="badge badge-official">Official Link</span> publisher / DOI source
+        <span class="badge badge-preprint">Full Text (PDF)</span> self-hosted file
+        <span class="badge badge-pending">No Public Link Yet</span> not available
+      </div>
+      <div class="view-toggle">
+        <button class="view-toggle-btn active" data-view="category" onclick="setPubView('category')">By Category</button>
+        <button class="view-toggle-btn" data-view="theme" onclick="setPubView('theme')">By Research Theme</button>
+      </div>
     </div>
     <div id="view-category">
 {category_sections}
@@ -927,14 +965,19 @@ def render_cv():
 <body>
   {render_nav("CV")}
   <main class="container">
-    <h1>CV</h1>
-    {cv_download}
-    {experience_html}
-    {education_html}
-    {awards_html}
-    {skills_html}
-    {projects_html}
-    {collaborators_html}
+    <header class="page-header">
+      <h1>CV</h1>
+      {cv_download}
+    </header>
+    {render_section_nav([("Experience", "experience"), ("Education", "education"), ("Skills", "skills"), ("Projects", "projects"), ("Collaborators", "collaborators")])}
+    <div class="cv-grid">
+      <div class="cv-panel cv-span" id="experience">{experience_html}</div>
+      <div class="cv-panel" id="education">{education_html}</div>
+      <div class="cv-panel">{awards_html}</div>
+      <div class="cv-panel cv-span" id="skills">{skills_html}</div>
+      <div class="cv-panel" id="projects">{projects_html}</div>
+      <div class="cv-panel" id="collaborators">{collaborators_html}</div>
+    </div>
   </main>
   <footer class="site-footer"></footer>
   {THEME_TOGGLE_SCRIPT}
@@ -1019,12 +1062,13 @@ def render_life():
                 for photo in photos
             )
             gallery = f'<div class="life-gallery">{thumbs}</div>'
-        races_html = _render_race_table(section.get("races"))
-        records_label = "Hikes" if section["title"] == "Hiking" else "Records"
-        records_html = _render_records_table(section.get("records"), label=records_label)
+        races_html = ""
+        records_html = ""
         emoji = LIFE_SECTION_EMOJI.get(section["title"], "")
         heading = f'{emoji} {esc(section["title"])}'.strip()
-        sections_html.append(f'<section><h2>{heading}</h2>{body}{club_html}{gallery}{races_html}{records_html}</section>')
+        width_class = ""
+        section_id = "life-" + re.sub(r"[^a-z0-9]+", "-", section["title"].lower()).strip("-")
+        sections_html.append(f'<section class="life-section{width_class}" id="{section_id}"><h2>{heading}</h2>{body}{club_html}{gallery}{races_html}{records_html}</section>')
     if not sections_html:
         sections_html.append('<p class="pending">Nothing added yet.</p>')
 
@@ -1042,9 +1086,12 @@ def render_life():
 <body>
   {render_nav("Life")}
   <main class="container">
-    <h1>Life</h1>
-    {intro_html}
-    {"".join(sections_html)}
+    <header class="page-header">
+      <h1>Life</h1>
+      {intro_html}
+    </header>
+    {render_section_nav([("Cycling", "life-cycling"), ("Triathlon", "life-triathlon"), ("Swimming", "life-swimming"), ("Running", "life-running"), ("Rowing", "life-rowing"), ("Hiking", "life-hiking"), ("Travel", "life-travel"), ("Photography", "life-photography")])}
+    <div class="life-grid">{"".join(sections_html)}</div>
   </main>
   <footer class="site-footer"></footer>
   {THEME_TOGGLE_SCRIPT}
@@ -1085,9 +1132,11 @@ def render_wiki_index():
 <body>
   {render_nav("Wiki")}
   <main class="container">
-    <h1>Wiki</h1>
-    <p class="page-intro">Working notes on engineering, research, and career development. These pages share public frameworks and sources, not confidential work or personal records.</p>
-    <div class="wiki-grid">{body}</div>
+    <header class="page-header">
+      <h1>Wiki</h1>
+      <p class="page-intro">Working notes on engineering, research, and career development. These pages share public frameworks and sources, not confidential work or personal records.</p>
+    </header>
+    <div class="wiki-grid" id="notes">{body}</div>
   </main>
   <footer class="site-footer"></footer>
   {THEME_TOGGLE_SCRIPT}
