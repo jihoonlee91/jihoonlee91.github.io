@@ -56,12 +56,28 @@
   ],
   "experience": [
     {
-      "organization": "Samsung Electronics",
-      "position": "Staff Engineer — AI & Software",
+      "organization": "Digital Twin Center, Samsung Electronics",
+      "position": "Staff Engineer — Production AI & ML Systems",
       "highlights": [
-        "Develop AI and software for complex semiconductor engineering applications."
+        "Develop AI and software for semiconductor digital-twin and engineering decision-support applications."
       ],
-      "period": "Mar 2023 — Present"
+      "period": "Jan 2026 – Present"
+    },
+    {
+      "organization": "Mechatronics Research, Samsung Electronics",
+      "position": "Staff Engineer — Production AI & ML Systems",
+      "highlights": [
+        "Built model-based AI workflows for semiconductor equipment and process engineering."
+      ],
+      "period": "Jan 2025 – Dec 2025"
+    },
+    {
+      "organization": "Memory Manufacturing Technology Center, Samsung Electronics",
+      "position": "Staff Engineer — Production AI & ML Systems",
+      "highlights": [
+        "Developed production ML workflows for advanced memory semiconductor engineering."
+      ],
+      "period": "Mar 2023 – Dec 2024"
     },
     {
       "organization": "Flight Dynamics and Control Lab, Seoul National University",

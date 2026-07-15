@@ -425,7 +425,7 @@ def render_timeline():
                 {
                     "period": e["period"],
                     "title": sub or g["parent"],
-                    "detail": e["position"].split(" — ")[0] if " — " in e["position"] else e["position"],
+                    "detail": e["position"],
                 }
                 for sub, e in g["items"]
             ]
