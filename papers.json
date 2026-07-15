@@ -131,7 +131,7 @@
       "title": "Guidance/Control Study for Take-off and Landing on a Ship",
       "description": "함상 이착륙 유도/제어 알고리즘 연구 — Agency for Defense Development (ADD)",
       "period": "Nov 2014 – Dec 2015",
-      "related_papers": ["2018-sliding-mode-uav-carrier-landing", "2016-nn-carrier-landing-risk-assessment-ko", "2015-stochastic-risk-wave-off-decision", "2015-autonomous-uav-takeoff-landing-carrier", "2015-uav-auto-landing-decision-making-ko"]
+      "related_themes": ["Autonomous Carrier Landing & Guidance"]
     }
   ],
   "papers": [
@@ -223,7 +223,7 @@
       "abstract": "Dynamic soaring is a bio-inspired maneuver to harvest energy from the wind gradient, which allows albatrosses to fly across the ocean without flapping their wings. Although the underlying dynamics is well-known, which can be represented as a fixed-wing aircraft, the mechanism or the control law that successively extracts energy from the unforeseen wind gradient remains in question. In this study, a deep neural network architecture and a feedback control law for the dynamic soaring maneuver are proposed based on the investigation of the mechanical energy extraction mechanism. To train the neural network, a bunch of data composed of state and control pairs is generated via trajectory optimization, which is slightly modified to deal with the problem considered in this study. Numerical result shows that the trained network-based feedback control law can perform the dynamic soaring maneuver in various wind profiles.",
       "official_link": "https://doi.org/10.1016/j.ifacol.2019.11.079",
       "pdf": "papers/pdfs/2019-dnn-feedback-dynamic-soaring.pdf",
-      "theme": "Autonomous Carrier Landing & Guidance"
+      "theme": "Dynamic Soaring & Learning-Based Control"
     },
     {
       "slug": "2021-target-tracking-laser-rangefinder",
