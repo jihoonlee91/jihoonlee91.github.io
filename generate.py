@@ -23,6 +23,25 @@ with open(os.path.join(ROOT, "papers.json"), encoding="utf-8") as f:
 with open(os.path.join(ROOT, "wiki.json"), encoding="utf-8") as f:
     WIKI_DATA = json.load(f)
 
+NON_FINAL_SOURCE_HOSTS = {
+    "doi.org",
+    "dx.doi.org",
+    "fdcl.snu.ac.kr",
+    "riss.kr",
+    "riss.or.kr",
+    "linkinghub.elsevier.com",
+    "semanticscholar.org",
+    "researchgate.net",
+    "scholar.google.com",
+}
+
+for paper in DATA["papers"]:
+    source_host = urlparse(paper.get("official_link") or "").netloc.lower().removeprefix("www.")
+    if source_host in NON_FINAL_SOURCE_HOSTS:
+        raise ValueError(
+            f'{paper["slug"]}: official_link must be the final publisher or full-text URL, not {source_host}'
+        )
+
 SITE_URL = "https://{}.github.io".format(
     DATA["github_url"].rstrip("/").rsplit("/", 1)[-1]
 )
@@ -585,44 +604,21 @@ def render_index():
         f.write(html_out)
 
 
-def publication_source_label(url, doi=None):
+def publication_source_label(url):
     """Name the actual publication source instead of calling every index an official link."""
     host = urlparse(url).netloc.lower().removeprefix("www.")
-    if doi:
-        doi_lower = doi.lower()
-        doi_source_labels = {
-            "10.1109/": "IEEE Xplore",
-            "10.23919/": "IEEE Xplore",
-            "10.2514/": "AIAA ARC",
-            "10.1177/": "SAGE Journals",
-            "10.1016/": "Elsevier",
-            "10.3390/": "MDPI",
-            "10.1007/": "SpringerLink",
-            "10.13009/": "EUCASS",
-            "10.5139/": "DBpia",
-        }
-        for prefix, source in doi_source_labels.items():
-            if doi_lower.startswith(prefix):
-                return f"{source} &middot; DOI"
-        return f"DOI &middot; {esc(doi)}"
-    if host == "doi.org":
-        return "DOI"
     source_labels = {
         "dbpia.co.kr": "DBpia",
-        "riss.kr": "RISS",
-        "riss.or.kr": "RISS",
         "dcollection.snu.ac.kr": "SNU Repository",
         "icas.org": "ICAS Archive",
         "ipnt.or.kr": "IPNT Proceedings",
         "ieeexplore.ieee.org": "IEEE Xplore",
         "arc.aiaa.org": "AIAA ARC",
         "journals.sagepub.com": "SAGE Journals",
-        "linkinghub.elsevier.com": "Elsevier",
         "sciencedirect.com": "ScienceDirect",
         "mdpi.com": "MDPI",
         "link.springer.com": "SpringerLink",
         "eucass.eu": "EUCASS",
-        "semanticscholar.org": "Semantic Scholar",
     }
     return source_labels.get(host, host or "Publisher Page")
 
@@ -630,12 +626,11 @@ def publication_source_label(url, doi=None):
 def link_badges(p, base="papers/pdfs/", paper_page=False):
     """Render publication-source, self-hosted PDF, and BibTeX badges."""
     official = p.get("official_link")
-    doi = p.get("doi")
     local_pdf = has_local_pdf(p)
     badges = []
     if official:
-        label = publication_source_label(official, doi)
-        tooltip_target = f"doi.org/{doi}" if doi else official
+        label = publication_source_label(official)
+        tooltip_target = official
         badges.append(
             f'<a class="badge badge-official" href="{esc(official)}" target="_blank" rel="noopener" '
             f'data-tooltip="{esc(tooltip_target)}">{label}</a>'
