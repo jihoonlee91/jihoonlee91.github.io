@@ -477,7 +477,7 @@
       "citations": 0,
       "doi": null,
       "abstract": "",
-      "official_link": "https://fdcl.snu.ac.kr/publication/%ea%b0%80%ec%9a%b0%ec%8b%9c%ec%95%88-%ed%94%84%eb%a1%9c%ec%84%b8%ec%8a%a4%eb%a5%bc-%ec%9d%b4%ec%9a%a9%ed%95%9c-%eb%aa%a8%ed%95%91-%ed%95%ad%ea%b3%b5%ea%b8%b0-%ec%97%ad%eb%8f%99%ec%97%ad%ed%95%99/",
+      "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE08753032",
       "pdf": "papers/pdfs/2019-gaussian-process-inverse-dynamics-ko.pdf",
       "theme": "Morphing-Wing Aircraft Control"
     },
@@ -522,7 +522,7 @@
       "citations": 0,
       "doi": null,
       "abstract": "",
-      "official_link": "https://fdcl.snu.ac.kr/publication/%eb%aa%a8%ed%95%91-%ed%95%ad%ea%b3%b5%ea%b8%b0%eb%a5%bc-%ec%9c%84%ed%95%9c-%ea%b0%95%ea%b1%b4-%ed%8f%90%eb%a3%a8%ed%94%84-%ec%a1%b0%ec%a2%85%eb%a0%a5-%ed%95%a0%eb%8b%b9-%ea%b8%b0%eb%b2%95/",
+      "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE07619663",
       "pdf": "papers/pdfs/2018-robust-control-allocation-morphing-ko.pdf",
       "theme": "Morphing-Wing Aircraft Control"
     },
@@ -732,7 +732,7 @@
       "citations": 0,
       "doi": null,
       "abstract": "",
-      "official_link": "https://fdcl.snu.ac.kr/publication/stochastic-approach-to-risk-evaluation-for-uav-landing-on-an-aircraft-carrier/",
+      "official_link": null,
       "pdf": "papers/pdfs/2015-stochastic-risk-wave-off-decision.pdf",
       "theme": "Autonomous Carrier Landing & Guidance"
     },

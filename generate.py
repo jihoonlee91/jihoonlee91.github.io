@@ -595,7 +595,6 @@ def publication_source_label(url, doi=None):
         "riss.kr": "RISS",
         "riss.or.kr": "RISS",
         "dcollection.snu.ac.kr": "SNU Repository",
-        "fdcl.snu.ac.kr": "SNU FDCL",
         "icas.org": "ICAS Archive",
         "ipnt.or.kr": "IPNT Proceedings",
         "semanticscholar.org": "Semantic Scholar",
