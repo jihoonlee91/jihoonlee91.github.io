@@ -588,8 +588,25 @@ def render_index():
 def publication_source_label(url, doi=None):
     """Name the actual publication source instead of calling every index an official link."""
     host = urlparse(url).netloc.lower().removeprefix("www.")
-    if doi or host == "doi.org":
-        return f"DOI &middot; {esc(doi)}" if doi else "DOI"
+    if doi:
+        doi_lower = doi.lower()
+        doi_source_labels = {
+            "10.1109/": "IEEE Xplore",
+            "10.23919/": "IEEE Xplore",
+            "10.2514/": "AIAA ARC",
+            "10.1177/": "SAGE Journals",
+            "10.1016/": "Elsevier",
+            "10.3390/": "MDPI",
+            "10.1007/": "SpringerLink",
+            "10.13009/": "EUCASS",
+            "10.5139/": "DBpia",
+        }
+        for prefix, source in doi_source_labels.items():
+            if doi_lower.startswith(prefix):
+                return f"{source} &middot; DOI"
+        return f"DOI &middot; {esc(doi)}"
+    if host == "doi.org":
+        return "DOI"
     source_labels = {
         "dbpia.co.kr": "DBpia",
         "riss.kr": "RISS",
@@ -597,9 +614,17 @@ def publication_source_label(url, doi=None):
         "dcollection.snu.ac.kr": "SNU Repository",
         "icas.org": "ICAS Archive",
         "ipnt.or.kr": "IPNT Proceedings",
+        "ieeexplore.ieee.org": "IEEE Xplore",
+        "arc.aiaa.org": "AIAA ARC",
+        "journals.sagepub.com": "SAGE Journals",
+        "linkinghub.elsevier.com": "Elsevier",
+        "sciencedirect.com": "ScienceDirect",
+        "mdpi.com": "MDPI",
+        "link.springer.com": "SpringerLink",
+        "eucass.eu": "EUCASS",
         "semanticscholar.org": "Semantic Scholar",
     }
-    return source_labels.get(host, "Publisher Page")
+    return source_labels.get(host, host or "Publisher Page")
 
 
 def link_badges(p, base="papers/pdfs/", paper_page=False):
