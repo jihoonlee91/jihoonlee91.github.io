@@ -106,6 +106,7 @@
       "title": "Development of Location System for Firefighters Based on Wireless Communication",
       "description": "재난현장 무선통신 추적기반 요구조자 및 소방관 위치정보시스템 개발 — Korea Fire Institute (KFI)",
       "period": "Jan 2021 – Dec 2022",
+      "collaborators": ["Suwon Lee", "Heein Park"],
       "related_papers": ["2023-indoor-path-planning-search-rescue", "2021-indoor-path-planning-firefighter-ko"]
     },
     {

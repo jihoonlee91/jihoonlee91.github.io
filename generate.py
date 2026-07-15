@@ -793,6 +793,10 @@ def render_projects_section(projects):
         if proj.get("url") and parts:
             parts[0] = f'<a href="{esc(proj["url"])}" target="_blank" rel="noopener">{parts[0]}</a>'
         line = f'<li>{" &mdash; ".join(p for p in parts if p)}'
+        collaborators = proj.get("collaborators") or []
+        if collaborators:
+            names = ", ".join(esc(name) for name in collaborators)
+            line += f'<div class="project-collaborators"><strong>Primary collaborators:</strong> {names}</div>'
         slugs = proj.get("related_papers") or []
         links = []
         for slug in slugs:
