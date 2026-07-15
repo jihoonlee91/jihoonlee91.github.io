@@ -59,12 +59,32 @@
   ],
   "experience": [
     {
-      "organization": "Samsung Electronics",
-      "position": "Staff Engineer, AI & Software",
+      "organization": "Digital Twin Center, Samsung Electronics",
+      "position": "Staff Engineer — Production AI & ML Systems",
       "highlights": [
-        "Work in software engineering, machine learning, and optimization for complex engineering applications."
+        "Lead the ML workstream within a 20+ person cross-functional Fab AI program spanning AI, software, data, process, and manufacturing organizations.",
+        "Collaborate with V-NAND and DRAM process engineers to define modeling targets, datasets, validation criteria, and engineering decision rules.",
+        "Explore agentic and LLM-assisted decision-support workflows — context retrieval, candidate generation, and human-in-the-loop review."
       ],
-      "period": "Mar 2023 — Present"
+      "period": "Jan 2026 – Present"
+    },
+    {
+      "organization": "Mechatronics Research, Samsung Electronics",
+      "position": "Staff Engineer — Production AI & ML Systems",
+      "highlights": [
+        "Supported 30+ process-engineering requests by converting development/manufacturing issues into model-based workflows.",
+        "Built model-based workflows connecting model outputs to process-condition comparison, recipe screening, and sensitivity analysis for equipment/process engineering teams."
+      ],
+      "period": "Jan 2025 – Dec 2025"
+    },
+    {
+      "organization": "Memory Manufacturing Technology Center, Samsung Electronics",
+      "position": "Staff Engineer — Production AI & ML Systems",
+      "highlights": [
+        "Built the initial production ML workflows for advanced memory semiconductor engineering across technology development, new product/process development, R&D, and mass production.",
+        "Built fab-scale training datasets from 10+ data sources — recipe parameters, equipment logs, sensor traces, metrology, defect signals, and process history."
+      ],
+      "period": "Mar 2023 – Dec 2024"
     },
     {
       "organization": "Flight Dynamics and Control Lab, Seoul National University",

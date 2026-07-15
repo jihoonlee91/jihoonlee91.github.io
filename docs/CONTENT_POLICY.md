@@ -24,11 +24,25 @@ not sufficient when the underlying fact is not cleared for publication.
   proprietary process or system architecture.
 - Anything marked or historically treated as confidential in internal
   documents, even if it seems minor.
-- Employer organization names below the public company level, team scope,
-  staffing, timelines, responsibilities, project outcomes, and business
-  impact unless the employer has independently made the exact fact public.
 - Non-public datasets, data sources, workflows, validation practices,
   operational problems, or descriptions of how work is performed.
+- Exact/precise counts (e.g. "37 requests", "14 data sources") — round
+  figures like "20+", "30+" are the owner's explicitly authorized ceiling
+  (see the exception below); anything more precise than that is still off
+  limits.
+
+**Exception, set explicitly by the site owner (2026-07-15):** internal
+sub-organization names at Samsung Electronics (e.g. "Digital Twin Center",
+"Mechatronics Research", "Memory Manufacturing Technology Center") and
+rounded, non-precise scope figures (team size, request counts, data-source
+counts, expressed as "N+") **may** appear in `experience` entries — the
+owner reviewed this specific content and asked for it to stay, overriding
+the general "below public company level" rule above for this one section.
+This does not extend to anything else on the "never include" list
+(recipe/process parameters, unreleased product names, customer names,
+proprietary architecture detail) — those remain hard-blocked regardless of
+who asks, since they're the employer's information, not the owner's alone
+to disclose.
 
 **Allowed public content:**
 
