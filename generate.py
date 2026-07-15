@@ -1053,10 +1053,15 @@ def render_life():
         photos = section.get("photos") or []
         gallery = ""
         if photos:
-            thumbs = "".join(
-                f'<a href="{esc(photo)}" target="_blank" rel="noopener"><img class="life-photo" src="{esc(photo)}" alt="{esc(section["title"])} photo" loading="lazy"></a>'
-                for photo in photos
-            )
+            thumbs = ""
+            for photo in photos:
+                if isinstance(photo, dict):
+                    src = photo.get("src", "")
+                    alt = photo.get("alt") or f'{section["title"]} photo'
+                else:
+                    src = photo
+                    alt = f'{section["title"]} photo'
+                thumbs += f'<a href="{esc(src)}" target="_blank" rel="noopener"><img class="life-photo" src="{esc(src)}" alt="{esc(alt)}" loading="lazy"></a>'
             gallery = f'<div class="life-gallery">{thumbs}</div>'
         races_html = ""
         records_html = ""
@@ -1086,7 +1091,6 @@ def render_life():
       <h1>Life</h1>
       {intro_html}
     </header>
-    {render_section_nav([("Cycling", "life-cycling"), ("Triathlon", "life-triathlon"), ("Swimming", "life-swimming"), ("Running", "life-running"), ("Rowing", "life-rowing"), ("Hiking", "life-hiking"), ("Travel", "life-travel"), ("Photography", "life-photography")])}
     <div class="life-grid">{"".join(sections_html)}</div>
   </main>
   <footer class="site-footer"></footer>
