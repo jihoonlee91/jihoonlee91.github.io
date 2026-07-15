@@ -32,6 +32,24 @@ CATEGORY_LABELS = {
 }
 CATEGORY_ORDER = ["int-journal", "domestic-journal", "int-conference", "domestic-conference", "thesis"]
 
+
+def _cv_keyword_texts():
+    """CV/bio prose fed into the keyword word cloud alongside publication
+    titles/abstracts, so it reflects the whole professional story instead
+    of just the PhD-era paper metadata."""
+    texts = []
+    for key in ("bio", "tagline", "identity_tag"):
+        if DATA.get(key):
+            texts.append(DATA[key])
+    for e in DATA.get("experience", []):
+        if e.get("position"):
+            texts.append(e["position"])
+        texts.extend(e.get("highlights") or [])
+    for proj in DATA.get("projects", []):
+        if proj.get("description"):
+            texts.append(proj["description"])
+    return texts
+
 THEME_INIT_SCRIPT = """<script>
 (function () {
   var saved = localStorage.getItem('theme');
@@ -614,7 +632,7 @@ def render_publications():
     <p class="page-intro">{len(DATA['papers'])} publications total &middot; a unified list combining Google Scholar records with additional entries. Also available on my <a href="{esc(DATA['scholar_url'])}" target="_blank" rel="noopener">Google Scholar profile</a>.</p>
     {viz.year_category_chart(DATA['papers'])}
     {viz.citation_year_chart(DATA.get('citation_stats') or {})}
-    {viz.keyword_chart(DATA['papers'])}
+    {viz.keyword_chart(DATA['papers'], extra_texts=_cv_keyword_texts())}
     <div class="legend">
       <span class="badge badge-official">Official Link</span> publisher / DOI source
       <span class="badge badge-preprint">Full Text (PDF)</span> self-hosted file

@@ -10,6 +10,7 @@ the dataviz skill's validate_palette.js against this site's own dark
 (#0d1117) and light (#ffffff) surfaces before use — see docs/DESIGN.md.
 """
 import html
+import math
 import re
 from collections import Counter
 
@@ -38,6 +39,7 @@ STOPWORDS = {
     "three", "first", "second", "final", "finally", "paper", "author", "authors", "work", "problem",
     "problems", "process", "processes", "given", "provide", "provides", "provided", "make", "makes",
     "made", "not", "only", "both", "were", "was", "are", "been", "has", "have", "had", "will", "may",
+    "including", "across", "within", "involving", "spanning", "own",
 }
 
 
@@ -213,19 +215,32 @@ def citation_year_chart(citation_stats):
     </div>'''
 
 
-def keyword_chart(papers, top_n=25):
+def _count_words(text, counter, weight):
+    for word in re.findall(r"[A-Za-z][A-Za-z\-]+", text or ""):
+        w = word.lower().strip("-")
+        if len(w) > 2 and w not in STOPWORDS:
+            counter[w] += weight
+
+
+def _boxes_overlap(a, b, pad=3):
+    ax0, ay0, ax1, ay1 = a
+    bx0, by0, bx1, by1 = b
+    return not (ax1 + pad < bx0 or bx1 + pad < ax0 or ay1 + pad < by0 or by1 + pad < ay0)
+
+
+def keyword_chart(papers, extra_texts=None, top_n=32):
+    """Spiral-packed word cloud (Wordle-style): largest word centered, each
+    subsequent word walks an outward spiral until it finds a free spot,
+    checked against every word already placed. Draws from paper titles
+    (weighted highest), abstracts, and optional extra text (CV bio/
+    experience copy) so the cloud reflects the whole site, not just
+    publication metadata."""
     counter = Counter()
     for p in papers:
-        title = p.get("title_en") or p["title"]
-        for word in re.findall(r"[A-Za-z][A-Za-z\-]+", title):
-            w = word.lower().strip("-")
-            if len(w) > 2 and w not in STOPWORDS:
-                counter[w] += 3  # title words weigh more than abstract words
-        abstract = p.get("abstract") or ""
-        for word in re.findall(r"[A-Za-z][A-Za-z\-]+", abstract):
-            w = word.lower().strip("-")
-            if len(w) > 2 and w not in STOPWORDS:
-                counter[w] += 1
+        _count_words(p.get("title_en") or p["title"], counter, weight=3)
+        _count_words(p.get("abstract"), counter, weight=1)
+    for text in (extra_texts or []):
+        _count_words(text, counter, weight=5)
 
     top = counter.most_common(top_n)
     if not top:
@@ -234,53 +249,56 @@ def keyword_chart(papers, top_n=25):
     max_count = top[0][1]
     min_count = top[-1][1]
     span = max_count - min_count or 1
-    min_font, max_font = 13, 38
+    min_font, max_font = 14, 60
 
     def font_size(count):
         t = ((count - min_count) / span) ** 0.5
         return min_font + t * (max_font - min_font)
 
-    width = 980
-    max_row_width = width - 40
-    row_gap = 14
-
-    rows, row = [], []
-    row_width = 0
+    search_radius_cap = 2200
+    placed_boxes = []
+    elements = []
     for word, count in top:
         fs = font_size(count)
-        w = len(word) * fs * 0.58 + 20
-        if row and row_width + w > max_row_width:
-            rows.append(row)
-            row, row_width = [], 0
-        row.append((word, count, fs, w))
-        row_width += w
-    if row:
-        rows.append(row)
+        w = len(word) * fs * 0.62
+        h = fs * 1.15
+        angle = 0.0
+        radius = 0.0
+        spot = None
+        while radius < search_radius_cap:
+            cx = radius * math.cos(angle)
+            cy = radius * math.sin(angle) * 0.7  # flatten to a wide oval, more "cloud"-shaped
+            box = (cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2)
+            if not any(_boxes_overlap(box, b) for b in placed_boxes):
+                spot = (cx, cy)
+                placed_boxes.append(box)
+                break
+            angle += 0.35
+            radius += 2.2
+        if spot is None:
+            continue
+        tx, ty = spot
+        weight_css = 700 if fs > (min_font + max_font) / 2 else 500
+        opacity = 0.55 + 0.45 * ((fs - min_font) / (max_font - min_font) if max_font > min_font else 1)
+        elements.append(
+            f'<text x="{tx:.1f}" y="{ty + fs * 0.34:.1f}" text-anchor="middle" '
+            f'font-size="{fs:.1f}" font-weight="{weight_css}" fill="var(--series-1)" '
+            f'opacity="{opacity:.2f}">{esc(word)}<title>{esc(word)}: {count}</title></text>'
+        )
 
-    elements = []
-    y = 12
-    for row in rows:
-        row_width = sum(w for _, _, _, w in row)
-        row_height = max(fs for _, _, fs, _ in row)
-        x = (width - row_width) / 2
-        baseline = y + row_height
-        for word, count, fs, w in row:
-            weight = 700 if fs > (min_font + max_font) / 2 else 500
-            opacity = 0.55 + 0.45 * ((fs - min_font) / (max_font - min_font) if max_font > min_font else 1)
-            elements.append(
-                f'<text x="{x + w / 2:.1f}" y="{baseline:.1f}" text-anchor="middle" '
-                f'font-size="{fs:.1f}" font-weight="{weight}" fill="var(--series-1)" '
-                f'opacity="{opacity:.2f}">{esc(word)}<title>{esc(word)}: {count}</title></text>'
-            )
-            x += w
-        y = baseline + row_gap
-    height = y + 8
+    margin = 16
+    min_x = min(b[0] for b in placed_boxes) - margin
+    min_y = min(b[1] for b in placed_boxes) - margin
+    max_x = max(b[2] for b in placed_boxes) + margin
+    max_y = max(b[3] for b in placed_boxes) + margin
+    vb_w = max_x - min_x
+    vb_h = max_y - min_y
 
     table_rows = "".join(f"<tr><th>{esc(word)}</th><td>{count}</td></tr>" for word, count in top)
 
     return f'''<div class="viz-block">
       <h3>Top Research Keywords</h3>
-      <svg viewBox="0 0 {width} {height:.0f}" class="viz-svg" role="img" aria-label="Word cloud of the most frequent keywords across publication titles, sized by frequency">
+      <svg viewBox="{min_x:.1f} {min_y:.1f} {vb_w:.1f} {vb_h:.1f}" class="viz-svg" role="img" aria-label="Word cloud of the most frequent keywords across publications and professional background, sized by frequency">
         {"".join(elements)}
       </svg>
       <details class="viz-table-toggle">
