@@ -408,6 +408,19 @@ section h2, main > h1 {
   border-bottom-color: var(--accent);
 }
 
+.section-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.section-nav-grid a {
+  text-align: center;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
 .home-grid {
   display: grid;
   grid-template-columns: 1fr;

@@ -394,7 +394,8 @@ def render_side_projects():
 
 def render_section_nav(items):
     links = "".join(f'<a href="#{esc(anchor)}">{esc(label)}</a>' for label, anchor in items)
-    return f'<nav class="section-nav" aria-label="On this page">{links}</nav>'
+    grid_class = " section-nav-grid" if len(items) > 5 else ""
+    return f'<nav class="section-nav{grid_class}" aria-label="On this page">{links}</nav>'
 
 
 def render_timeline():
