@@ -41,7 +41,7 @@
     {
       "school": "Seoul National University",
       "school_ko": "서울대학교",
-      "degree": "Ph.D., Aerospace Engineering (MS-PhD Integrated Course) — Department of Mechanical and Aerospace Engineering, College of Engineering. Flight Dynamics and Control Lab (Advisor: Prof. Youdan Kim, now retired). Dissertation: \"Self-Scheduled Parameter-Varying Control of Asymmetric Variable-Span Morphing Unmanned Aerial Vehicle\"",
+      "degree": "Ph.D., Aerospace Engineering (MS-PhD Integrated Course) — Department of Mechanical and Aerospace Engineering, College of Engineering. Flight Dynamics and Control Lab (Advisor: Prof. Youdan Kim). Dissertation: \"Self-Scheduled Parameter-Varying Control of Asymmetric Variable-Span Morphing Unmanned Aerial Vehicle\"",
       "degree_ko": "항공우주공학 박사 (석박사통합과정)",
       "period": "Sep 2014 – Feb 2023",
       "focus": "Aerospace GNC · UAV Guidance & Control · Optimization",
@@ -119,6 +119,8 @@
       "sponsor": "Agency for Defense Development (ADD)",
       "sponsor_ko": "국방과학연구소",
       "period": "Mar 2021 – Feb 2022",
+      "collaborators": ["Sangmin Lee", "Hyeonggwan Kang"],
+      "collaborators_ko": ["이상민", "강형관"],
       "related_papers": [
         "2022-optimal-policy-pitch-hold-milp",
         "2021-altitude-tracking-mpc-mine-detection",
@@ -132,8 +134,8 @@
       "sponsor": "Korea Fire Institute (KFI)",
       "sponsor_ko": "한국소방산업기술원",
       "period": "Jan 2021 – Dec 2022",
-      "collaborators": ["Suwon Lee", "Heein Park"],
-      "collaborators_ko": ["이수원", "박희인"],
+      "collaborators": ["Heein Park", "Chan Gook Park", "Jae Hong Lee"],
+      "collaborators_ko": ["박희인"],
       "related_papers": ["2023-indoor-path-planning-search-rescue", "2021-indoor-path-planning-firefighter-ko"]
     },
     {
@@ -142,6 +144,8 @@
       "sponsor": "LIG Nex1 Company Ltd.",
       "sponsor_ko": "LIG넥스원",
       "period": "Jan 2020 – Aug 2020",
+      "collaborators": ["Suwon Lee", "Youngjun Lee"],
+      "collaborators_ko": ["이수원", "이영준"],
       "related_papers": ["2021-target-tracking-laser-rangefinder", "2020-laser-rangefinder-target-tracking-ko"]
     },
     {
@@ -405,7 +409,7 @@
       "title_en": null,
       "title_ko": "비대칭 가변스팬 모핑 무인 항공기의 자체스케줄 파라미터 가변 제어",
       "authors": "Jihoon Lee",
-      "venue": "Ph.D. Dissertation, Seoul National University (Advisor: Prof. Youdan Kim, now retired)",
+      "venue": "Ph.D. Dissertation, Seoul National University (Advisor: Prof. Youdan Kim)",
       "year": 2023,
       "citations": 0,
       "doi": null,
@@ -946,28 +950,31 @@
   "facebook_url": "https://www.facebook.com/jihoonlee91",
   "collaborator_affiliations": {
     "Youdan Kim": "Seoul National University",
-    "Seungyun Jung": "Semiconductor Industry",
-    "Hanna Lee": "Seoul National University",
-    "Seong-hun Kim": "Research Institute",
+    "Seungyun Jung": "Samsung Electronics",
+    "Hanna Lee": "Samsung Electronics",
+    "Seong-hun Kim": "Samsung Electronics",
     "Seungkeun Kim": "Professor of Aerospace Engineering, Chungnam National University",
-    "Seokwon Lee": "Chung-Ang University",
+    "Seokwon Lee": "Assistant Professor, Mechanical Engineering, Chung-Ang University",
     "Chan Gook Park": "Seoul National University",
-    "Youngjun Lee": "Seoul National University",
-    "Suwon Lee": "Assistant Professor, Kookmin University"
+    "Youngjun Lee": "Samsung Electronics",
+    "Suwon Lee": "Assistant Professor, Future Mobility, Kookmin University (formerly Samsung Electronics)",
+    "Somang Lee": "Korea Aerospace Research Institute (KARI)",
+    "Jinyoung Suk": "Professor of Aerospace Engineering, Chungnam National University; CEO, Debrain"
   },
   "collaborator_names_ko": {
     "Youdan Kim": "김유단",
     "Seong-hun Kim": "김성훈",
-    "Hanna Lee": "이하나",
+    "Hanna Lee": "이한나",
     "Seungyun Jung": "정승윤",
-    "Seungkeun Kim": "김승근",
+    "Seungkeun Kim": "김승균",
     "Suwon Lee": "이수원",
     "Somang Lee": "이소망",
     "Jinyoung Suk": "석진영",
     "Seokwon Lee": "이석원",
     "Hyeonggwan Kang": "강형관",
     "Sangmin Lee": "이상민",
-    "Heein Park": "박희인"
+    "Heein Park": "박희인",
+    "Youngjun Lee": "이영준"
   },
   "identity_tag": "Semiconductor AI & Software Engineer"
 }
