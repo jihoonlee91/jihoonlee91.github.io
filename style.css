@@ -455,7 +455,9 @@ section h2, main > h1 {
 }
 
 .timeline-title a:hover {
-  color: var(--accent);
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 .timeline-body .timeline-title {
@@ -477,6 +479,23 @@ section h2, main > h1 {
 .timeline-detail {
   color: var(--muted);
   font-size: 0.9rem;
+}
+
+.timeline-detail a,
+.timeline-detail a:visited,
+.timeline-dissertation a,
+.timeline-dissertation a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+.timeline-detail a:hover,
+.timeline-detail a:focus-visible,
+.timeline-dissertation a:hover,
+.timeline-dissertation a:focus-visible {
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 .timeline-dissertation {
