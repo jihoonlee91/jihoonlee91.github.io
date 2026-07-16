@@ -537,7 +537,7 @@ def render_timeline():
                 "title_ko": parent_ko,
                 "detail": positions[0] if len(positions) == 1 else f'{len(g["items"])} internal roles',
                 "focus": next((e.get("focus") for _, e in g["items"] if e.get("focus")), None),
-                "url": None,
+                "url": next((e.get("url") for _, e in g["items"] if e.get("url")), None),
                 "kind": "work",
                 "subitems": subitems,
             })
@@ -572,7 +572,7 @@ def render_timeline():
                 "title_ko": g["items"][0][1].get("school_ko"),
                 "detail": f'{len(g["items"])} degrees',
                 "focus": next((e.get("focus") for _, e in g["items"] if e.get("focus")), None),
-                "url": None,
+                "url": next((e.get("url") for _, e in g["items"] if e.get("url")), None),
                 "kind": "education",
                 "subitems": subitems,
             })

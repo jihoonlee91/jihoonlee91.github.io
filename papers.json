@@ -52,14 +52,16 @@
       "school_ko": "연세대학교",
       "degree": "B.S., Mechanical Engineering (Advisor: Prof. Woongsup Yoon) — Thesis: \"Modeling and PIDE Control Simulation of a Quadrotor\" (Advisor: Prof. Jongsoo Lee)",
       "degree_ko": "기계공학 학사",
-      "period": "Feb 2010 – Aug 2014"
+      "period": "Feb 2010 – Aug 2014",
+      "url": "https://www.yonsei.ac.kr/en_sc/"
     },
     {
       "school": "Yonsei University",
       "school_ko": "연세대학교",
       "degree": "B.S., Astronomy (Double Major Program)",
       "degree_ko": "천문학 학사 (복수전공)",
-      "period": "Mar 2013 – Aug 2014"
+      "period": "Mar 2013 – Aug 2014",
+      "url": "https://www.yonsei.ac.kr/en_sc/"
     }
   ],
   "experience": [
@@ -73,7 +75,8 @@
         "Translate engineering priorities into robust ML systems with clear objectives, evaluation standards, and production-readiness requirements.",
         "Develop LLM-assisted decision-support capabilities that combine engineering knowledge with human oversight."
       ],
-      "period": "Jan 2026 – Present"
+      "period": "Jan 2026 – Present",
+      "url": "https://semiconductor.samsung.com/"
     },
     {
       "organization": "Mechatronics Research, Samsung Electronics",
@@ -84,7 +87,8 @@
         "Translated complex semiconductor development and manufacturing challenges into deployable, model-driven AI solutions.",
         "Built analytical capabilities that help engineers evaluate alternatives, understand model behavior, and make reliable engineering decisions."
       ],
-      "period": "Jan 2025 – Dec 2025"
+      "period": "Jan 2025 – Dec 2025",
+      "url": "https://semiconductor.samsung.com/"
     },
     {
       "organization": "Memory Manufacturing R&D Technology Center, Samsung Electronics",
@@ -95,7 +99,8 @@
         "Built production ML systems for semiconductor technology development, R&D, and manufacturing.",
         "Designed scalable data and software foundations for training, evaluating, and operating engineering ML models."
       ],
-      "period": "Mar 2023 – Dec 2024"
+      "period": "Mar 2023 – Dec 2024",
+      "url": "https://semiconductor.samsung.com/"
     },
     {
       "organization": "Flight Dynamics and Control Lab, Seoul National University",
