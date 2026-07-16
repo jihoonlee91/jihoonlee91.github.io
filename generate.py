@@ -99,17 +99,52 @@ function toggleTheme() {
   localStorage.setItem('theme', next);
 }
 
-function copyBibtex(el, ev) {
-  var text = el.getAttribute('data-tooltip');
-  if (navigator.clipboard && text) {
-    navigator.clipboard.writeText(text);
-    var orig = el.textContent;
-    el.textContent = 'Copied!';
-    setTimeout(function () { el.textContent = orig; }, 1200);
+function copyTooltipText(button) {
+  var panel = button.closest('.copy-tooltip-panel');
+  var textNode = panel && panel.querySelector('.copy-tooltip-text');
+  var text = textNode ? textNode.textContent : '';
+  var label = button.querySelector('.copy-tooltip-button-label');
+
+  function showResult(message, copied) {
+    if (label) label.textContent = message;
+    button.classList.toggle('is-copied', copied);
+    setTimeout(function () {
+      if (label) label.textContent = 'Copy';
+      button.classList.remove('is-copied');
+    }, 1400);
   }
-  ev.preventDefault();
-  return false;
+
+  function fallbackCopy() {
+    var textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    var copied = document.execCommand('copy');
+    textarea.remove();
+    return copied;
+  }
+
+  if (fallbackCopy()) {
+    showResult('Copied', true);
+  } else if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(
+      function () { showResult('Copied', true); },
+      function () { showResult('Copy failed', false); }
+    );
+  } else {
+    showResult('Copy failed', false);
+  }
 }
+
+document.addEventListener('click', function (event) {
+  var button = event.target.closest('.copy-tooltip-button');
+  if (!button) return;
+  event.preventDefault();
+  copyTooltipText(button);
+});
 </script>"""
 
 
@@ -684,6 +719,26 @@ def publication_source_label(url):
     return source_labels.get(host, host or "Publisher Page")
 
 
+COPY_ICON_SVG = '''<svg class="copy-tooltip-icon" viewBox="0 0 24 24" aria-hidden="true">
+  <rect x="8" y="8" width="11" height="11" rx="2"></rect>
+  <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path>
+</svg>'''
+
+
+def copyable_badge(label, href, badge_class, copy_text):
+    """A normal link badge with an interactive, selectable copy panel."""
+    return (
+        '<span class="copy-tooltip-wrap">'
+        f'<a class="badge {badge_class}" href="{esc(href)}" target="_blank" rel="noopener">{esc(label)}</a>'
+        f'<span class="copy-tooltip-panel" role="group" aria-label="{esc(label)} copy panel">'
+        f'<code class="copy-tooltip-text">{esc(copy_text)}</code>'
+        '<button class="copy-tooltip-button" type="button" '
+        f'aria-label="Copy {esc(label)} to clipboard" title="Copy to clipboard">'
+        f'{COPY_ICON_SVG}<span class="copy-tooltip-button-label">Copy</span></button>'
+        '</span></span>'
+    )
+
+
 def link_badges(p, base="papers/pdfs/", paper_page=False):
     """Render publication-source, self-hosted PDF, and BibTeX badges."""
     official = p.get("official_link")
@@ -691,25 +746,16 @@ def link_badges(p, base="papers/pdfs/", paper_page=False):
     badges = []
     if official:
         label = publication_source_label(official)
-        tooltip_target = official
-        badges.append(
-            f'<a class="badge badge-official" href="{esc(official)}" target="_blank" rel="noopener" '
-            f'data-tooltip="{esc(tooltip_target)}">{label}</a>'
-        )
+        badges.append(copyable_badge(label, official, "badge-official", official))
     if local_pdf:
         pdf_path = ("../" if paper_page else "") + p["pdf"]
-        badges.append(
-            f'<a class="badge badge-preprint" href="{esc(pdf_path)}" target="_blank" rel="noopener" '
-            f'data-tooltip="{esc(pdf_path)}">Author PDF</a>'
-        )
+        pdf_url = f'{SITE_URL}/{p["pdf"]}'
+        badges.append(copyable_badge("Author PDF", pdf_path, "badge-preprint", pdf_url))
     if not official and not local_pdf:
         badges.append('<span class="badge badge-pending">No Public Link Yet</span>')
     bib_path = ("../" if paper_page else "") + f'bibtex/{p["slug"]}.bib'
     bib_preview = to_bibtex(p, bibtex_key(p))
-    badges.append(
-        f'<a class="badge badge-bibtex" href="{esc(bib_path)}" target="_blank" rel="noopener" data-tooltip="{esc(bib_preview)}" '
-        f'onclick="return copyBibtex(this, event)">BibTeX</a>'
-    )
+    badges.append(copyable_badge("BibTeX", bib_path, "badge-bibtex", bib_preview))
     return "".join(badges)
 
 
