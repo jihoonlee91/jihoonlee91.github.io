@@ -1532,6 +1532,19 @@ a.badge:hover {
   grid-column: 1 / -1;
 }
 
+.cv-grid a,
+.cv-grid a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+.cv-grid a:hover,
+.cv-grid a:focus-visible {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
 .skill-row {
   display: flex;
   gap: 1rem;
