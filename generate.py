@@ -727,6 +727,11 @@ def render_publications():
         [category_labels_map[c] for c in CATEGORY_ORDER],
     )
     theme_sections = _render_grouped_sections(by_theme, THEME_ORDER + ["Other"], css_class="pub-category pub-theme")
+    pending_legend = (
+        '<span class="badge badge-pending">No Public Link Yet</span> not available'
+        if any(not p.get("official_link") and not has_local_pdf(p) for p in DATA["papers"])
+        else ""
+    )
 
     html_out = f'''<!DOCTYPE html>
 <html lang="en">
@@ -757,7 +762,7 @@ def render_publications():
       <div class="legend">
         <span class="badge badge-official">Publication Source</span> DOI, publisher, repository, or scholarly database
         <span class="badge badge-preprint">Author PDF</span> self-hosted author copy
-        <span class="badge badge-pending">No Public Link Yet</span> not available
+        {pending_legend}
       </div>
       <div class="view-control">
         <span class="view-toggle-label">View publications by</span>
