@@ -479,7 +479,7 @@ section h2, main > h1 {
   font-size: 0.9rem;
 }
 
-.timeline-detail a {
+.timeline-lab-link {
   color: var(--accent);
   text-decoration: underline;
   text-decoration-thickness: 1px;
@@ -487,8 +487,8 @@ section h2, main > h1 {
   text-decoration-color: color-mix(in srgb, var(--accent) 55%, transparent);
 }
 
-.timeline-detail a:hover,
-.timeline-detail a:focus-visible {
+.timeline-lab-link:hover,
+.timeline-lab-link:focus-visible {
   color: var(--accent-dark);
   text-decoration-color: currentColor;
 }
