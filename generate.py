@@ -616,6 +616,7 @@ def publication_source_label(url):
         "mdpi.com": "MDPI",
         "link.springer.com": "SpringerLink",
         "eucass.eu": "EUCASS",
+        "sase.or.kr": "SASE Proceedings",
     }
     return source_labels.get(host, host or "Publisher Page")
 

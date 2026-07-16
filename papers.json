@@ -518,7 +518,7 @@
       "citations": 0,
       "doi": null,
       "abstract": "",
-      "official_link": null,
+      "official_link": "https://sase.or.kr/Upload/Session/21/P%EA%B5%90%EB%A5%98%ED%9A%8C-1.pdf",
       "pdf": "papers/pdfs/2018-hierarchical-flight-control-morphing-ko.pdf",
       "theme": "Morphing-Wing Aircraft Control"
     },
@@ -713,7 +713,7 @@
       "citations": 0,
       "doi": null,
       "abstract": "",
-      "official_link": null,
+      "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE07068032",
       "pdf": "papers/pdfs/2016-autocode-lunar-orbiter-control-ko.pdf",
       "theme": "Satellite & Lunar Orbiter GNC"
     },
