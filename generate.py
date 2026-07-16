@@ -756,7 +756,7 @@ def render_publications():
     <div class="publication-toolbar" id="browse">
       <div class="legend">
         <span class="badge badge-official">Publication Source</span> DOI, publisher, repository, or scholarly database
-        <span class="badge badge-preprint">Full Text (PDF)</span> self-hosted file
+        <span class="badge badge-preprint">Author PDF</span> self-hosted author copy
         <span class="badge badge-pending">No Public Link Yet</span> not available
       </div>
       <div class="view-control">
