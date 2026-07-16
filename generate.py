@@ -915,7 +915,7 @@ def render_publications():
     </details>
     <div class="publication-toolbar" id="browse" tabindex="-1">
       <div class="legend">
-        <span class="badge badge-official">Publication Source</span> DOI, publisher, repository, or scholarly database
+        <span class="badge badge-official">Publication Source</span> Publisher or scholarly record
         <span class="badge badge-preprint">Author PDF</span> self-hosted author copy
         {pending_legend}
       </div>
