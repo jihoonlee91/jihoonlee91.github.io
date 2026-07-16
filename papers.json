@@ -503,7 +503,7 @@
       "citations": 0,
       "doi": "10.3316/informit.942442757619423",
       "abstract": "",
-      "official_link": "https://search.informit.org/doi/epdf/10.3316/informit.942442757619423",
+      "official_link": "https://search.informit.org/doi/abs/10.3316/informit.942442757619423",
       "pdf": "papers/pdfs/2019-flight-control-nonlinear-dynamic-inversion-gold.pdf",
       "theme": "Morphing-Wing Aircraft Control"
     },
@@ -735,7 +735,7 @@
     {
       "slug": "2015-stochastic-risk-wave-off-decision",
       "category": "int-conference",
-      "title": "Stochastic Approach to Risk Evaluation for UAV Landing on an Aircraft Carrier",
+      "title": "Stochastic Risk Evaluation Scheme for Wave-off Decision Making in Automatic Aircraft Carrier Landing",
       "title_en": null,
       "authors": "Jihoon Lee, Seokwon Lee, Somang Lee, Youdan Kim, Jungha Park, Seungkeun Kim, Jinyoung Suk",
       "venue": "7th Asia-Pacific International Symposium on Aerospace Technology (APISAT), Cairns, Australia, Nov. 2015",

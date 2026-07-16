@@ -617,7 +617,7 @@ def publication_source_label(url):
         "link.springer.com": "SpringerLink",
         "eucass.eu": "EUCASS",
         "sase.or.kr": "SASE Proceedings",
-        "search.informit.org": "Informit PDF",
+        "search.informit.org": "Informit",
     }
     return source_labels.get(host, host or "Publisher Page")
 
@@ -638,7 +638,7 @@ def link_badges(p, base="papers/pdfs/", paper_page=False):
         pdf_path = ("../" if paper_page else "") + p["pdf"]
         badges.append(
             f'<a class="badge badge-preprint" href="{esc(pdf_path)}" target="_blank" rel="noopener" '
-            f'data-tooltip="{esc(pdf_path)}">Full Text (PDF)</a>'
+            f'data-tooltip="{esc(pdf_path)}">Author PDF</a>'
         )
     if not official and not local_pdf:
         badges.append('<span class="badge badge-pending">No Public Link Yet</span>')
