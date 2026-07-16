@@ -166,6 +166,21 @@ def _venue_with_year(venue, year_display):
     return f"{venue}, {year_str}" if venue else year_str
 
 
+def _short_venue_name(paper):
+    """Return a compact journal or conference name for related-paper lists."""
+    venue = (paper.get("venue") or "").strip()
+    category = paper.get("category", "")
+    if "conference" in category:
+        if ")" in venue:
+            return venue[:venue.rfind(")") + 1]
+        return venue.split(",", 1)[0]
+    if "journal" in category:
+        return re.split(r",\s*(?:Vol\.|No\.|pp\.)", venue, maxsplit=1)[0]
+    if category == "thesis":
+        return venue.split(" (", 1)[0]
+    return venue
+
+
 def secondary_ko(value, class_name="entity-name-ko", tag="div"):
     """Render an optional Korean name as supporting, never primary, text."""
     return f'<{tag} class="{class_name}" lang="ko">{esc(value)}</{tag}>' if value else ""
@@ -1093,7 +1108,9 @@ def render_projects_section(projects):
             if not p:
                 continue
             primary_title, _ = paper_display_titles(p)
-            links.append(f'<a href="papers/{esc(slug)}.html">{esc(primary_title)} ({p["year"]})</a>')
+            venue_name = _short_venue_name(p)
+            venue_html = f' <span class="related-publication-venue">&mdash; {esc(venue_name)}</span>' if venue_name else ""
+            links.append(f'<a href="papers/{esc(slug)}.html">{esc(primary_title)} ({p["year"]})</a>{venue_html}')
         if links:
             label = "Selected related publications" if proj.get("related_note") else "Related publications"
             note = f' <em>({esc(proj["related_note"])})</em>' if proj.get("related_note") else ""
