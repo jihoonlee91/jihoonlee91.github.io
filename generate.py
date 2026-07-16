@@ -605,6 +605,11 @@ def render_timeline():
                 "title": edu["title"],
                 "title_ko": edu.get("title_ko"),
                 "detail": f'{edu["detail"]} · {lab_name}{advisor}',
+                "detail_html": (
+                    f'{esc(edu["detail"])} &middot; '
+                    f'<a href="{esc(work["url"])}" target="_blank" rel="noopener">{esc(lab_name)}</a>'
+                    f'{esc(advisor)}'
+                ) if work.get("url") else None,
                 "detail_ko": " · ".join(part for part in detail_ko_parts if part),
                 "focus": edu.get("focus") or work.get("focus"),
                 "url": work.get("url") or edu.get("url"),
@@ -638,7 +643,7 @@ def render_timeline():
         <div class="timeline-body">
           <div class="timeline-title">{title}</div>
           {title_ko}
-          <div class="timeline-detail">{esc(e['detail'])}</div>
+          <div class="timeline-detail">{e.get('detail_html') or esc(e['detail'])}</div>
           {detail_ko}
           {focus_html}
           {subitems_html}
