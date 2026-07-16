@@ -391,6 +391,12 @@ section h2, main > h1 {
   border-radius: 6px;
 }
 
+#insights,
+#browse,
+.cv-panel[id] {
+  scroll-margin-top: 8rem;
+}
+
 .home-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -542,6 +548,95 @@ section h2, main > h1 {
   gap: 1rem;
   align-items: start;
   margin: 1.5rem 0;
+}
+
+.publication-quick-actions {
+  display: none;
+  margin: -0.25rem 0 1rem;
+}
+
+.browse-publications-cta,
+.browse-publications-cta:visited {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  min-width: 15rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--accent);
+  border-radius: 9px;
+  color: var(--bg);
+  background: var(--accent);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.browse-publications-cta:hover {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+}
+
+.browse-publications-cta span:last-child {
+  font-size: 0.76rem;
+  font-weight: 600;
+  opacity: 0.84;
+}
+
+.publication-insights {
+  margin: 0 0 1rem;
+}
+
+.insights-summary {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--fg);
+  background: var(--bg-soft);
+  cursor: pointer;
+  list-style: none;
+}
+
+.insights-summary::-webkit-details-marker {
+  display: none;
+}
+
+.insights-summary::after {
+  content: "+";
+  color: var(--accent);
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.publication-insights[open] > .insights-summary::after {
+  content: "\2212";
+}
+
+.insights-summary > span {
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.insights-summary > small {
+  grid-column: 1;
+  margin-top: -0.6rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.publication-insights > .viz-dashboard {
+  margin: 1rem 0 1.5rem;
+}
+
+@media (min-width: 901px) {
+  .publication-insights > .insights-summary {
+    display: none;
+  }
 }
 
 .viz-note {
@@ -1312,6 +1407,16 @@ footer.site-footer a {
     padding: 2rem 1.25rem 4rem;
   }
 
+  .section-nav {
+    top: 6.7rem;
+  }
+
+  #insights,
+  #browse,
+  .cv-panel[id] {
+    scroll-margin-top: 10.75rem;
+  }
+
   .skill-row {
     flex-direction: column;
     gap: 0.15rem;
@@ -1344,6 +1449,19 @@ footer.site-footer a {
     flex-direction: column;
   }
 
+  .publication-quick-actions {
+    display: flex;
+    justify-content: stretch;
+  }
+
+  .browse-publications-cta {
+    width: 100%;
+  }
+
+  .insights-summary {
+    align-items: start;
+  }
+
   .view-control {
     width: 100%;
   }
@@ -1359,7 +1477,36 @@ footer.site-footer a {
 
 @media (max-width: 900px) {
   .section-nav {
+    display: flex;
+    gap: 0.4rem;
+    padding: 0.35rem 0 0.55rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    white-space: nowrap;
+  }
+
+  .section-nav::-webkit-scrollbar {
     display: none;
+  }
+
+  .publication-section-nav {
+    display: none;
+  }
+
+  .section-nav-grid {
+    grid-template-columns: none;
+  }
+
+  .section-nav a {
+    padding: 0.4rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--bg-soft);
+    line-height: 1.2;
+  }
+
+  .section-nav a:hover {
+    border-color: var(--accent);
   }
 
   .venue-groups {
@@ -1393,6 +1540,9 @@ footer.site-footer a {
 /* ---- Print (primarily for cv.html — "print to PDF" a clean CV) ---- */
 @media print {
   .site-nav,
+  .section-nav,
+  .publication-quick-actions,
+  .insights-summary,
   .theme-toggle,
   footer.site-footer,
   .hero-photo,

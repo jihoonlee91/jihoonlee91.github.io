@@ -55,23 +55,27 @@ CATEGORY_LABELS = {
 }
 CATEGORY_ORDER = ["int-journal", "domestic-journal", "int-conference", "domestic-conference", "thesis"]
 
+# These are intentionally curated rather than extracted from CV prose.  The
+# chart combines durable professional focus areas with the publication corpus,
+# without promoting incidental resume words such as job titles or workflow
+# descriptions.  Scores set visual emphasis; paper-title/abstract frequencies
+# are added separately in viz.keyword_chart().
+CURATED_RESEARCH_FOCUS = [
+    ("Semiconductor AI", 138),
+    ("Machine Learning", 124),
+    ("Engineering Software", 116),
+    ("Aerospace GNC", 112),
+    ("UAV Guidance & Control", 108),
+    ("Morphing Aircraft", 104),
+    ("Optimization", 96),
+    ("Industrial AI", 84),
+    ("Autonomous Systems", 78),
+]
 
-def _cv_keyword_texts():
-    """CV/bio prose fed into the keyword word cloud alongside publication
-    titles/abstracts, so it reflects the whole professional story instead
-    of just the PhD-era paper metadata."""
-    texts = []
-    for key in ("bio", "tagline", "identity_tag"):
-        if DATA.get(key):
-            texts.append(DATA[key])
-    for e in DATA.get("experience", []):
-        if e.get("position"):
-            texts.append(e["position"])
-        texts.extend(e.get("highlights") or [])
-    for proj in DATA.get("projects", []):
-        if proj.get("description"):
-            texts.append(proj["description"])
-    return texts
+# Citation counts are a point-in-time snapshot rather than live data.  Prefer
+# the date stored with that snapshot; the fallback keeps older data files
+# renderable until they acquire the field.
+CITATION_STATS_UPDATED = (DATA.get("citation_stats") or {}).get("updated") or "Jul 2026"
 
 THEME_INIT_SCRIPT = """<script>
 (function () {
@@ -407,10 +411,11 @@ def render_side_projects():
     </section>'''
 
 
-def render_section_nav(items):
+def render_section_nav(items, extra_class=""):
     links = "".join(f'<a href="#{esc(anchor)}">{esc(label)}</a>' for label, anchor in items)
-    grid_class = " section-nav-grid" if len(items) > 5 else ""
-    return f'<nav class="section-nav{grid_class}" aria-label="On this page">{links}</nav>'
+    grid_class = " section-nav-grid" if len(items) > 6 else ""
+    extra = f" {extra_class.strip()}" if extra_class.strip() else ""
+    return f'<nav class="section-nav{grid_class}{extra}" aria-label="On this page">{links}</nav>'
 
 
 def render_timeline():
@@ -714,6 +719,63 @@ function setPubView(view) {
 </script>"""
 
 
+PUBLICATION_UX_SCRIPT = """<script>
+(function () {
+  var insights = document.getElementById('insights');
+  var compactLayout = window.matchMedia('(max-width: 900px)');
+
+  function syncInsights(e) {
+    if (insights) insights.open = !e.matches;
+  }
+
+  syncInsights(compactLayout);
+  if (compactLayout.addEventListener) {
+    compactLayout.addEventListener('change', syncInsights);
+  } else if (compactLayout.addListener) {
+    compactLayout.addListener(syncInsights);
+  }
+
+  var browse = document.getElementById('browse');
+  if (!browse) return;
+
+  function alignBrowse(focus, behavior) {
+    browse.scrollIntoView({block: 'start', behavior: behavior || 'auto'});
+    if (focus) browse.focus({preventScroll: true});
+  }
+
+  function settleBrowse(focus, smooth) {
+    var behavior = smooth && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      ? 'smooth'
+      : 'auto';
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(function () {
+        alignBrowse(false, behavior);
+      });
+    });
+    window.setTimeout(function () { alignBrowse(focus, 'auto'); }, 360);
+  }
+
+  document.querySelectorAll('a[href="#browse"]').forEach(function (link) {
+    link.addEventListener('click', function (event) {
+      event.preventDefault();
+      if (window.location.hash !== '#browse') {
+        window.history.pushState(null, '', '#browse');
+      }
+      settleBrowse(true, true);
+    });
+  });
+
+  window.addEventListener('hashchange', function () {
+    if (window.location.hash === '#browse') settleBrowse(true, false);
+  });
+  window.addEventListener('load', function () {
+    if (window.location.hash === '#browse') settleBrowse(false, false);
+  });
+  if (window.location.hash === '#browse') settleBrowse(false, false);
+})();
+</script>"""
+
+
 def render_publications():
     by_category = {c: [] for c in CATEGORY_ORDER}
     by_theme = {t: [] for t in THEME_ORDER}
@@ -751,14 +813,26 @@ def render_publications():
       <h1>Publications</h1>
       <p class="page-intro">{len(DATA['papers'])} publications total &middot; a unified list combining Google Scholar records with additional entries. Also available on my <a href="{esc(DATA['scholar_url'])}" target="_blank" rel="noopener">Google Scholar profile</a>.</p>
     </header>
-    {render_section_nav([("Insights", "insights"), ("Browse publications", "browse")])}
-    <div class="viz-dashboard" id="insights">
-      {viz.year_category_chart(DATA['papers'])}
-      {viz.venue_statistics(DATA['papers'])}
-      {viz.citation_year_chart(DATA.get('citation_stats') or {})}
-      {viz.keyword_chart(DATA['papers'], extra_texts=_cv_keyword_texts())}
+    {render_section_nav([("Insights", "insights"), ("Browse publications", "browse")], "publication-section-nav")}
+    <div class="publication-quick-actions">
+      <a class="browse-publications-cta" href="#browse">
+        <span>Browse publications</span>
+        <span>{len(DATA['papers'])} papers &darr;</span>
+      </a>
     </div>
-    <div class="publication-toolbar" id="browse">
+    <details class="publication-insights" id="insights" open>
+      <summary class="insights-summary">
+        <span>Publication insights</span>
+        <small>Year, venues, citations, and research focus</small>
+      </summary>
+      <div class="viz-dashboard">
+        {viz.year_category_chart(DATA['papers'])}
+        {viz.venue_statistics(DATA['papers'])}
+        {viz.citation_year_chart(DATA.get('citation_stats') or {}, updated_label=CITATION_STATS_UPDATED)}
+        {viz.keyword_chart(DATA['papers'], curated_terms=CURATED_RESEARCH_FOCUS)}
+      </div>
+    </details>
+    <div class="publication-toolbar" id="browse" tabindex="-1">
       <div class="legend">
         <span class="badge badge-official">Publication Source</span> DOI, publisher, repository, or scholarly database
         <span class="badge badge-preprint">Author PDF</span> self-hosted author copy
@@ -784,6 +858,7 @@ def render_publications():
   </footer>
   {THEME_TOGGLE_SCRIPT}
   {VIEW_TOGGLE_SCRIPT}
+  {PUBLICATION_UX_SCRIPT}
 </body>
 </html>
 '''
@@ -1042,11 +1117,11 @@ def render_cv():
       <h1>CV</h1>
       {cv_download}
     </header>
-    {render_section_nav([("Experience", "experience"), ("Education", "education"), ("Skills", "skills"), ("Projects", "projects"), ("Collaborators", "collaborators")])}
+    {render_section_nav([("Experience", "experience"), ("Education", "education"), ("Awards", "awards"), ("Skills", "skills"), ("Projects", "projects"), ("Collaborators", "collaborators")])}
     <div class="cv-grid">
       <div class="cv-panel cv-span" id="experience">{experience_html}</div>
       <div class="cv-panel" id="education">{education_html}</div>
-      <div class="cv-panel">{awards_html}</div>
+      <div class="cv-panel" id="awards">{awards_html}</div>
       <div class="cv-panel cv-span" id="skills">{skills_html}</div>
       <div class="cv-panel" id="projects">{projects_html}</div>
       <div class="cv-panel" id="collaborators">{collaborators_html}</div>

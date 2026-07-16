@@ -42,6 +42,8 @@ STOPWORDS = {
     "problems", "process", "processes", "given", "provide", "provides", "provided", "make", "makes",
     "made", "not", "only", "both", "were", "was", "are", "been", "has", "have", "had", "will", "may",
     "including", "across", "within", "involving", "spanning", "own",
+    "add", "staff", "engineer", "develop", "developed", "developing", "through", "workflow",
+    "workflows", "research",
 }
 
 
@@ -155,7 +157,7 @@ def year_category_chart(papers):
     </div>'''
 
 
-def citation_year_chart(citation_stats):
+def citation_year_chart(citation_stats, updated_label=None):
     by_year = citation_stats.get("citations_by_year") or {}
     if not by_year:
         return ""
@@ -201,8 +203,11 @@ def citation_year_chart(citation_stats):
 
     table_rows = "".join(f"<tr><th>{year}</th><td>{counts[year]}</td></tr>" for year in years)
 
+    updated_html = f" &middot; updated {esc(updated_label)}" if updated_label else ""
+
     return f'''<div class="viz-block">
       <h3>Citations by Year</h3>
+      <p class="viz-note viz-source">Source: Google Scholar &middot; {years[0]}&ndash;{years[-1]}{updated_html}</p>
       <svg viewBox="0 0 {width} {height}" class="viz-svg" role="img" aria-label="Bar chart of citations received per year, per Google Scholar">
         {"".join(gridlines)}
         {"".join(bars_svg)}
@@ -299,19 +304,25 @@ def _boxes_overlap(a, b, pad=3):
     return not (ax1 + pad < bx0 or bx1 + pad < ax0 or ay1 + pad < by0 or by1 + pad < ay0)
 
 
-def keyword_chart(papers, extra_texts=None, top_n=64):
+def keyword_chart(papers, curated_terms=None, top_n=64):
     """Spiral-packed word cloud (Wordle-style): largest word centered, each
     subsequent word walks an outward spiral until it finds a free spot,
-    checked against every word already placed. Draws from paper titles
-    (weighted highest), abstracts, and optional extra text (CV bio/
-    experience copy) so the cloud reflects the whole site, not just
-    publication metadata."""
+    checked against every word already placed. Draws from paper titles,
+    abstracts, and a small explicit set of durable professional focus terms.
+    It deliberately does not ingest raw CV prose, which would over-promote
+    incidental job-title and workflow vocabulary."""
     counter = Counter()
     for p in papers:
         _count_words(p.get("title_en") or p["title"], counter, weight=3)
         _count_words(p.get("abstract"), counter, weight=1)
-    for text in (extra_texts or []):
-        _count_words(text, counter, weight=5)
+    for term, score in (curated_terms or []):
+        label = (term or "").strip()
+        if label and score > 0:
+            # Merge an exact corpus token into its curated, presentation-case
+            # label (for example optimization -> Optimization) instead of
+            # rendering two visually duplicated entries.
+            corpus_score = counter.pop(label.lower(), 0)
+            counter[label] += score + corpus_score
 
     top = counter.most_common(top_n)
     if not top:
@@ -388,14 +399,15 @@ def keyword_chart(papers, extra_texts=None, top_n=64):
     table_rows = "".join(f"<tr><th>{esc(word)}</th><td>{count}</td></tr>" for word, count in top)
 
     return f'''<div class="viz-block">
-      <h3>Top Research Keywords</h3>
-      <svg viewBox="{min_x:.1f} {min_y:.1f} {vb_w:.1f} {vb_h:.1f}" class="viz-svg" role="img" aria-label="Word cloud of the most frequent keywords across publications and professional background, sized by frequency">
+      <h3>Research &amp; Engineering Focus</h3>
+      <p class="viz-note">Publication language with curated professional focus areas; size shows weighted prominence.</p>
+      <svg viewBox="{min_x:.1f} {min_y:.1f} {vb_w:.1f} {vb_h:.1f}" class="viz-svg" role="img" aria-label="Word cloud combining publication keywords with curated research and engineering focus areas, sized by weighted prominence">
         {"".join(elements)}
       </svg>
       <details class="viz-table-toggle">
         <summary>Table view</summary>
         <table class="viz-table">
-          <thead><tr><th>Keyword</th><th>Occurrences</th></tr></thead>
+          <thead><tr><th>Keyword</th><th>Weighted score</th></tr></thead>
           <tbody>{table_rows}</tbody>
         </table>
       </details>
