@@ -479,20 +479,6 @@ section h2, main > h1 {
   font-size: 0.9rem;
 }
 
-.timeline-lab-link {
-  color: var(--accent);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.18em;
-  text-decoration-color: color-mix(in srgb, var(--accent) 55%, transparent);
-}
-
-.timeline-lab-link:hover,
-.timeline-lab-link:focus-visible {
-  color: var(--accent-dark);
-  text-decoration-color: currentColor;
-}
-
 .timeline-focus {
   display: flex;
   flex-wrap: wrap;
