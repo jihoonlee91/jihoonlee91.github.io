@@ -590,9 +590,13 @@ def render_timeline():
         edu = next((e for e in group if e["kind"] == "education" and e["title"] == "Seoul National University" and not e.get("subitems")), None)
         if work and edu:
             advisor_match = re.search(r"Advisor: ([^,)]+)", next(iter(DATA["education"]), {}).get("degree", ""))
+            dissertation_match = None
+            education_item = None
             for ed in DATA["education"]:
                 if ed["school"] == "Seoul National University" and ed["period"] == period:
+                    education_item = ed
                     advisor_match = re.search(r"Advisor: ([^,)]+)", ed["degree"])
+                    dissertation_match = re.search(r'Dissertation: "([^"]+)"', ed["degree"])
                     break
             advisor = f" — Advisor: {advisor_match.group(1)}" if advisor_match else ""
             lab_name = work["title"].split(", ", 1)[0]
@@ -610,6 +614,8 @@ def render_timeline():
                     f'<a href="{esc(work["url"])}" target="_blank" rel="noopener">{esc(lab_name)}</a>'
                     f'{esc(advisor)}'
                 ) if work.get("url") else None,
+                "dissertation_title": dissertation_match.group(1) if dissertation_match else None,
+                "dissertation_url": education_item.get("url") if education_item else None,
                 "detail_ko": " · ".join(part for part in detail_ko_parts if part),
                 "focus": edu.get("focus") or work.get("focus"),
                 "url": work.get("url") or edu.get("url"),
@@ -628,6 +634,15 @@ def render_timeline():
         title = f'<a href="{esc(e["url"])}" target="_blank" rel="noopener">{esc(e["title"])}</a>' if e.get("url") else esc(e["title"])
         title_ko = secondary_ko(e.get("title_ko"), "timeline-title-ko")
         detail_ko = secondary_ko(e.get("detail_ko"), "timeline-detail-ko")
+        dissertation_html = ""
+        if e.get("dissertation_title"):
+            dissertation_title = esc(e["dissertation_title"])
+            if e.get("dissertation_url"):
+                dissertation_title = (
+                    f'<a href="{esc(e["dissertation_url"])}" target="_blank" rel="noopener">'
+                    f'{dissertation_title}</a>'
+                )
+            dissertation_html = f'<div class="timeline-dissertation"><span>Dissertation</span>{dissertation_title}</div>'
         focus_html = f'<div class="timeline-focus"><span>Focus</span>{esc(e["focus"])}</div>' if e.get("focus") else ""
         subitems_html = ""
         if e.get("subitems"):
@@ -645,6 +660,7 @@ def render_timeline():
           {title_ko}
           <div class="timeline-detail">{e.get('detail_html') or esc(e['detail'])}</div>
           {detail_ko}
+          {dissertation_html}
           {focus_html}
           {subitems_html}
         </div>

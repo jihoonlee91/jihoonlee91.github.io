@@ -479,6 +479,19 @@ section h2, main > h1 {
   font-size: 0.9rem;
 }
 
+.timeline-dissertation {
+  margin-top: 0.22rem;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.timeline-dissertation span {
+  margin-right: 0.45rem;
+  color: var(--fg);
+  font-weight: 600;
+}
+
 .timeline-focus {
   display: flex;
   flex-wrap: wrap;
