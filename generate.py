@@ -1232,7 +1232,15 @@ def render_education_section(items):
         primary_html = esc(primary)
         if link_degree and item.get("url"):
             primary_html = f'<a href="{esc(item["url"])}" target="_blank" rel="noopener">{primary_html}</a>'
-        detail_html = f'<span class="paper-sub">{esc(detail)}</span>' if detail else ""
+        if detail and item.get("url") and "Dissertation: " in detail:
+            detail_lead, dissertation_title = detail.split("Dissertation: ", 1)
+            detail_html = (
+                f'<span class="paper-sub">{esc(detail_lead)}Dissertation: '
+                f'<a href="{esc(item["url"])}" target="_blank" rel="noopener">'
+                f'{esc(dissertation_title)}</a></span>'
+            )
+        else:
+            detail_html = f'<span class="paper-sub">{esc(detail)}</span>' if detail else ""
         degree_ko_html = secondary_ko(item.get("degree_ko"), "education-degree-ko")
         return primary_html, detail_html, degree_ko_html
 
@@ -1240,7 +1248,7 @@ def render_education_section(items):
     for g in groups:
         if len(g["items"]) == 1:
             _, item = g["items"][0]
-            primary_html, detail_html, degree_ko_html = _split_degree(item)
+            primary_html, detail_html, degree_ko_html = _split_degree(item, link_degree=False)
             school_ko_html = secondary_ko(item.get("school_ko"), "education-school-ko")
             rows.append(
                 f'<li><strong>{esc(g["parent"])}</strong> &mdash; {primary_html} '
