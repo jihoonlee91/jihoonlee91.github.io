@@ -6,6 +6,7 @@ official_link/doi, or dropping a PDF into papers/pdfs/) to rebuild the site.
 A GitHub Actions workflow (.github/workflows/build.yml) runs this
 automatically on every push to main.
 """
+import hashlib
 import html
 import json
 import os
@@ -16,6 +17,9 @@ from urllib.parse import urlparse
 import viz
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
+
+with open(os.path.join(ROOT, "style.css"), "rb") as f:
+    STYLE_VERSION = hashlib.sha256(f.read()).hexdigest()[:12]
 
 with open(os.path.join(ROOT, "papers.json"), encoding="utf-8") as f:
     DATA = json.load(f)
@@ -570,7 +574,7 @@ def render_index():
 <meta name="description" content="{esc(DATA['name'])} - {esc(DATA.get('tagline', ''))}">
 {render_common_head('index.html', DATA['name'], DATA.get('tagline', ''))}
 {render_person_jsonld()}
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v={STYLE_VERSION}">
 </head>
 <body>
   {render_nav("Home")}
@@ -804,7 +808,7 @@ def render_publications():
 <title>Publications - {esc(DATA['name'])}</title>
 <meta name="description" content="Full publication list of {esc(DATA['name'])} (Journal / International Conference / Domestic Conference / Ph.D. Dissertation)">
 {render_common_head('publications.html', f"Publications - {DATA['name']}", f"{len(DATA['papers'])} publications by {DATA['name']} — journal articles, conference papers, and PhD dissertation.")}
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v={STYLE_VERSION}">
 </head>
 <body>
   {render_nav("Publications")}
@@ -1108,7 +1112,7 @@ def render_cv():
 <title>CV - {esc(DATA['name'])}</title>
 <meta name="description" content="CV of {esc(DATA['name'])} — education, experience, awards, and skills.">
 {render_common_head('cv.html', f"CV - {DATA['name']}", f"Education, experience, awards, and skills — {DATA['name']}.")}
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v={STYLE_VERSION}">
 </head>
 <body>
   {render_nav("CV")}
@@ -1242,7 +1246,7 @@ def render_life():
 <title>Life - {esc(DATA['name'])}</title>
 <meta name="description" content="Outside research and engineering — {esc(DATA['name'])}'s life outside of work.">
 {render_common_head('life.html', f"Life - {DATA['name']}", f"Outside research and engineering — {DATA['name']}'s life outside of work.")}
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v={STYLE_VERSION}">
 </head>
 <body>
   {render_nav("Life")}
@@ -1291,7 +1295,7 @@ def render_wiki_index():
 <title>Wiki - {esc(DATA['name'])}</title>
 <meta name="description" content="{esc(description)}">
 {render_common_head('wiki.html', f"Wiki - {DATA['name']}", description)}
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v={STYLE_VERSION}">
 </head>
 <body>
   {render_nav("Wiki")}
@@ -1339,7 +1343,7 @@ def render_wiki_page(note):
 <title>{esc(note['title'])} - {esc(DATA['name'])}</title>
 <meta name="description" content="{esc(description)}">
 {render_common_head(f"wiki/{note['slug']}.html", f"{note['title']} - {DATA['name']}", description, base="../")}
-<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../style.css?v={STYLE_VERSION}">
 </head>
 <body>
   {render_nav("Wiki", base="../")}
@@ -1394,7 +1398,7 @@ def render_paper_page(p):
 <meta name="description" content="{esc(meta_description)}">
 {render_common_head(f"papers/{p['slug']}.html", p['title'], meta_description, base="../")}
 {chr(10).join(meta_tags)}
-<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../style.css?v={STYLE_VERSION}">
 </head>
 <body>
   {render_nav("Publications", base="../")}

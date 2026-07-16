@@ -15,6 +15,9 @@ SVG generation).
   `window.toggleTheme()`, wired to the nav bar's toggle button
   (`render_nav()` in `generate.py`), which flips `data-theme` and persists it
   to `localStorage`.
+- Generated stylesheet URLs include a short SHA-256 content hash
+  (`style.css?v=...`), so a newly deployed layout does not reuse an older
+  cached stylesheet. `generate.py` updates the value automatically.
 - **When adding new UI, always use CSS custom properties** (`var(--fg)`,
   `var(--accent)`, etc.) — never a hardcoded hex — so it reacts to both
   themes automatically.
