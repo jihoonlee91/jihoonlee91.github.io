@@ -1,19 +1,20 @@
 # Link Research Runbook
 
-How official links for `papers.json` entries were found, and how to run
-another round for the papers that still don't have one. Written after
-finding links for 28/43 papers via ~15 parallel research agents across
-several rounds — this records what worked, what didn't, and the exact
-verification rule to keep following.
+How publication-source links for `papers.json` entries were found and how to
+audit a future or changed record. The current baseline is complete: 38 papers
+have a verified final source link and the other 5 have a verified Author PDF,
+for 43/43 public access coverage. This is a historical runbook for maintaining
+that standard, not a list of currently missing links.
 
 ## The rule (non-negotiable)
 
-**Never fabricate a URL.** A link only goes into `official_link` after an
-agent actually fetched the page (or resolved a DOI) and confirmed the
-title + author list + year match. A WebSearch result snippet is a lead, not
-a confirmation — several early agents caught themselves about to report a
-plausible-but-wrong nodeId/URL this way and correctly discarded it. If an
-agent can't verify, it must return `null`, not a guess.
+**Never fabricate a URL.** A link goes into `official_link` only after the
+final publisher, proceedings, scholarly-database, or full-text repository
+destination has been opened and its title + author list + year confirmed. DOI
+resolvers, RISS hand-off pages, lab pages, Scholar, ResearchGate, and search
+results are discovery sources, not final destinations. A search snippet is a
+lead, not confirmation. If a final link cannot be verified, return `null`, not
+a guess.
 
 ## Source reliability, ranked by what actually worked
 
@@ -21,31 +22,28 @@ agent can't verify, it must return `null`, not a guess.
    (`Accept: application/json`, no auth). Gave 13 confirmed DOIs in a
    single fetch for this site's international papers. Always try this
    first for any author with an ORCID iD before spawning search agents.
-2. **CrossRef** (`search.crossref.org`) — good for a DOI ORCID didn't have
-   (found the 2024 Korean journal article's DOI this way).
+2. **Crossref** (`search.crossref.org`) — good for a DOI ORCID didn't have
+   (found the 2024 Korean journal article's DOI this way). Resolve the DOI and
+   store the final publisher page, not `doi.org`.
 3. **Conference-specific archives** — ICAS (`icas.org/ICAS_ARCHIVE/...`) and
    EUCASS (`eucass.eu`) both have browsable proceedings archives with
    direct PDF links; worth checking by conference name + year even when a
    DOI search comes up empty.
-4. **RISS** (`riss.kr`) — Korean thesis/dissertation and conference-paper
-   aggregator. Worked well for several domestic KSAS conference papers when
-   DBpia failed; server-rendered enough for `WebFetch` to read directly.
+4. **RISS** (`riss.kr`) — useful Korean discovery and hand-off index. Follow
+   `원문보기` through to DBpia or another final provider; do not store the RISS
+   detail page when it only points onward.
 5. **The author's own PhD lab site** (for this project: `fdcl.snu.ac.kr`,
-   Flight Dynamics and Control Lab) — some labs publish a dedicated page per
-   paper under `/publication/`. Worth checking directly for any co-author
-   who has an active lab site, especially for domestic papers that don't
-   show up elsewhere.
+   Flight Dynamics and Control Lab) — useful for discovery, but a lab index is
+   not the final publication source. Follow its references to the publisher or
+   proceedings record.
 6. **Direct plain-title WebSearch (no `site:` restriction)** — surfaced a
    direct PDF on a conference's own site once (`ipnt.or.kr`), and pointed at
    working DBpia nodeIds a `site:dbpia.co.kr` search missed.
-7. **DBpia** (`dbpia.co.kr`) — the single biggest source of Korean articles,
-   but also the least reliable to automate: author pages and
-   table-of-contents listings are JavaScript-rendered, so `WebFetch` mostly
-   sees an empty shell. Success rate here was low (roughly 6 of ~24
-   domestic-paper attempts across multiple rounds) and every hit required
-   actually fetching the specific `articleDetail?nodeId=...` URL and
-   confirming the visible title/author text — a `site:dbpia.co.kr <title>`
-   search alone never confirmed anything by itself.
+7. **DBpia** (`dbpia.co.kr`) — the largest current source group (18 records).
+   Author pages and table-of-contents listings can still be difficult to
+   automate, so every hit requires opening the exact
+   `articleDetail?nodeId=...` page and confirming title, authors, venue, and
+   year. A `site:dbpia.co.kr <title>` result alone never confirms a record.
 8. **Semantic Scholar** (`semanticscholar.org` / its Graph API) — occasional
    hits for conference papers with no DOI; the public search API is rate
    limited (429s came back fast when queried programmatically in a tight
@@ -63,15 +61,14 @@ agent can't verify, it must return `null`, not a guess.
    prefer it over WebFetch for any DBpia lookup — it was the single biggest
    swing in hit rate observed across this whole project.
 
-## How to run another round
+## How to audit a future or changed paper
 
-For the remaining papers (`python generate.py`'s "still have no official
-link / PDF" output lists them), fan out one Agent per 3-4 papers rather
-than one agent for everything — parallel batches finish faster and a
-narrower prompt keeps each agent focused. A prompt template that worked:
+If a future record has neither a final source link nor an Author PDF,
+`python generate.py` reports it. For a batch, fan out one agent per 3–4 papers
+rather than one agent for everything. A prompt template that worked:
 
 ```
-Find official public links for these Korean-language conference papers
+Find final publication-source links for these Korean-language conference papers
 co-authored by 이지훈 (Jihoon Lee), a Seoul National University aerospace
 engineering researcher (advisor Prof. Youdan Kim), published in
 한국항공우주학회 (KSAS) conference proceedings.
@@ -80,7 +77,8 @@ Strategy — try all of these:
 1. Plain WebSearch with the exact Korean title (no site: restriction).
 2. Check koreascience.kr and kiss.kstudy.com (often more WebFetch-friendly
    than DBpia).
-3. Check RISS (riss.kr) — try both a title search and an author search.
+3. Check RISS (riss.kr) for discovery, then follow through to the final
+   publisher/proceedings page.
 4. If you land on a DBpia URL, check <title>/og:title meta tags even if
    the body is empty — this can still confirm a match.
 
@@ -92,14 +90,12 @@ year match). Never fabricate. Use null if not found.
 Return ONLY a JSON object: {"slug_key": "https://... or null", ...}
 ```
 
-After the agent(s) return, apply confirmed links with a small Python
-script against `papers.json` (see git history for the exact pattern used
-each round), then `python generate.py` to verify the "still missing" count
-went down, then commit.
+After the agent(s) return, add only confirmed final links to `papers.json`, then
+run `python generate.py` and confirm coverage. Review the diff before commit.
 
 ## When no link is findable
 
-Fall back to a self-hosted preprint PDF (`docs/CONTENT_GUIDE.md`) if the
+Fall back to a self-hosted Author PDF (`docs/CONTENT_GUIDE.md`) if the
 site owner has a copy and the venue's copyright policy allows it. If
-neither exists, leave the "Coming Soon" badge as-is rather than linking to
-something unverified — see the rule at the top of this doc.
+neither exists, leave the `No Public Link Yet` fallback rather than linking to
+something unverified. No current paper is in this state.

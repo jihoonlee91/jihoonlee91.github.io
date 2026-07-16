@@ -7,23 +7,19 @@ Guidance for Claude Code sessions working in this repo.
 **Never add anything to this repo — file content, commit message, or
 docs/*.md note — that relates to a job application, an employer the owner
 is applying to or interviewing with, or an immigration/visa process.**
-This includes material sourced from the owner's personal career-document
-folders (resumes prepared for a specific application, application-portal
-files, petition drafts). If a file path or pasted content looks like it's
-from one of those folders, don't pull content from it into this repo —
-ask the owner to paste just the specific fact needed instead. This is a
-standing rule regardless of whether the repo is currently public or
-private (see below) — a private repo can flip back to public, and old
-commits are easy to miss when that happens. Violating this once already
-required a force-push history rewrite; don't create a second one.
+This includes material sourced from personal career-document folders, such as
+application-specific resumes, portal files, or private legal documents. If a
+file path or pasted content appears to come from one of those sources, do not
+copy it into this repository; ask the owner to provide only the specific public
+fact needed. Source files, documentation, and old commits can remain
+discoverable even when a detail is not rendered on the site.
 
 ## Repo visibility
 
-This repo is **currently private** (owner's call, so drafts don't become
-instant public disclosures — see `docs/CONTENT_POLICY.md`). Don't assume
-it's public, and don't assume it'll stay private either — always write
-content as if it could go public at any time. Making it public again is
-the owner's decision alone; don't suggest or attempt it.
+This repo and its GitHub Pages site are **public**. Treat every source file,
+documentation edit, commit message, and push as a publication event; content
+does not become private merely because the generator does not render it.
+Changing repository visibility is the owner's decision alone.
 
 ## Who this site is for
 
@@ -56,13 +52,15 @@ It is a **static site generator**, not a hand-edited site:
 
 - `papers.json` — the single source of truth (profile, CV, all 43
   publications).
-- `wiki.json` — public wiki-note metadata and structured note content.
+- `wiki.json` — optional public wiki-note metadata and structured note content;
+  it is currently empty, so no Wiki tab or page is published.
 - `generate.py` — reads `papers.json`, writes `index.html`,
-  `publications.html`, `cv.html`, `wiki.html`, `wiki/<slug>.html`, `life.html`, `papers/<slug>.html` per
-  paper, `bibtex/*.bib`, `sitemap.xml`, `robots.txt`.
-- `viz.py` — generates the three static SVG charts embedded in
-  `publications.html` (publications-per-year, citations-per-year, keyword
-  word cloud).
+  `publications.html`, `cv.html`, `life.html`, `papers/<slug>.html` per paper,
+  `bibtex/*.bib`, `sitemap.xml`, and `robots.txt`; it also writes `wiki.html`
+  and `wiki/<slug>.html` when `wiki.json` has notes.
+- `viz.py` — generates four Publications insight blocks: publications per
+  year, venue statistics, citations per year, and the research-focus word
+  cloud. Three use inline SVG; venue statistics use semantic HTML.
 - `style.css` — one stylesheet, light-default theme with a dark toggle (see
   `docs/DESIGN.md`).
 
@@ -83,7 +81,7 @@ python generate.py   # local preview only — not required before pushing
 
 `.claude/commands/` has three commands scoped to this repo:
 `/rebuild` (regenerate + report status without committing), `/check-links`
-(report which papers still lack a verified link, per `docs/LINK_RESEARCH.md`),
+(audit publication source/PDF coverage, per `docs/LINK_RESEARCH.md`),
 and `/add-paper` (add a new publication entry with the right schema).
 `.claude/settings.json` allowlists a handful of read-only commands used
 constantly in this repo (git status/log/diff, gh run/repo view,
@@ -100,19 +98,20 @@ standing permissions beyond what was explicitly asked for.
 - `docs/DESIGN.md` — design tokens, theme system, chart palette, why the
   three link badges are different colors. Follow it rather than
   reinventing a convention.
-- `docs/DATA_SOURCES.md` — what's verified vs. still-missing in the
-  publication data, and which lookup sources are reliable (ORCID API: yes;
-  DBpia: mostly no, JS-rendered; ResearchGate: blocked/403).
-- `docs/CONTENT_GUIDE.md` — the mechanics of adding a paper, a preprint PDF,
+- `docs/DATA_SOURCES.md` — verified publication provenance, final-link rules,
+  and current 43/43 source/Author-PDF coverage.
+- `docs/CONTENT_GUIDE.md` — the mechanics of adding a paper, an Author PDF,
   or CV content.
 
 ## Working conventions established in this repo
 
-- **Never fabricate a URL.** Every `official_link` in `papers.json` was
-  added only after actually fetching the page and confirming
-  title+authors+year match. If you can't verify a link, leave the field
-  `null` — a wrong link is worse than a missing one, especially for a
-  public academic identity site.
+- **Never fabricate a URL.** Every `official_link` in `papers.json` must be
+  the final publisher, proceedings, scholarly-database, or full-text
+  repository destination and must match title+authors+year. DOI resolvers,
+  RISS hand-off pages, lab pages, Scholar, and ResearchGate are discovery
+  sources, not final links. If no final destination can be verified, leave the
+  field `null` and use an exact Author PDF when self-hosting is permitted — a
+  wrong link is worse than a missing one.
 - Widths: content container is `1200px` max, reduced from `1600px` after a
   wide-desktop review to improve line length and information density.
 - Site language is English throughout the UI (nav, badges, section

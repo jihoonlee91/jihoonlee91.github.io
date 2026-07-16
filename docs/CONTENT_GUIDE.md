@@ -12,11 +12,11 @@ Edit the `papers` array in `papers.json`. Each entry:
   "title_en": null,
   "authors": "Seokwon Lee, Jihoon Lee, ...",
   "venue": "IEEE Transactions on Aerospace and Electronic Systems, Vol. 55, No. 2, pp. 951-966",
-  "year": 2018,
+  "year": 2019,
   "citations": 79,
   "doi": "10.1109/TAES.2018.2867259",
   "abstract": "",
-  "official_link": "https://doi.org/10.1109/TAES.2018.2867259",
+  "official_link": "https://ieeexplore.ieee.org/document/8447257/",
   "pdf": "papers/pdfs/2018-sliding-mode-uav-carrier-landing.pdf",
   "theme": "Autonomous Carrier Landing & Guidance"
 }
@@ -40,17 +40,17 @@ Edit the `papers` array in `papers.json`. Each entry:
 - `slug` must be unique, lowercase, hyphenated — it's the filename for the
   paper's landing page (`papers/<slug>.html`) and BibTeX file
   (`bibtex/<slug>.bib`), and the expected filename for a self-hosted PDF.
-- After editing, run `python generate.py` and check its console output for
-  which papers are still missing a link.
+- After editing, run `python generate.py` and confirm that publication
+  source/Author-PDF coverage remains complete.
 
-## Adding a self-hosted (preprint) PDF
+## Adding a self-hosted Author PDF
 
 A paper can have **both** an `official_link` and a self-hosted PDF at the
-same time — they show as two separate badges (green "Official Link", amber
-"Preprint PDF"), not one replacing the other. This matters because many
-`official_link`s are paywalled (IEEE Xplore, journal publisher pages,
-DBpia): the official link stays as the citable source of record, and the
-preprint PDF gives visitors something they can actually open without a
+same time — they show as two separate badges (green destination-labelled
+publication source, amber `Author PDF`), not one replacing the other. This
+matters because many source-of-record pages are paywalled: the final publisher
+or proceedings link stays as the citable record, and the Author PDF gives
+visitors something they can actually open without a
 subscription.
 
 For any paper — whether or not it already has an `official_link`:
@@ -58,31 +58,34 @@ For any paper — whether or not it already has an `official_link`:
 1. Save the PDF as `papers/pdfs/<slug>.pdf` — the filename must exactly
    match the `slug` field.
 2. Run `python generate.py` again. This automatically:
-   - Adds a **Preprint PDF** badge (amber) on the paper's card and its own
+   - Adds an **Author PDF** badge (amber) on the paper's card and its own
      page, linking to the file.
    - Adds a `citation_pdf_url` meta tag to `papers/<slug>.html` so Google
      Scholar's crawler can index the PDF directly (see
      `docs/DESIGN.md` for why the badge is colored differently from
-     "Official Link").
-   - Removes the gray "Coming Soon" badge for that entry.
-3. Commit and push both the PDF and the regenerated HTML.
+     the publication-source badge).
+   - Removes the gray `No Public Link Yet` fallback for that entry.
+3. Commit and push the PDF and any edited source data. Generated HTML is
+   gitignored and must not be committed.
 
 If a paper has copyright restrictions preventing self-hosting, put the
-publisher/DOI link in `official_link` instead and skip the PDF.
+final publisher or proceedings URL in `official_link` and skip the PDF. Do not
+store a DOI-resolver or discovery-page URL when a deeper destination exists.
 
-## Finding an official link for an existing paper
+## Finding a publication-source link for an existing paper
 
-Preference order (most to least reliable, per `docs/DATA_SOURCES.md`):
+Use these sources for discovery, then store only the final destination defined
+in `docs/DATA_SOURCES.md`:
 
 1. ORCID public API — `https://pub.orcid.org/v3.0/0000-0001-5327-824X/works`
-   (no auth, machine-readable JSON, has DOIs for most international pubs).
-2. CrossRef search — `https://search.crossref.org`.
+   (no auth, machine-readable JSON). Resolve any DOI through to the publisher.
+2. Crossref search — `https://search.crossref.org`; again, retain the final
+   publisher page rather than the DOI resolver.
 3. Conference-specific archives — ICAS (`icas.org/ICAS_ARCHIVE`), EUCASS
    (`eucass.eu`), IEEE Xplore, AIAA ARC.
-4. DBpia (`dbpia.co.kr`) for Korean domestic papers — expect a low hit rate;
-   its listings are JS-rendered and not reliably fetchable headlessly. Only
-   add a link after actually visiting the page and confirming title +
-   authors + year match — do not trust a search snippet alone.
+4. DBpia (`dbpia.co.kr`) for Korean domestic papers. Store the exact
+   `articleDetail?nodeId=...` page only after confirming title, authors, venue,
+   and year; do not stop at RISS or trust a search snippet alone.
 
 ## Editing CV content (Education / Experience / Awards / Skills / Projects)
 
@@ -119,17 +122,19 @@ public site.
 python generate.py
 ```
 
-Regenerates `index.html`, `publications.html`, `cv.html`, every
-`papers/<slug>.html`, `bibtex/*.bib`, `sitemap.xml`, `robots.txt`. Then
-commit and push — `.github/workflows/build.yml` also runs `generate.py` on
-every push to `main` as a safety net (so even a hand-edited `papers.json`
-pushed without a local regen still gets built).
+Regenerates `index.html`, `publications.html`, `cv.html`, `life.html`, every
+`papers/<slug>.html`, `bibtex/*.bib`, `sitemap.xml`, and `robots.txt`. It also
+generates Wiki pages when `wiki.json` contains notes. Generated output is
+gitignored; commit only maintained source files. `.github/workflows/build.yml`
+runs `generate.py` on every push to `main` and deploys the fresh output.
 
 ## Adding a public Wiki note
 
 Add a note object to `wiki.json` with a unique lowercase hyphenated `slug`,
 title, summary, dates, tags, notice, structured sections, and verified public
-sources. `generate.py` creates the Wiki index and `wiki/<slug>.html`.
+sources. `generate.py` creates the Wiki index and `wiki/<slug>.html`; the Wiki
+navigation item appears only when at least one note exists. The file is
+currently empty, so no Wiki page is published.
 
 Wiki notes are public and search-indexed. Do not include raw case evidence,
 personal identifiers, compensation, employer-confidential systems, internal

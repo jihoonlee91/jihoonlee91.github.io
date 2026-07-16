@@ -28,12 +28,16 @@ SVG generation).
   paragraph wrap narrower than the actual container width, which looked
   broken on a wide screen. Any new free-text block should default to
   filling its flex/grid cell rather than adding an arbitrary ch cap.
-- Single mobile breakpoint at `640px` — nav/hero/stats stack and center.
-- Sticky top nav (`.site-nav`) with `Home / Publications / CV` links on the
-  left/center and the theme toggle **in its own flex slot pinned to the far
-  right edge** — it was originally inline with the nav links and moved out
-  on request, so keep it separate from `.nav-links` if the nav is ever
-  restructured.
+- Responsive behavior uses several focused breakpoints rather than one global
+  cutoff: `900px` for compact horizontal section navigation and single-column
+  venue groups, `700px` for the Life gallery, `640px` for primary mobile
+  stacking/navigation/chart layout, and `560px` for narrow experience and
+  venue-row headers.
+- Sticky top nav (`.site-nav`) with `Home / Publications / CV / Life` links on
+  the left/center and the theme toggle **in its own flex slot pinned to the far
+  right edge**. A `Wiki` link is inserted before `Life` only when `wiki.json`
+  contains at least one note. Keep the theme toggle separate from `.nav-links`
+  if the nav is restructured.
 
 ## Typography
 
@@ -53,18 +57,20 @@ already cover the type scale in use: sizes range 0.8rem–2.1rem, weights
 | `--accent` | links, active nav, hover states |
 | `--border` | hairline dividers |
 | `--bg` / `--bg-soft` | page background / card-like surfaces |
-| `--official` / `--official-bg` | "Official Link" badge (green) |
-| `--preprint` / `--preprint-bg` | "Full Text (PDF)" badge (amber) |
-| `--pending` | "No Public Link Yet" badge (gray) |
+| `--official` / `--official-bg` | publication-source badge (green) |
+| `--preprint` / `--preprint-bg` | `Author PDF` badge (amber) |
+| `--pending` | future `No Public Link Yet` fallback (gray) |
 | `--tag-bg` | interest chips |
 
 ## Chart color palette (viz.py)
 
-The Publications page renders three static SVG charts (publications-by-year
-stacked bar, citations-by-year bar, keyword word cloud) via `viz.py`,
-following the dataviz skill's procedure: pick the form → assign color by
-job → **validate the palette with the skill's script** → apply mark specs
-→ provide a legend/table fallback.
+The Publications page renders four visualization blocks via `viz.py`:
+publications-by-year stacked bars, grouped venue statistics, citations-by-year
+bars, and the research-focus word cloud. The three chart blocks use static
+inline SVG; the venue statistics block uses semantic HTML rows. They follow the
+dataviz procedure: pick the form → assign color by job → **validate the
+palette with the skill's script** → apply mark specs → provide a
+legend/table fallback.
 
 The 5-slot categorical palette (one slot per publication category) and the
 single sequential blue hue are the skill's documented reference palette
@@ -85,33 +91,35 @@ every chart also ships a legend, direct value labels on segments/bars, and a
 the validator against the new surface before reusing this palette** — the
 contrast checks are surface-relative.
 
-## Badges (Official Link / Full Text (PDF) / No Public Link Yet)
+## Publication link badges
 
 Every publication, on both the Publications list and its own paper page,
 shows a small badge row from `link_badges()` in `generate.py`:
 
-- **Official Link** (green) — `official_link` is set (a DOI or publisher/
-  DBpia/library URL). Label shows the DOI value directly (not just a
-  "(DOI)" marker) when a `doi` field is present, and a hover tooltip shows
-  the destination — link previews shouldn't require a click. External
-  badges (Official Link, Full Text, BibTeX) open in a new tab; internal
-  site navigation does not.
-- **Full Text (PDF)** (amber) — a file exists at `papers/pdfs/<slug>.pdf`.
-  Named for what it is (a self-hosted copy of the paper) rather than
-  "Preprint," since these aren't necessarily pre-review drafts.
-- **No Public Link Yet** (gray) — neither of the above. Deliberately
-  neutral wording — it doesn't promise a link is coming.
+- **Publication source** (green) — `official_link` is set. The button is
+  labelled with the actual destination, such as `IEEE Xplore`, `AIAA ARC`,
+  `DBpia`, `EUCASS`, or `SNU Repository`, rather than the generic words
+  "Official Link." `official_link` stores the final publisher, proceedings,
+  repository, or scholarly-database URL; discovery and intermediate hosts such
+  as DOI resolvers, RISS, lab pages, ResearchGate, and Google Scholar are
+  rejected by `generate.py`. The full destination appears in the tooltip.
+- **Author PDF** (amber) — a file exists at
+  `papers/pdfs/<slug>.pdf`. This identifies a self-hosted author copy without
+  implying that it is necessarily a pre-review draft.
+- **No Public Link Yet** (gray) — fallback rendered only when a future entry
+  has neither a source link nor a local PDF. The Publications legend omits this
+  status when no current paper uses it; current coverage is 43/43.
 - **BibTeX** (neutral) — always shown. Clicking copies the entry straight
   to the clipboard (`copyBibtex()`, prevents the default navigation);
   the badge still has a real `href` to `bibtex/<slug>.bib` so
   middle-click/"open in new tab"/"save link as" still gets the raw file.
   Hovering previews the actual BibTeX text via `data-tooltip`.
 
-These three are deliberately different colors so a visitor can tell at a
-glance whether they're about to land on the publisher's page or a
-self-hosted file — do not merge them into one generic "link" style. A paper
-can show **both** Official Link and Full Text (PDF) at once (many official
-links are paywalled) — see `docs/CONTENT_GUIDE.md`.
+The source and Author PDF badges remain different colors so a visitor can tell
+whether a click goes to a publication record or a self-hosted file. A paper can
+show **both** when an author copy supplements its source-of-record link. All
+external badges open in a new tab; internal site navigation does not. See
+`docs/CONTENT_GUIDE.md` for maintenance details.
 
 ## Home page: identity tag + timeline
 

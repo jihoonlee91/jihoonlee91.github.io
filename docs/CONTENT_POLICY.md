@@ -1,80 +1,81 @@
 # Content Policy — Confidentiality Check Before Publishing
 
-**Repo status (2026-07-16): private.** The owner set this repo private
-deliberately, to work on content without every draft being an instant public
-disclosure, and intends to review everything before flipping it back to
-public. While private, drafting is not itself a publication event — but
-still write as if it could go public at any moment, since the point of the
-review pass is catching mistakes, not relying on privacy as the actual
-safety net. Treat `git push` to a private repo as reversible-with-review, not
-as consequence-free.
-
-**Do not publish substantive descriptions of current or former employer
-work** once the repo is public again. Before that point, a `git push` here
-stays within GitHub's private-repo boundary (only the owner and anyone they
-explicitly grant access to can see it) — it is not the same event as a push
-to a public repo, which search engines, caches, and forks can retain
-permanently.
+**Repository and site status (2026-07-16): public.** Source files,
+documentation, commit history, and the generated GitHub Pages site can all be
+read, indexed, cached, or copied by third parties. A detail is public even when
+it exists only in `papers.json` or `docs/` and is not rendered on the website.
+Treat every push to `main` as an immediate publication event.
 
 ## Rule
 
-Before adding or editing any text that touches employer work
-(`experience`, `projects`, `bio`, `skills`, or any new section) in
-`papers.json`, apply this policy. The owner has said not to over-apply this
-by default — they're reviewing everything before it goes public again, so
-don't strip detail preemptively out of caution alone. The "never include"
-list below is the actual hard line (real trade secrets, unreleased product
-info, customer names); everything else is a normal editorial judgment call,
-not a compliance gate.
+Before adding or editing employer-related content in `experience`, `projects`,
+`bio`, `skills`, documentation, assets, or any new section, review it sentence
+by sentence against this policy. Public portfolio text should describe the
+professional domain and contribution at a high level; it must not explain the
+employer's non-public data, process, workflow, validation, or decision logic.
 
-**Never include:**
+### Never include
 
-- Specific process recipe parameters, defect/yield numbers, or specification
-  values (e.g. exact etch rates, target percentages, tolerance bands).
-- Internal tool, model, pipeline, or system codenames that aren't already
-  public.
-- Customer names, internal project codenames, or unreleased product/node
-  names (e.g. an unannounced process node).
-- Screenshots, diagrams, or descriptions detailed enough to reconstruct a
-  proprietary process or system architecture.
-- Anything marked or historically treated as confidential in internal
-  documents, even if it seems minor.
-- Non-public datasets, data sources, workflows, validation practices,
-  operational problems, or descriptions of how work is performed.
-- Exact/precise counts (e.g. "37 requests", "14 data sources") — round
-  figures like "20+", "30+" are the owner's explicitly authorized ceiling
-  (see the exception below); anything more precise than that is still off
-  limits.
+- Process recipe parameters, defect/yield figures, specification values,
+  tolerance bands, or other non-public performance metrics.
+- Internal tool, model, pipeline, system, project, or product codenames.
+- Customer names, unreleased products, process nodes, roadmaps, or schedules.
+- Screenshots, diagrams, code, prompts, or prose detailed enough to reconstruct
+  a proprietary system, model, process, or operating procedure.
+- Anything marked confidential or historically treated as confidential in
+  internal documents, repositories, meetings, or messages.
+- Non-public dataset names, field names, feature names, data-source lists, or
+  **taxonomies of data categories**, unless the employer has already published
+  that exact classification.
+- Non-public **workflow or pipeline stages**, including any ordered description
+  of internal data handling, validation, hand-off, or decision-support work.
+- Validation criteria, decision rules, acceptance gates, operational pain
+  points, or descriptions of how engineering work is performed internally.
+- Exact counts of internal requests, sources, systems, people, experiments, or
+  similar operational scope. A rounded `N+` figure may be used only when the
+  owner has explicitly reviewed that individual statement and it does not
+  reveal confidential scale or activity.
 
-**Exception, set explicitly by the site owner (2026-07-15):** internal
-sub-organization names at Samsung Electronics (e.g. "Digital Twin Center",
-"Mechatronics Research", "Memory Manufacturing Technology Center") and
-rounded, non-precise scope figures (team size, request counts, data-source
-counts, expressed as "N+") **may** appear in `experience` entries — the
-owner reviewed this specific content and asked for it to stay, overriding
-the general "below public company level" rule above for this one section.
-This does not extend to anything else on the "never include" list
-(recipe/process parameters, unreleased product names, customer names,
-proprietary architecture detail) — those remain hard-blocked regardless of
-who asks, since they're the employer's information, not the owner's alone
-to disclose.
+## Owner-approved organization-name exception
 
-**Allowed public content:**
+The owner has explicitly chosen to publish the Samsung Electronics
+sub-organization names **Digital Twin Center**, **Mechatronics Research**, and
+**Memory Manufacturing Technology Center** in the Experience timeline. This is
+a narrow display choice, not evidence of employer approval and not a general
+exception to this policy.
 
-- Public academic work (papers, dissertation) — normal academic disclosure
-  rules apply instead, see [`DATA_SOURCES.md`](DATA_SOURCES.md).
+In particular, publishing an organization name does **not** authorize any
+dataset taxonomy, workflow sequence, validation method, decision rule,
+architecture detail, operational issue, internal metric, or unpublished
+project description associated with that organization. Those details remain
+prohibited even when the organization itself is named.
+
+## Suitable public content
+
+- Public academic work, including papers, proceedings records, and the
+  dissertation; follow the provenance rules in [`DATA_SOURCES.md`](DATA_SOURCES.md).
 - Independent open-source projects and personal research that do not use or
   derive from employer information, resources, code, data, or work product.
-- A minimal generic role label only when the owner has explicitly chosen to
-  publish it. Do not infer responsibilities from that label.
+- Employer, approved organization name, public job title, and dates.
+- High-level role summaries such as developing AI and software for complex
+  semiconductor engineering applications, provided they do not expose the
+  restricted details above.
+- Broad, transferable capabilities already evident from public work, such as
+  machine learning, optimization, software engineering, and cross-functional
+  collaboration.
 
-## Process for new content
+## Publishing checklist
 
-1. Draft the new `papers.json` text.
-2. Re-read it sentence by sentence against the "never include" list above.
-3. Remove employer names, sub-organizations, products, project descriptions,
-   numbers, tools, data, outcomes, and non-public responsibilities.
-4. Only then run `python generate.py`, commit, and push.
+1. Review the complete diff, including JSON, documentation, images, and files
+   that are not rendered on the website.
+2. Remove or generalize non-public names, categories, workflow steps, methods,
+   metrics, problems, and outcomes.
+3. Verify every factual claim that relies on a public source and retain the
+   final source-of-record URL where appropriate.
+4. Run `python generate.py` and inspect the generated pages.
+5. Commit and push only after the public-site and public-repository views both
+   pass this review.
 
-This applies to future Claude Code sessions working on this repo as much as
-to the human owner — see the reminder in [`CLAUDE.md`](../CLAUDE.md).
+When the boundary is unclear, omit the detail until the owner can confirm that
+the employer has already made it public. This policy also applies to future AI
+assistant sessions; see [`CLAUDE.md`](../CLAUDE.md).

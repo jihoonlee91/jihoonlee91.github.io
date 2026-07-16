@@ -13,31 +13,37 @@
 
 ---
 
-Personal homepage — publications, CV, public wiki notes, and contact info. This repo
-**is** a static site generator, not a hand-built site: `papers.json` and
-`wiki.json` are the content sources committed to git. `generate.py` + `viz.py` build
-`index.html`, `publications.html`, `cv.html`, `wiki.html`, per-wiki-note pages, per-paper pages, BibTeX,
-sitemap, and robots.txt from it — **those generated files are build output,
-not source, and are gitignored** (see `.gitignore`). GitHub Actions builds
-them fresh on every deploy; running `generate.py` locally is just for
-previewing in a browser before you push.
+Personal professional homepage and portfolio. The public site currently has
+four primary sections: **Home**, **Publications**, **CV**, and **Life**.
+
+This repository contains a small static-site generator rather than hand-edited
+HTML. `papers.json` is the primary content source; `generate.py` and `viz.py`
+build the site pages, per-paper pages, BibTeX files, sitemap, and robots.txt.
+`wiki.json` is retained for optional future notes, but it is currently empty, so
+no Wiki tab or Wiki page is published. Generated files are build output,
+not source, and are gitignored (see `.gitignore`). GitHub Actions rebuilds them
+for every deployment; running `generate.py` locally is only for previewing.
 
 ```
-papers.json + wiki.json  →  generate.py + viz.py  →  index.html / publications.html / cv.html / wiki.html   (gitignored)
-                                          papers/<slug>.html   (Google Scholar meta tags, gitignored)
-                                          bibtex/<slug>.bib    (gitignored)
-                                          sitemap.xml, robots.txt (gitignored)
+papers.json  ──────────┐
+                         ├─→  generate.py + viz.py  ─→  index.html / publications.html / cv.html / life.html
+wiki.json (optional) ──┘                                 papers/<slug>.html
+                                                      bibtex/<slug>.bib + bibtex/all.bib
+                                                      sitemap.xml + robots.txt
 ```
 
-Only `papers.json`, `wiki.json`, `papers/pdfs/*.pdf` (self-hosted preprints), `assets/`,
-and the Python/CSS source are committed.
+The maintained sources include `papers.json`, the optional `wiki.json`,
+`papers/pdfs/*.pdf` (self-hosted author copies), `assets/`, documentation, and
+the Python/CSS source. Generated HTML and BibTeX output are not committed.
 
 ## Quick start
 
 ```bash
 # after editing papers.json
-python generate.py   # optional — just to preview locally, e.g. open index.html
-git add -A && git commit -m "..." && git push
+python generate.py       # optional local preview
+git status --short       # review every public-repository change
+git add papers.json      # add only the source files intentionally changed
+git commit -m "..." && git push
 ```
 
 Pushing to `main` triggers `.github/workflows/build.yml`, which runs
@@ -50,14 +56,21 @@ never need to commit generated HTML/BibTeX yourself.
 |---|---|
 | [`CLAUDE.md`](CLAUDE.md) | Start here if you're an AI assistant working on this repo |
 | [`docs/DESIGN.md`](docs/DESIGN.md) | Design tokens, dark/light theme system, chart color palette |
-| [`docs/CONTENT_GUIDE.md`](docs/CONTENT_GUIDE.md) | How to add/edit a publication, upload a preprint PDF, edit CV content |
-| [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md) | Where every field came from (Scholar, ORCID, weebly, DBpia) and what's still unverified |
+| [`docs/CONTENT_GUIDE.md`](docs/CONTENT_GUIDE.md) | How to add/edit a publication, upload an Author PDF, and edit CV content |
+| [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md) | Publication provenance, source-link verification rules, and current coverage |
 | [`docs/CONTENT_POLICY.md`](docs/CONTENT_POLICY.md) | **Confidentiality policy — read before adding anything about employment** |
-| [`docs/LINK_RESEARCH.md`](docs/LINK_RESEARCH.md) | Runbook for using research agents to find official links for the remaining papers |
+| [`docs/LINK_RESEARCH.md`](docs/LINK_RESEARCH.md) | Historical runbook used to research publication source links |
+| [`docs/SPORTS_RECORDS.md`](docs/SPORTS_RECORDS.md) | Competition and activity archive kept out of the public Life-page content |
 | [`docs/ROADMAP.md`](docs/ROADMAP.md) | Ideas not yet done — check here before proposing something that might already be planned |
 
 ## Status
 
-- ~24 domestic conference papers (mostly 2015–2018) have no verified public
-  link yet — see `docs/DATA_SOURCES.md` for what's been tried and why DBpia
-  lookups mostly failed (JS-rendered listings).
+- **43 publications total.**
+- **38** have a verified final publication-source link (publisher,
+  proceedings archive, scholarly database, or institutional repository).
+- The other **5** have a verified self-hosted **Author PDF**; current public
+  access coverage is therefore **43/43**.
+- Six local Author PDF files exist in total: one supplements a paper that also
+  has a publication-source link, while five provide the only public copy.
+- `wiki.json` currently contains no notes, so the public navigation is
+  **Home / Publications / CV / Life**.

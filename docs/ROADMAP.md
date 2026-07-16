@@ -14,29 +14,17 @@ collaborators too, not just an academic-reader lens.
   open to right now (e.g. consulting, collaboration, not job-hunting,
   open to X). Don't guess this — it changes over time and is the owner's
   call, not an inference from the CV. **Explicitly not inferred from the
-  owner's private career documents** (resumes and non-public planning materials)
-  reviewed in a later session — those describe career intent in a
-  different, non-public context (e.g. an immigration filing) and
-  publishing anything derived from them without the owner's explicit
-  say-so could have real professional consequences. Wait for the owner to
-  state this directly.
+  owner's private career documents**. Those describe intent in a different,
+  non-public context; publishing anything derived from them without explicit
+  permission could have professional consequences. Wait for the owner to state
+  this directly.
 - **Side projects section** — explicitly wanted (see conversation history)
   but nothing exists yet. Don't create a placeholder/empty section; add it
   only once there's an actual project (title, description, stack, link).
-- **Remaining 8 publications with no link** — mostly 2015–2018 domestic
-  conference papers DBpia/RISS/FDCL couldn't confirm. Two separate research
-  passes (see git log) both came back empty for these specific 8 — DBpia/
-  RISS genuinely have no page for them, not just a fetch/JS-rendering
-  issue. Unlikely to be findable by another automated pass; needs the
-  owner to upload a preprint PDF directly to `papers/pdfs/` if they still
-  have a copy, or confirm there's truly nothing public to link.
 - **Abstracts still missing for 25/43 papers** — same two research passes
-  filled in 18/43 with verified text (CrossRef, Semantic Scholar, DOAJ,
-  RISS, publisher pages); the other 25 are confirmed genuinely unavailable
-  (DBpia/RISS pages with no abstract on file, AIAA ARC's bot-challenge
-  page, or papers with no `official_link` at all) — not just "couldn't
-  fetch." Same owner-upload path as above is the only way forward for most
-  of these.
+  filled in 18/43 with verified text. The other 25 remain intentionally blank;
+  a blank abstract is preferable to a title-derived paraphrase. Add one only
+  when exact text is available from the paper or a record tied to that paper.
 - **Patents** — add only independently public records after applying
   `docs/CONTENT_POLICY.md`; do not add non-public employer context.
 - **Talks/presentations** — conference talks, the 2016 Grand Prize
@@ -77,10 +65,10 @@ input:
   on X, Y, Z — reach out at [email]" rather than expecting a visitor to
   infer openness from a CV. Doubles as the "Open to" line already listed
   above.
-- **Quantified outcomes wherever possible** — recruiters and collaborators
-  both respond more to "reduced X by Y%" than a bare list of
-  responsibilities. Needs real numbers from the owner; do not estimate or
-  round from vague statements.
+- **Quantified outcomes where independently publishable** — use only metrics
+  already public or explicitly cleared for external disclosure. Never infer,
+  estimate, or expose internal performance, workload, or scope figures; see
+  `docs/CONTENT_POLICY.md`.
 - **A "selected work" or case-study section distinct from Publications** —
   2-4 short write-ups (problem → approach → outcome) would show
   production/deployment thinking that a pure publication list can't. Gated
@@ -92,9 +80,10 @@ input:
 
 ## Content/structure ideas considered but intentionally not done (yet)
 
-- **Wiki/notes section** — implemented for public technical notes.
-  Add future notes to `wiki.json`; keep employer-confidential
-  and personal evidence outside the public repository.
+- **Wiki/notes section** — generator support is implemented but `wiki.json` is
+  currently empty, so no Wiki tab or page is published. Add a future note only
+  when there is substantive public content; keep employer-confidential and
+  personal evidence outside the public repository.
 
 ## Already done (for reference — don't re-suggest these)
 
@@ -114,8 +103,9 @@ in favor of a bar chart on precision-of-comparison grounds — the owner
 explicitly asked for the word cloud anyway in a later session; the bar
 chart's imprecision concern was judged an acceptable trade-off once
 title+abstract text gave it more words to draw from), a Life page (Home /
-Publications / CV / **Life**) with per-hobby sections, and DOI/BibTeX/PDF
-link hover previews so a visitor can see where a link goes before clicking.
+Publications / CV / **Life**) with per-hobby sections, and publication-source/
+BibTeX/Author-PDF hover previews so a visitor can see where a link goes before
+clicking.
 The "Tech Stack" chip row that used to sit on Home was removed — it
 duplicated the Skills section on the CV page and visually collided with
 the interests tags right above it. See git log / other docs for detail.
@@ -126,3 +116,6 @@ A `cv.html` print stylesheet
 of a themed HTML card rather than hand-drawn — see git log). The arXiv/code
 research pass for all 43 papers came back negative for every paper (see
 `docs/DATA_SOURCES.md`) — don't re-run without new information.
+
+Publication access coverage is also complete: 38 papers have a verified final
+publication-source link and the other 5 have a verified Author PDF (43/43).
