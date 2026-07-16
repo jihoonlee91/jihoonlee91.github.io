@@ -1224,13 +1224,13 @@ def render_education_section(items):
 
     groups = _group_consecutive_by_parent(items, "school", split_char="\x00")  # school has no built-in "Sub, Parent" split
 
-    def _split_degree(item):
+    def _split_degree(item, link_degree=True):
         """Split off the (department/lab/advisor/thesis) tail from the short
         degree title, so a long single-line entry doesn't turn into a
         wall-of-text link — the tail renders as a separate muted line."""
         primary, _, detail = item.get("degree", "").partition(" — ")
         primary_html = esc(primary)
-        if item.get("url"):
+        if link_degree and item.get("url"):
             primary_html = f'<a href="{esc(item["url"])}" target="_blank" rel="noopener">{primary_html}</a>'
         detail_html = f'<span class="paper-sub">{esc(detail)}</span>' if detail else ""
         degree_ko_html = secondary_ko(item.get("degree_ko"), "education-degree-ko")
@@ -1249,11 +1249,16 @@ def render_education_section(items):
         else:
             sub_rows = []
             for _, item in g["items"]:
-                primary_html, detail_html, degree_ko_html = _split_degree(item)
+                primary_html, detail_html, degree_ko_html = _split_degree(item, link_degree=False)
                 sub_rows.append(f'<li>{primary_html} &mdash; {esc(item.get("period", ""))}{degree_ko_html}{detail_html}</li>')
             school_ko_html = secondary_ko(g["items"][0][1].get("school_ko"), "education-school-ko")
+            school_url = next((item.get("url") for _, item in g["items"] if item.get("url")), None)
+            school_html = (
+                f'<a href="{esc(school_url)}" target="_blank" rel="noopener">{esc(g["parent"])}</a>'
+                if school_url else esc(g["parent"])
+            )
             rows.append(
-                f'<li class="experience-group"><div class="experience-company">{esc(g["parent"])}</div>'
+                f'<li class="experience-group"><div class="experience-company">{school_html}</div>'
                 f'{school_ko_html}<ul class="experience-roles">{"".join(sub_rows)}</ul></li>'
             )
     return f'''<section>
