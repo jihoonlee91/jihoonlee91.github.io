@@ -19,7 +19,10 @@ import viz
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
 with open(os.path.join(ROOT, "style.css"), "rb") as f:
-    STYLE_VERSION = hashlib.sha256(f.read()).hexdigest()[:12]
+    # Normalize Git's platform-dependent line endings so local Windows
+    # previews and the Linux Pages runner produce the same cache key.
+    css_bytes = f.read().replace(b"\r\n", b"\n")
+    STYLE_VERSION = hashlib.sha256(css_bytes).hexdigest()[:12]
 
 with open(os.path.join(ROOT, "papers.json"), encoding="utf-8") as f:
     DATA = json.load(f)
