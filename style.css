@@ -1018,6 +1018,17 @@ a.badge:hover {
   color: var(--accent);
 }
 
+.badge-doi {
+  background: var(--bg-soft);
+  color: var(--muted);
+  border-color: var(--border);
+}
+
+.badge-doi:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 .copy-tooltip-wrap {
   display: inline-flex;
   position: relative;

@@ -152,6 +152,20 @@ def esc(s):
     return html.escape(s or "", quote=True)
 
 
+def _venue_with_year(venue, year_display):
+    """Combine venue + year for display, without duplicating the year when
+    the venue string already ends with it — most conference venues are
+    already written as "..., Nov. 2021", so blindly appending "2021" again
+    read as "Nov. 2021, 2021"."""
+    venue = venue or ""
+    if not year_display:
+        return venue
+    year_str = str(year_display)
+    if year_str != "n.d." and re.search(rf"\b{re.escape(year_str)}\b\s*$", venue.strip()):
+        return venue
+    return f"{venue}, {year_str}" if venue else year_str
+
+
 def secondary_ko(value, class_name="entity-name-ko", tag="div"):
     """Render an optional Korean name as supporting, never primary, text."""
     return f'<{tag} class="{class_name}" lang="ko">{esc(value)}</{tag}>' if value else ""
@@ -649,7 +663,7 @@ def render_index():
         rows.append(f'''      <li class="paper-compact">
         <a href="papers/{esc(p['slug'])}.html">{esc(primary_title)}</a>
         {secondary_html}
-        <span class="paper-sub">{esc(p['venue'])}, {year} &middot; {p['citations']} citations</span>
+        <span class="paper-sub">{esc(_venue_with_year(p['venue'], year))} &middot; {p['citations']} citations</span>
       </li>''')
 
     html_out = f'''<!DOCTYPE html>
@@ -753,6 +767,9 @@ def link_badges(p, base="papers/pdfs/", paper_page=False):
         badges.append(copyable_badge("Author PDF", pdf_path, "badge-preprint", pdf_url))
     if not official and not local_pdf:
         badges.append('<span class="badge badge-pending">No Public Link Yet</span>')
+    if p.get("doi"):
+        doi_url = f'https://doi.org/{p["doi"]}'
+        badges.append(copyable_badge(f'DOI: {p["doi"]}', doi_url, "badge-doi", doi_url))
     bib_path = ("../" if paper_page else "") + f'bibtex/{p["slug"]}.bib'
     bib_preview = to_bibtex(p, bibtex_key(p))
     badges.append(copyable_badge("BibTeX", bib_path, "badge-bibtex", bib_preview))
@@ -799,7 +816,7 @@ def _render_paper_item(p, i):
           <div class="paper-title"><span class="paper-index">{i}.</span> <a href="papers/{esc(p['slug'])}.html">{esc(primary_title)}</a></div>
           {secondary_html}
           <div class="paper-meta">{esc(p['authors'])}</div>
-          <div class="paper-venue">{esc(p['venue'])}{', ' if p['venue'] else ''}{year}{f" &middot; {p['citations']} citations" if p['citations'] else ""}</div>
+          <div class="paper-venue">{esc(_venue_with_year(p['venue'], year))}{f" &middot; {p['citations']} citations" if p['citations'] else ""}</div>
           {secondary_meta_html}
           {abstract_html}
           <div class="paper-badges">{link_badges(p)}</div>
@@ -1541,7 +1558,7 @@ def render_paper_page(p):
     abstract_html = f'<div class="abstract">{_render_abstract_body(p)}</div>' if p.get("abstract") else ""
     year = p["year"] if p.get("year") else "n.d."
     scholar_search = f"https://scholar.google.com/scholar?q={quote_plus(primary_title)}"
-    meta_description = f"{p['authors']} — {p['venue']}{', ' + str(year) if p.get('year') else ''}. By {DATA['name']}."
+    meta_description = f"{p['authors']} — {_venue_with_year(p['venue'], year)}. By {DATA['name']}."
 
     html_out = f'''<!DOCTYPE html>
 <html lang="en">
@@ -1562,7 +1579,7 @@ def render_paper_page(p):
     <h1>{esc(primary_title)}</h1>
     {secondary_html}
     <p class="paper-meta">{esc(p['authors'])}</p>
-    <p class="paper-venue">{esc(p['venue'])}{', ' if p['venue'] else ''}{year}{f" &middot; {p['citations']} citations" if p['citations'] else ""}</p>
+    <p class="paper-venue">{esc(_venue_with_year(p['venue'], year))}{f" &middot; {p['citations']} citations" if p['citations'] else ""}</p>
     {secondary_meta_html}
     {abstract_html}
     <div class="paper-badges large">{link_badges(p, paper_page=True)}</div>
