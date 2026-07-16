@@ -12,11 +12,14 @@ Edit the `papers` array in `papers.json`. Each entry:
   "title_en": null,
   "title_ko": null,
   "authors": "Seokwon Lee, Jihoon Lee, ...",
+  "authors_ko": null,
   "venue": "IEEE Transactions on Aerospace and Electronic Systems, Vol. 55, No. 2, pp. 951-966",
+  "venue_ko": null,
   "year": 2019,
   "citations": 79,
   "doi": "10.1109/TAES.2018.2867259",
   "abstract": "",
+  "abstract_ko": "",
   "official_link": "https://ieeexplore.ieee.org/document/8447257/",
   "pdf": "papers/pdfs/2018-sliding-mode-uav-carrier-landing.pdf",
   "theme": "Autonomous Carrier Landing & Guidance"
@@ -35,15 +38,23 @@ Edit the `papers` array in `papers.json`. Each entry:
   "By Research Theme" toggle view. See `docs/DESIGN.md` for why this isn't split along
   aerospace-vs-semiconductor-AI lines. Add a new theme (and add it to
   `THEME_ORDER`) if a paper genuinely doesn't fit any existing one.
+- English is the primary language throughout the site, including visible
+  publication data, citation metadata, and BibTeX exports. Korean is retained
+  only as supporting information on a smaller secondary line or in a note.
 - Publication cards and paper pages always display an English title first.
   For a Korean-language record, keep the official Korean title in `title` and
   put the verified English title in `title_en`; the Korean title then appears
   on the second line. For an English-language record that also has a Korean
   title (for example, the dissertation), keep the English title in `title`,
   leave `title_en` null, and put the Korean title in `title_ko`.
-- Copy `abstract` from the paper, author manuscript, or final publication
-  record. Never generate or paraphrase an abstract from the title. Leave it
-  blank when the source itself has no abstract.
+- Store the verified English abstract in `abstract`. When the publication also
+  provides a Korean abstract, store it separately in `abstract_ko`; it appears
+  below the English text as supporting information. Never generate or
+  paraphrase an abstract from the title. Leave it blank when the source itself
+  has no abstract.
+- Keep `authors` and `venue` in English. Use optional `authors_ko` and
+  `venue_ko` only when the source provides useful Korean metadata; the Korean
+  values render as a secondary line.
 - `slug` must be unique, lowercase, hyphenated — it's the filename for the
   paper's landing page (`papers/<slug>.html`) and BibTeX file
   (`bibtex/<slug>.bib`), and the expected filename for a self-hosted PDF.

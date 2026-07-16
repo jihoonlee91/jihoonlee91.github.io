@@ -256,8 +256,9 @@ def parse_venue(venue):
 def to_bibtex(paper, key):
     is_article = paper["category"] in ("int-journal", "domestic-journal")
     entry_type = "mastersthesis" if paper["category"] == "thesis" else ("article" if is_article else "inproceedings")
+    primary_title, secondary_title = paper_display_titles(paper)
     lines = [f"@{entry_type}{{{key},"]
-    lines.append(f'  title     = {{{paper["title"]}}},')
+    lines.append(f'  title     = {{{primary_title}}},')
     lines.append(f'  author    = {{{paper["authors"].replace(", ", " and ")}}},')
     if paper.get("year"):
         lines.append(f'  year      = {{{paper["year"]}}},')
@@ -273,6 +274,8 @@ def to_bibtex(paper, key):
             lines.append(f'  pages     = {{{pages}}},')
     if paper.get("doi"):
         lines.append(f'  doi       = {{{paper["doi"]}}},')
+    if secondary_title:
+        lines.append(f'  note      = {{Original Korean title: {secondary_title}}},')
     lines.append("}")
     return "\n".join(lines)
 
@@ -680,18 +683,39 @@ def link_badges(p, base="papers/pdfs/", paper_page=False):
 
 
 def _abstract_paragraphs(text):
-    """Abstracts that carry both a Korean and an English version (separated
-    by a blank line in the source data) render as two distinct <p> tags
-    instead of one run-on paragraph."""
+    """Render blank-line-separated source paragraphs."""
     return "".join(f"<p>{esc(para.strip())}</p>" for para in text.split("\n\n") if para.strip())
+
+
+def _render_abstract_body(p):
+    """Render English as the primary abstract and Korean as supporting text."""
+    primary = _abstract_paragraphs(p.get("abstract", ""))
+    secondary = p.get("abstract_ko", "")
+    if not secondary:
+        return primary
+    return (
+        f'{primary}<div class="abstract-secondary" lang="ko">'
+        '<div class="abstract-language-label">Korean abstract</div>'
+        f'{_abstract_paragraphs(secondary)}</div>'
+    )
+
+
+def _render_secondary_metadata(p):
+    rows = []
+    if p.get("authors_ko"):
+        rows.append(f'<span>{esc(p["authors_ko"])}</span>')
+    if p.get("venue_ko"):
+        rows.append(f'<span>{esc(p["venue_ko"])}</span>')
+    return f'<div class="paper-meta-secondary" lang="ko">{" · ".join(rows)}</div>' if rows else ""
 
 
 def _render_paper_item(p, i):
     year = p["year"] if p.get("year") else "n.d."
     primary_title, secondary_title = paper_display_titles(p)
     secondary_html = f'<div class="paper-title-secondary" lang="ko">{esc(secondary_title)}</div>' if secondary_title else ""
+    secondary_meta_html = _render_secondary_metadata(p)
     abstract_html = (
-        f'<details class="paper-abstract-toggle"><summary>Abstract</summary>{_abstract_paragraphs(p["abstract"])}</details>'
+        f'<details class="paper-abstract-toggle"><summary>Abstract</summary>{_render_abstract_body(p)}</details>'
         if p.get("abstract") else ""
     )
     return f'''        <li class="paper">
@@ -699,6 +723,7 @@ def _render_paper_item(p, i):
           {secondary_html}
           <div class="paper-meta">{esc(p['authors'])}</div>
           <div class="paper-venue">{esc(p['venue'])}{', ' if p['venue'] else ''}{year}{f" &middot; {p['citations']} citations" if p['citations'] else ""}</div>
+          {secondary_meta_html}
           {abstract_html}
           <div class="paper-badges">{link_badges(p)}</div>
         </li>'''
@@ -1399,9 +1424,9 @@ def render_wiki_page(note):
 
 def render_paper_page(p):
     primary_title, secondary_title = paper_display_titles(p)
-    # Scholar metadata keeps the source-language bibliographic title even when
-    # the visible portfolio UI leads with its verified English translation.
-    meta_tags = [f'<meta name="citation_title" content="{esc(p["title"])}">']
+    # English is the primary language across visible UI, citation metadata,
+    # and exports. The source-language Korean title remains supporting data.
+    meta_tags = [f'<meta name="citation_title" content="{esc(primary_title)}">']
     for author in [a.strip() for a in p["authors"].split(",")]:
         meta_tags.append(f'<meta name="citation_author" content="{esc(author)}">')
     if p.get("year"):
@@ -1415,7 +1440,8 @@ def render_paper_page(p):
         meta_tags.append(f'<meta name="citation_pdf_url" content="{esc(pdf_url)}">')
 
     secondary_html = f'<p class="paper-title-secondary" lang="ko">{esc(secondary_title)}</p>' if secondary_title else ""
-    abstract_html = f'<div class="abstract">{_abstract_paragraphs(p["abstract"])}</div>' if p.get("abstract") else ""
+    secondary_meta_html = _render_secondary_metadata(p)
+    abstract_html = f'<div class="abstract">{_render_abstract_body(p)}</div>' if p.get("abstract") else ""
     year = p["year"] if p.get("year") else "n.d."
     scholar_search = f"https://scholar.google.com/scholar?q={quote_plus(primary_title)}"
     meta_description = f"{p['authors']} — {p['venue']}{', ' + str(year) if p.get('year') else ''}. By {DATA['name']}."
@@ -1440,6 +1466,7 @@ def render_paper_page(p):
     {secondary_html}
     <p class="paper-meta">{esc(p['authors'])}</p>
     <p class="paper-venue">{esc(p['venue'])}{', ' if p['venue'] else ''}{year}{f" &middot; {p['citations']} citations" if p['citations'] else ""}</p>
+    {secondary_meta_html}
     {abstract_html}
     <div class="paper-badges large">{link_badges(p, paper_page=True)}</div>
     <p class="scholar-search"><a href="{esc(scholar_search)}" target="_blank" rel="noopener">Search on Google Scholar &rarr;</a></p>

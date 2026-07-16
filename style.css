@@ -917,6 +917,13 @@ section h2, main > h1 {
   font-style: italic;
 }
 
+.paper-meta-secondary {
+  color: var(--muted);
+  font-size: 0.78rem;
+  margin-top: 0.18rem;
+  opacity: 0.82;
+}
+
 .paper-sub {
   display: block;
   color: var(--muted);
@@ -1387,6 +1394,24 @@ a.badge:hover {
 .abstract p + p,
 .paper-abstract-toggle p + p {
   margin-top: 0.75rem;
+}
+
+.abstract-secondary {
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.88em;
+  opacity: 0.88;
+}
+
+.abstract-language-label {
+  margin-bottom: 0.4rem;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .paper-abstract-toggle {
