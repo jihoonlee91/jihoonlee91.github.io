@@ -12,7 +12,7 @@ import json
 import os
 import re
 from collections import Counter
-from urllib.parse import urlparse
+from urllib.parse import quote_plus, urlparse
 
 import viz
 
@@ -115,6 +115,19 @@ function copyBibtex(el, ev) {
 
 def esc(s):
     return html.escape(s or "", quote=True)
+
+
+def paper_display_titles(paper):
+    """Return the English-first display title and an optional Korean subtitle.
+
+    Legacy Korean records keep their source-language title in ``title`` and
+    their English translation in ``title_en``. English records use ``title``;
+    ``title_ko`` supplies a Korean subtitle when one is available (notably for
+    the dissertation).
+    """
+    primary = paper.get("title_en") or paper["title"]
+    secondary = paper.get("title_ko") or (paper["title"] if paper.get("title_en") else "")
+    return primary, secondary if secondary != primary else ""
 
 
 def render_common_head(page_path, title, description, base=""):
@@ -562,8 +575,11 @@ def render_index():
     rows = []
     for p in top_papers:
         year = p["year"] if p.get("year") else "n.d."
+        primary_title, secondary_title = paper_display_titles(p)
+        secondary_html = f'<span class="paper-title-secondary" lang="ko">{esc(secondary_title)}</span>' if secondary_title else ""
         rows.append(f'''      <li class="paper-compact">
-        <a href="papers/{esc(p['slug'])}.html">{esc(p['title'])}</a>
+        <a href="papers/{esc(p['slug'])}.html">{esc(primary_title)}</a>
+        {secondary_html}
         <span class="paper-sub">{esc(p['venue'])}, {year} &middot; {p['citations']} citations</span>
       </li>''')
 
@@ -672,14 +688,15 @@ def _abstract_paragraphs(text):
 
 def _render_paper_item(p, i):
     year = p["year"] if p.get("year") else "n.d."
-    title_en = f'<div class="paper-title-en">{esc(p["title_en"])}</div>' if p.get("title_en") else ""
+    primary_title, secondary_title = paper_display_titles(p)
+    secondary_html = f'<div class="paper-title-secondary" lang="ko">{esc(secondary_title)}</div>' if secondary_title else ""
     abstract_html = (
         f'<details class="paper-abstract-toggle"><summary>Abstract</summary>{_abstract_paragraphs(p["abstract"])}</details>'
         if p.get("abstract") else ""
     )
     return f'''        <li class="paper">
-          <div class="paper-title"><span class="paper-index">{i}.</span> <a href="papers/{esc(p['slug'])}.html">{esc(p['title'])}</a></div>
-          {title_en}
+          <div class="paper-title"><span class="paper-index">{i}.</span> <a href="papers/{esc(p['slug'])}.html">{esc(primary_title)}</a></div>
+          {secondary_html}
           <div class="paper-meta">{esc(p['authors'])}</div>
           <div class="paper-venue">{esc(p['venue'])}{', ' if p['venue'] else ''}{year}{f" &middot; {p['citations']} citations" if p['citations'] else ""}</div>
           {abstract_html}
@@ -706,6 +723,7 @@ def _render_grouped_sections(groups, order, css_class="pub-category"):
 
 THEME_ORDER = [
     "Morphing-Wing Aircraft Control",
+    "Dynamic Soaring & Learning-Based Control",
     "Autonomous Carrier Landing & Guidance",
     "Target Tracking & Sensing",
     "Path Planning for Search & Rescue",
@@ -899,10 +917,17 @@ def render_projects_section(projects):
     papers_by_slug = {p["slug"]: p for p in DATA.get("papers", [])}
     rows = []
     for proj in projects:
-        parts = [esc(proj.get(f, "")) for f in ("title", "description", "period")]
-        if proj.get("url") and parts:
-            parts[0] = f'<a href="{esc(proj["url"])}" target="_blank" rel="noopener">{parts[0]}</a>'
-        line = f'<li>{" &mdash; ".join(p for p in parts if p)}'
+        title = esc(proj.get("title", ""))
+        if proj.get("url"):
+            title = f'<a href="{esc(proj["url"])}" target="_blank" rel="noopener">{title}</a>'
+        title_ko = f'<div class="project-title-ko" lang="ko">{esc(proj["title_ko"])}</div>' if proj.get("title_ko") else ""
+        sponsor = f'<div class="project-sponsor">{esc(proj["sponsor"])}</div>' if proj.get("sponsor") else ""
+        line = (
+            '<li class="project-entry">'
+            f'<div class="project-heading"><div class="project-title-en" lang="en">{title}</div>'
+            f'{title_ko}{sponsor}'
+            f'<span class="project-period">{esc(proj.get("period", ""))}</span></div>'
+        )
         collaborators = proj.get("collaborators") or []
         if collaborators:
             names = ", ".join(esc(name) for name in collaborators)
@@ -920,12 +945,13 @@ def render_projects_section(projects):
             p = papers_by_slug.get(slug)
             if not p:
                 continue
-            links.append(f'<a href="papers/{esc(slug)}.html">{esc(p.get("title_en") or p["title"])} ({p["year"]})</a>')
+            primary_title, _ = paper_display_titles(p)
+            links.append(f'<a href="papers/{esc(slug)}.html">{esc(primary_title)} ({p["year"]})</a>')
         if links:
             label = "Selected related publications" if proj.get("related_note") else "Related publications"
             note = f' <em>({esc(proj["related_note"])})</em>' if proj.get("related_note") else ""
             related_items = "".join(f'<li>{link}</li>' for link in links)
-            line += f'<div class="related-label">{label}{note}</div><ul class="related-publications">{related_items}</ul>'
+            line += f'<div class="related-label">{label}{note}</div><ol class="related-publications">{related_items}</ol>'
         line += "</li>"
         rows.append(line)
     return f'''<section>
@@ -1372,6 +1398,9 @@ def render_wiki_page(note):
 
 
 def render_paper_page(p):
+    primary_title, secondary_title = paper_display_titles(p)
+    # Scholar metadata keeps the source-language bibliographic title even when
+    # the visible portfolio UI leads with its verified English translation.
     meta_tags = [f'<meta name="citation_title" content="{esc(p["title"])}">']
     for author in [a.strip() for a in p["authors"].split(",")]:
         meta_tags.append(f'<meta name="citation_author" content="{esc(author)}">')
@@ -1385,10 +1414,10 @@ def render_paper_page(p):
         pdf_url = f"{SITE_URL}/{p['pdf']}"
         meta_tags.append(f'<meta name="citation_pdf_url" content="{esc(pdf_url)}">')
 
-    title_en_html = f'<p class="paper-title-en">{esc(p["title_en"])}</p>' if p.get("title_en") else ""
+    secondary_html = f'<p class="paper-title-secondary" lang="ko">{esc(secondary_title)}</p>' if secondary_title else ""
     abstract_html = f'<div class="abstract">{_abstract_paragraphs(p["abstract"])}</div>' if p.get("abstract") else ""
     year = p["year"] if p.get("year") else "n.d."
-    scholar_search = f"https://scholar.google.com/scholar?q={p['title'].replace(' ', '+')}"
+    scholar_search = f"https://scholar.google.com/scholar?q={quote_plus(primary_title)}"
     meta_description = f"{p['authors']} — {p['venue']}{', ' + str(year) if p.get('year') else ''}. By {DATA['name']}."
 
     html_out = f'''<!DOCTYPE html>
@@ -1397,9 +1426,9 @@ def render_paper_page(p):
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {THEME_INIT_SCRIPT}
-<title>{esc(p['title'])}</title>
+<title>{esc(primary_title)}</title>
 <meta name="description" content="{esc(meta_description)}">
-{render_common_head(f"papers/{p['slug']}.html", p['title'], meta_description, base="../")}
+{render_common_head(f"papers/{p['slug']}.html", primary_title, meta_description, base="../")}
 {chr(10).join(meta_tags)}
 <link rel="stylesheet" href="../style.css?v={STYLE_VERSION}">
 </head>
@@ -1407,8 +1436,8 @@ def render_paper_page(p):
   {render_nav("Publications", base="../")}
   <main class="container">
     <p><a href="../publications.html">&larr; Back to Publications</a></p>
-    <h1>{esc(p['title'])}</h1>
-    {title_en_html}
+    <h1>{esc(primary_title)}</h1>
+    {secondary_html}
     <p class="paper-meta">{esc(p['authors'])}</p>
     <p class="paper-venue">{esc(p['venue'])}{', ' if p['venue'] else ''}{year}{f" &middot; {p['citations']} citations" if p['citations'] else ""}</p>
     {abstract_html}

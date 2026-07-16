@@ -21,10 +21,11 @@ collaborators too, not just an academic-reader lens.
 - **Side projects section** — explicitly wanted (see conversation history)
   but nothing exists yet. Don't create a placeholder/empty section; add it
   only once there's an actual project (title, description, stack, link).
-- **Abstracts still missing for 25/43 papers** — same two research passes
-  filled in 18/43 with verified text. The other 25 remain intentionally blank;
-  a blank abstract is preferable to a title-derived paraphrase. Add one only
-  when exact text is available from the paper or a record tied to that paper.
+- **Abstract coverage is 30/43 papers** — the remaining 13 short domestic
+  conference papers have no abstract in the checked proceedings PDF and/or
+  official DBpia metadata, so they remain intentionally blank. A blank abstract
+  is preferable to a title-derived paraphrase; add one only when exact text is
+  available from the paper or a record tied to that paper.
 - **Patents** — add only independently public records after applying
   `docs/CONTENT_POLICY.md`; do not add non-public employer context.
 - **Talks/presentations** — conference talks, the 2016 Grand Prize

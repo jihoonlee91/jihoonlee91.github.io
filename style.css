@@ -897,11 +897,12 @@ section h2, main > h1 {
   color: var(--accent);
 }
 
-.paper-title-en {
+.paper-title-secondary {
+  display: block;
   color: var(--muted);
   font-size: 0.88rem;
-  font-style: italic;
   margin-top: 0.15rem;
+  line-height: 1.45;
 }
 
 .paper-meta {
@@ -1254,6 +1255,55 @@ a.badge:hover {
   font-size: 0.84rem;
 }
 
+.project-entry {
+  padding: 0.9rem 0 !important;
+}
+
+.project-heading {
+  display: grid;
+  grid-template-areas:
+    "title period"
+    "title-ko period"
+    "sponsor sponsor";
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.18rem 1rem;
+}
+
+.project-title-en {
+  grid-area: title;
+  color: var(--fg);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.project-title-en a {
+  color: inherit;
+}
+
+.project-period {
+  grid-area: period;
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.project-title-ko {
+  grid-area: title-ko;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.project-sponsor {
+  grid-area: sponsor;
+  margin-top: 0.1rem;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
 .project-collaborators {
   margin-top: 0.4rem;
   color: var(--muted);
@@ -1267,7 +1317,8 @@ a.badge:hover {
 
 .related-publications {
   margin: 0.3rem 0 0;
-  padding-left: 1.2rem;
+  padding-left: 1.35rem;
+  list-style: decimal;
 }
 
 .related-publications li {
@@ -1279,6 +1330,11 @@ a.badge:hover {
 
 .related-publications a {
   color: var(--accent);
+}
+
+.related-publications li::marker {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
 }
 
 .cv-grid {
@@ -1515,6 +1571,21 @@ footer.site-footer a {
 }
 
 @media (max-width: 560px) {
+  .project-heading {
+    grid-template-areas:
+      "title"
+      "title-ko"
+      "sponsor"
+      "period";
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.16rem;
+  }
+
+  .project-period {
+    margin-top: 0.05rem;
+    white-space: normal;
+  }
+
   .experience-role-head {
     align-items: flex-start;
     flex-direction: column;

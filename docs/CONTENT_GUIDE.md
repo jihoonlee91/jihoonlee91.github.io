@@ -10,6 +10,7 @@ Edit the `papers` array in `papers.json`. Each entry:
   "category": "int-journal",
   "title": "Sliding mode guidance and control for UAV carrier landing",
   "title_en": null,
+  "title_ko": null,
   "authors": "Seokwon Lee, Jihoon Lee, ...",
   "venue": "IEEE Transactions on Aerospace and Electronic Systems, Vol. 55, No. 2, pp. 951-966",
   "year": 2019,
@@ -28,15 +29,21 @@ Edit the `papers` array in `papers.json`. Each entry:
   `generate.py`).
 - `theme` must be one of the values in `THEME_ORDER` in `generate.py`
   (currently: Morphing-Wing Aircraft Control; Autonomous Carrier Landing &
-  Guidance; Target Tracking & Sensing; Path Planning for Search & Rescue;
-  UAV Pitch-Hold Control for Mine Detection; Satellite & Lunar Orbiter
-  GNC) — drives the Publications page's "By Research Theme" toggle
-  view. See `docs/DESIGN.md` for why this isn't split along
+  Guidance; Dynamic Soaring & Learning-Based Control; Target Tracking &
+  Sensing; Path Planning for Search & Rescue; UAV Pitch-Hold Control for Mine
+  Detection; Satellite & Lunar Orbiter GNC) — drives the Publications page's
+  "By Research Theme" toggle view. See `docs/DESIGN.md` for why this isn't split along
   aerospace-vs-semiconductor-AI lines. Add a new theme (and add it to
   `THEME_ORDER`) if a paper genuinely doesn't fit any existing one.
-- `title_en` is only for entries whose `title` is in Korean — an English
-  translation shown in italics under the title. Leave `null` for
-  English-titled papers.
+- Publication cards and paper pages always display an English title first.
+  For a Korean-language record, keep the official Korean title in `title` and
+  put the verified English title in `title_en`; the Korean title then appears
+  on the second line. For an English-language record that also has a Korean
+  title (for example, the dissertation), keep the English title in `title`,
+  leave `title_en` null, and put the Korean title in `title_ko`.
+- Copy `abstract` from the paper, author manuscript, or final publication
+  record. Never generate or paraphrase an abstract from the title. Leave it
+  blank when the source itself has no abstract.
 - `slug` must be unique, lowercase, hyphenated — it's the filename for the
   paper's landing page (`papers/<slug>.html`) and BibTeX file
   (`bibtex/<slug>.bib`), and the expected filename for a self-hosted PDF.
@@ -90,11 +97,12 @@ in `docs/DATA_SOURCES.md`:
 ## Editing CV content (Education / Experience / Awards / Skills / Projects)
 
 These are plain arrays/objects in `papers.json` (`education`, `experience`,
-`awards`, `skills`, `projects`), rendered on `cv.html` by
-`render_list_section()` / `render_awards_section()` /
-`render_skills_section()` in `generate.py`. An item can carry an optional
-`"url"` key to make its first field a link (used for the SNU dissertation
-and the FDCL lab homepage).
+`awards`, `skills`, `projects`), rendered on `cv.html` by the corresponding
+render functions in `generate.py`. Project entries keep `title` (English),
+`title_ko` (Korean), `sponsor`, and `period` as separate fields; related output
+is linked with `related_papers` and/or `related_themes`. An item can carry an
+optional `"url"` key to make its main title a link (used for the SNU
+dissertation and the FDCL lab homepage).
 
 **Before adding anything about employment, read `docs/CONTENT_POLICY.md`
 first** — substantive employer-work descriptions do not belong on this
