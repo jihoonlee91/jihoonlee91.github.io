@@ -117,6 +117,18 @@ def esc(s):
     return html.escape(s or "", quote=True)
 
 
+def secondary_ko(value, class_name="entity-name-ko", tag="div"):
+    """Render an optional Korean name as supporting, never primary, text."""
+    return f'<{tag} class="{class_name}" lang="ko">{esc(value)}</{tag}>' if value else ""
+
+
+def split_sub_parent(value, split_char=", "):
+    """Split bilingual organization names using the same parent convention."""
+    if value and split_char in value:
+        return value.rsplit(split_char, 1)
+    return (None, value or "")
+
+
 def paper_display_titles(paper):
     """Return the English-first display title and an optional Korean subtitle.
 
@@ -451,6 +463,7 @@ def render_timeline():
             entries.append({
                 "period": e["period"],
                 "title": org,
+                "title_ko": e.get("organization_ko"),
                 "detail": e["position"].split(" — ")[0] if " — " in e["position"] else e["position"],
                 "focus": e.get("focus"),
                 "url": e.get("url"),
@@ -459,10 +472,12 @@ def render_timeline():
         else:
             combined_period = _combined_period([e for _, e in g["items"]])
             positions = list(dict.fromkeys(e["position"] for _, e in g["items"]))
+            _, parent_ko = split_sub_parent(g["items"][0][1].get("organization_ko"))
             subitems = [
                 {
                     "period": e["period"],
                     "title": sub or g["parent"],
+                    "title_ko": split_sub_parent(e.get("organization_ko"))[0] or e.get("organization_ko"),
                     "detail": e["position"],
                 }
                 for sub, e in g["items"]
@@ -470,6 +485,7 @@ def render_timeline():
             entries.append({
                 "period": combined_period,
                 "title": g["parent"],
+                "title_ko": parent_ko,
                 "detail": positions[0] if len(positions) == 1 else f'{len(g["items"])} internal roles',
                 "focus": next((e.get("focus") for _, e in g["items"] if e.get("focus")), None),
                 "url": None,
@@ -483,7 +499,9 @@ def render_timeline():
             entries.append({
                 "period": e["period"],
                 "title": g["parent"],
+                "title_ko": e.get("school_ko"),
                 "detail": e["degree"].split(" — ")[0],
+                "detail_ko": e.get("degree_ko"),
                 "focus": e.get("focus"),
                 "url": e.get("url"),
                 "kind": "education",
@@ -494,6 +512,7 @@ def render_timeline():
                 {
                     "period": e["period"],
                     "title": e["degree"].split(" — ")[0],
+                    "title_ko": e.get("degree_ko"),
                     "detail": e["degree"].split(" — ", 1)[1] if " — " in e["degree"] else "",
                 }
                 for _, e in g["items"]
@@ -501,6 +520,7 @@ def render_timeline():
             entries.append({
                 "period": combined_period,
                 "title": g["parent"],
+                "title_ko": g["items"][0][1].get("school_ko"),
                 "detail": f'{len(g["items"])} degrees',
                 "focus": next((e.get("focus") for _, e in g["items"] if e.get("focus")), None),
                 "url": None,
@@ -527,10 +547,16 @@ def render_timeline():
                     break
             advisor = f" — Advisor: {advisor_match.group(1)}" if advisor_match else ""
             lab_name = work["title"].split(", ", 1)[0]
+            lab_name_ko = split_sub_parent(work.get("title_ko"))[0]
+            advisor_name = advisor_match.group(1).removeprefix("Prof. ") if advisor_match else ""
+            advisor_ko = DATA.get("collaborator_names_ko", {}).get(advisor_name, "")
+            detail_ko_parts = [edu.get("detail_ko"), lab_name_ko, f"지도교수: {advisor_ko}" if advisor_ko else ""]
             merged_entries.append({
                 "period": period,
                 "title": edu["title"],
+                "title_ko": edu.get("title_ko"),
                 "detail": f'{edu["detail"]} · {lab_name}{advisor}',
+                "detail_ko": " · ".join(part for part in detail_ko_parts if part),
                 "focus": edu.get("focus") or work.get("focus"),
                 "url": work.get("url") or edu.get("url"),
                 "kind": "education",
@@ -546,12 +572,15 @@ def render_timeline():
     rows = []
     for e in entries:
         title = f'<a href="{esc(e["url"])}" target="_blank" rel="noopener">{esc(e["title"])}</a>' if e.get("url") else esc(e["title"])
+        title_ko = secondary_ko(e.get("title_ko"), "timeline-title-ko")
+        detail_ko = secondary_ko(e.get("detail_ko"), "timeline-detail-ko")
         focus_html = f'<div class="timeline-focus"><span>Focus</span>{esc(e["focus"])}</div>' if e.get("focus") else ""
         subitems_html = ""
         if e.get("subitems"):
             sub_rows = "".join(f'''        <li class="timeline-subitem">
           <span class="timeline-subitem-period">{esc(s['period'])}</span>
           <span class="timeline-subitem-title">{esc(s['title'])}</span>
+          {secondary_ko(s.get('title_ko'), 'timeline-subitem-title-ko')}
           <span class="timeline-subitem-detail">{esc(s['detail'])}</span>
         </li>''' for s in e["subitems"])
             subitems_html = f'<ul class="timeline-subitems">{sub_rows}</ul>'
@@ -559,7 +588,9 @@ def render_timeline():
         <div class="timeline-period">{esc(e['period'])}</div>
         <div class="timeline-body">
           <div class="timeline-title">{title}</div>
+          {title_ko}
           <div class="timeline-detail">{esc(e['detail'])}</div>
+          {detail_ko}
           {focus_html}
           {subitems_html}
         </div>
@@ -946,7 +977,10 @@ def render_projects_section(projects):
         if proj.get("url"):
             title = f'<a href="{esc(proj["url"])}" target="_blank" rel="noopener">{title}</a>'
         title_ko = f'<div class="project-title-ko" lang="ko">{esc(proj["title_ko"])}</div>' if proj.get("title_ko") else ""
-        sponsor = f'<div class="project-sponsor">{esc(proj["sponsor"])}</div>' if proj.get("sponsor") else ""
+        sponsor = ""
+        if proj.get("sponsor"):
+            sponsor_ko = f' <span lang="ko">({esc(proj["sponsor_ko"])})</span>' if proj.get("sponsor_ko") else ""
+            sponsor = f'<div class="project-sponsor">{esc(proj["sponsor"])}{sponsor_ko}</div>'
         line = (
             '<li class="project-entry">'
             f'<div class="project-heading"><div class="project-title-en" lang="en">{title}</div>'
@@ -955,7 +989,11 @@ def render_projects_section(projects):
         )
         collaborators = proj.get("collaborators") or []
         if collaborators:
-            names = ", ".join(esc(name) for name in collaborators)
+            korean_names = proj.get("collaborators_ko") or []
+            names = ", ".join(
+                f'{esc(name)} <span lang="ko">({esc(korean_names[i])})</span>' if i < len(korean_names) else esc(name)
+                for i, name in enumerate(collaborators)
+            )
             line += f'<div class="project-collaborators"><strong>Primary collaborators:</strong> {names}</div>'
         slugs = list(proj.get("related_papers") or [])
         themes = set(proj.get("related_themes") or [])
@@ -1017,13 +1055,15 @@ def render_experience_section(items):
         role_title = esc(sub or item.get("position", ""))
         position = esc(item.get("position", "")) if sub else ""
         header = f'<div class="experience-role-head"><strong>{role_title}</strong><span>{esc(item.get("period", ""))}</span></div>'
+        sub_ko, parent_ko = split_sub_parent(item.get("organization_ko"))
+        role_ko = secondary_ko(sub_ko if sub else (parent_ko or sub_ko), "experience-name-ko")
         position_html = f'<div class="experience-position">{position}</div>' if position else ""
         focus_html = render_focus(item) if show_focus else ""
         highlights = item.get("highlights")
         if highlights:
             bullets = "".join(f"<li>{esc(h)}</li>" for h in highlights)
-            return f'<li class="experience-role">{header}{position_html}{focus_html}<ul class="experience-highlights">{bullets}</ul></li>'
-        return f'<li class="experience-role">{header}{position_html}{focus_html}</li>'
+            return f'<li class="experience-role">{header}{role_ko}{position_html}{focus_html}<ul class="experience-highlights">{bullets}</ul></li>'
+        return f'<li class="experience-role">{header}{role_ko}{position_html}{focus_html}</li>'
 
     groups = _group_consecutive_by_parent(items, "organization")
     rows = []
@@ -1032,10 +1072,12 @@ def render_experience_section(items):
             sub, item = g["items"][0]
             org = f'{sub}, {g["parent"]}' if sub else g["parent"]
             org_html = f'<a href="{esc(item["url"])}" target="_blank" rel="noopener">{esc(org)}</a>' if item.get("url") else esc(org)
+            org_ko = secondary_ko(item.get("organization_ko"), "experience-name-ko")
             highlights = "".join(f"<li>{esc(h)}</li>" for h in item.get("highlights") or [])
             highlights_html = f'<ul class="experience-highlights">{highlights}</ul>' if highlights else ""
             rows.append(f'''<li class="experience-entry">
               <div class="experience-role-head"><strong>{org_html}</strong><span>{esc(item.get("period", ""))}</span></div>
+              {org_ko}
               <div class="experience-position">{esc(item.get("position", ""))}</div>
               {render_focus(item)}
               {highlights_html}
@@ -1043,8 +1085,10 @@ def render_experience_section(items):
         else:
             focuses = list(dict.fromkeys(item.get("focus") for _, item in g["items"] if item.get("focus")))
             group_focus = f'<div class="experience-focus"><span>Focus</span>{esc(focuses[0])}</div>' if len(focuses) == 1 else ""
+            _, company_ko = split_sub_parent(g["items"][0][1].get("organization_ko"))
+            company_ko_html = secondary_ko(company_ko, "experience-company-ko")
             sub_rows = "".join(render_role(sub, item, show_focus=len(focuses) != 1) for sub, item in g["items"])
-            rows.append(f'<li class="experience-group"><div class="experience-company">{esc(g["parent"])}</div>{group_focus}<ul class="experience-roles">{sub_rows}</ul></li>')
+            rows.append(f'<li class="experience-group"><div class="experience-company">{esc(g["parent"])}</div>{company_ko_html}{group_focus}<ul class="experience-roles">{sub_rows}</ul></li>')
 
     return f'''<section>
     <h2>Experience</h2>
@@ -1058,7 +1102,10 @@ def render_awards_section():
     awards = DATA.get("awards") or []
     if not awards:
         return ""
-    items = "".join(f'<li><strong>{esc(a["title"])}</strong><br>{esc(a.get("detail", ""))}</li>' for a in awards)
+    items = "".join(
+        f'<li><strong>{esc(a["title"])}</strong>{secondary_ko(a.get("title_ko"), "award-title-ko")}<br>{esc(a.get("detail", ""))}</li>'
+        for a in awards
+    )
     return f'<section><h2>Awards</h2><ul class="plain-list">{items}</ul></section>'
 
 
@@ -1090,10 +1137,11 @@ def render_collaborators_section(min_count=4, top_n=10):
         return ""
 
     rows = []
+    names_ko = DATA.get("collaborator_names_ko", {})
     for name, count in frequent:
         affil = affiliations.get(name, "")
         detail = f"{esc(affil)} &middot; {count} co-authored papers" if affil else f"{count} co-authored papers"
-        rows.append(f'<li><strong>{esc(name)}</strong><br>{detail}</li>')
+        rows.append(f'<li><strong>{esc(name)}</strong>{secondary_ko(names_ko.get(name), "collaborator-name-ko", "span")}<br>{detail}</li>')
 
     return f'''<section>
     <h2>Frequent Collaborators</h2>
@@ -1117,25 +1165,28 @@ def render_education_section(items):
         if item.get("url"):
             primary_html = f'<a href="{esc(item["url"])}" target="_blank" rel="noopener">{primary_html}</a>'
         detail_html = f'<span class="paper-sub">{esc(detail)}</span>' if detail else ""
-        return primary_html, detail_html
+        degree_ko_html = secondary_ko(item.get("degree_ko"), "education-degree-ko")
+        return primary_html, detail_html, degree_ko_html
 
     rows = []
     for g in groups:
         if len(g["items"]) == 1:
             _, item = g["items"][0]
-            primary_html, detail_html = _split_degree(item)
+            primary_html, detail_html, degree_ko_html = _split_degree(item)
+            school_ko_html = secondary_ko(item.get("school_ko"), "education-school-ko")
             rows.append(
                 f'<li><strong>{esc(g["parent"])}</strong> &mdash; {primary_html} '
-                f'&mdash; {esc(item.get("period", ""))}{detail_html}</li>'
+                f'&mdash; {esc(item.get("period", ""))}{school_ko_html}{degree_ko_html}{detail_html}</li>'
             )
         else:
             sub_rows = []
             for _, item in g["items"]:
-                primary_html, detail_html = _split_degree(item)
-                sub_rows.append(f'<li>{primary_html} &mdash; {esc(item.get("period", ""))}{detail_html}</li>')
+                primary_html, detail_html, degree_ko_html = _split_degree(item)
+                sub_rows.append(f'<li>{primary_html} &mdash; {esc(item.get("period", ""))}{degree_ko_html}{detail_html}</li>')
+            school_ko_html = secondary_ko(g["items"][0][1].get("school_ko"), "education-school-ko")
             rows.append(
                 f'<li class="experience-group"><div class="experience-company">{esc(g["parent"])}</div>'
-                f'<ul class="experience-roles">{"".join(sub_rows)}</ul></li>'
+                f'{school_ko_html}<ul class="experience-roles">{"".join(sub_rows)}</ul></li>'
             )
     return f'''<section>
     <h2>Education</h2>

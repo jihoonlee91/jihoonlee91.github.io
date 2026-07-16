@@ -110,10 +110,16 @@ in `docs/DATA_SOURCES.md`:
 These are plain arrays/objects in `papers.json` (`education`, `experience`,
 `awards`, `skills`, `projects`), rendered on `cv.html` by the corresponding
 render functions in `generate.py`. Project entries keep `title` (English),
-`title_ko` (Korean), `sponsor`, and `period` as separate fields; related output
-is linked with `related_papers` and/or `related_themes`. An item can carry an
+`title_ko` (Korean), `sponsor`, `sponsor_ko`, and `period` as separate fields;
+related output is linked with `related_papers` and/or `related_themes`. An item can carry an
 optional `"url"` key to make its main title a link (used for the SNU
 dissertation and the FDCL lab homepage).
+
+Keep English names primary and store available official Korean names in the
+matching `_ko` field: `organization_ko`, `school_ko`, `degree_ko`,
+`title_ko`, or `sponsor_ko`. Renderers place those values immediately below or
+beside the English name in smaller supporting text. Do not replace an English
+primary name with Korean-only text.
 
 **Before adding anything about employment, read `docs/CONTENT_POLICY.md`
 first** — substantive employer-work descriptions do not belong on this

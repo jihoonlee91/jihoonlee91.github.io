@@ -40,25 +40,32 @@
   "education": [
     {
       "school": "Seoul National University",
+      "school_ko": "서울대학교",
       "degree": "Ph.D., Aerospace Engineering (MS-PhD Integrated Course) — Department of Mechanical and Aerospace Engineering, College of Engineering. Flight Dynamics and Control Lab (Advisor: Prof. Youdan Kim, now retired). Dissertation: \"Self-Scheduled Parameter-Varying Control of Asymmetric Variable-Span Morphing Unmanned Aerial Vehicle\"",
+      "degree_ko": "항공우주공학 박사 (석박사통합과정)",
       "period": "Sep 2014 – Feb 2023",
       "focus": "Aerospace GNC · UAV Guidance & Control · Optimization",
       "url": "https://dcollection.snu.ac.kr/common/orgView/000000176713"
     },
     {
       "school": "Yonsei University",
+      "school_ko": "연세대학교",
       "degree": "B.S., Mechanical Engineering (Advisor: Prof. Woongsup Yoon) — Thesis: \"Modeling and PIDE Control Simulation of a Quadrotor\" (Advisor: Prof. Jongsoo Lee)",
+      "degree_ko": "기계공학 학사",
       "period": "Feb 2010 – Aug 2014"
     },
     {
       "school": "Yonsei University",
+      "school_ko": "연세대학교",
       "degree": "B.S., Astronomy (Double Major Program)",
+      "degree_ko": "천문학 학사 (복수전공)",
       "period": "Mar 2013 – Aug 2014"
     }
   ],
   "experience": [
     {
       "organization": "Digital Twin Center, Samsung Electronics",
+      "organization_ko": "디지털트윈센터, 삼성전자",
       "position": "Staff Engineer — Production AI & ML Systems",
       "focus": "Semiconductor AI · Production ML Systems · Engineering Software",
       "highlights": [
@@ -70,6 +77,7 @@
     },
     {
       "organization": "Mechatronics Research, Samsung Electronics",
+      "organization_ko": "메카트로닉스연구, 삼성전자",
       "position": "Staff Engineer — Production AI & ML Systems",
       "focus": "Semiconductor AI · Production ML Systems · Engineering Software",
       "highlights": [
@@ -80,6 +88,7 @@
     },
     {
       "organization": "Memory Manufacturing Technology Center, Samsung Electronics",
+      "organization_ko": "메모리 제조기술센터, 삼성전자",
       "position": "Staff Engineer — Production AI & ML Systems",
       "focus": "Semiconductor AI · Production ML Systems · Engineering Software",
       "highlights": [
@@ -90,6 +99,7 @@
     },
     {
       "organization": "Flight Dynamics and Control Lab, Seoul National University",
+      "organization_ko": "비행역학 및 제어 연구실, 서울대학교",
       "position": "Graduate Student Researcher — Aerospace GNC & Autonomous Systems",
       "period": "Sep 2014 – Feb 2023",
       "focus": "Aerospace GNC · UAV Guidance & Control · Optimization",
@@ -107,6 +117,7 @@
       "title": "Development of Ground Control and Communication System for VTOL Fixed-Wing Drone",
       "title_ko": "수직이착륙 고정익 드론 및 지상 제어, 통신 시스템",
       "sponsor": "Agency for Defense Development (ADD)",
+      "sponsor_ko": "국방과학연구소",
       "period": "Mar 2021 – Feb 2022",
       "related_papers": [
         "2022-optimal-policy-pitch-hold-milp",
@@ -119,14 +130,17 @@
       "title": "Development of Location System for Firefighters Based on Wireless Communication",
       "title_ko": "재난현장 무선통신 추적기반 요구조자 및 소방관 위치정보시스템 개발",
       "sponsor": "Korea Fire Institute (KFI)",
+      "sponsor_ko": "한국소방산업기술원",
       "period": "Jan 2021 – Dec 2022",
       "collaborators": ["Suwon Lee", "Heein Park"],
+      "collaborators_ko": ["이수원", "박희인"],
       "related_papers": ["2023-indoor-path-planning-search-rescue", "2021-indoor-path-planning-firefighter-ko"]
     },
     {
       "title": "Development of Target Tracking Algorithms",
       "title_ko": "표적추적 알고리즘 개발",
       "sponsor": "LIG Nex1 Company Ltd.",
+      "sponsor_ko": "LIG넥스원",
       "period": "Jan 2020 – Aug 2020",
       "related_papers": ["2021-target-tracking-laser-rangefinder", "2020-laser-rangefinder-target-tracking-ko"]
     },
@@ -134,6 +148,7 @@
       "title": "Development of an SMPC Flap Module for Morphing Wings",
       "title_ko": "모핑날개 적용을 위한 형상기억 폴리머 복합재 플랩 모듈 개발",
       "sponsor": "Ministry of Trade, Industry and Energy",
+      "sponsor_ko": "산업통상자원부",
       "period": "Jun 2016 – Dec 2020",
       "related_themes": ["Morphing-Wing Aircraft Control"]
     },
@@ -141,6 +156,7 @@
       "title": "Development of Guidance, Navigation, and Control Algorithms and Corresponding Source Code for Experimental Lunar Orbiter",
       "title_ko": "시험용 달 궤도선의 유도항법제어 알고리즘 개발 및 소스코드 개발",
       "sponsor": "Ministry of Science, ICT and Future Planning",
+      "sponsor_ko": "미래창조과학부",
       "period": "Sep 2014 – Jun 2017",
       "related_themes": ["Satellite & Lunar Orbiter GNC"]
     },
@@ -148,6 +164,7 @@
       "title": "Guidance/Control Study for Take-off and Landing on a Ship",
       "title_ko": "함상 이착륙 유도/제어 알고리즘 연구",
       "sponsor": "Agency for Defense Development (ADD)",
+      "sponsor_ko": "국방과학연구소",
       "period": "Nov 2014 – Dec 2015",
       "related_themes": ["Autonomous Carrier Landing & Guidance"]
     }
@@ -812,6 +829,7 @@
   "awards": [
     {
       "title": "Grand Prize (Transport Minister's Award)",
+      "title_ko": "대상 (국토교통부장관상)",
       "detail": "3rd Aviation-Specialized University Conference, Mayfield Hotel, Seoul, Republic of Korea (Feb 2016) — for \"Risk Evaluation Scheme in Automatic Aircraft Carrier Landing Using Artificial Neural Network\""
     }
   ],
@@ -936,6 +954,20 @@
     "Chan Gook Park": "Seoul National University",
     "Youngjun Lee": "Seoul National University",
     "Suwon Lee": "Assistant Professor, Kookmin University"
+  },
+  "collaborator_names_ko": {
+    "Youdan Kim": "김유단",
+    "Seong-hun Kim": "김성훈",
+    "Hanna Lee": "이하나",
+    "Seungyun Jung": "정승윤",
+    "Seungkeun Kim": "김승근",
+    "Suwon Lee": "이수원",
+    "Somang Lee": "이소망",
+    "Jinyoung Suk": "석진영",
+    "Seokwon Lee": "이석원",
+    "Hyeonggwan Kang": "강형관",
+    "Sangmin Lee": "이상민",
+    "Heein Park": "박희인"
   },
   "identity_tag": "Semiconductor AI & Software Engineer"
 }

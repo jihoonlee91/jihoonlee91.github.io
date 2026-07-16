@@ -462,6 +462,18 @@ section h2, main > h1 {
   font-weight: 600;
 }
 
+.timeline-title-ko,
+.timeline-detail-ko,
+.timeline-subitem-title-ko {
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.timeline-subitem-title-ko {
+  margin: 0.08rem 0 0.12rem;
+}
+
 .timeline-detail {
   color: var(--muted);
   font-size: 0.9rem;
@@ -1184,6 +1196,40 @@ a.badge:hover {
   margin-bottom: 0.25rem;
 }
 
+.experience-company-ko,
+.experience-name-ko,
+.education-school-ko,
+.education-degree-ko,
+.award-title-ko {
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.experience-company-ko {
+  margin: -0.16rem 0 0.28rem;
+}
+
+.experience-name-ko {
+  margin-top: 0.08rem;
+}
+
+.education-school-ko,
+.education-degree-ko {
+  margin-top: 0.12rem;
+}
+
+.award-title-ko {
+  margin-top: 0.1rem;
+}
+
+.collaborator-name-ko {
+  margin-left: 0.35rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 400;
+}
+
 .experience-roles {
   list-style: none;
   margin: 0;
@@ -1309,6 +1355,11 @@ a.badge:hover {
   margin-top: 0.1rem;
   color: var(--muted);
   font-size: 0.84rem;
+}
+
+.project-sponsor span,
+.project-collaborators span {
+  opacity: 0.86;
 }
 
 .project-collaborators {
