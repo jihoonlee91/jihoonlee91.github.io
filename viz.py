@@ -250,6 +250,35 @@ def _canonical_venue(paper):
     return venue.split(",", 1)[0]
 
 
+def scholar_index_table(citation_stats, updated_label=None):
+    """All-time vs. since-2021 citation/h-index/i10-index breakdown, as
+    shown on the owner's Google Scholar profile — a compact complement to
+    the citations-by-year bar chart, which only shows the yearly count."""
+    rows = [
+        ("Citations", citation_stats.get("citations_all"), citation_stats.get("citations_since_2021")),
+        ("h-index", citation_stats.get("h_index_all"), citation_stats.get("h_index_since_2021")),
+        ("i10-index", citation_stats.get("i10_index_all"), citation_stats.get("i10_index_since_2021")),
+    ]
+    if not any(all_val is not None for _, all_val, _ in rows):
+        return ""
+
+    table_rows = "".join(
+        f"<tr><th>{esc(label)}</th><td>{all_val if all_val is not None else '—'}</td>"
+        f"<td>{since_val if since_val is not None else '—'}</td></tr>"
+        for label, all_val, since_val in rows
+    )
+    updated_html = f" &middot; updated {esc(updated_label)}" if updated_label else ""
+
+    return f'''<div class="viz-block">
+      <h3>Google Scholar Index</h3>
+      <p class="viz-note viz-source">Source: Google Scholar{updated_html}</p>
+      <table class="viz-table scholar-index-table">
+        <thead><tr><th></th><th>All</th><th>Since 2021</th></tr></thead>
+        <tbody>{table_rows}</tbody>
+      </table>
+    </div>'''
+
+
 def venue_statistics(papers):
     """Summarize publication destinations by venue series, not event year."""
     grouped = {category: Counter() for category in CATEGORY_ORDER}

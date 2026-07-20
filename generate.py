@@ -1009,6 +1009,7 @@ def render_publications():
         {viz.year_category_chart(DATA['papers'])}
         {viz.venue_statistics(DATA['papers'])}
         {viz.citation_year_chart(DATA.get('citation_stats') or {}, updated_label=CITATION_STATS_UPDATED)}
+        {viz.scholar_index_table(DATA.get('citation_stats') or {}, updated_label=CITATION_STATS_UPDATED)}
         {viz.keyword_chart(DATA['papers'], curated_terms=CURATED_RESEARCH_FOCUS)}
       </div>
     </details>
