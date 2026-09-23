@@ -39,10 +39,11 @@ employer's non-public data, process, workflow, validation, or decision logic.
 ## Owner-approved organization-name exception
 
 The owner has explicitly chosen to publish the Samsung Electronics
-sub-organization names **Digital Twin Center**, **Mechatronics Research**, and
-**Memory Manufacturing Technology Center**, and **MTC AX/PI Team** in the Experience timeline. This is
-a narrow display choice, not evidence of employer approval and not a general
-exception to this policy.
+sub-organization and team names **Digital Twin Center**, **Mechatronics
+Research**, **Memory Manufacturing Technology Center**, **MTC AX/PI Team**,
+**Mechatronics Team**, and **A-FAB Technology Team** in the Experience
+timeline. This is a narrow display choice, not evidence of employer approval
+and not a general exception to this policy.
 
 In particular, publishing an organization name does **not** authorize any
 dataset taxonomy, workflow sequence, validation method, decision rule,

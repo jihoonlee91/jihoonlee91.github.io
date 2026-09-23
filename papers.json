@@ -78,8 +78,8 @@
       "url": "https://semiconductor.samsung.com/"
     },
     {
-      "organization": "Digital Twin Center, Samsung Electronics — Device Solutions (DS) Division",
-      "organization_ko": "디지털트윈센터, 삼성전자 DS부문",
+      "organization": "A-FAB Technology Team, Digital Twin Center, Samsung Electronics — Device Solutions (DS) Division",
+      "organization_ko": "A-FAB기술팀, 디지털트윈센터, 삼성전자 DS부문",
       "position": "Staff Engineer — Production AI & ML Systems",
       "focus": "Semiconductor AI · Production ML Systems · Engineering Software",
       "highlights": [
@@ -91,8 +91,8 @@
       "url": "https://semiconductor.samsung.com/"
     },
     {
-      "organization": "Mechatronics Research, Samsung Electronics — Device Solutions (DS) Division",
-      "organization_ko": "설비기술연구소, 삼성전자 DS부문",
+      "organization": "A-FAB Technology Team, Mechatronics Research, Samsung Electronics — Device Solutions (DS) Division",
+      "organization_ko": "A-FAB기술팀, 설비기술연구소, 삼성전자 DS부문",
       "position": "Staff Engineer — Production AI & ML Systems",
       "focus": "Semiconductor AI · Production ML Systems · Engineering Software",
       "highlights": [
@@ -103,8 +103,8 @@
       "url": "https://semiconductor.samsung.com/"
     },
     {
-      "organization": "Memory Manufacturing R&D Technology Center, Samsung Electronics — Device Solutions (DS) Division",
-      "organization_ko": "메모리 제조기술센터, 삼성전자 DS부문",
+      "organization": "Mechatronics Team, Memory Manufacturing R&D Technology Center (MTC), Samsung Electronics — Device Solutions (DS) Division",
+      "organization_ko": "설비기술팀(MTC), 메모리 제조기술센터, 삼성전자 DS부문",
       "position": "Staff Engineer — Production AI & ML Systems",
       "focus": "Semiconductor AI · Production ML Systems · Engineering Software",
       "highlights": [
@@ -857,6 +857,7 @@
   "skills": {
     "Programming": [
       "Python",
+      "TypeScript / JavaScript",
       "SQL",
       "MATLAB",
       "C",
@@ -864,6 +865,16 @@
       "Linux / Shell",
       "LaTeX",
       "Simulink"
+    ],
+    "Product & Web Engineering": [
+      "React",
+      "Next.js",
+      "React Native / Expo",
+      "Node.js",
+      "Supabase / PostgreSQL",
+      "Tailwind CSS",
+      "Vite",
+      "Playwright / Vitest"
     ],
     "Domains": [
       "Control",
@@ -921,20 +932,24 @@
   "life": {
     "intro": "Outside work, I spend most of my time cycling, swimming, running, hiking, traveling, and taking photos.",
     "sections": [
-      {"title": "Cycling", "content": "Long-distance rides and triathlon training.", "photos": []},
+      {
+        "title": "Cycling",
+        "content": "Long-distance rides and triathlon training. Current bikes: Specialized Tarmac Pro and Merida Scultura 400 Disc (road), GT Talon 0 (mountain), and Giant Escape 2 (hybrid).",
+        "photos": []
+      },
       {
         "title": "Triathlon",
-        "content": "Age-group triathlete since 2019; completed a full-distance race in 2024.",
+        "content": "Age-group triathlete since 2019, racing under the Korea Triathlon Federation; completed the full (King) distance at Challenge Saemangeum, Gunsan, in 2024. Ranked as high as 2nd nationally in the men's 30-34 age group; currently ranked 19th.",
         "photos": []
       },
       {
         "title": "Swimming",
-        "content": "Open-water and masters swimming.",
+        "content": "Open-water and masters swimming since 2018. Certified lifeguard (Korean Red Cross) and water-rescue diver (수상구조사, Korea Coast Guard).",
         "photos": []
       },
       {
         "title": "Running",
-        "content": "Road running from 10K to marathon distances.",
+        "content": "Road running from 10K to marathon distances; recently getting into trail running.",
         "photos": []
       },
       {
@@ -950,7 +965,7 @@
       {"title": "Travel", "content": "Travel across Asia, Europe, the Americas, and Australia.", "photos": []},
       {
         "title": "Photography",
-        "content": "Photography helps me document people, places, and movement. ‘Gazes of India,’ a seven-image series photographed in Delhi, Varanasi, and Kolkata, was selected at the 2018 Asia Culture International Photo Contest.",
+        "content": "Photography helps me document people, places, and movement. Current gear: Sony a7R III with FE 20-70mm F4 G. ‘Gazes of India,’ a seven-image series photographed in Delhi, Varanasi, and Kolkata, was selected at the 2018 Asia Culture International Photo Contest.",
         "photos": [
           {"src": "assets/life/gazes-of-india-07.jpg", "alt": "Monkey overlooking the Ganges and Varanasi at sunset", "featured": true},
           {"src": "assets/life/gazes-of-india-01.jpg", "alt": "View of a city road framed through a cycle rickshaw"},
