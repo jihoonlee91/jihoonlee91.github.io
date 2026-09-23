@@ -66,6 +66,18 @@
   ],
   "experience": [
     {
+      "organization": "MTC AX/PI Team, Memory Manufacturing R&D Technology Center (MTC), Samsung Electronics — Device Solutions (DS) Division",
+      "organization_ko": "MTC AX/PI팀, 메모리 제조기술센터(MTC), 삼성전자 DS부문",
+      "position": "Staff Engineer — Production AI & ML Systems",
+      "focus": "Semiconductor AI · Production ML Systems · Engineering Software",
+      "highlights": [
+        "Lead AI and software development for complex semiconductor engineering applications, coordinating across AI, software, data, and domain-engineering teams.",
+        "Translate engineering priorities into robust ML systems with clear objectives, evaluation standards, and production-readiness requirements."
+      ],
+      "period": "Sep 2026 – Present",
+      "url": "https://semiconductor.samsung.com/"
+    },
+    {
       "organization": "Digital Twin Center, Samsung Electronics — Device Solutions (DS) Division",
       "organization_ko": "디지털트윈센터, 삼성전자 DS부문",
       "position": "Staff Engineer — Production AI & ML Systems",
@@ -75,7 +87,7 @@
         "Translate engineering priorities into robust ML systems with clear objectives, evaluation standards, and production-readiness requirements.",
         "Develop LLM-assisted decision-support capabilities that combine engineering knowledge with human oversight."
       ],
-      "period": "Jan 2026 – Present",
+      "period": "Jan 2026 – Aug 2026",
       "url": "https://semiconductor.samsung.com/"
     },
     {
