@@ -104,7 +104,8 @@ in favor of a bar chart on precision-of-comparison grounds — the owner
 explicitly asked for the word cloud anyway in a later session; the bar
 chart's imprecision concern was judged an acceptable trade-off once
 title+abstract text gave it more words to draw from), a Life page (Home /
-Publications / CV / **Life**) with per-hobby sections, and publication-source/
+Publications / CV / **Life**) with per-hobby sections, a card-based Life page with stat highlights, gear lists, and a travel map, Home-page
+at-a-glance stats (publications/journals/citations/h-index), and publication-source/
 BibTeX/Author-PDF hover previews so a visitor can see where a link goes before
 clicking.
 The "Tech Stack" chip row that used to sit on Home was removed — it

@@ -439,6 +439,7 @@ def render_profile_header():
     contact_html = f'<p class="contact">{" &middot; ".join(contact_parts)}</p>' if contact_parts else ""
 
     bio_html = f'<p class="bio">{esc(DATA["bio"])}</p>' if DATA.get("bio") else ""
+    stats_html = render_hero_stats()
     identity_tag_html = f'<p class="identity-tag">{esc(DATA["identity_tag"])}</p>' if DATA.get("identity_tag") else ""
 
     return f'''<section class="hero">
@@ -450,8 +451,31 @@ def render_profile_header():
       {bio_html}
       {interests_html}
       {render_social_links()}
+      {stats_html}
     </div>
   </section>'''
+
+
+def render_hero_stats():
+    """Four at-a-glance numbers under the hero: paper counts come straight from
+    papers.json; citation metrics from the Google Scholar snapshot in
+    citation_stats (date shown in the caption)."""
+    papers = DATA.get("papers", [])
+    stats = DATA.get("citation_stats") or {}
+    journals = sum(1 for p in papers if p.get("category") in ("int-journal", "domestic-journal"))
+    items = [(str(len(papers)), "Publications", "publications.html"),
+             (str(journals), "Journal articles", "publications.html")]
+    if stats.get("citations_all") is not None:
+        items.append((str(stats["citations_all"]), "Citations", DATA.get("scholar_url")))
+    if stats.get("h_index_all") is not None:
+        items.append((str(stats["h_index_all"]), "h-index", DATA.get("scholar_url")))
+    cells = "".join(
+        f'<a class="hero-stat" href="{esc(href)}"{" target=\"_blank\" rel=\"noopener\"" if href and href.startswith("http") else ""}>'
+        f'<span class="hero-stat-value">{esc(value)}</span><span class="hero-stat-label">{esc(label)}</span></a>'
+        for value, label, href in items
+    )
+    note = f'<p class="hero-stats-note">Citation metrics: Google Scholar, {esc(CITATION_STATS_UPDATED)}</p>' if stats else ""
+    return f'<div class="hero-stats">{cells}</div>{note}'
 
 
 def _timeline_sort_key(period):
@@ -542,7 +566,9 @@ def render_timeline():
                     "period": e["period"],
                     "title": sub or g["parent"],
                     "title_ko": split_sub_parent(e.get("organization_ko"))[0] or e.get("organization_ko"),
-                    "detail": e["position"],
+                    # Same title in every role is already shown once at the
+                    # group level; repeating it on each row is just noise.
+                    "detail": e["position"] if len(positions) > 1 else "",
                 }
                 for sub, e in g["items"]
             ]
@@ -665,7 +691,7 @@ def render_timeline():
           <span class="timeline-subitem-period">{esc(s['period'])}</span>
           <span class="timeline-subitem-title">{esc(s['title'])}</span>
           {secondary_ko(s.get('title_ko'), 'timeline-subitem-title-ko')}
-          <span class="timeline-subitem-detail">{esc(s['detail'])}</span>
+          {f'<span class="timeline-subitem-detail">{esc(s["detail"])}</span>' if s['detail'] else ''}
         </li>''' for s in e["subitems"])
             subitems_html = f'<ul class="timeline-subitems">{sub_rows}</ul>'
         rows.append(f'''      <li class="timeline-item timeline-{e['kind']}">
@@ -1415,6 +1441,74 @@ def _render_records_table(records, label="Records"):
       </details>'''
 
 
+def _render_life_highlights(highlights):
+    if not highlights:
+        return ""
+    items = "".join(
+        f'<div class="life-stat"><span class="life-stat-value">{esc(h["value"])}</span>'
+        f'<span class="life-stat-label">{esc(h["label"])}</span></div>'
+        for h in highlights
+    )
+    return f'<div class="life-stats">{items}</div>'
+
+
+def _render_life_lists(lists):
+    blocks = []
+    for block in lists or []:
+        rows = "".join(
+            f'<li><span class="life-item-name">{esc(item["name"])}</span>'
+            f'<span class="life-item-detail">{esc(item.get("detail", ""))}</span></li>'
+            for item in block.get("items", [])
+        )
+        blocks.append(f'<div class="life-list"><h3>{esc(block["title"])}</h3><ul>{rows}</ul></div>')
+    return "".join(blocks)
+
+
+# Visited countries smaller than this projected area (px² in the 960-wide map)
+# get a dot marker so they stay visible — e.g. Cyprus and Switzerland.
+TRAVEL_MARKER_MAX_AREA = 60
+TRAVEL_NAME_OVERRIDES = {"US": "United States"}
+
+
+def _render_travel_map(visited, home):
+    """Inline SVG world map from assets/life/world-map.json (Natural Earth
+    110m, pre-projected by scripts/build_world_map.cjs). Colors come from CSS
+    tokens, so both themes work; the country chips below double as the
+    accessible text version of the map."""
+    if not visited:
+        return ""
+    with open(os.path.join(ROOT, "assets", "life", "world-map.json"), encoding="utf-8") as f:
+        world = json.load(f)
+    by_code = {c["code"]: c for c in world["countries"] if c["code"]}
+    missing = [code for code in visited + [home] if code and code not in by_code]
+    if missing:
+        raise ValueError(f"Unknown country codes in life.travel: {missing}")
+
+    def name_of(code):
+        return TRAVEL_NAME_OVERRIDES.get(code, by_code[code]["name"])
+
+    paths, markers = [], []
+    for c in world["countries"]:
+        code = c["code"]
+        if code == home:
+            cls = "map-home"
+        elif code in visited:
+            cls = "map-visited"
+        else:
+            cls = "map-land"
+        title = f'<title>{esc(name_of(code))}</title>' if cls != "map-land" else ""
+        paths.append(f'<path class="{cls}" d="{c["d"]}">{title}</path>')
+        if cls != "map-land" and (code == home or c["a"] < TRAVEL_MARKER_MAX_AREA):
+            x, y = c["c"]
+            markers.append(f'<circle class="{cls}-dot" cx="{x}" cy="{y}" r="3.2"><title>{esc(name_of(code))}</title></circle>')
+    chips = "".join(f'<li>{esc(name_of(code))}</li>' for code in sorted(visited, key=name_of))
+    return f'''<figure class="travel-map">
+        <svg viewBox="{world["viewBox"]}" role="img" aria-label="World map highlighting {len(visited)} visited countries">{"".join(paths)}{"".join(markers)}</svg>
+        <figcaption class="travel-legend"><span class="legend-visited">Visited</span><span class="legend-home">Home ({esc(name_of(home))})</span></figcaption>
+      </figure>
+      <ul class="travel-countries" aria-label="Visited countries">{chips}</ul>'''
+
+
 def render_life():
     life = DATA.get("life") or {}
     intro_html = f'<p class="page-intro">{esc(life["intro"])}</p>' if life.get("intro") else ""
@@ -1447,13 +1541,22 @@ def render_life():
                 link_class = "life-photo-link life-photo-link-featured" if featured else "life-photo-link"
                 thumbs += f'<a class="{link_class}" href="{esc(src)}" target="_blank" rel="noopener"><img class="life-photo" src="{esc(src)}" alt="{esc(alt)}" loading="lazy"></a>'
             gallery = f'<div class="life-gallery">{thumbs}</div>'
-        races_html = ""
-        records_html = ""
+        highlights_html = _render_life_highlights(section.get("highlights"))
+        lists_html = _render_life_lists(section.get("lists"))
+        countries = section.get("countries") or []
+        if countries:
+            highlights_html = _render_life_highlights([
+                {"value": str(len(countries)), "label": "Countries visited"},
+            ] + (section.get("highlights") or []))
+        map_html = _render_travel_map(countries, section.get("home"))
         emoji = LIFE_SECTION_EMOJI.get(section["title"], "")
-        heading = f'{emoji} {esc(section["title"])}'.strip()
-        width_class = ""
+        icon = f'<span class="life-icon" aria-hidden="true">{emoji}</span>' if emoji else ""
+        width_class = " life-section-wide" if section.get("wide") else ""
         section_id = "life-" + re.sub(r"[^a-z0-9]+", "-", section["title"].lower()).strip("-")
-        sections_html.append(f'<section class="life-section{width_class}" id="{section_id}"><h2>{heading}</h2>{body}{club_html}{gallery}{races_html}{records_html}</section>')
+        sections_html.append(
+            f'<section class="life-section{width_class}" id="{section_id}">'
+            f'<h2>{icon}{esc(section["title"])}</h2>{body}{club_html}{highlights_html}{lists_html}{map_html}{gallery}</section>'
+        )
     if not sections_html:
         sections_html.append('<p class="pending">Nothing added yet.</p>')
 

@@ -144,6 +144,39 @@ external badges open in a new tab; internal site navigation does not. See
   (`"Mon YYYY – Mon YYYY"` or `"Mon YYYY – Present"`) so the sort keeps
   working without changes to the parser.
 
+## Home page: at-a-glance numbers
+
+`render_hero_stats()` adds four linked stat cards under the social badges:
+publication and journal-article counts (computed from `papers.json`) and
+all-time citations / h-index from the `citation_stats` Google Scholar
+snapshot. The snapshot date is printed under the cards, so refresh
+`citation_stats` (and its `updated` field) together.
+
+## Life page: cards, highlights, gear lists, travel map
+
+Each `life.sections[]` entry renders as a card in a two-column grid (one
+column below 640px). Optional fields, all rendered by `render_life()`:
+
+- `highlights` — `[{"value", "label"}]` stat tiles. Only use values that are
+  already public (e.g. in `docs/SPORTS_RECORDS.md`); never estimate.
+- `lists` — `[{"title", "items": [{"name", "detail"}]}]` for gear and
+  certifications (name left, muted detail right).
+- `wide: true` — card spans both columns (Travel, Photography).
+- `countries` + `home` — ISO 3166-1 alpha-2 codes for the travel map. The
+  map is inline SVG built from `assets/life/world-map.json` (Natural Earth
+  1:110m, public domain, pre-projected by `scripts/build_world_map.cjs`, a
+  one-off Node script — the site build itself stays Python-only). Visited
+  countries use `--accent`, home uses `--preprint`, other land uses the
+  `--map-land` token; countries too small to see get a dot marker. The
+  "N countries visited" tile and the country chips are derived from the list.
+  An unknown code fails the build rather than silently dropping a country.
+
+## Mobile tooltips
+
+Below 640px the BibTeX/source hover panels become a fixed bottom sheet. The
+badge-anchored panel otherwise hangs past the right edge and — even while
+hidden — widens the page into a horizontal scroll.
+
 ## Publications page: category vs. theme grouping
 
 The Publications page has a client-side toggle (`view-toggle`,

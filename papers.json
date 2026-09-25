@@ -930,26 +930,48 @@
     ]
   },
   "life": {
-    "intro": "Outside work, I spend most of my time cycling, swimming, running, hiking, traveling, and taking photos.",
+    "intro": "Outside work, I train and race in triathlon, and spend the rest of my time on long rides, mountain traverses, travel, and photography.",
     "sections": [
       {
-        "title": "Cycling",
-        "content": "Long-distance rides and triathlon training. Current bikes: Specialized Tarmac Pro and Merida Scultura 400 Disc (road), GT Talon 0 (mountain), and Giant Escape 2 (hybrid).",
+        "title": "Triathlon",
+        "content": "Age-group triathlete racing Korea Triathlon Federation events since 2019, from sprint and Olympic distance up to a full-distance finish. Currently ranked 19th nationally in my age group.",
+        "highlights": [
+          {"value": "14:56", "label": "Full distance, Challenge Gunsan-Saemangeum 2024"},
+          {"value": "#2", "label": "Peak national age-group ranking (M30-34)"},
+          {"value": "30+", "label": "Races since 2019"}
+        ],
         "photos": []
       },
       {
-        "title": "Triathlon",
-        "content": "Age-group triathlete since 2019, racing under the Korea Triathlon Federation; completed the full (King) distance at Challenge Saemangeum, Gunsan, in 2024. Ranked as high as 2nd nationally in the men's 30-34 age group; currently ranked 19th.",
+        "title": "Cycling",
+        "content": "Long-distance road rides and triathlon bike training, with the occasional trail day.",
+        "lists": [
+          {"title": "Bikes", "items": [
+            {"name": "Specialized Tarmac Pro", "detail": "Road"},
+            {"name": "Merida Scultura 400 Disc", "detail": "Road"},
+            {"name": "Giant Talon 0", "detail": "Mountain"},
+            {"name": "Giant Escape 2", "detail": "Hybrid"}
+          ]}
+        ],
         "photos": []
       },
       {
         "title": "Swimming",
-        "content": "Open-water and masters swimming since 2018. Certified lifeguard (Korean Red Cross) and water-rescue diver (수상구조사, Korea Coast Guard).",
+        "content": "Open-water and masters swimming since 2018.",
+        "lists": [
+          {"title": "Certifications", "items": [
+            {"name": "Lifeguard", "detail": "Korean Red Cross"},
+            {"name": "Water Rescue (수상구조사)", "detail": "Korea Coast Guard"}
+          ]}
+        ],
         "photos": []
       },
       {
         "title": "Running",
-        "content": "Road running from 10K to marathon distances; recently getting into trail running.",
+        "content": "Road running from 10K to the marathon; lately getting into trail running.",
+        "highlights": [
+          {"value": "42.2 km", "label": "Marathon, 2022 Sohn Kee-chung Peace Marathon"}
+        ],
         "photos": []
       },
       {
@@ -959,13 +981,32 @@
       },
       {
         "title": "Hiking",
-        "content": "Hiking and climbing in Korea and abroad, from day hikes to long-distance routes.",
+        "content": "Long mountain traverses in Korea, often solo.",
+        "highlights": [
+          {"value": "13:56", "label": "Jirisan Hwadae traverse, solo (2021)"},
+          {"value": "19:28", "label": "Bulsu-Sa-Do-Buk five-peak route (2022)"}
+        ],
         "photos": []
       },
-      {"title": "Travel", "content": "Travel across Asia, Europe, the Americas, and Australia.", "photos": []},
+      {
+        "title": "Travel",
+        "content": "Travel across Asia, Europe, the Americas, and Australia.",
+        "wide": true,
+        "home": "KR",
+        "countries": ["CN", "JP", "VN", "IN", "US", "BR", "AU", "IT", "FR", "DE", "AT", "CH", "NO", "RU", "CY"],
+        "highlights": [{"value": "5", "label": "Continents"}],
+        "photos": []
+      },
       {
         "title": "Photography",
-        "content": "Photography helps me document people, places, and movement. Current gear: Sony a7R III with FE 20-70mm F4 G. ‘Gazes of India,’ a seven-image series photographed in Delhi, Varanasi, and Kolkata, was selected at the 2018 Asia Culture International Photo Contest.",
+        "wide": true,
+        "content": "Photography helps me document people, places, and movement. ‘Gazes of India,’ a seven-image series photographed in Delhi, Varanasi, and Kolkata, was selected at the 2018 Asia Culture International Photo Contest.",
+        "lists": [
+          {"title": "Camera", "items": [
+            {"name": "Sony α7R III", "detail": "Body"},
+            {"name": "Sony FE 20-70mm F4 G", "detail": "Lens"}
+          ]}
+        ],
         "photos": [
           {"src": "assets/life/gazes-of-india-07.jpg", "alt": "Monkey overlooking the Ganges and Varanasi at sunset", "featured": true},
           {"src": "assets/life/gazes-of-india-01.jpg", "alt": "View of a city road framed through a cycle rickshaw"},
