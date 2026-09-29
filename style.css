@@ -1396,6 +1396,10 @@ a.badge:hover {
   padding: 0;
 }
 
+.travel-countries .flag {
+  margin-right: 0.35em;
+  font-family: "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+}
 .travel-countries li {
   padding: 0.2rem 0.65rem;
   border-radius: 999px;

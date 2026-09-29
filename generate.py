@@ -12,7 +12,7 @@ import json
 import os
 import re
 from collections import Counter
-from urllib.parse import quote_plus, urlparse
+from urllib.parse import quote, quote_plus, urlparse
 
 import viz
 
@@ -1470,6 +1470,20 @@ TRAVEL_MARKER_MAX_AREA = 60
 TRAVEL_NAME_OVERRIDES = {"US": "United States"}
 
 
+def flag_emoji(code):
+    """ISO 3166-1 alpha-2 → flag emoji (two regional-indicator symbols)."""
+    return "".join(chr(0x1F1E6 + ord(ch) - ord("A")) for ch in code.upper())
+
+
+def flag_font_link(codes):
+    """Windows has no flag glyphs in its emoji font, so load just the needed
+    flags from Noto Color Emoji (Google Fonts `text=` subset, a few KB)."""
+    if not codes:
+        return ""
+    text = quote("".join(flag_emoji(c) for c in sorted(set(codes))))
+    return f'<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&text={text}&display=swap">'
+
+
 def _render_travel_map(visited, home):
     """Inline SVG world map from assets/life/world-map.json (Natural Earth
     110m, pre-projected by scripts/build_world_map.cjs). Colors come from CSS
@@ -1501,7 +1515,7 @@ def _render_travel_map(visited, home):
         if cls != "map-land" and (code == home or c["a"] < TRAVEL_MARKER_MAX_AREA):
             x, y = c["c"]
             markers.append(f'<circle class="{cls}-dot" cx="{x}" cy="{y}" r="3.2"><title>{esc(name_of(code))}</title></circle>')
-    chips = "".join(f'<li>{esc(name_of(code))}</li>' for code in sorted(visited, key=name_of))
+    chips = "".join(f'<li><span class="flag" aria-hidden="true">{flag_emoji(code)}</span>{esc(name_of(code))}</li>' for code in sorted(visited, key=name_of))
     return f'''<figure class="travel-map">
         <svg viewBox="{world["viewBox"]}" role="img" aria-label="World map highlighting {len(visited)} visited countries">{"".join(paths)}{"".join(markers)}</svg>
         <figcaption class="travel-legend"><span class="legend-visited">Visited</span><span class="legend-home">Home ({esc(name_of(home))})</span></figcaption>
@@ -1569,6 +1583,7 @@ def render_life():
 <title>Life - {esc(DATA['name'])}</title>
 <meta name="description" content="Outside research and engineering — {esc(DATA['name'])}'s life outside of work.">
 {render_common_head('life.html', f"Life - {DATA['name']}", f"Outside research and engineering — {DATA['name']}'s life outside of work.")}
+{flag_font_link([c for sec in (DATA.get("life") or {}).get("sections", []) for c in (sec.get("countries") or [])])}
 <link rel="stylesheet" href="style.css?v={STYLE_VERSION}">
 </head>
 <body>
