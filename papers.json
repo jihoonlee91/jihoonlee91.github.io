@@ -71,11 +71,12 @@
       "position": "Staff Engineer — Production AI & ML Systems",
       "focus": "Semiconductor AI · Production ML Systems · Engineering Software",
       "highlights": [
-        "Lead AI and software development for complex semiconductor engineering applications across technology development, R&D, and manufacturing, coordinating with AI, software, data, and domain-engineering teams.",
-        "Translate engineering priorities into deployable, model-driven ML systems with clear objectives, evaluation standards, and production-readiness requirements.",
-        "Design scalable data and software foundations for training, evaluating, and operating engineering ML models.",
-        "Build analytical capabilities that help engineers evaluate alternatives, understand model behavior, and make reliable engineering decisions.",
-        "Develop LLM-assisted decision-support capabilities that combine engineering knowledge with human oversight."
+        "Own end-to-end delivery of production ML systems for advanced memory semiconductor engineering — from problem scoping with engineers through modeling, validation, release, and post-release monitoring.",
+        "Work embedded with process and equipment engineering teams across technology development and mass production as a forward-deployed AI/ML partner, turning ambiguous engineering questions into deployable model-based tools and iterating on user feedback.",
+        "Build predictive and optimization models that hold up under real manufacturing conditions — tool-to-tool variation, drift, measurement noise, and scarce experimental data.",
+        "Establish evaluation practice for engineering ML — held-out test sets, cross-condition comparisons, worst-case analysis, and SHAP-based interpretability — and communicate model behavior and limits to engineers through validation reports.",
+        "Integrate heterogeneous manufacturing data into reusable, quality-checked ML-ready datasets, and build and operate production Python pipelines (SQL/NoSQL, Apache Airflow, HPC/GPU training, MLflow).",
+        "Contribute to the team's LLM and agent workflows for engineering knowledge retrieval and multi-step investigations (RAG, tool calling, Model Context Protocol), with tracing and evaluation in production."
       ],
       "period": "Mar 2023 – Present",
       "url": "https://semiconductor.samsung.com/"
