@@ -234,6 +234,14 @@
         {
           "src": "assets/figures/2020-nn-nonlinear-dynamic-inversion-morphing-1.webp",
           "caption": "Figure 1. F-18 HARV and assumed variable-span geometry."
+        },
+        {
+          "src": "assets/figures/2020-nn-nonlinear-dynamic-inversion-morphing-2.webp",
+          "caption": "Figure 2. Functional block diagram of the command augmentation system."
+        },
+        {
+          "src": "assets/figures/2020-nn-nonlinear-dynamic-inversion-morphing-3.webp",
+          "caption": "Figure 7. Simulation result: push-over and pull-up."
         }
       ]
     },
@@ -449,7 +457,15 @@
       "figures": [
         {
           "src": "assets/figures/2020-disturbance-observer-pitch-autopilot-1.webp",
-          "caption": "Figure 1. Wind disturbances"
+          "caption": "Figure 2. Backward sweep morphing open-loop response"
+        },
+        {
+          "src": "assets/figures/2020-disturbance-observer-pitch-autopilot-2.webp",
+          "caption": "Figure 8. Control input (Regulation case)"
+        },
+        {
+          "src": "assets/figures/2020-disturbance-observer-pitch-autopilot-3.webp",
+          "caption": "Figure 4. State feedback control input"
         }
       ]
     },
@@ -523,7 +539,7 @@
       "figures": [
         {
           "src": "assets/figures/2024-dnn-gain-scheduling-morphing-ko-1.webp",
-          "caption": "Fig. 3. Entire deep neural network structure"
+          "caption": "Fig. 2. Gain scheduler network structure"
         },
         {
           "src": "assets/figures/2024-dnn-gain-scheduling-morphing-ko-2.webp",
@@ -602,6 +618,10 @@
       "figures": [
         {
           "src": "assets/figures/2021-control-surface-modeling-longitudinal-ko-1.webp",
+          "caption": "Fig. 1. Hybrid vehicle ARGOS-I"
+        },
+        {
+          "src": "assets/figures/2021-control-surface-modeling-longitudinal-ko-2.webp",
           "caption": "Fig. 2. Pitching moment coefficient increments of the control surfaces"
         }
       ]
@@ -729,6 +749,10 @@
         {
           "src": "assets/figures/2019-flight-control-nonlinear-dynamic-inversion-gold-1.webp",
           "caption": "Figure 2. Velocity command tracking with attitude hold."
+        },
+        {
+          "src": "assets/figures/2019-flight-control-nonlinear-dynamic-inversion-gold-2.webp",
+          "caption": "Figure 3. Attitude command tracking with velocity hold."
         }
       ]
     },
@@ -790,11 +814,11 @@
       "figures": [
         {
           "src": "assets/figures/2018-performance-map-hierarchical-control-ko-1.webp",
-          "caption": "Fig. 2. Trimmed L/D map at an altitude of 300 m and true airspeed 20 m/s"
+          "caption": "Fig. 3. Trimmed thrust map at an altitude of 300 m and true airspeed 20 m/s"
         },
         {
           "src": "assets/figures/2018-performance-map-hierarchical-control-ko-2.webp",
-          "caption": "Fig. 3. Trimmed thrust map at an altitude of 300 m and true airspeed 20 m/s"
+          "caption": "Fig. 2. Trimmed L/D map at an altitude of 300 m and true airspeed 20 m/s"
         }
       ]
     },
@@ -816,6 +840,10 @@
         {
           "src": "assets/figures/2018-frequency-apportioned-control-allocation-1.webp",
           "caption": "Fig. 4 Scenario 1: Flight path angle tracking"
+        },
+        {
+          "src": "assets/figures/2018-frequency-apportioned-control-allocation-2.webp",
+          "caption": "Fig. 6 LQR and SDRE controller for scenario 1"
         }
       ]
     },
@@ -879,6 +907,10 @@
         {
           "src": "assets/figures/2017-quasi-lpv-longitudinal-modeling-ko-1.webp",
           "caption": "Fig. 3. Nonlinear and qLPV systems"
+        },
+        {
+          "src": "assets/figures/2017-quasi-lpv-longitudinal-modeling-ko-2.webp",
+          "caption": "Fig. 1. Trim map (altitude 4,572m)"
         }
       ]
     },
@@ -903,7 +935,7 @@
         },
         {
           "src": "assets/figures/2017-nn-nonlinear-dynamic-inversion-conf-2.webp",
-          "caption": "Figure 3: Longitudinal channel training results"
+          "caption": "Figure 4: Lateral channel training results"
         }
       ]
     },
@@ -925,6 +957,14 @@
         {
           "src": "assets/figures/2017-variable-span-morphing-flight-control-design-ko-1.webp",
           "caption": "Fig. 1. Variable span morphing wing UAV"
+        },
+        {
+          "src": "assets/figures/2017-variable-span-morphing-flight-control-design-ko-2.webp",
+          "caption": "Fig. 2. Variations in aerodynamic coefficients"
+        },
+        {
+          "src": "assets/figures/2017-variable-span-morphing-flight-control-design-ko-3.webp",
+          "caption": "Fig. 4. Controller block diagram"
         }
       ]
     },
@@ -1000,7 +1040,11 @@
       "figures": [
         {
           "src": "assets/figures/2016-nonlinear-adaptive-attitude-maneuver-ko-1.webp",
-          "caption": "Fig. 3. Angular rates in rate tracking"
+          "caption": "Fig. 4. Control Inputs"
+        },
+        {
+          "src": "assets/figures/2016-nonlinear-adaptive-attitude-maneuver-ko-2.webp",
+          "caption": "Fig. 2. Angular rates in detumbling"
         }
       ]
     },
@@ -1097,6 +1141,10 @@
         {
           "src": "assets/figures/2015-autonomous-uav-takeoff-landing-carrier-1.webp",
           "caption": "Fig. 4: The error variables used in risk estimation"
+        },
+        {
+          "src": "assets/figures/2015-autonomous-uav-takeoff-landing-carrier-2.webp",
+          "caption": "Fig. 11: Decision making results for recovery case"
         }
       ]
     },
@@ -1118,11 +1166,11 @@
       "figures": [
         {
           "src": "assets/figures/2015-uav-auto-landing-decision-making-ko-1.webp",
-          "caption": "Fig. 3. MQ-9 and carrier trajectories in NED, landing case"
+          "caption": "Fig. 4. Evaluated risk during descent phase, landing case"
         },
         {
           "src": "assets/figures/2015-uav-auto-landing-decision-making-ko-2.webp",
-          "caption": "Fig. 4. Evaluated risk during descent phase, landing case"
+          "caption": "Fig. 5. Sequence of landing mode, landing case"
         }
       ]
     },
