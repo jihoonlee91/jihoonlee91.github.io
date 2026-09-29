@@ -998,7 +998,13 @@
       {
         "title": "Running",
         "content": "Road running from 10K to the marathon; lately getting into trail running.",
-        "photos": []
+        "photos": [],
+        "highlights": [
+          {
+            "value": "42.2 km",
+            "label": "First marathon, 2022 JTBC Seoul Marathon"
+          }
+        ]
       },
       {
         "title": "Rowing",
