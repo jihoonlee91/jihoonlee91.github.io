@@ -1486,7 +1486,9 @@ def render_cv():
 
     cv_download = ""
     if DATA.get("cv_url"):
-        cv_download = f'<p><a class="badge badge-official" href="{esc(DATA["cv_url"])}" target="_blank" rel="noopener">Download CV (PDF)</a></p>'
+        # cv.pdf / resume.pdf are printed from cv-print.html / resume-print.html in CI
+        cv_download = (f'<p class="cv-downloads"><a class="badge badge-official" href="{esc(DATA["cv_url"])}" target="_blank" rel="noopener">Download full CV (PDF)</a>'
+                       f'<a class="badge badge-preprint" href="resume.pdf" target="_blank" rel="noopener">2-page resume (PDF)</a></p>')
 
     html_out = f'''<!DOCTYPE html>
 <html lang="en">
@@ -1979,6 +1981,130 @@ def render_robots():
         f.write(txt)
 
 
+
+# ---- Printable CV / resume (PDF built in CI) ------------------------------
+# generate.py writes cv-print.html and resume-print.html; the deploy workflow
+# prints them to cv.pdf / resume.pdf with headless Chrome. ASCII/Latin text
+# only (the CI runner has no CJK fonts), so Korean titles use title_en.
+
+PRINT_CSS = """
+@page { size: A4; margin: 15mm 16mm 15mm 16mm; }
+* { box-sizing: border-box; }
+body { margin: 0; font: 9.6pt/1.42 "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif; color: #111; }
+header { border-bottom: 1.5pt solid #1f4fd1; padding-bottom: 6pt; margin-bottom: 8pt; }
+h1 { font-size: 20pt; margin: 0; letter-spacing: -0.01em; }
+.role { font-size: 11pt; color: #1f4fd1; font-weight: 600; margin: 1pt 0 4pt; }
+.contact { font-size: 8.6pt; color: #333; }
+.contact a { color: #333; text-decoration: none; }
+.contact span + span::before { content: "  |  "; color: #999; }
+h2 { font-size: 10.5pt; text-transform: uppercase; letter-spacing: 0.06em; color: #1f4fd1; margin: 11pt 0 4pt; padding-bottom: 2pt; border-bottom: 0.6pt solid #c9d3ea; }
+h3 { font-size: 9.4pt; margin: 8pt 0 3pt; }
+.entry { margin: 0 0 6pt; break-inside: avoid; }
+.row { display: flex; justify-content: space-between; gap: 10pt; }
+.row b { font-size: 9.8pt; }
+.when { white-space: nowrap; color: #444; font-size: 8.8pt; }
+.sub { color: #333; font-style: italic; }
+ul { margin: 2pt 0 0; padding-left: 12pt; }
+li { margin: 1pt 0; }
+.skills { display: grid; grid-template-columns: 34mm 1fr; gap: 2pt 8pt; }
+.skills dt { font-weight: 700; }
+.skills dd { margin: 0; }
+ol.pubs { margin: 2pt 0 0; padding-left: 16pt; }
+ol.pubs li { margin: 0 0 3pt; break-inside: avoid; }
+.pubs .t { font-weight: 600; }
+.pubs .v { font-style: italic; }
+.me { font-weight: 700; text-decoration: underline; }
+.note { color: #555; font-size: 8.6pt; }
+a { color: inherit; }
+"""
+
+
+def _print_authors(authors):
+    me = DATA["name"]
+    return ", ".join(f'<span class="me">{esc(a.strip())}</span>' if a.strip() == me else esc(a.strip())
+                     for a in authors.split(","))
+
+
+def _print_pub(p):
+    title, _ = paper_display_titles(p)
+    lang = " (in Korean)" if p.get("title_en") else ""
+    year = p.get("year") or "n.d."
+    venue = _venue_with_year(p.get("venue") or "", year)
+    doi = f' doi:{esc(p["doi"])}' if p.get("doi") else ""
+    cites = f' [{p["citations"]} citations]' if p.get("citations") else ""
+    return (f'<li>{_print_authors(p["authors"])}, &ldquo;<span class="t">{esc(title)}</span>,&rdquo;{lang} '
+            f'<span class="v">{esc(venue)}</span>.{doi}{cites}</li>')
+
+
+def _render_print_doc(variant):
+    d = DATA
+    site = SITE_URL.replace("https://", "")
+    contact = [f'<span><a href="mailto:{esc(d["email"])}">{esc(d["email"])}</a></span>',
+               f'<span><a href="{SITE_URL}">{esc(site)}</a></span>',
+               f'<span>{esc(d.get("location", ""))}</span>']
+    for key, label in (("linkedin_url", "LinkedIn"), ("github_url", "GitHub"), ("scholar_url", "Google Scholar"), ("orcid_url", "ORCID")):
+        if d.get(key):
+            contact.append(f'<span><a href="{esc(d[key])}">{label}</a></span>')
+    stats = d.get("citation_stats") or {}
+    parts = [f'<header><h1>{esc(d["name"])}</h1><div class="role">{esc(d.get("tagline") or d.get("affiliation", ""))}</div>'
+             f'<div class="contact">{"".join(contact)}</div></header>']
+    parts.append(f'<h2>Summary</h2><p>{esc(d.get("bio", ""))}</p>')
+
+    parts.append("<h2>Experience</h2>")
+    for e in d.get("experience", []):
+        bullets = e.get("highlights") or []
+        if variant == "resume":
+            bullets = bullets[:4]
+        lis = "".join(f"<li>{esc(h)}</li>" for h in bullets)
+        parts.append(f'<div class="entry"><div class="row"><b>{esc(e["organization"])}</b><span class="when">{esc(e.get("period", ""))}</span></div>'
+                     f'<div class="sub">{esc(e.get("position", ""))}</div>{f"<ul>{lis}</ul>" if lis else ""}</div>')
+
+    parts.append("<h2>Education</h2>")
+    for e in d.get("education", []):
+        parts.append(f'<div class="entry"><div class="row"><b>{esc(e["school"])}</b><span class="when">{esc(e.get("period", ""))}</span></div>'
+                     f'<div>{esc(e.get("degree", ""))}</div></div>')
+
+    skills = d.get("skills") or {}
+    keep = list(skills) if variant == "cv" else [k for k in skills if k != "Methods"]
+    rows = "".join(f"<dt>{esc(k)}</dt><dd>{esc(', '.join(skills[k]))}</dd>" for k in keep)
+    parts.append(f'<h2>Skills</h2><dl class="skills">{rows}</dl>')
+
+    if d.get("awards"):
+        parts.append("<h2>Awards</h2>")
+        for a in d["awards"]:
+            parts.append(f'<div class="entry"><b>{esc(a["title"])}</b> &mdash; {esc(a.get("detail", ""))}</div>')
+
+    papers = d.get("papers", [])
+    counts = Counter(p["category"] for p in papers)
+    summary = (f'{len(papers)} publications ({counts.get("int-journal", 0) + counts.get("domestic-journal", 0)} journal articles, '
+               f'{counts.get("int-conference", 0) + counts.get("domestic-conference", 0)} conference papers, Ph.D. dissertation)')
+    if stats.get("citations_all") is not None:
+        summary += f'; {stats["citations_all"]} citations, h-index {stats.get("h_index_all")} (Google Scholar, {CITATION_STATS_UPDATED})'
+    if variant == "cv" and d.get("projects"):
+        parts.append("<h2>Research Projects</h2>")
+        for pr in d["projects"]:
+            parts.append(f'<div class="entry"><div class="row"><b>{esc(pr["title"])}</b><span class="when">{esc(pr.get("period", ""))}</span></div>'
+                         f'<div class="sub">{esc(pr.get("sponsor", ""))}</div></div>')
+    if variant == "resume":
+        top = sorted(papers, key=lambda p: -(p.get("citations") or 0))[:5]
+        parts.append(f'<h2>Selected Publications</h2><p class="note">{esc(summary)}. Full list: {esc(site)}/publications.html</p>'
+                     f'<ol class="pubs">{"".join(_print_pub(p) for p in top)}</ol>')
+    else:
+        parts.append(f'<h2>Publications</h2><p class="note">{esc(summary)}.</p>')
+        for cat in CATEGORY_ORDER:
+            ps = sorted([p for p in papers if p["category"] == cat], key=lambda p: -(p.get("year") or 0))
+            if ps:
+                parts.append(f'<h3>{esc(CATEGORY_LABELS[cat])} ({len(ps)})</h3><ol class="pubs">{"".join(_print_pub(p) for p in ps)}</ol>')
+    title = f'{d["name"]} - {"CV" if variant == "cv" else "Resume"}'
+    return (f'<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="robots" content="noindex">'
+            f'<title>{esc(title)}</title><style>{PRINT_CSS}</style></head><body>{"".join(parts)}</body></html>')
+
+
+def render_print_docs():
+    for variant in ("cv", "resume"):
+        with open(os.path.join(ROOT, f"{variant}-print.html"), "w", encoding="utf-8") as f:
+            f.write(_render_print_doc(variant))
+
 if __name__ == "__main__":
     os.makedirs(os.path.join(ROOT, "papers"), exist_ok=True)
     os.makedirs(os.path.join(ROOT, "papers", "pdfs"), exist_ok=True)
@@ -1997,6 +2123,7 @@ if __name__ == "__main__":
     render_sitemap()
     render_robots()
     render_404()
+    render_print_docs()
     missing_pdf = [p["slug"] for p in DATA["papers"] if not p.get("official_link") and not has_local_pdf(p)]
     print(f"Site generated: {len(DATA['papers'])} papers.")
     if missing_pdf:

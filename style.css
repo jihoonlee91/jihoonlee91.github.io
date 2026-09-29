@@ -2395,3 +2395,10 @@ footer.site-footer a {
 .skip-link:focus {
   top: 0.75rem;
 }
+
+/* ---- CV download buttons ---- */
+.cv-downloads {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}

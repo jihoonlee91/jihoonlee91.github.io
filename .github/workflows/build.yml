@@ -27,6 +27,17 @@ jobs:
       - name: Generate site from papers.json
         run: python generate.py
 
+      # Print the generated CV/resume pages to PDF (Chrome ships on ubuntu-latest).
+      - name: Build CV and resume PDFs
+        run: |
+          CHROME=$(command -v google-chrome || command -v chromium || command -v chromium-browser)
+          for doc in cv resume; do
+            "$CHROME" --headless=new --no-sandbox --disable-gpu --no-pdf-header-footer \
+              --print-to-pdf="$doc.pdf" "file://$PWD/$doc-print.html"
+            test -s "$doc.pdf"
+          done
+          ls -la cv.pdf resume.pdf
+
       - name: Setup Pages
         uses: actions/configure-pages@v6
 

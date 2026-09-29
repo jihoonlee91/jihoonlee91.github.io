@@ -61,8 +61,8 @@ It is a **static site generator**, not a hand-edited site:
 - `viz.py` — generates four Publications insight blocks: publications per
   year, venue statistics, citations per year, and the research-focus word
   cloud. Three use inline SVG; venue statistics use semantic HTML.
-- `style.css` — one stylesheet, light-default theme with a dark toggle (see
-  `docs/DESIGN.md`).
+- `style.css` — one stylesheet, device-default light/dark theme with a toggle
+  (see `docs/DESIGN.md`).
 
 **Never hand-edit `index.html`, `publications.html`, `cv.html`, `wiki.html`, `life.html`,
 or any `wiki/*.html` or `papers/*.html` file directly** — they're regenerated from `papers.json` and `wiki.json` by
@@ -123,7 +123,11 @@ standing permissions beyond what was explicitly asked for.
   docs (this file, `README.md`, `docs/*.md`) are written in Korean/English
   as fits the human maintainer — that's a separate decision from the
   site's own UI language.
-- Theme: light is the default; dark is available through the toggle.
+- Theme: follows the device (`prefers-color-scheme`) by default; the toggle
+  overrides it and the choice is remembered (owner decision, 2026-09-30).
+- `cv.pdf` / `resume.pdf` are generated, never hand-made: `generate.py` writes
+  `cv-print.html` / `resume-print.html` from `papers.json`, and the deploy
+  workflow prints them with headless Chrome. Update `papers.json`, not a PDF.
 - When adding a new publication category or badge type, update
   `CATEGORY_LABELS`/`CATEGORY_ORDER` in `generate.py` and the legend in
   `render_publications()` together — don't let them drift out of sync.
