@@ -1451,6 +1451,13 @@ a.badge:hover {
   border-radius: 10px;
 }
 
+.life-stat-sub {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
 .life-stat-value {
   font-size: 1.45rem;
   font-weight: 700;

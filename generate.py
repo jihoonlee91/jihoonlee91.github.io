@@ -1586,7 +1586,8 @@ def _render_life_highlights(highlights):
         return ""
     items = "".join(
         f'<div class="life-stat"><span class="life-stat-value">{esc(h["value"])}</span>'
-        f'<span class="life-stat-label">{esc(h["label"])}</span></div>'
+        + (f'<span class="life-stat-sub">{esc(h["sub"])}</span>' if h.get("sub") else "")
+        + f'<span class="life-stat-label">{esc(h["label"])}</span></div>'
         for h in highlights
     )
     return f'<div class="life-stats">{items}</div>'

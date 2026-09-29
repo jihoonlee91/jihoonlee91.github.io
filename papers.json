@@ -1370,11 +1370,13 @@
         "content": "Long mountain traverses in Korea, often solo.",
         "highlights": [
           {
-            "value": "13:56",
+            "value": "45 km",
+            "sub": "+3,300 m gain",
             "label": "Jirisan Hwadae traverse, solo (2021)"
           },
           {
-            "value": "19:28",
+            "value": "45 km",
+            "sub": "+4,000 m gain",
             "label": "Bulsu-Sa-Do-Buk five-peak route (2022)"
           }
         ],
