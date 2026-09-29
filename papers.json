@@ -938,7 +938,7 @@
           },
           {
             "value": "#2",
-            "label": "Peak national age-group ranking (M30-34)"
+            "label": "Peak national age-group ranking (M30-34, 2022)"
           },
           {
             "value": "30+",
@@ -998,12 +998,6 @@
       {
         "title": "Running",
         "content": "Road running from 10K to the marathon; lately getting into trail running.",
-        "highlights": [
-          {
-            "value": "42.2 km",
-            "label": "Marathon, 2022 Sohn Kee-chung Peace Marathon"
-          }
-        ],
         "photos": []
       },
       {
