@@ -232,7 +232,8 @@
       "abstract": "A pitch autopilot for variable-span and variable-sweep morphing aircraft using linear parameter-varying (LPV) control is proposed. A morphing aircraft model is developed as a nonlinear parameter-dependent dynamical system. The nonlinear model is linearized at each configuration and transformed into an LPV model. Full-order output-feedback gain-scheduled LPV controller is designed considering bounds on the parameter variation rate. The synthesized controller is also an LPV system, which is scheduled on the parameter and its rate of variation. Linear and nonlinear simulations are performed to demonstrate the effectiveness of the proposed scheme. Simulation results show that the proposed controller satisfies the performance requirement even under the maximum parameter variation rate.",
       "official_link": "https://arc.aiaa.org/doi/10.2514/6.2019-0106",
       "pdf": "papers/pdfs/2019-lpv-variable-span-sweep-morphing.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figure": "assets/figures/2019-lpv-variable-span-sweep-morphing.webp"
     },
     {
       "slug": "2023-indoor-path-planning-search-rescue",

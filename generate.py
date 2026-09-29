@@ -715,6 +715,15 @@ def render_timeline():
     </section>'''
 
 
+def _venue_short(p):
+    v = p.get("venue") or ""
+    for key, short in (("Transactions on Aerospace and Electronic", "IEEE TAES"), ("IEEE Access", "IEEE Access"),
+                       ("SciTech", "AIAA SciTech"), ("Sensors", "Sensors")):
+        if key in v:
+            return f"{short} {p.get('year') or ''}".strip()
+    return str(p.get("year") or "")
+
+
 def render_index():
     top_papers = sorted(DATA["papers"], key=lambda p: -(p["citations"] or 0))[:5]
     rows = []
@@ -722,10 +731,19 @@ def render_index():
         year = p["year"] if p.get("year") else "n.d."
         primary_title, secondary_title = paper_display_titles(p)
         secondary_html = f'<span class="paper-title-secondary" lang="ko">{esc(secondary_title)}</span>' if secondary_title else ""
-        rows.append(f'''      <li class="paper-compact">
-        <a href="papers/{esc(p['slug'])}.html">{esc(primary_title)}</a>
-        {secondary_html}
-        <span class="paper-sub">{esc(_venue_with_year(p['venue'], year))} &middot; {p['citations']} citations</span>
+        if has_figure(p):
+            w, h = _figure_size(p["figure"])
+            thumb = f'<img src="{esc(p["figure"])}" alt="" width="{w}" height="{h}" loading="lazy" decoding="async">'
+        else:
+            # No clean figure source yet: a neutral plate with the venue short name keeps the column aligned.
+            thumb = f'<span class="thumb-placeholder">{esc(_venue_short(p))}</span>'
+        rows.append(f'''      <li class="paper-compact has-thumb">
+        <a class="home-thumb" href="papers/{esc(p['slug'])}.html" tabindex="-1" aria-hidden="true">{thumb}</a>
+        <div class="home-paper-text">
+          <a href="papers/{esc(p['slug'])}.html">{esc(primary_title)}</a>
+          {secondary_html}
+          <span class="paper-sub">{esc(_venue_with_year(p['venue'], year))} &middot; {p['citations']} citations</span>
+        </div>
       </li>''')
 
     html_out = f'''<!DOCTYPE html>
