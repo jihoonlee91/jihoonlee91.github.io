@@ -262,10 +262,12 @@ industrial AI). `affiliation` is split on `" — "` into `worksFor`
 
 ## Representative paper figures
 
-Papers with a `figure` field in `papers.json` (path under `assets/figures/`,
-WebP, max 1200 px wide) show a thumbnail beside their publication-list entry
-and the full figure on their paper page, credited to the authors and original
-publisher. Figures were cropped from PDFs of the papers themselves with
-`scripts/extract_figure.py` (PyMuPDF; dev-only, not part of the build) and each
-pick was checked by eye — prefer a concept diagram or vehicle picture over a
-result plot. Papers without a clean source PDF simply have no `figure`.
+Papers with a `figures` list in `papers.json` (up to three `{src, caption}`
+entries; WebP under `assets/figures/`, max 1200 px wide) show the figures with
+their captions copied verbatim from the paper on the paper page, credited to
+the authors and original publisher. The publication-list and Home thumbnails
+cross-fade through the same figures (static first figure under
+`prefers-reduced-motion`). Figures were cropped from PDFs of the papers
+themselves with `scripts/extract_figure.py` (PyMuPDF; dev-only, not part of
+the build) and every pick and caption was checked by eye. Papers without a
+clean source PDF simply have no `figures`.

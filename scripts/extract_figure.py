@@ -5,14 +5,16 @@ Not part of the site build (generate.py stays stdlib-only). Dev dependency:
 
 Usage:
     python scripts/extract_figure.py PAPER.pdf SLUG            # list candidates, save previews
-    python scripts/extract_figure.py PAPER.pdf SLUG --pick N   # write assets/figures/SLUG.webp
+    python scripts/extract_figure.py PAPER.pdf SLUG --pick 2 0  # write SLUG-1.webp, SLUG-2.webp
 
 Candidates come from "Fig. N" / "Figure N" / "그림 N" captions: the vector
 drawings and images above (or below) each caption are merged into one crop.
-Look at the previews in /tmp/figure-candidates/ and pick the figure that best
-represents the paper (a concept diagram or vehicle picture usually beats a
-result plot). Then add  "figure": "assets/figures/SLUG.webp"  to the paper in
-papers.json. Only use a PDF of the paper itself, never private documents.
+Look at the previews in /tmp/figure-candidates/ and pick up to three figures
+that best represent the paper (concept diagrams and vehicle pictures first).
+The script prints a "figures" JSON list (src + verbatim caption) to paste into
+the paper's papers.json entry; check each caption against the PDF, since
+multi-line captions can pick up a stray line. Only use a PDF of the paper
+itself, never private documents.
 """
 import argparse
 import io
@@ -68,7 +70,7 @@ def figures(doc, maxpages=60):
                 if u.width<70 or u.height<50: continue
                 a=u.width*u.height/(W*H)
                 if not best or a>best["area"]:
-                    best=dict(page=pno,num=int(m.group(2)),rect=u,cap=b[4].strip().replace("\n"," ")[:200],area=a,dir=direction)
+                    best=dict(page=pno,num=int(m.group(2)),rect=u,cap=b[4].strip().replace("\n"," ")[:400],area=a,dir=direction)
             if best: out.append(best)
     return out
 
@@ -77,7 +79,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("pdf")
     ap.add_argument("slug")
-    ap.add_argument("--pick", type=int)
+    ap.add_argument("--pick", type=int, nargs="+")
     args = ap.parse_args()
     doc = pymupdf.open(args.pdf)
     seen, figs = set(), []
@@ -94,16 +96,21 @@ def main():
             doc[f["page"]].get_pixmap(clip=f["rect"] + (-4, -4, 4, 4), dpi=110).save(out)
             print(f"[{i}] page {f['page'] + 1}  Fig. {f['num']}  {f['cap'][:70]}  -> {out}")
         return
-    f = figs[args.pick]
-    pix = doc[f["page"]].get_pixmap(clip=f["rect"] + (-4, -4, 4, 4), dpi=220)
-    im = Image.open(io.BytesIO(pix.tobytes("png"))).convert("RGB")
-    if im.width > 1200:
-        im = im.resize((1200, round(im.height * 1200 / im.width)), Image.LANCZOS)
-    out = os.path.join(ROOT, "assets", "figures", f"{args.slug}.webp")
-    os.makedirs(os.path.dirname(out), exist_ok=True)
-    im.save(out, "WEBP", quality=82, method=6)
-    print(f"wrote {out} ({im.width}x{im.height}); add \"figure\": \"assets/figures/{args.slug}.webp\" to papers.json")
-
+    out_list = []
+    for k, idx in enumerate(args.pick[:3], 1):
+        f = figs[idx]
+        pix = doc[f["page"]].get_pixmap(clip=f["rect"] + (-4, -4, 4, 4), dpi=220)
+        im = Image.open(io.BytesIO(pix.tobytes("png"))).convert("RGB")
+        if im.width > 1200:
+            im = im.resize((1200, round(im.height * 1200 / im.width)), Image.LANCZOS)
+        name = f"{args.slug}-{k}.webp"
+        out = os.path.join(ROOT, "assets", "figures", name)
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        im.save(out, "WEBP", quality=82, method=6)
+        caption = re.sub(r"\s+", " ", f["cap"]).strip()
+        out_list.append({"src": f"assets/figures/{name}", "caption": caption})
+    import json
+    print(json.dumps({"figures": out_list}, ensure_ascii=False, indent=2))
 
 if __name__ == "__main__":
     main()

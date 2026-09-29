@@ -969,17 +969,57 @@ section h2, main > h1 {
   aspect-ratio: 4 / 3;
   overflow: hidden;
 }
-.paper-thumb img {
+.thumb-stack {
+  position: relative;
   display: block;
+  width: 100%;
+  height: 100%;
+}
+.thumb-stack img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
+/* Cross-fade through a paper's figures: 3.5 s per figure. */
+.thumb-stack.n2 img { animation: thumb-fade-2 7s infinite; }
+.thumb-stack.n3 img { animation: thumb-fade-3 10.5s infinite; }
+.thumb-stack.n2 img:nth-child(2) { animation-delay: -3.5s; }
+.thumb-stack.n3 img:nth-child(2) { animation-delay: -7s; }
+.thumb-stack.n3 img:nth-child(3) { animation-delay: -3.5s; }
+@keyframes thumb-fade-2 { 0%, 42% { opacity: 1; } 50%, 92% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes thumb-fade-3 { 0%, 28% { opacity: 1; } 33%, 95% { opacity: 0; } 100% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .thumb-stack img { animation: none !important; opacity: 0; }
+  .thumb-stack img:first-child { opacity: 1; }
+}
 .paper-thumb:hover {
   border-color: var(--accent);
 }
+.paper-figures {
+  display: grid;
+  gap: 1rem;
+  margin: 1.25rem 0 0.4rem;
+}
+@media (min-width: 901px) {
+  .paper-figures.n2,
+  .paper-figures.n3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+  .paper-figures.n3 .paper-figure:first-child {
+    grid-column: 1 / -1;
+  }
+}
 .paper-figure {
-  margin: 1.25rem 0;
+  margin: 0;
+}
+.figure-credit {
+  margin: 0 0 1.25rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.72rem;
 }
 .paper-figure img {
   display: block;
@@ -995,9 +1035,9 @@ section h2, main > h1 {
 }
 .paper-figure figcaption {
   margin-top: 0.45rem;
-  text-align: center;
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
 }
 .paper-page-title {
   font-size: clamp(1.35rem, 1rem + 1.8vw, 2rem);
@@ -1087,12 +1127,6 @@ section h2, main > h1 {
   border: 1px solid var(--border);
   border-radius: 8px;
   overflow: hidden;
-}
-.home-thumb img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
 }
 .home-thumb:hover {
   border-color: var(--accent);

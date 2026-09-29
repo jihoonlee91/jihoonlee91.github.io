@@ -731,9 +731,8 @@ def render_index():
         year = p["year"] if p.get("year") else "n.d."
         primary_title, secondary_title = paper_display_titles(p)
         secondary_html = f'<span class="paper-title-secondary" lang="ko">{esc(secondary_title)}</span>' if secondary_title else ""
-        if has_figure(p):
-            w, h = _figure_size(p["figure"])
-            thumb = f'<img src="{esc(p["figure"])}" alt="" width="{w}" height="{h}" loading="lazy" decoding="async">'
+        if paper_figures(p):
+            thumb = render_thumb_stack(p)
         else:
             # No clean figure source yet: a neutral plate with the venue short name keeps the column aligned.
             thumb = f'<span class="thumb-placeholder">{esc(_venue_short(p))}</span>'
@@ -883,8 +882,21 @@ def _render_secondary_metadata(p):
     return f'<div class="paper-meta-secondary" lang="ko">{" · ".join(rows)}</div>' if rows else ""
 
 
-def has_figure(p):
-    return bool(p.get("figure")) and os.path.isfile(os.path.join(ROOT, p["figure"]))
+def paper_figures(p):
+    """Figures cropped from the paper itself, each {"src", "caption"} with the
+    caption copied verbatim from the paper. Missing files are skipped."""
+    return [f for f in p.get("figures") or [] if os.path.isfile(os.path.join(ROOT, f["src"]))]
+
+
+def render_thumb_stack(p, base=""):
+    """Thumbnail: the paper's figures cross-fading in turn (static first figure
+    when the viewer prefers reduced motion)."""
+    figs = paper_figures(p)[:3]
+    imgs = []
+    for f in figs:
+        w, h = _figure_size(f["src"])
+        imgs.append(f'<img src="{base}{esc(f["src"])}" alt="" width="{w}" height="{h}" loading="lazy" decoding="async">')
+    return f'<span class="thumb-stack n{len(figs)}">{"".join(imgs)}</span>'
 
 
 def _figure_size(path):
@@ -913,10 +925,9 @@ def _render_paper_item(p, i):
         if p.get("abstract") else ""
     )
     thumb_html = ""
-    if has_figure(p):
-        w, h = _figure_size(p["figure"])
+    if paper_figures(p):
         thumb_html = (f'<a class="paper-thumb" href="papers/{esc(p["slug"])}.html" tabindex="-1" aria-hidden="true">'
-                      f'<img src="{esc(p["figure"])}" alt="" width="{w}" height="{h}" loading="lazy" decoding="async"></a>')
+                      f'{render_thumb_stack(p)}</a>')
     return f'''        <li class="paper{' has-figure' if thumb_html else ''}">
           {thumb_html}
           <div class="paper-title"><span class="paper-index">{i}.</span> <a href="papers/{esc(p['slug'])}.html">{esc(primary_title)}</a></div>
@@ -1771,11 +1782,17 @@ def render_paper_page(p):
     secondary_meta_html = _render_secondary_metadata(p)
     abstract_html = f'<div class="abstract">{_render_abstract_body(p)}</div>' if p.get("abstract") else ""
     figure_html = ""
-    if has_figure(p):
-        w, h = _figure_size(p["figure"])
-        figure_html = (f'<figure class="paper-figure"><img src="../{esc(p["figure"])}" alt="Representative figure from this paper" '
-                       f'width="{w}" height="{h}" decoding="async"><figcaption>Representative figure from the paper '
-                       f'(&copy; the authors and original publisher).</figcaption></figure>')
+    figs = paper_figures(p)
+    if figs:
+        items = []
+        for f in figs:
+            w, h = _figure_size(f["src"])
+            cap = esc(f.get("caption") or "")
+            items.append(f'<figure class="paper-figure"><img src="../{esc(f["src"])}" alt="{cap}" width="{w}" height="{h}" '
+                         f'loading="lazy" decoding="async">{f"<figcaption>{cap}</figcaption>" if cap else ""}</figure>')
+        figure_html = (f'<div class="paper-figures n{len(figs)}">{"".join(items)}</div>'
+                       '<p class="figure-credit">Figures and captions reproduced from the paper '
+                       '(&copy; the authors and original publisher).</p>')
     year = p["year"] if p.get("year") else "n.d."
     scholar_search = f"https://scholar.google.com/scholar?q={quote_plus(primary_title)}"
     meta_description = f"{p['authors']} — {_venue_with_year(p['venue'], year)}. By {DATA['name']}."
