@@ -40,7 +40,8 @@ employer's non-public data, process, workflow, validation, or decision logic.
 
 The owner has explicitly chosen to publish the Samsung Electronics
 sub-organization and team names **Digital Twin Center**, **Mechatronics
-Research**, **Memory Manufacturing Technology Center**, **MTC AX/PI Team**,
+Research**, **Memory Manufacturing Technology Center**, **MTC AX/PI Team** (displayed as
+**Memory MTC AX/PI Team**),
 **Mechatronics Team**, and **A-FAB Technology Team** in the Experience
 timeline. This is a narrow display choice, not evidence of employer approval
 and not a general exception to this policy.

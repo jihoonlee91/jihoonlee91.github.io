@@ -66,8 +66,8 @@
   ],
   "experience": [
     {
-      "organization": "MTC AX/PI Team, Memory Manufacturing R&D Technology Center (MTC), Samsung Electronics — Device Solutions (DS) Division",
-      "organization_ko": "MTC AX/PI팀, 메모리 제조기술센터(MTC), 삼성전자 DS부문",
+      "organization": "Memory MTC AX/PI Team, Samsung Electronics",
+      "organization_ko": "메모리 MTC AX/PI팀, 삼성전자",
       "position": "Staff Engineer — Production AI & ML Systems",
       "focus": "Semiconductor AI · Production ML Systems · Engineering Software",
       "highlights": [
