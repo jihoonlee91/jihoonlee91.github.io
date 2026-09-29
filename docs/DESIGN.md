@@ -259,3 +259,13 @@ a common-format Korean name spanning two unrelated fields (aerospace vs.
 industrial AI). `affiliation` is split on `" — "` into `worksFor`
 (Organization) and `jobTitle` — don't feed the combined string into
 `jobTitle` directly, that was a bug caught and fixed once already.
+
+## Representative paper figures
+
+Papers with a `figure` field in `papers.json` (path under `assets/figures/`,
+WebP, max 1200 px wide) show a thumbnail beside their publication-list entry
+and the full figure on their paper page, credited to the authors and original
+publisher. Figures were cropped from PDFs of the papers themselves with
+`scripts/extract_figure.py` (PyMuPDF; dev-only, not part of the build) and each
+pick was checked by eye — prefer a concept diagram or vehicle picture over a
+result plot. Papers without a clean source PDF simply have no `figure`.

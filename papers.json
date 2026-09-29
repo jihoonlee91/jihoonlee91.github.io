@@ -200,7 +200,8 @@
       "abstract": "A guidance and control system is proposed for automatic carrier landing of an unmanned aerial vehicle (UAV). To this end, the position and attitude of the carrier is predicted by considering the sea state so that the UAV guidance loop can be compensated during the final approach phase. The landing kinematics and reference trajectory are determined using the predicted touchdown position. Nonlinear guidance and control laws are designed based on a sliding-mode control scheme to make the UAV robustly follow the reference trajectory.",
       "official_link": "https://ieeexplore.ieee.org/document/8447257/",
       "pdf": "papers/pdfs/2018-sliding-mode-uav-carrier-landing.pdf",
-      "theme": "Autonomous Carrier Landing & Guidance"
+      "theme": "Autonomous Carrier Landing & Guidance",
+      "figure": "assets/figures/2018-sliding-mode-uav-carrier-landing.webp"
     },
     {
       "slug": "2020-nn-nonlinear-dynamic-inversion-morphing",
@@ -215,7 +216,8 @@
       "abstract": "A nonlinear command and stability augmentation system is designed based on feedback linearization for a morphing aircraft in the presence of different variable-span configurations. A variable-span morphing aircraft model is obtained by modifying a conventional aircraft model. Feed-forward neural networks are trained to learn the inverse dynamics in various morphing configurations and flight conditions. An attitude orientation system is designed to stabilize the airframe and track the commanded angular rates. Finally, an online adaptive mechanism is employed to compensate for inversion error. Even when the aircraft is changing the morphing configuration while maneuvering, the proposed design satisfies the desired handling quality specifications. Consequentially, the proposed design provides another degree of freedom to manipulate the morphing configuration, and therefore agility or fuel efficiency can be improved. Numerical simulation is performed to demonstrate the effectiveness of the proposed scheme.",
       "official_link": "https://journals.sagepub.com/doi/10.1177/0954410019846713",
       "pdf": "papers/pdfs/2020-nn-nonlinear-dynamic-inversion-morphing.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figure": "assets/figures/2020-nn-nonlinear-dynamic-inversion-morphing.webp"
     },
     {
       "slug": "2019-lpv-variable-span-sweep-morphing",
@@ -245,7 +247,8 @@
       "abstract": "In this study, a multi-level path planning system is proposed for indoor search and rescue operations. Requirements for the path planning system are derived based on the operational concept of the integrated indoor navigation system. Different aspects of various path planning algorithms are assessed, and their suitability to search and rescue operations in structured indoor environments is investigated. A five-step path planning system is proposed, which consists of map pre-processing, segment path planning, graph processing, route optimization, and path post-processing. The proposed method addresses a multi-goal path planning problem in a multi-story building in a computationally efficient way by adopting a graph-based approach while satisfying such requirements as clearance conditions in the pre- and post-processing steps. Furthermore, a multi-query approach is adopted to exploit the response time and earn flexibility with respect to environmental changes. The effectiveness of the proposed path planning system is demonstrated through numerical simulations. The proposed multi-level path planning system successfully adapts to complex indoor environments, enabling more effective navigation for search and rescue operations. Additionally, the system exhibits a high degree of flexibility in response to environmental changes, ensuring that the path planning remains robust and reliable even in dynamically changing situations.",
       "official_link": "https://ieeexplore.ieee.org/document/10107604/",
       "pdf": "papers/pdfs/2023-indoor-path-planning-search-rescue.pdf",
-      "theme": "Path Planning for Search & Rescue"
+      "theme": "Path Planning for Search & Rescue",
+      "figure": "assets/figures/2023-indoor-path-planning-search-rescue.webp"
     },
     {
       "slug": "2024-policy-gradient-irl-eso-morphing",
@@ -275,7 +278,8 @@
       "abstract": "Dynamic soaring is a bio-inspired maneuver to harvest energy from the wind gradient, which allows albatrosses to fly across the ocean without flapping their wings. Although the underlying dynamics is well-known, which can be represented as a fixed-wing aircraft, the mechanism or the control law that successively extracts energy from the unforeseen wind gradient remains in question. In this study, a deep neural network architecture and a feedback control law for the dynamic soaring maneuver are proposed based on the investigation of the mechanical energy extraction mechanism. To train the neural network, a bunch of data composed of state and control pairs is generated via trajectory optimization, which is slightly modified to deal with the problem considered in this study. Numerical result shows that the trained network-based feedback control law can perform the dynamic soaring maneuver in various wind profiles.",
       "official_link": "https://www.sciencedirect.com/science/article/pii/S2405896319310158",
       "pdf": "papers/pdfs/2019-dnn-feedback-dynamic-soaring.pdf",
-      "theme": "Dynamic Soaring & Learning-Based Control"
+      "theme": "Dynamic Soaring & Learning-Based Control",
+      "figure": "assets/figures/2019-dnn-feedback-dynamic-soaring.webp"
     },
     {
       "slug": "2021-target-tracking-laser-rangefinder",
@@ -290,7 +294,8 @@
       "abstract": "A target tracking system with a laser rangefinder is developed, and the performance of the developed system is verified by a numerical simulation and field tests. To develop the target tracking system, appropriate coordinate systems, motion models, and estimation methods are selected, and a range filter is designed to compensate for the measurement errors of the laser rangefinder. The range filter independently processes the range measurements so that the target filter continuously produces the target information. The entire target tracking system development process is described in detail to facilitate future work of a similar nature. A scenario-based Monte Carlo simulation is performed to compare the performances of various state estimation methods. Experimental tests involving a low-speed fishing boat and a drone are performed to verify the performance and effectiveness of the proposed scheme. A separate performance analysis program with a graphical user interface is developed to analyze the simulation and field test results.",
       "official_link": "https://ieeexplore.ieee.org/document/9356604/",
       "pdf": "papers/pdfs/2021-target-tracking-laser-rangefinder.pdf",
-      "theme": "Target Tracking & Sensing"
+      "theme": "Target Tracking & Sensing",
+      "figure": "assets/figures/2021-target-tracking-laser-rangefinder.webp"
     },
     {
       "slug": "2018-sliding-mode-multidimensional-morphing-uav",
@@ -320,7 +325,8 @@
       "abstract": "In this study, a novel framework for the flight control of a morphing unmanned aerial vehicle (UAV) based on linear parameter-varying (LPV) methods is proposed. A high-fidelity nonlinear model and LPV model of an asymmetric variable-span morphing UAV were obtained using the NASA generic transport model. The left and right wing span variation ratios were decomposed into symmetric and asymmetric morphing parameters, which were then used as the scheduling parameter and the control input, respectively. LPV-based control augmentation systems were designed to track the normal acceleration, angle of sideslip, and roll rate commands. The span morphing strategy was investigated considering the effects of morphing on various factors to aid the intended maneuver. Autopilots were designed using LPV methods to track commands for airspeed, altitude, angle of sideslip, and roll angle. A nonlinear guidance law was coupled with the autopilots for three-dimensional trajectory tracking. A numerical simulation was performed to demonstrate the effectiveness of the proposed scheme.",
       "official_link": "https://www.mdpi.com/1424-8220/23/6/3075",
       "pdf": "papers/pdfs/2023-self-scheduled-lpv-asymmetric-morphing-uav.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figure": "assets/figures/2023-self-scheduled-lpv-asymmetric-morphing-uav.webp"
     },
     {
       "slug": "2021-altitude-tracking-mpc-mine-detection",
@@ -350,7 +356,8 @@
       "abstract": "An optimization problem is formulated to maximize the coverage of the detection area for a fixed wing unmanned aerial vehicle (UAV), which performs a landmine detection mission. The UAV has mine detection devices including magnetic field sensors and chemical sensors. Due to the characteristics of the detection sensors, the UAV should fly at a certain altitude above the ground while following the terrain to perform accurate mine detection. Also, the UAV is required to maintain the pitch angle around the trim value when changing the altitude. Consequently, the altitude change rate of the UAV is limited during the mission. To maximize the mine detection capability within the limit, in this study, the entire flight interval is divided into the intervals on which the mines can be detected accurately and the intervals on which accurate detection is not possible. Logical variables are introduced to indicate the satisfaction of the requirements for accurate detection. Constraints on the logical variables are transformed into a set of linear inequalities containing continuous variables and binary integer variables. Finally, the optimization problem is formulated as a mixed-integer linear programming problem. The effectiveness of the proposed method is demonstrated through numerical simulation.",
       "official_link": "https://link.springer.com/article/10.1007/s42405-022-00454-7",
       "pdf": "papers/pdfs/2022-optimal-policy-pitch-hold-milp.pdf",
-      "theme": "UAV Pitch-Hold Control for Mine Detection"
+      "theme": "UAV Pitch-Hold Control for Mine Detection",
+      "figure": "assets/figures/2022-optimal-policy-pitch-hold-milp.webp"
     },
     {
       "slug": "2020-disturbance-observer-pitch-autopilot",
@@ -365,7 +372,8 @@
       "abstract": "A robust pitch autopilot design scheme is proposed for a morphing unmanned aerial vehicle. Autopilot during wing transition phase is designed considering the properties of system change with time. To maintain the uniform characteristics of the closed-loop system, input-output pseudo-linearization scheme is adopted. Moreover, a novel coordinate transformation is proposed so that the system satisfies the matching condition after the coordinate transformation. Extended state observer is designed to recover flight control performance even in uncertain environment. Numerical simulation demonstrates the effectiveness of the proposed controller during the wing transition phase.",
       "official_link": "https://arc.aiaa.org/doi/10.2514/6.2020-1087",
       "pdf": "papers/pdfs/2020-disturbance-observer-pitch-autopilot.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figure": "assets/figures/2020-disturbance-observer-pitch-autopilot.webp"
     },
     {
       "slug": "2019-adaptive-control-allocation-non-affine",
@@ -380,7 +388,8 @@
       "abstract": "A control design strategy is proposed for the variable span and sweep morphing wing aircraft considering the morphing parameters as control effectors, which makes the system non-affine in control. The system is differentiated to obtain an increased-order system, which is affine in the derivative of the control input. The frequency-apportioned control allocation is used to cover the control input frequency gap between control surfaces and morphing system. An adaptation law is used to compensate for the allocation error caused by the time-varying control effectiveness matrix. Numerical simulation is performed to demonstrate the effectiveness of the proposed scheme for a morphing wing aircraft.",
       "official_link": "https://www.eucass.eu/doi/EUCASS2019-0163.pdf",
       "pdf": "papers/pdfs/2019-adaptive-control-allocation-non-affine.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figure": "assets/figures/2019-adaptive-control-allocation-non-affine.webp"
     },
     {
       "slug": "2021-aircraft-autopilot-asymmetric-morphing",
@@ -395,7 +404,8 @@
       "abstract": "In this study, a flight control system is designed for an asymmetric variable-span morphing aircraft. The generic transport model is used to obtain a morphing aircraft model by incorporating the damage information. The integrated flight control system is designed based on nonlinear dynamic inversion and time-scale separation. It is shown that asymmetric span morphing can be used for roll control, while symmetric morphing can be used to either optimize flight performance or directly control aerodynamic forces. Numerical simulation results demonstrate the effectiveness of the proposed scheme.",
       "official_link": "https://icas.org/ICAS_ARCHIVE/ICAS2020/data/papers/ICAS2020_0959_paper.pdf",
       "pdf": "papers/pdfs/2021-aircraft-autopilot-asymmetric-morphing.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figure": "assets/figures/2021-aircraft-autopilot-asymmetric-morphing.webp"
     },
     {
       "slug": "2024-dnn-gain-scheduling-morphing-ko",
@@ -413,7 +423,8 @@
       "abstract_ko": "본 연구에서는 심층신경망을 사용하여 다수의 선형시스템에 대해 자동화된 게인스케줄링을 수행하는 방법론에 대해 다룬다. 제어대상 플랫폼은 모핑항공기 단주기운동 동역학 시스템에 대한 PID 제어기를 고려하였다. 모핑항공기 동역학 시스템은 모핑 파라미터에 대한 선형 파라미터 가변 시스템으로 모델링할 수 있으며, 모핑파라미터가 변함에 따라 서로 다른 선형시스템으로 간주된다. 선형 파라미터 가변 시스템 동역학 시뮬레이터를 포함한 심층신경망 구조를 사용하여 단위계단함수 응답을 최적화하도록 학습함으로써 모핑파라미터에 따라 제어게인을 출력하는 게인스케줄러 신경망을 훈련한다. 제안한 방법론을 통해 학습된 게인스케줄러의 성능을 사람이 튜닝한 게인스케줄러와 비교한다.",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11763229",
       "pdf": "papers/pdfs/2024-dnn-gain-scheduling-morphing-ko.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figure": "assets/figures/2024-dnn-gain-scheduling-morphing-ko.webp"
     },
     {
       "slug": "2023-msc-thesis-lpv-asymmetric-morphing",
@@ -430,7 +441,8 @@
       "official_link": "https://dcollection.snu.ac.kr/common/orgView/000000176713",
       "pdf": "papers/pdfs/2023-msc-thesis-lpv-asymmetric-morphing.pdf",
       "catalog_link": "https://snu-primo.hosted.exlibrisgroup.com/primo-explore/fulldisplay?docid=82SNU_INST51891008620002591&context=L&vid=82SNU&lang=ko_KR&search_scope=ALL&adaptor=Local%20Search%20Engine&tab=all&query=any,contains,self-scheduled",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figure": "assets/figures/2023-msc-thesis-lpv-asymmetric-morphing.webp"
     },
     {
       "slug": "2021-indoor-path-planning-firefighter-ko",
@@ -446,7 +458,8 @@
       "abstract_ko": "본 논문에서는 실내 재난현장에서 다수의 요구조자를 구출하기 위한 경로계획 시스템을 고려한다. 화재현장에서 경로계획 문제는 일반적인 경로계획 문제와는 다른 요구조건들을 고려해야 한다. 빠른 구조 및 회피를 위해 경로 길이가 중요한 요소이며, 화재로 인해 건물 내부 환경이 빠르게 변화할 수 있다는 특성이 있다. 본 연구에서는 이러한 요소들을 고려한 경로계획 시스템을 개발하며, 지도생성, 지도전처리, 그래프 형성 및 축소, 방문순서 결정, 그리고 경로생성 및 후처리 단계가 포함된다. 지도생성 단계에서는 건물 내부를 격자 형태로 변환하고, 지도전처리 단계에서는 위험 영역을 제거한다. 그래프 형성 및 축소 단계에서는 격자에 나타난 정보를 가중치 그래프로 변환하며, 이 과정에서 두 지점을 잇는 경로의 길이로 가중치를 설정한다. 경로계획에는 A*, RRT, RRT*, PRM-A* 알고리즘을 고려하였다. 방문순서 결정 단계에서는 모든 요구조자를 방문하고 회피하는 경로 길이가 최소가 되도록 방문순서를 결정한다. 끝으로 경로생성 및 후처리단계에서는 결정된 순서에 의해 지도에 경로를 생성하며, 경로의 특성을 개선하는 후처리를 한다. 제안된 경로계획 시스템의 성능을 검증하기 위해 수치 시뮬레이션을 수행하였다.",
       "official_link": "https://ipnt.or.kr/2021IPNT/file/C5-4.pdf",
       "pdf": "papers/pdfs/2021-indoor-path-planning-firefighter-ko.pdf",
-      "theme": "Path Planning for Search & Rescue"
+      "theme": "Path Planning for Search & Rescue",
+      "figure": "assets/figures/2021-indoor-path-planning-firefighter-ko.webp"
     },
     {
       "slug": "2021-control-surface-modeling-longitudinal-ko",
@@ -462,7 +475,8 @@
       "abstract_ko": "현재의 지면 폭발물 제거 방식은 시간과 비용 측면에서 효율성이 떨어짐에 따라 무인기를 활용한 광역 탐지 시스템의 필요성이 증가하고 있다. 매설 폭발물을 무인기 탑재 센서로 탐지하기 위해서는 센서 특성에 따라 무인기 기동이 제한된다. 제한된 기동 하에서 임무를 수행하기 위해서는 조종력 향상을 위해 조종면 추가와 이를 고려한 비행제어 시스템이 필요하다. 본 연구에서는 기존 비행체인 ARGOS-1의 종방향 비행성능 향상을 위해 조종면을 추가로 고려하며, 기존 형상에 대해 비교 분석한다. 특히, 고정익 모드에서 사용하지 않던 전방 추력기를 활용하는 경우, 기체 전방에 카나드를 설치하는 경우, 기체 후미에 엘리베이터를 설치하는 경우를 고려하며, 트림 분석을 통해 조종력의 변화를 분석한다.",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE11031427",
       "pdf": "papers/pdfs/2021-control-surface-modeling-longitudinal-ko.pdf",
-      "theme": "UAV Pitch-Hold Control for Mine Detection"
+      "theme": "UAV Pitch-Hold Control for Mine Detection",
+      "figure": "assets/figures/2021-control-surface-modeling-longitudinal-ko.webp"
     },
     {
       "slug": "2021-optimal-policy-pitch-hold-milp-conf",
@@ -477,7 +491,8 @@
       "abstract": "An optimization problem is formulated to maximize the coverage of the detection area for a fixed wing unmanned aerial vehicle (UAV), which performs a landmine detection mission. The UAV has mine detection devices including magnetic field sensors and chemical sensors. Due to the characteristics of the detection sensors, the UAV should fly at a certain altitude above the ground while following the terrain to perform accurate mine detection. Also, the UAV is required to maintain the pitch angle around the trim value when changing the altitude. Consequently, the altitude change rate of the UAV is limited during the mission. To maximize the mine detection capability within the limit, in this study, the entire flight interval is divided into the intervals on which the mines can be detected accurately and the intervals on which accurate detection is not possible. Logical variables are introduced to indicate the satisfaction of the requirements for accurate detection. Constraints on the logical variables are transformed into a set of linear inequalities containing continuous variables and binary integer variables. Finally, the optimization problem is formulated as a mixed-integer linear programming problem. The effectiveness of the proposed method is demonstrated through numerical simulation.",
       "official_link": null,
       "pdf": "papers/pdfs/2021-optimal-policy-pitch-hold-milp-conf.pdf",
-      "theme": "UAV Pitch-Hold Control for Mine Detection"
+      "theme": "UAV Pitch-Hold Control for Mine Detection",
+      "figure": "assets/figures/2021-optimal-policy-pitch-hold-milp-conf.webp"
     },
     {
       "slug": "2020-laser-rangefinder-target-tracking-ko",
@@ -492,7 +507,8 @@
       "abstract": "",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE10442093",
       "pdf": "papers/pdfs/2020-laser-rangefinder-target-tracking-ko.pdf",
-      "theme": "Target Tracking & Sensing"
+      "theme": "Target Tracking & Sensing",
+      "figure": "assets/figures/2020-laser-rangefinder-target-tracking-ko.webp"
     },
     {
       "slug": "2019-asymmetric-morphing-modeling-sim-ko",
@@ -507,7 +523,8 @@
       "abstract": "",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE09317850",
       "pdf": "papers/pdfs/2019-asymmetric-morphing-modeling-sim-ko.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figure": "assets/figures/2019-asymmetric-morphing-modeling-sim-ko.webp"
     },
     {
       "slug": "2019-adp-model-free-controller-ko",
@@ -552,7 +569,8 @@
       "abstract": "A cascade flight control system based on nonlinear dynamic inversion and time-scale separation is proposed for variable-span morphing aircraft. An asymmetric morphing aircraft model is developed by using an experimentally obtained damaged aircraft model. The aircraft is assumed to be able to adjust semi-span of the wing individually, and the resulting changes in the mass and aerodynamic properties due to the morphing are modeled. A set of inversion-based controllers is designed, where symmetric and asymmetric morphing variables are considered as additional control inputs. It is shown that the vehicle is capable of performing unusual maneuvers by using the conventional and morphing surfaces simultaneously. The effectiveness of the proposed scheme is demonstrated by numerical simulation.",
       "official_link": "https://search.informit.org/doi/10.3316/informit.942442757619423",
       "pdf": "papers/pdfs/2019-flight-control-nonlinear-dynamic-inversion-gold.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figure": "assets/figures/2019-flight-control-nonlinear-dynamic-inversion-gold.webp"
     },
     {
       "slug": "2018-hierarchical-flight-control-morphing-ko",
@@ -568,7 +586,8 @@
       "abstract_ko": "본 연구에서는 모핑 항공기를 위한 계층적 비행제어시스템을 제안한다. 비행 중에 능동적으로 날개 형상을 변형시킬 수 있는 고정익 항공기를 모핑 항공기라 한다. 모핑 항공기는 비행 중에 비행 영역과 임무에 적절하게 형상을 변형시킴으로써 주어진 비행성능을 최적화할 수 있다. 반면에 형상 변형을 위한 추가 구동 메커니즘은 항공기 무게를 증가시키거나 구조강성을 저하시킬 수 있다. 또한 비행제어 시스템을 설계할 때 날개 형상의 변화로 인한 비행 특성 변화를 적절히 고려하지 않으면 성능 및 안정성이 저해될 수 있다. 본 연구에서는 형상변형 하에서도 비행성능을 보장할 수 있는 비행제어 법칙을 설계하고, 형상변형을 적극적으로 활용하도록 하는 비행제어 시스템을 개발하는 것을 목표로 한다.",
       "official_link": "https://sase.or.kr/Upload/Session/21/P%EA%B5%90%EB%A5%98%ED%9A%8C-1.pdf",
       "pdf": "papers/pdfs/2018-hierarchical-flight-control-morphing-ko.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figure": "assets/figures/2018-hierarchical-flight-control-morphing-ko.webp"
     },
     {
       "slug": "2018-robust-control-allocation-morphing-ko",
@@ -598,7 +617,8 @@
       "abstract": "",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE07619662",
       "pdf": "papers/pdfs/2018-performance-map-hierarchical-control-ko.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figure": "assets/figures/2018-performance-map-hierarchical-control-ko.webp"
     },
     {
       "slug": "2018-frequency-apportioned-control-allocation",
@@ -613,7 +633,8 @@
       "abstract": "A control design strategy is proposed based on control allocation for the longitudinal motion of aircraft with variable-span and variable-sweep morphing wing. A morphing aircraft can change its shape during the flight, which allows the morphing aircraft to carry out various missions efficiently. Morphing parameters can be considered as control inputs, and therefore the system has redundant control inputs. The dynamics of morphing aircraft is transformed into a state-dependent coefficient form and regarded as an over-actuated system by augmenting control input with morphing parameters. Control allocation is used to distribute the generated control input adequately. Control allocation solves the optimization problem to minimize the displacement of control input, which is designed separately with the controller. Numerical simulations are performed to demonstrate the effectiveness of the proposed controller.",
       "official_link": null,
       "pdf": "papers/pdfs/2018-frequency-apportioned-control-allocation.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figure": "assets/figures/2018-frequency-apportioned-control-allocation.webp"
     },
     {
       "slug": "2018-quasi-lpv-modeling-optimal-control",
@@ -628,7 +649,8 @@
       "abstract": "A near-optimal gain-scheduling strategy for the morphing aircraft flight control design is proposed. Nonlinear parameter-dependent dynamics of the morphing aircraft is transformed into a quasi-linear parameter-varying form. Assuming that the morphing parameters are determined in an outer-loop to meet system requirements, an inner-loop controller is designed by optimal control scheme. An algebraic Riccati equation using the parameter-dependent coefficient matrices is solved to design a near-optimal controller. Numerical simulation is performed to demonstrate the effectiveness of the proposed scheme.",
       "official_link": "https://icas.org/ICAS_ARCHIVE/ICAS2018/data/papers/ICAS2018_0218_paper.pdf",
       "pdf": "papers/pdfs/2018-quasi-lpv-modeling-optimal-control.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figure": "assets/figures/2018-quasi-lpv-modeling-optimal-control.webp"
     },
     {
       "slug": "2018-control-allocation-span-sweep-morphing-ko",
@@ -643,7 +665,8 @@
       "abstract": "",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE07525791",
       "pdf": "papers/pdfs/2018-control-allocation-span-sweep-morphing-ko.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figure": "assets/figures/2018-control-allocation-span-sweep-morphing-ko.webp"
     },
     {
       "slug": "2017-quasi-lpv-longitudinal-modeling-ko",
@@ -658,7 +681,8 @@
       "abstract": "",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE07366907",
       "pdf": "papers/pdfs/2017-quasi-lpv-longitudinal-modeling-ko.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figure": "assets/figures/2017-quasi-lpv-longitudinal-modeling-ko.webp"
     },
     {
       "slug": "2017-nn-nonlinear-dynamic-inversion-conf",
@@ -673,7 +697,8 @@
       "abstract": "Morphing aircraft is an aircraft that can change its configuration during the flight. Aircraft morphing technology is one of the methods that may improve the performance of the aircraft for various flight conditions. In this study, nonlinear control augmentation system for the morphing aircraft is proposed using nonlinear dynamic inversion based on neural network. Two-layer feed-forward neural networks are used to obtain longitudinal and lateral inverse maps which convert desired aerodynamic moments into actual control commands. Numerical simulation is performed for two maneuvers to demonstrate the effectiveness of the proposed scheme.",
       "official_link": "https://www.eucass.eu/doi/EUCASS2017-195.pdf",
       "pdf": "papers/pdfs/2017-nn-nonlinear-dynamic-inversion-conf.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figure": "assets/figures/2017-nn-nonlinear-dynamic-inversion-conf.webp"
     },
     {
       "slug": "2017-variable-span-morphing-flight-control-design-ko",
@@ -688,7 +713,8 @@
       "abstract": "",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE07188661",
       "pdf": "papers/pdfs/2017-variable-span-morphing-flight-control-design-ko.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figure": "assets/figures/2017-variable-span-morphing-flight-control-design-ko.webp"
     },
     {
       "slug": "2017-morphing-transition-flight-control-ko",
@@ -703,7 +729,8 @@
       "abstract": "",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE07188662",
       "pdf": "papers/pdfs/2017-morphing-transition-flight-control-ko.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figure": "assets/figures/2017-morphing-transition-flight-control-ko.webp"
     },
     {
       "slug": "2017-lunar-orbiter-attitude-simulator-ko",
@@ -748,7 +775,8 @@
       "abstract": "Attitude control is essential for spacecraft mission. In this study, linear model following nonlinear adaptive controller is expanded so that it could be applied to spacecraft attitude maneuvers. Numerical simulations under actuator saturation demonstrate that the designed controller meets performance objectives in the presence of actuator saturation and uncertainties.",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE07068013",
       "pdf": "papers/pdfs/2016-nonlinear-adaptive-attitude-maneuver-ko.pdf",
-      "theme": "Satellite & Lunar Orbiter GNC"
+      "theme": "Satellite & Lunar Orbiter GNC",
+      "figure": "assets/figures/2016-nonlinear-adaptive-attitude-maneuver-ko.webp"
     },
     {
       "slug": "2016-autocode-lunar-orbiter-control-ko",
@@ -763,7 +791,8 @@
       "abstract": "The purposes of this study are to develop guidance, navigation, and control algorithm for the experimental lunar orbiter, to develop the source code for the developed algorithm, and to verify the developed source code using the embedded computer. In the development of the algorithm, the optimal trajectory of Earth-Moon transfer is designed using GMAT, and attitude controller for satellite is also designed. Developing the source code, MATLAB/Simulink based lunar orbiter simulator is developed. To verify the developed source code applying autocode generation, Processor-In-the-Loop-Simulation (PILS) system is supposed to be built up using LEON 4 processor.",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE07068032",
       "pdf": "papers/pdfs/2016-autocode-lunar-orbiter-control-ko.pdf",
-      "theme": "Satellite & Lunar Orbiter GNC"
+      "theme": "Satellite & Lunar Orbiter GNC",
+      "figure": "assets/figures/2016-autocode-lunar-orbiter-control-ko.webp"
     },
     {
       "slug": "2016-nn-carrier-landing-risk-assessment-ko",
@@ -778,7 +807,8 @@
       "abstract": "Automatic aircraft carrier landing on an aircraft carrier has many risk factors, and it is important to make a proper wave-off decision by evaluating the risk. While a landing signal officer generally takes responsibility for the decision, full automation of carrier landing requires a appropriate risk evaluation scheme. In this paper, two position error-based risk evaluation schemes considering landing environment are proposed using artificial neural network. The artificial neural network takes vertical/horizontal glide path error or corresponding scale factor of ellipse as inputs in addition to root mean square value of distance to glide path, and takes reward or penalty according to the outcome of the landing attempt: successful landing, bolter and crash. Learning data for the network are obtained through Monte Carlo simulation.",
       "official_link": null,
       "pdf": "papers/pdfs/2016-nn-carrier-landing-risk-assessment-ko.pdf",
-      "theme": "Autonomous Carrier Landing & Guidance"
+      "theme": "Autonomous Carrier Landing & Guidance",
+      "figure": "assets/figures/2016-nn-carrier-landing-risk-assessment-ko.webp"
     },
     {
       "slug": "2015-stochastic-risk-wave-off-decision",
@@ -793,7 +823,8 @@
       "abstract": "One of the greatest challenges for the air operations of fully automated aircraft carrier is to design an autonomous decision making system. In this paper, a probability-based risk evaluation scheme is proposed to make a wave-off, which is equivalent to go-around in ground landing, and the wave-off decision plays an important role in the terminal portion of landing. By the proposed risk evaluation scheme, the most probable consequence of the landing attempt can be forecasted. The risk evaluation scheme introduces six variables which are related to a glide path error, and they are assumed to follow the Gaussian probability distribution. The Monte Carlo simulation results with X-Plane flight simulator show that there exists a significant positive correlation between the estimated probabilities and the actual occurrence rate.",
       "official_link": null,
       "pdf": "papers/pdfs/2015-stochastic-risk-wave-off-decision.pdf",
-      "theme": "Autonomous Carrier Landing & Guidance"
+      "theme": "Autonomous Carrier Landing & Guidance",
+      "figure": "assets/figures/2015-stochastic-risk-wave-off-decision.webp"
     },
     {
       "slug": "2015-autonomous-uav-takeoff-landing-carrier",
@@ -808,7 +839,8 @@
       "abstract": "Landing on an aircraft carrier is one of the most challenging issues for Unmanned Aerial Vehicles (UAVs) because position and velocity of the landing site change as the aircraft carrier continuously moves on the sea. In addition, uncertain parameters such as winds and heights of the waves make the automatic landing/take-off problem more difficult. This study proposes an Automatic Carrier Landing System (ACLS) for UAVs including decision making process as well as guidance and control. The problem considered in this study is composed of three phases: take-off, approach, and landing. Suitable guidance and control laws are designed for each phase. Decision making logic is also developed based on the stochastic risk evaluation scheme. Numerical simulation results demonstrate the performance of the proposed decision making logic and guidance and control laws.",
       "official_link": null,
       "pdf": "papers/pdfs/2015-autonomous-uav-takeoff-landing-carrier.pdf",
-      "theme": "Autonomous Carrier Landing & Guidance"
+      "theme": "Autonomous Carrier Landing & Guidance",
+      "figure": "assets/figures/2015-autonomous-uav-takeoff-landing-carrier.webp"
     },
     {
       "slug": "2015-uav-auto-landing-decision-making-ko",
@@ -824,7 +856,8 @@
       "abstract_ko": "함상에서 무인기를 효율적으로 운용하기 위해서는 무인기 스스로 착함에 관계된 중요한 의사결정을 수행할 수 있어야 한다. 본 논문에서는 무인기의 자동착함 시스템을 위한 의사결정 기법을 제안하였다. 유인기의 자동착함 절차를 기반으로 하여 Approach phase, descent phase, touchdown phase의 세 단계로 나누어 무인기의 착함절차를 정립하였다. Descent phase에서는 항공기의 위치오차로부터 계산된 불안정착함 위험도가 일정 안전조건을 초과하게 되면 Wave-off를 수행하게 되고, Touchdown phase에서 함선에 착지 후 Arresting hook 체결에 실패하면 Bolter를 수행하게 된다. 이 때 필요한 각각의 조건들을 설정하는 방법이 본 논문에서 제안되었고, 수치 시뮬레이션을 통하여 제안된 의사결정 구조의 타당성을 검증하였다.",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE06591215",
       "pdf": "papers/pdfs/2015-uav-auto-landing-decision-making-ko.pdf",
-      "theme": "Autonomous Carrier Landing & Guidance"
+      "theme": "Autonomous Carrier Landing & Guidance",
+      "figure": "assets/figures/2015-uav-auto-landing-decision-making-ko.webp"
     },
     {
       "slug": "model-following-adaptive-transition-spectrum-ko",
@@ -839,7 +872,8 @@
       "abstract": "",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE07366913",
       "pdf": "papers/pdfs/model-following-adaptive-transition-spectrum-ko.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figure": "assets/figures/model-following-adaptive-transition-spectrum-ko.webp"
     }
   ],
   "location": "Seoul, Republic of Korea",

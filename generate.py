@@ -865,6 +865,26 @@ def _render_secondary_metadata(p):
     return f'<div class="paper-meta-secondary" lang="ko">{" · ".join(rows)}</div>' if rows else ""
 
 
+def has_figure(p):
+    return bool(p.get("figure")) and os.path.isfile(os.path.join(ROOT, p["figure"]))
+
+
+def _figure_size(path):
+    """(width, height) of a WebP/PNG so <img> reserves space (no layout shift)."""
+    with open(os.path.join(ROOT, path), "rb") as f:
+        head = f.read(64)
+    if head[:4] == b"RIFF" and head[12:16] == b"VP8 ":
+        return int.from_bytes(head[26:28], "little") & 0x3FFF, int.from_bytes(head[28:30], "little") & 0x3FFF
+    if head[:4] == b"RIFF" and head[12:16] == b"VP8L":
+        bits = int.from_bytes(head[21:25], "little")
+        return (bits & 0x3FFF) + 1, ((bits >> 14) & 0x3FFF) + 1
+    if head[:4] == b"RIFF" and head[12:16] == b"VP8X":
+        return int.from_bytes(head[24:27], "little") + 1, int.from_bytes(head[27:30], "little") + 1
+    if head[:8] == b"\x89PNG\r\n\x1a\n":
+        return int.from_bytes(head[16:20], "big"), int.from_bytes(head[20:24], "big")
+    return 4, 3
+
+
 def _render_paper_item(p, i):
     year = p["year"] if p.get("year") else "n.d."
     primary_title, secondary_title = paper_display_titles(p)
@@ -874,7 +894,13 @@ def _render_paper_item(p, i):
         f'<details class="paper-abstract-toggle"><summary>Abstract</summary>{_render_abstract_body(p)}</details>'
         if p.get("abstract") else ""
     )
-    return f'''        <li class="paper">
+    thumb_html = ""
+    if has_figure(p):
+        w, h = _figure_size(p["figure"])
+        thumb_html = (f'<a class="paper-thumb" href="papers/{esc(p["slug"])}.html" tabindex="-1" aria-hidden="true">'
+                      f'<img src="{esc(p["figure"])}" alt="" width="{w}" height="{h}" loading="lazy" decoding="async"></a>')
+    return f'''        <li class="paper{' has-figure' if thumb_html else ''}">
+          {thumb_html}
           <div class="paper-title"><span class="paper-index">{i}.</span> <a href="papers/{esc(p['slug'])}.html">{esc(primary_title)}</a></div>
           {secondary_html}
           <div class="paper-meta">{esc(p['authors'])}</div>
@@ -1726,6 +1752,12 @@ def render_paper_page(p):
     secondary_html = f'<p class="paper-title-secondary" lang="ko">{esc(secondary_title)}</p>' if secondary_title else ""
     secondary_meta_html = _render_secondary_metadata(p)
     abstract_html = f'<div class="abstract">{_render_abstract_body(p)}</div>' if p.get("abstract") else ""
+    figure_html = ""
+    if has_figure(p):
+        w, h = _figure_size(p["figure"])
+        figure_html = (f'<figure class="paper-figure"><img src="../{esc(p["figure"])}" alt="Representative figure from this paper" '
+                       f'width="{w}" height="{h}" decoding="async"><figcaption>Representative figure from the paper '
+                       f'(&copy; the authors and original publisher).</figcaption></figure>')
     year = p["year"] if p.get("year") else "n.d."
     scholar_search = f"https://scholar.google.com/scholar?q={quote_plus(primary_title)}"
     meta_description = f"{p['authors']} — {_venue_with_year(p['venue'], year)}. By {DATA['name']}."
@@ -1746,11 +1778,12 @@ def render_paper_page(p):
   {render_nav("Publications", base="../")}
   <main class="container">
     <p><a href="../publications.html">&larr; Back to Publications</a></p>
-    <h1>{esc(primary_title)}</h1>
+    <h1 class="paper-page-title">{esc(primary_title)}</h1>
     {secondary_html}
     <p class="paper-meta">{esc(p['authors'])}</p>
     <p class="paper-venue">{esc(_venue_with_year(p['venue'], year))}{f" &middot; {p['citations']} citations" if p['citations'] else ""}</p>
     {secondary_meta_html}
+    {figure_html}
     {abstract_html}
     <div class="paper-badges large">{link_badges(p, paper_page=True)}</div>
     <p class="scholar-search"><a href="{esc(scholar_search)}" target="_blank" rel="noopener">Search on Google Scholar &rarr;</a></p>
