@@ -18,23 +18,23 @@
   "tagline": "Semiconductor AI & Software Engineer with an Aerospace GNC background",
   "bio": "I build AI and software for complex engineering systems, with a current focus on semiconductor applications. My Ph.D. research in Aerospace Engineering focused on UAV guidance, flight control, and optimization. The common thread is reliable decision-making for complex physical systems.",
   "citation_stats": {
-    "updated": "Jul. 2026",
-    "citations_all": 216,
-    "citations_since_2021": 198,
+    "updated": "Sep. 2026",
+    "citations_all": 234,
+    "citations_since_2021": 215,
     "h_index_all": 8,
-    "h_index_since_2021": 7,
-    "i10_index_all": 5,
-    "i10_index_since_2021": 5,
+    "h_index_since_2021": 8,
+    "i10_index_all": 6,
+    "i10_index_since_2021": 6,
     "citations_by_year": {
       "2018": 1,
-      "2019": 7,
+      "2019": 8,
       "2020": 9,
       "2021": 9,
-      "2022": 32,
+      "2022": 33,
       "2023": 29,
-      "2024": 41,
+      "2024": 43,
       "2025": 55,
-      "2026": 32
+      "2026": 46
     }
   },
   "education": [
@@ -71,47 +71,13 @@
       "position": "Staff Engineer — Production AI & ML Systems",
       "focus": "Semiconductor AI · Production ML Systems · Engineering Software",
       "highlights": [
-        "Lead AI and software development for complex semiconductor engineering applications, coordinating across AI, software, data, and domain-engineering teams.",
-        "Translate engineering priorities into robust ML systems with clear objectives, evaluation standards, and production-readiness requirements."
-      ],
-      "period": "Sep 2026 – Present",
-      "url": "https://semiconductor.samsung.com/"
-    },
-    {
-      "organization": "A-FAB Technology Team, Digital Twin Center, Samsung Electronics — Device Solutions (DS) Division",
-      "organization_ko": "A-FAB기술팀, 디지털트윈센터, 삼성전자 DS부문",
-      "position": "Staff Engineer — Production AI & ML Systems",
-      "focus": "Semiconductor AI · Production ML Systems · Engineering Software",
-      "highlights": [
-        "Lead AI and software development for complex semiconductor engineering applications, coordinating across AI, software, data, and domain-engineering teams.",
-        "Translate engineering priorities into robust ML systems with clear objectives, evaluation standards, and production-readiness requirements.",
+        "Lead AI and software development for complex semiconductor engineering applications across technology development, R&D, and manufacturing, coordinating with AI, software, data, and domain-engineering teams.",
+        "Translate engineering priorities into deployable, model-driven ML systems with clear objectives, evaluation standards, and production-readiness requirements.",
+        "Design scalable data and software foundations for training, evaluating, and operating engineering ML models.",
+        "Build analytical capabilities that help engineers evaluate alternatives, understand model behavior, and make reliable engineering decisions.",
         "Develop LLM-assisted decision-support capabilities that combine engineering knowledge with human oversight."
       ],
-      "period": "Jan 2026 – Aug 2026",
-      "url": "https://semiconductor.samsung.com/"
-    },
-    {
-      "organization": "A-FAB Technology Team, Mechatronics Research, Samsung Electronics — Device Solutions (DS) Division",
-      "organization_ko": "A-FAB기술팀, 설비기술연구소, 삼성전자 DS부문",
-      "position": "Staff Engineer — Production AI & ML Systems",
-      "focus": "Semiconductor AI · Production ML Systems · Engineering Software",
-      "highlights": [
-        "Translated complex semiconductor development and manufacturing challenges into deployable, model-driven AI solutions.",
-        "Built analytical capabilities that help engineers evaluate alternatives, understand model behavior, and make reliable engineering decisions."
-      ],
-      "period": "Jan 2025 – Dec 2025",
-      "url": "https://semiconductor.samsung.com/"
-    },
-    {
-      "organization": "Mechatronics Team, Memory Manufacturing R&D Technology Center (MTC), Samsung Electronics — Device Solutions (DS) Division",
-      "organization_ko": "설비기술팀(MTC), 메모리 제조기술센터, 삼성전자 DS부문",
-      "position": "Staff Engineer — Production AI & ML Systems",
-      "focus": "Semiconductor AI · Production ML Systems · Engineering Software",
-      "highlights": [
-        "Built production ML systems for semiconductor technology development, R&D, and manufacturing.",
-        "Designed scalable data and software foundations for training, evaluating, and operating engineering ML models."
-      ],
-      "period": "Mar 2023 – Dec 2024",
+      "period": "Mar 2023 – Present",
       "url": "https://semiconductor.samsung.com/"
     },
     {
@@ -136,8 +102,14 @@
       "sponsor": "Agency for Defense Development (ADD)",
       "sponsor_ko": "국방과학연구소",
       "period": "Mar 2021 – Feb 2022",
-      "collaborators": ["Sangmin Lee", "Hyeonggwan Kang"],
-      "collaborators_ko": ["이상민", "강형관"],
+      "collaborators": [
+        "Sangmin Lee",
+        "Hyeonggwan Kang"
+      ],
+      "collaborators_ko": [
+        "이상민",
+        "강형관"
+      ],
       "related_papers": [
         "2022-optimal-policy-pitch-hold-milp",
         "2021-altitude-tracking-mpc-mine-detection",
@@ -151,9 +123,18 @@
       "sponsor": "Korea Fire Institute (KFI)",
       "sponsor_ko": "한국소방산업기술원",
       "period": "Jan 2021 – Dec 2022",
-      "collaborators": ["Heein Park", "Chan Gook Park", "Jae Hong Lee"],
-      "collaborators_ko": ["박희인"],
-      "related_papers": ["2023-indoor-path-planning-search-rescue", "2021-indoor-path-planning-firefighter-ko"]
+      "collaborators": [
+        "Heein Park",
+        "Chan Gook Park",
+        "Jae Hong Lee"
+      ],
+      "collaborators_ko": [
+        "박희인"
+      ],
+      "related_papers": [
+        "2023-indoor-path-planning-search-rescue",
+        "2021-indoor-path-planning-firefighter-ko"
+      ]
     },
     {
       "title": "Development of Target Tracking Algorithms",
@@ -161,9 +142,18 @@
       "sponsor": "LIG Nex1 Company Ltd.",
       "sponsor_ko": "LIG넥스원",
       "period": "Jan 2020 – Aug 2020",
-      "collaborators": ["Suwon Lee", "Youngjun Lee"],
-      "collaborators_ko": ["이수원", "이영준"],
-      "related_papers": ["2021-target-tracking-laser-rangefinder", "2020-laser-rangefinder-target-tracking-ko"]
+      "collaborators": [
+        "Suwon Lee",
+        "Youngjun Lee"
+      ],
+      "collaborators_ko": [
+        "이수원",
+        "이영준"
+      ],
+      "related_papers": [
+        "2021-target-tracking-laser-rangefinder",
+        "2020-laser-rangefinder-target-tracking-ko"
+      ]
     },
     {
       "title": "Development of an SMPC Flap Module for Morphing Wings",
@@ -171,7 +161,9 @@
       "sponsor": "Ministry of Trade, Industry and Energy",
       "sponsor_ko": "산업통상자원부",
       "period": "Jun 2016 – Dec 2020",
-      "related_themes": ["Morphing-Wing Aircraft Control"]
+      "related_themes": [
+        "Morphing-Wing Aircraft Control"
+      ]
     },
     {
       "title": "Development of Guidance, Navigation, and Control Algorithms and Corresponding Source Code for Experimental Lunar Orbiter",
@@ -179,7 +171,9 @@
       "sponsor": "Ministry of Science, ICT and Future Planning",
       "sponsor_ko": "미래창조과학부",
       "period": "Sep 2014 – Jun 2017",
-      "related_themes": ["Satellite & Lunar Orbiter GNC"]
+      "related_themes": [
+        "Satellite & Lunar Orbiter GNC"
+      ]
     },
     {
       "title": "Guidance/Control Study for Take-off and Landing on a Ship",
@@ -187,7 +181,9 @@
       "sponsor": "Agency for Defense Development (ADD)",
       "sponsor_ko": "국방과학연구소",
       "period": "Nov 2014 – Dec 2015",
-      "related_themes": ["Autonomous Carrier Landing & Guidance"]
+      "related_themes": [
+        "Autonomous Carrier Landing & Guidance"
+      ]
     }
   ],
   "papers": [
@@ -199,7 +195,7 @@
       "authors": "Seokwon Lee, Jihoon Lee, Somang Lee, Hyunjin Choi, Youdan Kim, Seungkeun Kim, Jinyoung Suk",
       "venue": "IEEE Transactions on Aerospace and Electronic Systems, Vol. 55, No. 2, pp. 951-966",
       "year": 2019,
-      "citations": 79,
+      "citations": 86,
       "doi": "10.1109/TAES.2018.2867259",
       "abstract": "A guidance and control system is proposed for automatic carrier landing of an unmanned aerial vehicle (UAV). To this end, the position and attitude of the carrier is predicted by considering the sea state so that the UAV guidance loop can be compensated during the final approach phase. The landing kinematics and reference trajectory are determined using the predicted touchdown position. Nonlinear guidance and control laws are designed based on a sliding-mode control scheme to make the UAV robustly follow the reference trajectory.",
       "official_link": "https://ieeexplore.ieee.org/document/8447257/",
@@ -244,7 +240,7 @@
       "authors": "Jihoon Lee, Heein Park, Youdan Kim, Chan Gook Park, Jae Hong Lee",
       "venue": "IEEE Access, Vol. 11, pp. 40930-40943",
       "year": 2023,
-      "citations": 17,
+      "citations": 19,
       "doi": "10.1109/ACCESS.2023.3269981",
       "abstract": "In this study, a multi-level path planning system is proposed for indoor search and rescue operations. Requirements for the path planning system are derived based on the operational concept of the integrated indoor navigation system. Different aspects of various path planning algorithms are assessed, and their suitability to search and rescue operations in structured indoor environments is investigated. A five-step path planning system is proposed, which consists of map pre-processing, segment path planning, graph processing, route optimization, and path post-processing. The proposed method addresses a multi-goal path planning problem in a multi-story building in a computationally efficient way by adopting a graph-based approach while satisfying such requirements as clearance conditions in the pre- and post-processing steps. Furthermore, a multi-query approach is adopted to exploit the response time and earn flexibility with respect to environmental changes. The effectiveness of the proposed path planning system is demonstrated through numerical simulations. The proposed multi-level path planning system successfully adapts to complex indoor environments, enabling more effective navigation for search and rescue operations. Additionally, the system exhibits a high degree of flexibility in response to environmental changes, ensuring that the path planning remains robust and reliable even in dynamically changing situations.",
       "official_link": "https://ieeexplore.ieee.org/document/10107604/",
@@ -259,7 +255,7 @@
       "authors": "Hanna Lee, Seong-hun Kim, Jihoon Lee, Youdan Kim",
       "venue": "IEEE Transactions on Aerospace and Electronic Systems, Vol. 60, No. 5, pp. 6447-6460",
       "year": 2024,
-      "citations": 10,
+      "citations": 12,
       "doi": "10.1109/TAES.2024.3403543",
       "abstract": "A control design scheme that integrates policy-gradient-based integral reinforcement learning with an extended state observer is proposed for a morphing aircraft. A general continuous-time nonaffine system, such as a morphing aircraft, in which the morphing parameters are considered as control effectors, can be addressed by the proposed control scheme. By combining a Q-function with the policy gradient method, the optimal control problems for completely unknown and nonaffine systems can be resolved. The actor-critic parameter estimation employs the integral reinforcement learning technique. The learning-based strategy enables the prediction of optimal morphing parameters, even in the absence of a complete aerodynamic model. To estimate the disturbances derived from morphing variations, an extended state observer is designed using the knowledge of the nominal model. This approach allows for the independent design of controllers for both morphing parameters and conventional control effectors. A stability analysis shows the asymptotic stability of the closed-loop system and the optimal convergence of the Q-function. To demonstrate the effectiveness of the proposed method, a numerical simulation is performed.",
       "official_link": "https://ieeexplore.ieee.org/document/10535708/",
@@ -274,7 +270,7 @@
       "authors": "Seong-hun Kim, Jihoon Lee, Seungyun Jung, Hanna Lee, Youdan Kim",
       "venue": "21st IFAC Symposium on Automatic Control in Aerospace (ACA), Cranfield, UK, Aug. 2019",
       "year": 2019,
-      "citations": 9,
+      "citations": 12,
       "doi": "10.1016/j.ifacol.2019.11.079",
       "abstract": "Dynamic soaring is a bio-inspired maneuver to harvest energy from the wind gradient, which allows albatrosses to fly across the ocean without flapping their wings. Although the underlying dynamics is well-known, which can be represented as a fixed-wing aircraft, the mechanism or the control law that successively extracts energy from the unforeseen wind gradient remains in question. In this study, a deep neural network architecture and a feedback control law for the dynamic soaring maneuver are proposed based on the investigation of the mechanical energy extraction mechanism. To train the neural network, a bunch of data composed of state and control pairs is generated via trajectory optimization, which is slightly modified to deal with the problem considered in this study. Numerical result shows that the trained network-based feedback control law can perform the dynamic soaring maneuver in various wind profiles.",
       "official_link": "https://www.sciencedirect.com/science/article/pii/S2405896319310158",
@@ -319,7 +315,7 @@
       "authors": "Jihoon Lee, Seong-hun Kim, Hanna Lee, Youdan Kim",
       "venue": "Sensors, Vol. 23, No. 6, 3075",
       "year": 2023,
-      "citations": 7,
+      "citations": 9,
       "doi": "10.3390/s23063075",
       "abstract": "In this study, a novel framework for the flight control of a morphing unmanned aerial vehicle (UAV) based on linear parameter-varying (LPV) methods is proposed. A high-fidelity nonlinear model and LPV model of an asymmetric variable-span morphing UAV were obtained using the NASA generic transport model. The left and right wing span variation ratios were decomposed into symmetric and asymmetric morphing parameters, which were then used as the scheduling parameter and the control input, respectively. LPV-based control augmentation systems were designed to track the normal acceleration, angle of sideslip, and roll rate commands. The span morphing strategy was investigated considering the effects of morphing on various factors to aid the intended maneuver. Autopilots were designed using LPV methods to track commands for airspeed, altitude, angle of sideslip, and roll angle. A nonlinear guidance law was coupled with the autopilots for three-dimensional trajectory tracking. A numerical simulation was performed to demonstrate the effectiveness of the proposed scheme.",
       "official_link": "https://www.mdpi.com/1424-8220/23/6/3075",
@@ -334,7 +330,7 @@
       "authors": "Hyeonggwan Kang, Sangmin Lee, Jihoon Lee, Youdan Kim, Jinyoung Suk, Seungkeun Kim",
       "venue": "21st International Conference on Control, Automation and Systems (ICCAS), Jeju, Korea, Oct. 2021",
       "year": 2021,
-      "citations": 7,
+      "citations": 8,
       "doi": "10.23919/ICCAS52745.2021.9649884",
       "abstract": "A longitudinal altitude and attitude controller is designed for an unmanned aerial vehicle to detect landmines. The UAV considered in this study has two front rotors, two rear rotors, and elevons. Due to the characteristics of the mine detection sensor, the allowable pitch change of the UAV is strictly limited. Therefore, the attitude controller considering the pitch-hold constraint should be designed. To deal with a flight path angle change limit due to the pitch-hold constraint and accurate altitude tracking, a linear model predictive control method is used for altitude control design. Numerical simulation is carried out to demonstrate the performance of the proposed controller.",
       "official_link": "https://ieeexplore.ieee.org/document/9649884/",
@@ -936,9 +932,18 @@
         "title": "Triathlon",
         "content": "Age-group triathlete racing Korea Triathlon Federation events since 2019, from sprint and Olympic distance up to a full-distance finish. Currently ranked 19th nationally in my age group.",
         "highlights": [
-          {"value": "14:56", "label": "Full distance, Challenge Gunsan-Saemangeum 2024"},
-          {"value": "#2", "label": "Peak national age-group ranking (M30-34)"},
-          {"value": "30+", "label": "Races since 2019"}
+          {
+            "value": "14:56",
+            "label": "Full distance, Challenge Gunsan-Saemangeum 2024"
+          },
+          {
+            "value": "#2",
+            "label": "Peak national age-group ranking (M30-34)"
+          },
+          {
+            "value": "30+",
+            "label": "Races since 2019"
+          }
         ],
         "photos": []
       },
@@ -946,12 +951,27 @@
         "title": "Cycling",
         "content": "Long-distance road rides and triathlon bike training, with the occasional trail day.",
         "lists": [
-          {"title": "Bikes", "items": [
-            {"name": "Specialized Tarmac Pro", "detail": "Road"},
-            {"name": "Merida Scultura 400 Disc", "detail": "Road"},
-            {"name": "Giant Talon 0", "detail": "Mountain"},
-            {"name": "Giant Escape 2", "detail": "Hybrid"}
-          ]}
+          {
+            "title": "Bikes",
+            "items": [
+              {
+                "name": "Specialized Tarmac Pro",
+                "detail": "Road"
+              },
+              {
+                "name": "Merida Scultura 400 Disc",
+                "detail": "Road"
+              },
+              {
+                "name": "Giant Talon 0",
+                "detail": "Mountain"
+              },
+              {
+                "name": "Giant Escape 2",
+                "detail": "Hybrid"
+              }
+            ]
+          }
         ],
         "photos": []
       },
@@ -959,10 +979,19 @@
         "title": "Swimming",
         "content": "Open-water and masters swimming since 2018.",
         "lists": [
-          {"title": "Certifications", "items": [
-            {"name": "Lifeguard", "detail": "Korean Red Cross"},
-            {"name": "Water Rescue (수상구조사)", "detail": "Korea Coast Guard"}
-          ]}
+          {
+            "title": "Certifications",
+            "items": [
+              {
+                "name": "Lifeguard",
+                "detail": "Korean Red Cross"
+              },
+              {
+                "name": "Water Rescue (수상구조사)",
+                "detail": "Korea Coast Guard"
+              }
+            ]
+          }
         ],
         "photos": []
       },
@@ -970,7 +999,10 @@
         "title": "Running",
         "content": "Road running from 10K to the marathon; lately getting into trail running.",
         "highlights": [
-          {"value": "42.2 km", "label": "Marathon, 2022 Sohn Kee-chung Peace Marathon"}
+          {
+            "value": "42.2 km",
+            "label": "Marathon, 2022 Sohn Kee-chung Peace Marathon"
+          }
         ],
         "photos": []
       },
@@ -983,8 +1015,14 @@
         "title": "Hiking",
         "content": "Long mountain traverses in Korea, often solo.",
         "highlights": [
-          {"value": "13:56", "label": "Jirisan Hwadae traverse, solo (2021)"},
-          {"value": "19:28", "label": "Bulsu-Sa-Do-Buk five-peak route (2022)"}
+          {
+            "value": "13:56",
+            "label": "Jirisan Hwadae traverse, solo (2021)"
+          },
+          {
+            "value": "19:28",
+            "label": "Bulsu-Sa-Do-Buk five-peak route (2022)"
+          }
         ],
         "photos": []
       },
@@ -993,8 +1031,29 @@
         "content": "Travel across Asia, Europe, the Americas, and Australia.",
         "wide": true,
         "home": "KR",
-        "countries": ["CN", "JP", "VN", "IN", "US", "BR", "AU", "IT", "FR", "DE", "AT", "CH", "NO", "RU", "CY"],
-        "highlights": [{"value": "5", "label": "Continents"}],
+        "countries": [
+          "CN",
+          "JP",
+          "VN",
+          "IN",
+          "US",
+          "BR",
+          "AU",
+          "IT",
+          "FR",
+          "DE",
+          "AT",
+          "CH",
+          "NO",
+          "RU",
+          "CY"
+        ],
+        "highlights": [
+          {
+            "value": "5",
+            "label": "Continents"
+          }
+        ],
         "photos": []
       },
       {
@@ -1002,19 +1061,50 @@
         "wide": true,
         "content": "Photography helps me document people, places, and movement. ‘Gazes of India,’ a seven-image series photographed in Delhi, Varanasi, and Kolkata, was selected at the 2018 Asia Culture International Photo Contest.",
         "lists": [
-          {"title": "Camera", "items": [
-            {"name": "Sony α7R III", "detail": "Body"},
-            {"name": "Sony FE 20-70mm F4 G", "detail": "Lens"}
-          ]}
+          {
+            "title": "Camera",
+            "items": [
+              {
+                "name": "Sony α7R III",
+                "detail": "Body"
+              },
+              {
+                "name": "Sony FE 20-70mm F4 G",
+                "detail": "Lens"
+              }
+            ]
+          }
         ],
         "photos": [
-          {"src": "assets/life/gazes-of-india-07.jpg", "alt": "Monkey overlooking the Ganges and Varanasi at sunset", "featured": true},
-          {"src": "assets/life/gazes-of-india-01.jpg", "alt": "View of a city road framed through a cycle rickshaw"},
-          {"src": "assets/life/gazes-of-india-02.jpg", "alt": "Street-side tea vendor pouring steaming milk"},
-          {"src": "assets/life/gazes-of-india-03.jpg", "alt": "A market lane seen across crowded rooftops"},
-          {"src": "assets/life/gazes-of-india-04.jpg", "alt": "Crowded evening market"},
-          {"src": "assets/life/gazes-of-india-05.jpg", "alt": "Schoolchildren smiling from the back of a vehicle"},
-          {"src": "assets/life/gazes-of-india-06.jpg", "alt": "Boats and people along the Ganges at night in Varanasi"}
+          {
+            "src": "assets/life/gazes-of-india-07.jpg",
+            "alt": "Monkey overlooking the Ganges and Varanasi at sunset",
+            "featured": true
+          },
+          {
+            "src": "assets/life/gazes-of-india-01.jpg",
+            "alt": "View of a city road framed through a cycle rickshaw"
+          },
+          {
+            "src": "assets/life/gazes-of-india-02.jpg",
+            "alt": "Street-side tea vendor pouring steaming milk"
+          },
+          {
+            "src": "assets/life/gazes-of-india-03.jpg",
+            "alt": "A market lane seen across crowded rooftops"
+          },
+          {
+            "src": "assets/life/gazes-of-india-04.jpg",
+            "alt": "Crowded evening market"
+          },
+          {
+            "src": "assets/life/gazes-of-india-05.jpg",
+            "alt": "Schoolchildren smiling from the back of a vehicle"
+          },
+          {
+            "src": "assets/life/gazes-of-india-06.jpg",
+            "alt": "Boats and people along the Ganges at night in Varanasi"
+          }
         ]
       }
     ]
