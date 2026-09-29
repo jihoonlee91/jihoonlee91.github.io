@@ -171,11 +171,11 @@ column below 640px). Optional fields, all rendered by `render_life()`:
   "N countries visited" tile and the country chips are derived from the list.
   An unknown code fails the build rather than silently dropping a country.
 
-## Mobile tooltips
+## Mobile and tablet tooltips
 
-Below 640px the BibTeX/source hover panels become a fixed bottom sheet. The
-badge-anchored panel otherwise hangs past the right edge and — even while
-hidden — widens the page into a horizontal scroll.
+At 900px and below the BibTeX/source hover panels become a fixed bottom sheet.
+The badge-anchored panel otherwise hangs past the right edge and — even while
+hidden — widens the page into a horizontal scroll on some paper pages.
 
 ## Publications page: category vs. theme grouping
 
