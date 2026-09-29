@@ -107,8 +107,19 @@ def main():
         out = os.path.join(ROOT, "assets", "figures", name)
         os.makedirs(os.path.dirname(out), exist_ok=True)
         im.save(out, "WEBP", quality=82, method=6)
+        thumb = im.copy()
+        thumb.thumbnail((360, 360), Image.LANCZOS)
+        os.makedirs(os.path.join(os.path.dirname(out), "thumbs"), exist_ok=True)
+        thumb.save(os.path.join(os.path.dirname(out), "thumbs", name), "WEBP", quality=80, method=6)
         caption = re.sub(r"\s+", " ", f["cap"]).strip()
         out_list.append({"src": f"assets/figures/{name}", "caption": caption})
+    # 1200x630 JPEG link-preview card from the first figure
+    first = Image.open(os.path.join(ROOT, out_list[0]["src"])).convert("RGB")
+    first.thumbnail((1120, 570), Image.LANCZOS)
+    card = Image.new("RGB", (1200, 630), "white")
+    card.paste(first, ((1200 - first.width) // 2, (630 - first.height) // 2))
+    os.makedirs(os.path.join(ROOT, "assets", "figures", "og"), exist_ok=True)
+    card.save(os.path.join(ROOT, "assets", "figures", "og", f"{args.slug}.jpg"), "JPEG", quality=80, optimize=True, progressive=True)
     import json
     print(json.dumps({"figures": out_list}, ensure_ascii=False, indent=2))
 

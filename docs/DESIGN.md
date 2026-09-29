@@ -271,3 +271,14 @@ cross-fade through the same figures (static first figure under
 themselves with `scripts/extract_figure.py` (PyMuPDF; dev-only, not part of
 the build) and every pick and caption was checked by eye. Papers without a
 clean source PDF simply have no `figures`.
+
+## Performance and metadata
+
+- Images ship in right-sized WebP: list thumbnails use `assets/figures/thumbs/`
+  (360 px), the profile photo `assets/profile-320.webp` (with the JPEG as
+  `<picture>` fallback), and Life photos `-800/-1600.webp` via `srcset`
+  (the link still opens the original JPEG). Every `<img>` has width/height.
+- Paper pages carry a `ScholarlyArticle` JSON-LD block and use a 1200x630 JPEG
+  card from their first figure (`assets/figures/og/`) as the Open Graph image.
+- Theme: a saved toggle wins; otherwise the OS `prefers-color-scheme` decides.
+- `404.html` (root-absolute links) and a skip-to-content link on every page.

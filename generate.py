@@ -86,8 +86,13 @@ CITATION_STATS_UPDATED = (DATA.get("citation_stats") or {}).get("updated") or "J
 
 THEME_INIT_SCRIPT = """<script>
 (function () {
-  var saved = localStorage.getItem('theme');
-  document.documentElement.setAttribute('data-theme', saved === 'dark' ? 'dark' : 'light');
+  // Saved choice wins; otherwise follow the OS setting. Storage can throw
+  // (private mode, blocked site data), so fall back quietly.
+  var saved = null;
+  try { saved = localStorage.getItem('theme'); } catch (e) {}
+  var dark = saved ? saved === 'dark'
+    : !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
 })();
 </script>"""
 
@@ -96,7 +101,7 @@ function toggleTheme() {
   var html = document.documentElement;
   var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   html.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
+  try { localStorage.setItem('theme', next); } catch (e) {}
 }
 
 function copyTooltipText(button) {
@@ -206,7 +211,7 @@ def paper_display_titles(paper):
     return primary, secondary if secondary != primary else ""
 
 
-def render_common_head(page_path, title, description, base=""):
+def render_common_head(page_path, title, description, base="", image=None, og_type="profile"):
     """Favicon, theme-color, canonical, and Open Graph/Twitter Card tags —
     shared across every page so link previews (Slack/LinkedIn/Twitter) and
     search engines get consistent metadata. See docs/ROADMAP.md."""
@@ -215,24 +220,90 @@ def render_common_head(page_path, title, description, base=""):
     # image, distinct from the portrait profile photo used elsewhere on the
     # site. See docs/ROADMAP.md.
     card_url = f"{SITE_URL}/assets/og-card.png"
+    card_w, card_h = 1200, 630
+    if image and os.path.isfile(os.path.join(ROOT, image)):
+        # A paper's own first figure, letterboxed to 1200x630 JPEG (LinkedIn
+        # and some chat apps ignore WebP previews).
+        card_url = f"{SITE_URL}/{image}"
     tags = [
         f'<link rel="canonical" href="{esc(url)}">',
         f'<link rel="icon" href="{base}favicon.svg" type="image/svg+xml">',
         '<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">',
         '<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">',
-        '<meta property="og:type" content="profile">',
+        f'<meta property="og:type" content="{og_type}">',
         f'<meta property="og:title" content="{esc(title)}">',
         f'<meta property="og:description" content="{esc(description)}">',
         f'<meta property="og:url" content="{esc(url)}">',
         f'<meta property="og:image" content="{esc(card_url)}">',
-        '<meta property="og:image:width" content="1200">',
-        '<meta property="og:image:height" content="630">',
+        f'<meta property="og:image:width" content="{card_w}">',
+        f'<meta property="og:image:height" content="{card_h}">',
         '<meta name="twitter:card" content="summary_large_image">',
         f'<meta name="twitter:title" content="{esc(title)}">',
         f'<meta name="twitter:description" content="{esc(description)}">',
         f'<meta name="twitter:image" content="{esc(card_url)}">',
     ]
     return "\n".join(tags)
+
+
+def render_article_jsonld(p, title, figs):
+    """schema.org ScholarlyArticle so search engines can tie each paper page
+    to its authors, venue, DOI, and figure."""
+    data = {
+        "@context": "https://schema.org",
+        "@type": "ScholarlyArticle",
+        "headline": title[:110],
+        "name": title,
+        "url": f"{SITE_URL}/papers/{p['slug']}.html",
+        "author": [{"@type": "Person", "name": a.strip()} for a in p["authors"].split(",") if a.strip()],
+    }
+    if p.get("year"):
+        data["datePublished"] = str(p["year"])
+    if p.get("venue"):
+        data["isPartOf"] = {"@type": "PublicationIssue", "name": p["venue"]}
+    if p.get("doi"):
+        data["identifier"] = {"@type": "PropertyValue", "propertyID": "DOI", "value": p["doi"]}
+        data["sameAs"] = f"https://doi.org/{p['doi']}"
+    if p.get("abstract"):
+        data["abstract"] = p["abstract"] if isinstance(p["abstract"], str) else None
+    if figs:
+        data["image"] = [f"{SITE_URL}/{f['src']}" for f in figs]
+    data = {k: v for k, v in data.items() if v}
+    return f'<script type="application/ld+json">{json.dumps(data, ensure_ascii=False)}</script>'
+
+
+def render_404():
+    """GitHub Pages serves /404.html for any missing path, so links are
+    root-absolute."""
+    html_out = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{THEME_INIT_SCRIPT}
+<title>Page not found - {esc(DATA['name'])}</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/style.css?v={STYLE_VERSION}">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  {render_nav("", base="/")}
+  <main id="main" class="container not-found">
+    <h1>Page not found</h1>
+    <p>The page you were looking for doesn&rsquo;t exist or has moved.</p>
+    <ul class="not-found-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/publications.html">All {len(DATA['papers'])} publications</a></li>
+      <li><a href="/cv.html">CV</a></li>
+      <li><a href="/life.html">Life</a></li>
+    </ul>
+  </main>
+  {THEME_TOGGLE_SCRIPT}
+</body>
+</html>
+'''
+    with open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8") as f:
+        f.write(html_out)
 
 
 def render_person_jsonld():
@@ -423,7 +494,10 @@ def render_nav(active, base=""):
 def render_profile_header():
     photo_html = ""
     if DATA.get("photo") and os.path.isfile(os.path.join(ROOT, DATA["photo"])):
-        photo_html = f'<img class="profile-photo" src="{esc(DATA["photo"])}" alt="{esc(DATA["name"])}">'
+        webp = os.path.splitext(DATA["photo"])[0] + "-320.webp"
+        img = f'<img class="profile-photo" src="{esc(DATA["photo"])}" alt="{esc(DATA["name"])}" width="160" height="160" fetchpriority="high">'
+        photo_html = (f'<picture><source srcset="{esc(webp)}" type="image/webp">{img}</picture>'
+                      if os.path.isfile(os.path.join(ROOT, webp)) else img)
 
     interests_html = ""
     if DATA.get("interests"):
@@ -758,8 +832,9 @@ def render_index():
 <link rel="stylesheet" href="style.css?v={STYLE_VERSION}">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   {render_nav("Home")}
-  <main class="container">
+  <main id="main" class="container">
     {render_profile_header()}
 
     <div class="home-grid">
@@ -888,14 +963,22 @@ def paper_figures(p):
     return [f for f in p.get("figures") or [] if os.path.isfile(os.path.join(ROOT, f["src"]))]
 
 
+def _thumb_src(src):
+    """360 px copy under assets/figures/thumbs/ for list thumbnails (the full
+    1200 px figure is only loaded on the paper page)."""
+    thumb = os.path.join(os.path.dirname(src), "thumbs", os.path.basename(src))
+    return thumb if os.path.isfile(os.path.join(ROOT, thumb)) else src
+
+
 def render_thumb_stack(p, base=""):
     """Thumbnail: the paper's figures cross-fading in turn (static first figure
     when the viewer prefers reduced motion)."""
     figs = paper_figures(p)[:3]
     imgs = []
     for f in figs:
-        w, h = _figure_size(f["src"])
-        imgs.append(f'<img src="{base}{esc(f["src"])}" alt="" width="{w}" height="{h}" loading="lazy" decoding="async">')
+        src = _thumb_src(f["src"])
+        w, h = _figure_size(src)
+        imgs.append(f'<img src="{base}{esc(src)}" alt="" width="{w}" height="{h}" loading="lazy" decoding="async">')
     return f'<span class="thumb-stack n{len(figs)}">{"".join(imgs)}</span>'
 
 
@@ -1068,8 +1151,9 @@ def render_publications():
 <link rel="stylesheet" href="style.css?v={STYLE_VERSION}">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   {render_nav("Publications")}
-  <main class="container">
+  <main id="main" class="container">
     <header class="page-header">
       <h1>Publications</h1>
       <p class="page-intro">{len(DATA['papers'])} publications total &middot; a unified list combining Google Scholar records with additional entries. Also available on my <a href="{esc(DATA['scholar_url'])}" target="_blank" rel="noopener">Google Scholar profile</a>.</p>
@@ -1083,7 +1167,7 @@ def render_publications():
     </div>
     <details class="publication-insights" id="insights" open>
       <summary class="insights-summary">
-        <span>Publication insights</span>
+        <h2 class="insights-title">Publication insights</h2>
         <small>Year, venues, citations, and research focus</small>
       </summary>
       <div class="viz-dashboard">
@@ -1416,8 +1500,9 @@ def render_cv():
 <link rel="stylesheet" href="style.css?v={STYLE_VERSION}">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   {render_nav("CV")}
-  <main class="container">
+  <main id="main" class="container">
     <header class="page-header">
       <h1>CV</h1>
       {cv_download}
@@ -1608,7 +1693,16 @@ def render_life():
                     alt = f'{section["title"]} photo'
                     featured = False
                 link_class = "life-photo-link life-photo-link-featured" if featured else "life-photo-link"
-                thumbs += f'<a class="{link_class}" href="{esc(src)}" target="_blank" rel="noopener"><img class="life-photo" src="{esc(src)}" alt="{esc(alt)}" loading="lazy"></a>'
+                stem = os.path.splitext(src)[0]
+                if all(os.path.isfile(os.path.join(ROOT, f"{stem}-{w}.webp")) for w in (800, 1600)):
+                    w, h = _figure_size(f"{stem}-1600.webp")
+                    sizes = "(max-width: 700px) 100vw, 760px" if featured else "(max-width: 700px) 50vw, 380px"
+                    img = (f'<img class="life-photo" src="{esc(stem)}-1600.webp" srcset="{esc(stem)}-800.webp 800w, {esc(stem)}-1600.webp 1600w" '
+                           f'sizes="{sizes}" width="{w}" height="{h}" alt="{esc(alt)}" loading="lazy" decoding="async">')
+                else:
+                    img = f'<img class="life-photo" src="{esc(src)}" alt="{esc(alt)}" loading="lazy">'
+                # The link still opens the original full-resolution JPEG.
+                thumbs += f'<a class="{link_class}" href="{esc(src)}" target="_blank" rel="noopener">{img}</a>'
             gallery = f'<div class="life-gallery">{thumbs}</div>'
         highlights_html = _render_life_highlights(section.get("highlights"))
         lists_html = _render_life_lists(section.get("lists"))
@@ -1642,8 +1736,9 @@ def render_life():
 <link rel="stylesheet" href="style.css?v={STYLE_VERSION}">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   {render_nav("Life")}
-  <main class="container">
+  <main id="main" class="container">
     <header class="page-header">
       <h1>Life</h1>
       {intro_html}
@@ -1691,8 +1786,9 @@ def render_wiki_index():
 <link rel="stylesheet" href="style.css?v={STYLE_VERSION}">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   {render_nav("Wiki")}
-  <main class="container">
+  <main id="main" class="container">
     <header class="page-header">
       <h1>Wiki</h1>
       <p class="page-intro">Working notes on engineering, research, and career development. These pages share public frameworks and sources, not confidential work or personal records.</p>
@@ -1739,8 +1835,9 @@ def render_wiki_page(note):
 <link rel="stylesheet" href="../style.css?v={STYLE_VERSION}">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   {render_nav("Wiki", base="../")}
-  <main class="container wiki-article">
+  <main id="main" class="container wiki-article">
     <p><a href="../wiki.html">&larr; Back to Wiki</a></p>
     <header class="wiki-header">
       <p class="wiki-meta">Published {esc(note.get('published', ''))} &middot; Updated {esc(note.get('updated', note.get('published', '')))}</p>
@@ -1805,13 +1902,15 @@ def render_paper_page(p):
 {THEME_INIT_SCRIPT}
 <title>{esc(primary_title)}</title>
 <meta name="description" content="{esc(meta_description)}">
-{render_common_head(f"papers/{p['slug']}.html", primary_title, meta_description, base="../")}
+{render_common_head(f"papers/{p['slug']}.html", primary_title, meta_description, base="../", image=f"assets/figures/og/{p['slug']}.jpg", og_type="article")}
+{render_article_jsonld(p, primary_title, figs)}
 {chr(10).join(meta_tags)}
 <link rel="stylesheet" href="../style.css?v={STYLE_VERSION}">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   {render_nav("Publications", base="../")}
-  <main class="container">
+  <main id="main" class="container">
     <p><a href="../publications.html">&larr; Back to Publications</a></p>
     <h1 class="paper-page-title">{esc(primary_title)}</h1>
     {secondary_html}
@@ -1896,6 +1995,7 @@ if __name__ == "__main__":
     render_bibtex()
     render_sitemap()
     render_robots()
+    render_404()
     missing_pdf = [p["slug"] for p in DATA["papers"] if not p.get("official_link") and not has_local_pdf(p)]
     print(f"Site generated: {len(DATA['papers'])} papers.")
     if missing_pdf:

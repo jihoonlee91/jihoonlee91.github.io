@@ -675,9 +675,14 @@ section h2, main > h1 {
   content: "\2212";
 }
 
-.insights-summary > span {
+.insights-summary > span,
+.insights-summary > .insights-title {
+  margin: 0;
+  padding: 0;
+  border: 0;
   font-size: 0.92rem;
   font-weight: 700;
+  line-height: 1.4;
 }
 
 .insights-summary > small {
@@ -2353,4 +2358,33 @@ footer.site-footer a {
   .hero-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}
+
+/* ---- 404 ---- */
+.not-found {
+  padding-block: 3rem 4rem;
+}
+.not-found-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---- Skip link (keyboard users) ---- */
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -3rem;
+  z-index: 100;
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skip-link:focus {
+  top: 0.75rem;
 }
