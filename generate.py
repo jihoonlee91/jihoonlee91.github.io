@@ -1212,25 +1212,8 @@ def render_publications():
         f.write(html_out)
 
 
-def render_list_section(title, items, fields):
-    if not items:
-        return f'<section><h2>{title}</h2><p class="pending">Nothing added yet.</p></section>'
-    rows = []
-    for item in items:
-        parts = [esc(item.get(f, "")) for f in fields]
-        if item.get("url") and parts:
-            parts[0] = f'<a href="{esc(item["url"])}" target="_blank" rel="noopener">{parts[0]}</a>'
-        rows.append(f'<li>{" &mdash; ".join(p for p in parts if p)}</li>')
-    return f'''<section>
-    <h2>{title}</h2>
-    <ul class="plain-list">
-      {"".join(rows)}
-    </ul>
-  </section>'''
-
-
 def render_projects_section(projects):
-    """Like render_list_section but each project can also point at the
+    """Renders each project, which can also point at the
     publications it produced by slug (related_papers) or by research theme
     (related_themes), connecting each funded project to its research record."""
     if not projects:
@@ -1538,49 +1521,6 @@ LIFE_SECTION_EMOJI = {
     "Travel": "✈️",
     "Photography": "📷",
 }
-
-
-def _render_race_table(races):
-    if not races:
-        return ""
-    rows = []
-    for r in races:
-        rows.append(
-            "<tr>"
-            f"<td>{esc(r.get('name', ''))}</td>"
-            f"<td>{esc(r.get('date', ''))}</td>"
-            f"<td>{esc(r.get('location', ''))}</td>"
-            f"<td>{esc(r.get('swim', ''))}</td>"
-            f"<td>{esc(r.get('bike', ''))}</td>"
-            f"<td>{esc(r.get('run', ''))}</td>"
-            f"<td>{esc(r.get('total', ''))}</td>"
-            f"<td>{esc(r.get('rank', ''))}</td>"
-            f"<td>{esc(r.get('category', ''))}</td>"
-            "</tr>"
-        )
-    return f'''<details class="viz-table-toggle">
-        <summary>Race results ({len(races)})</summary>
-        <table class="viz-table">
-          <thead><tr><th>Race</th><th>Date</th><th>Location</th><th>Swim</th><th>Bike</th><th>Run</th><th>Total</th><th>Rank</th><th>Category</th></tr></thead>
-          <tbody>{"".join(rows)}</tbody>
-        </table>
-      </details>'''
-
-
-def _render_records_table(records, label="Records"):
-    if not records:
-        return ""
-    rows = "".join(
-        f"<tr><td>{esc(r.get('name', ''))}</td><td>{esc(r.get('detail', ''))}</td><td>{esc(r.get('date', ''))}</td></tr>"
-        for r in records
-    )
-    return f'''<details class="viz-table-toggle">
-        <summary>{esc(label)} ({len(records)})</summary>
-        <table class="viz-table">
-          <thead><tr><th>Event</th><th>Result</th><th>Date</th></tr></thead>
-          <tbody>{rows}</tbody>
-        </table>
-      </details>'''
 
 
 def _render_life_highlights(highlights):

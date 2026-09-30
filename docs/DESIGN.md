@@ -113,7 +113,8 @@ shows a small badge row from `link_badges()` in `generate.py`:
   has neither a source link nor a local PDF. The Publications legend omits this
   status when no current paper uses it; current coverage is 43/43.
 - **BibTeX** (neutral) — always shown. Clicking copies the entry straight
-  to the clipboard (`copyBibtex()`, prevents the default navigation);
+  to the clipboard (`copyTooltipText()`, the shared handler for every
+  copy-tooltip badge, prevents the default navigation);
   the badge still has a real `href` to `bibtex/<slug>.bib` so
   middle-click/"open in new tab"/"save link as" still gets the raw file.
   Hovering previews the actual BibTeX text via `data-tooltip`.
