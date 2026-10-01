@@ -94,7 +94,7 @@ a:visited {
 }
 
 .nav-inner {
-  max-width: 1200px;
+  max-width: none; /* use the full window width */
   min-width: 0;
   margin: 0 auto;
   padding: 0.9rem 2rem;
@@ -151,7 +151,7 @@ a:visited {
 
 /* ---- Layout ---- */
 .container {
-  max-width: 1200px;
+  max-width: none; /* use the full window width */
   margin: 0 auto;
   padding: 2.5rem 2rem 4rem;
 }
@@ -1981,7 +1981,7 @@ a.badge:hover {
 }
 
 footer.site-footer {
-  max-width: 1200px;
+  max-width: none; /* use the full window width */
   margin: 2rem auto 0;
   padding: 1.5rem 2rem 3rem;
   color: var(--muted);
