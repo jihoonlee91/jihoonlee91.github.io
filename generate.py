@@ -93,6 +93,14 @@ THEME_INIT_SCRIPT = """<script>
   var dark = saved ? saved === 'dark'
     : !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
   document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  // The theme-color metas follow the OS; point them at the active theme so
+  // the mobile browser bar matches a manual toggle too.
+  window.syncThemeColor = function () {
+    var c = document.documentElement.getAttribute('data-theme') === 'dark' ? '#0d1117' : '#ffffff';
+    var metas = document.querySelectorAll('meta[name="theme-color"]');
+    for (var i = 0; i < metas.length; i++) metas[i].setAttribute('content', c);
+  };
+  document.addEventListener('DOMContentLoaded', window.syncThemeColor);
 })();
 </script>"""
 
@@ -102,6 +110,7 @@ function toggleTheme() {
   var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   html.setAttribute('data-theme', next);
   try { localStorage.setItem('theme', next); } catch (e) {}
+  if (window.syncThemeColor) window.syncThemeColor();
 }
 
 function copyTooltipText(button) {
@@ -283,6 +292,8 @@ def render_404():
 <title>Page not found - {esc(DATA['name'])}</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <link rel="stylesheet" href="/style.css?v={STYLE_VERSION}">
 </head>
 <body>
