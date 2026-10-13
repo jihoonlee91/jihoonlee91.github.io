@@ -1322,7 +1322,6 @@ a.badge:hover {
 .copy-tooltip-button:focus-visible {
   border-color: var(--accent);
   color: var(--accent);
-  outline: none;
 }
 
 .copy-tooltip-button.is-copied {

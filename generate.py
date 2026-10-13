@@ -10,6 +10,7 @@ import hashlib
 import html
 import json
 import os
+import posixpath
 import re
 from collections import Counter
 from urllib.parse import quote, quote_plus, urlparse
@@ -977,7 +978,8 @@ def paper_figures(p):
 def _thumb_src(src):
     """360 px copy under assets/figures/thumbs/ for list thumbnails (the full
     1200 px figure is only loaded on the paper page)."""
-    thumb = os.path.join(os.path.dirname(src), "thumbs", os.path.basename(src))
+    # posixpath: this is a URL, so it must use "/" even when built on Windows
+    thumb = posixpath.join(posixpath.dirname(src), "thumbs", posixpath.basename(src))
     return thumb if os.path.isfile(os.path.join(ROOT, thumb)) else src
 
 
