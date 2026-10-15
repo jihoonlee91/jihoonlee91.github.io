@@ -1292,6 +1292,15 @@ a.badge:hover {
   transition-delay: 0s;
 }
 
+/* Reduced motion: keep hover colour/shadow feedback, drop the movement. */
+@media (prefers-reduced-motion: reduce) {
+  .social-btn:hover,
+  a.badge:hover,
+  .copy-tooltip-panel {
+    transform: none;
+  }
+}
+
 .copy-tooltip-text {
   display: block;
   max-height: 16rem;
