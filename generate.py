@@ -482,7 +482,7 @@ def render_social_links(extra_class="", links_config=None, include_cv=True):
             )
     if include_cv and DATA.get("cv_url"):
         links.append(f'<a class="social-btn cv" href="{esc(DATA["cv_url"])}" target="_blank" rel="noopener">{_icon_badge("cv")}<span>CV (PDF)</span></a>')
-    return f'<nav class="social-links {extra_class}">{"".join(links)}</nav>'
+    return f'<nav class="social-links {extra_class}" aria-label="Profiles and links">{"".join(links)}</nav>'
 
 
 def render_nav(active, base=""):
@@ -491,11 +491,12 @@ def render_nav(active, base=""):
         items.append(("wiki.html", "Wiki"))
     items.append(("life.html", "Life"))
     links = "".join(
-        f'<a href="{base}{href}" class="{"active" if name == active else ""}">{name}</a>'
+        f'<a href="{base}{href}" class="active" aria-current="page">{name}</a>' if name == active
+        else f'<a href="{base}{href}" class="">{name}</a>'
         for href, name in items
     )
     return (
-        f'<nav class="site-nav"><div class="nav-inner">'
+        f'<nav class="site-nav" aria-label="Site"><div class="nav-inner">'
         f'<a class="brand" href="{base}index.html">{esc(DATA["name"])}</a>'
         f'<div class="nav-links">{links}</div>'
         f'<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle light/dark theme">&#9788;</button>'
