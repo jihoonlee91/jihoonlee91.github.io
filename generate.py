@@ -95,11 +95,15 @@ THEME_INIT_SCRIPT = """<script>
     : !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
   document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
   // The theme-color metas follow the OS; point them at the active theme so
-  // the mobile browser bar matches a manual toggle too.
+  // the mobile browser bar matches a manual toggle too. The toggle button
+  // reports the active theme to screen readers via aria-pressed.
   window.syncThemeColor = function () {
-    var c = document.documentElement.getAttribute('data-theme') === 'dark' ? '#0d1117' : '#ffffff';
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    var c = isDark ? '#0d1117' : '#ffffff';
     var metas = document.querySelectorAll('meta[name="theme-color"]');
     for (var i = 0; i < metas.length; i++) metas[i].setAttribute('content', c);
+    var toggles = document.querySelectorAll('.theme-toggle');
+    for (var j = 0; j < toggles.length; j++) toggles[j].setAttribute('aria-pressed', isDark ? 'true' : 'false');
   };
   document.addEventListener('DOMContentLoaded', window.syncThemeColor);
 })();
@@ -499,7 +503,7 @@ def render_nav(active, base=""):
         f'<nav class="site-nav" aria-label="Site"><div class="nav-inner">'
         f'<a class="brand" href="{base}index.html">{esc(DATA["name"])}</a>'
         f'<div class="nav-links">{links}</div>'
-        f'<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle light/dark theme">&#9788;</button>'
+        f'<button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Dark theme" aria-pressed="false" title="Toggle light/dark theme">&#9788;</button>'
         f'</div></nav>'
     )
 
