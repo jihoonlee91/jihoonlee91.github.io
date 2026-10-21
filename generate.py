@@ -229,7 +229,9 @@ def render_common_head(page_path, title, description, base="", image=None, og_ty
     """Favicon, theme-color, canonical, and Open Graph/Twitter Card tags —
     shared across every page so link previews (Slack/LinkedIn/Twitter) and
     search engines get consistent metadata. See docs/ROADMAP.md."""
-    url = f"{SITE_URL}/{page_path}"
+    # Home is canonically the bare domain, so search results and link previews
+    # show jihoonlee91.github.io/ rather than /index.html.
+    url = f"{SITE_URL}/" if page_path == "index.html" else f"{SITE_URL}/{page_path}"
     # Landscape OG/Twitter card (1200x630) — a properly-sized link-preview
     # image, distinct from the portrait profile photo used elsewhere on the
     # site. See docs/ROADMAP.md.
@@ -1582,7 +1584,10 @@ def flag_font_link(codes):
     if not codes:
         return ""
     text = quote("".join(flag_emoji(c) for c in sorted(set(codes))))
-    return f'<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&text={text}&display=swap">'
+    # The stylesheet points at fonts.gstatic.com; preconnect so the font
+    # fetch doesn't wait on a second DNS+TLS handshake.
+    return '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' + \
+        f'<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&text={text}&display=swap">'
 
 
 def _render_travel_map(visited, home):
@@ -1916,7 +1921,7 @@ def render_bibtex():
 
 
 def render_sitemap():
-    urls = [f"{SITE_URL}/index.html", f"{SITE_URL}/publications.html", f"{SITE_URL}/cv.html", f"{SITE_URL}/life.html"]
+    urls = [f"{SITE_URL}/", f"{SITE_URL}/publications.html", f"{SITE_URL}/cv.html", f"{SITE_URL}/life.html"]
     if WIKI_DATA.get("notes"):
         urls.append(f"{SITE_URL}/wiki.html")
     for note in WIKI_DATA.get("notes", []):
