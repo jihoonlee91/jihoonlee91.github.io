@@ -1859,6 +1859,10 @@ def render_paper_page(p):
     year = p["year"] if p.get("year") else "n.d."
     scholar_search = f"https://scholar.google.com/scholar?q={quote_plus(primary_title)}"
     meta_description = f"{p['authors']} — {_venue_with_year(p['venue'], year)}. By {DATA['name']}."
+    # A conference paper and its later journal version can share a title; the
+    # year keeps their browser tabs and search-result titles distinct.
+    same_title = sum(paper_display_titles(q)[0] == primary_title for q in DATA["papers"]) > 1
+    page_title = f"{primary_title} ({year})" if same_title else primary_title
 
     html_out = f'''<!DOCTYPE html>
 <html lang="en">
@@ -1866,7 +1870,7 @@ def render_paper_page(p):
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {THEME_INIT_SCRIPT}
-<title>{esc(primary_title)}</title>
+<title>{esc(page_title)}</title>
 <meta name="description" content="{esc(meta_description)}">
 {render_common_head(f"papers/{p['slug']}.html", primary_title, meta_description, base="../", image=f"assets/figures/og/{p['slug']}.jpg", og_type="article")}
 {render_article_jsonld(p, primary_title, figs)}
