@@ -1859,6 +1859,13 @@ def render_paper_page(p):
     year = p["year"] if p.get("year") else "n.d."
     scholar_search = f"https://scholar.google.com/scholar?q={quote_plus(primary_title)}"
     meta_description = f"{p['authors']} — {_venue_with_year(p['venue'], year)}. By {DATA['name']}."
+    # Search results cut descriptions near 160 characters, and long author
+    # lists pushed the venue past that point; the page itself keeps every author.
+    if len(meta_description) > 160:
+        first_author = p["authors"].split(",")[0].strip()
+        meta_description = f"{first_author} et al. — {_venue_with_year(p['venue'], year)}. By {DATA['name']}."
+        if len(meta_description) > 160:
+            meta_description = meta_description.rsplit(" By ", 1)[0]
     # A conference paper and its later journal version can share a title; the
     # year keeps their browser tabs and search-result titles distinct.
     same_title = sum(paper_display_titles(q)[0] == primary_title for q in DATA["papers"]) > 1
