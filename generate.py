@@ -237,10 +237,14 @@ def render_common_head(page_path, title, description, base="", image=None, og_ty
     # site. See docs/ROADMAP.md.
     card_url = f"{SITE_URL}/assets/og-card.png"
     card_w, card_h = 1200, 630
+    # Alt text for the preview image, read out by screen readers in apps that
+    # show the card (Slack, LinkedIn, X). Describes only what the image shows.
+    card_alt = "Jihoon Lee (이지훈) — Personal homepage & CV: Aerospace GNC Researcher → Semiconductor AI Engineer"
     if image and os.path.isfile(os.path.join(ROOT, image)):
         # A paper's own first figure, letterboxed to 1200x630 JPEG (LinkedIn
         # and some chat apps ignore WebP previews).
         card_url = f"{SITE_URL}/{image}"
+        card_alt = f"Figure from the paper: {title}"
     tags = [
         f'<link rel="canonical" href="{esc(url)}">',
         f'<link rel="icon" href="{base}favicon.svg" type="image/svg+xml">',
@@ -253,10 +257,12 @@ def render_common_head(page_path, title, description, base="", image=None, og_ty
         f'<meta property="og:image" content="{esc(card_url)}">',
         f'<meta property="og:image:width" content="{card_w}">',
         f'<meta property="og:image:height" content="{card_h}">',
+        f'<meta property="og:image:alt" content="{esc(card_alt)}">',
         '<meta name="twitter:card" content="summary_large_image">',
         f'<meta name="twitter:title" content="{esc(title)}">',
         f'<meta name="twitter:description" content="{esc(description)}">',
         f'<meta name="twitter:image" content="{esc(card_url)}">',
+        f'<meta name="twitter:image:alt" content="{esc(card_alt)}">',
     ]
     return "\n".join(tags)
 
