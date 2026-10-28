@@ -248,6 +248,9 @@ def render_common_head(page_path, title, description, base="", image=None, og_ty
     tags = [
         f'<link rel="canonical" href="{esc(url)}">',
         f'<link rel="icon" href="{base}favicon.svg" type="image/svg+xml">',
+        # iOS ignores SVG icons for "Add to Home Screen" and showed a page
+        # screenshot instead; a 180px PNG gives it the same JL mark.
+        f'<link rel="apple-touch-icon" href="{base}apple-touch-icon.png">',
         '<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">',
         '<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">',
         f'<meta property="og:type" content="{og_type}">',
@@ -305,6 +308,7 @@ def render_404():
 <title>Page not found - {esc(DATA['name'])}</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <link rel="stylesheet" href="/style.css?v={STYLE_VERSION}">
