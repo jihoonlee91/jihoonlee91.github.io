@@ -247,6 +247,10 @@ def render_common_head(page_path, title, description, base="", image=None, og_ty
         card_alt = f"Figure from the paper: {title}"
     tags = [
         f'<link rel="canonical" href="{esc(url)}">',
+        # Browsers without SVG icons (and crawlers that fetch /favicon.ico
+        # directly, which 404ed) get the same JL mark as 16/32/48px ICO.
+        # sizes="32x32" keeps SVG-capable browsers on the SVG.
+        f'<link rel="icon" href="{base}favicon.ico" sizes="32x32">',
         f'<link rel="icon" href="{base}favicon.svg" type="image/svg+xml">',
         # iOS ignores SVG icons for "Add to Home Screen" and showed a page
         # screenshot instead; a 180px PNG gives it the same JL mark.
@@ -307,6 +311,7 @@ def render_404():
 {THEME_INIT_SCRIPT}
 <title>Page not found - {esc(DATA['name'])}</title>
 <meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
