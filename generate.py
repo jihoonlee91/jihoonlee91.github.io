@@ -1103,11 +1103,13 @@ PUBLICATION_UX_SCRIPT = """<script>
   var insights = document.getElementById('insights');
   var compactLayout = window.matchMedia('(max-width: 900px)');
 
+  // First-load state is set inline right after <summary>: doing it here, at the
+  // end of the page, collapsed the open panel after first paint on phones and
+  // jumped the list up (Lighthouse CLS 0.345, 2026-10-31).
   function syncInsights(e) {
     if (insights) insights.open = !e.matches;
   }
 
-  syncInsights(compactLayout);
   if (compactLayout.addEventListener) {
     compactLayout.addEventListener('change', syncInsights);
   } else if (compactLayout.addListener) {
@@ -1205,6 +1207,7 @@ def render_publications():
         <h2 class="insights-title">Publication insights</h2>
         <small>Year, venues, citations, and research focus</small>
       </summary>
+      <script>document.getElementById('insights').open = !window.matchMedia('(max-width: 900px)').matches;</script>
       <div class="viz-dashboard">
         {viz.year_category_chart(DATA['papers'])}
         {viz.venue_statistics(DATA['papers'])}
@@ -1595,14 +1598,28 @@ def flag_emoji(code):
 
 def flag_font_link(codes):
     """Windows has no flag glyphs in its emoji font, so load just the needed
-    flags from Noto Color Emoji (Google Fonts `text=` subset, a few KB)."""
+    flags from Noto Color Emoji (Google Fonts `text=` subset).
+
+    Only Windows asks for it, from script: the subset is about 470 KB because
+    color glyphs are large, and as a plain <link> it blocked first paint on
+    phones that already have flags (Lighthouse FCP 5.2 s, 2026-10-31)."""
     if not codes:
         return ""
     text = quote("".join(flag_emoji(c) for c in sorted(set(codes))))
     # The stylesheet points at fonts.gstatic.com; preconnect so the font
     # fetch doesn't wait on a second DNS+TLS handshake.
-    return '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' + \
-        f'<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&text={text}&display=swap">'
+    return f'''<script>
+if (/Windows/.test(navigator.userAgent)) {{
+  [['preconnect', 'https://fonts.gstatic.com'],
+   ['stylesheet', 'https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&text={text}&display=swap']].forEach(function (l) {{
+    var link = document.createElement('link');
+    link.rel = l[0];
+    link.href = l[1];
+    if (l[0] === 'preconnect') link.crossOrigin = '';
+    document.head.appendChild(link);
+  }});
+}}
+</script>'''
 
 
 def _render_travel_map(visited, home):
