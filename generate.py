@@ -1694,7 +1694,10 @@ def render_life():
                 stem = os.path.splitext(src)[0]
                 if all(os.path.isfile(os.path.join(ROOT, f"{stem}-{w}.webp")) for w in (800, 1600)):
                     w, h = _figure_size(f"{stem}-1600.webp")
-                    sizes = "(max-width: 700px) 100vw, 760px" if featured else "(max-width: 700px) 50vw, 380px"
+                    # Rendered widths measured at 375-1600px; the old 760px claim made a 1x desktop
+                    # pick the 800w file for the 1086px featured photo, which came out soft.
+                    sizes = ("(max-width: 700px) calc(100vw - 89px), (max-width: 1215px) calc(100vw - 129px), 1086px" if featured
+                             else "(max-width: 700px) calc(50vw - 49px), (max-width: 1215px) calc(33vw - 50px), 354px")
                     img = (f'<img class="life-photo" src="{esc(stem)}-1600.webp" srcset="{esc(stem)}-800.webp 800w, {esc(stem)}-1600.webp 1600w" '
                            f'sizes="{sizes}" width="{w}" height="{h}" alt="{esc(alt)}" loading="lazy" decoding="async">')
                 else:
