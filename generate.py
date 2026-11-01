@@ -205,6 +205,11 @@ def secondary_ko(value, class_name="entity-name-ko", tag="div"):
     return f'<{tag} class="{class_name}" lang="ko">{esc(value)}</{tag}>' if value else ""
 
 
+def esc_mixed(value):
+    """Escape text, tagging Korean runs so screen readers don't read them as English."""
+    return re.sub(r"[가-힣]+(?: [가-힣]+)*", lambda m: f'<span lang="ko">{m.group(0)}</span>', esc(value))
+
+
 def split_sub_parent(value, split_char=", "):
     """Split bilingual organization names using the same parent convention."""
     if value and split_char in value:
@@ -553,7 +558,7 @@ def render_profile_header():
     return f'''<section class="hero">
     {photo_html}
     <div class="hero-text">
-      <h1>{esc(DATA['name'])}{' <span class="name-ko">(' + esc(DATA['name_ko']) + ')</span>' if DATA.get('name_ko') else ''}</h1>
+      <h1>{esc(DATA['name'])}{' <span class="name-ko" lang="ko">(' + esc(DATA['name_ko']) + ')</span>' if DATA.get('name_ko') else ''}</h1>
       {identity_tag_html}
       {contact_html}
       {bio_html}
@@ -1577,7 +1582,7 @@ def _render_life_lists(lists):
     blocks = []
     for block in lists or []:
         rows = "".join(
-            f'<li><span class="life-item-name">{esc(item["name"])}</span>'
+            f'<li><span class="life-item-name">{esc_mixed(item["name"])}</span>'
             f'<span class="life-item-detail">{esc(item.get("detail", ""))}</span></li>'
             for item in block.get("items", [])
         )
@@ -1886,7 +1891,8 @@ def render_paper_page(p):
         for f in figs:
             w, h = _figure_size(f["src"])
             cap = esc(f.get("caption") or "")
-            items.append(f'<figure class="paper-figure"><img src="../{esc(f["src"])}" alt="{cap}" width="{w}" height="{h}" '
+            lang = ' lang="ko"' if re.search(r"[가-힣]", cap) else ""
+            items.append(f'<figure class="paper-figure"{lang}><img src="../{esc(f["src"])}" alt="{cap}" width="{w}" height="{h}" '
                          f'loading="lazy" decoding="async">{f"<figcaption>{cap}</figcaption>" if cap else ""}</figure>')
         figure_html = (f'<div class="paper-figures n{len(figs)}">{"".join(items)}</div>'
                        '<p class="figure-credit">Figures and captions reproduced from the paper '
