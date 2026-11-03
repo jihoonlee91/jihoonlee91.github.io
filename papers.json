@@ -69,14 +69,14 @@
       "organization": "Memory MTC AX/PI Team, Samsung Electronics",
       "organization_ko": "메모리 MTC AX/PI팀, 삼성전자",
       "position": "Staff Engineer — Production AI & ML Systems",
-      "focus": "Semiconductor AI · Production ML Systems · Engineering Software",
+      "focus": "Semiconductor AI · Production ML Systems · LLM Agents · Engineering Software",
       "highlights": [
         "Own end-to-end delivery of production ML systems for advanced memory semiconductor engineering — from problem scoping with engineers through modeling, validation, release, and post-release monitoring.",
         "Work embedded with process and equipment engineering teams across technology development and mass production as a forward-deployed AI/ML partner, turning ambiguous engineering questions into deployable model-based tools and iterating on user feedback.",
         "Build predictive and optimization models that hold up under real manufacturing conditions — tool-to-tool variation, drift, measurement noise, and scarce experimental data.",
+        "Serve self-hosted LLMs on in-house GPU supercomputing infrastructure, keeping engineering data inside controlled environments, and contribute to the team's agent-based AI for process development — LLM agents for engineering knowledge retrieval and multi-step investigations (RAG, tool calling, Model Context Protocol), traced and evaluated in production.",
         "Establish evaluation practice for engineering ML — held-out test sets, cross-condition comparisons, worst-case analysis, and SHAP-based interpretability — and communicate model behavior and limits to engineers through validation reports.",
-        "Integrate heterogeneous manufacturing data into reusable, quality-checked ML-ready datasets, and build and operate production Python pipelines (SQL/NoSQL, Apache Airflow, HPC/GPU training, MLflow).",
-        "Contribute to the team's LLM and agent workflows for engineering knowledge retrieval and multi-step investigations (RAG, tool calling, Model Context Protocol), with tracing and evaluation in production."
+        "Integrate heterogeneous manufacturing data into reusable, quality-checked ML-ready datasets, and build and operate production Python pipelines (SQL/NoSQL, Apache Airflow, HPC/GPU training, MLflow)."
       ],
       "period": "Mar 2023 – Present",
       "url": "https://semiconductor.samsung.com/"
@@ -1242,20 +1242,27 @@
       "Predictive & Uncertainty-Aware Modeling",
       "Model Validation & Monitoring",
       "Training → Release → Retraining Pipelines",
-      "HPC / GPU Training"
+      "MLflow",
+      "HPC / GPU Supercomputing — Training & LLM Inference",
+      "Docker"
     ],
     "Data Engineering": [
-      "MySQL / MongoDB",
-      "SQL / NoSQL",
+      "PostgreSQL / MySQL",
+      "MongoDB / Neo4j",
+      "ClickHouse",
       "Apache Airflow",
       "Scheduled & Cron-Based Pipelines",
       "Feature Engineering",
       "Data Integration & Cleansing"
     ],
-    "Agentic AI & Decision Support": [
-      "LLM Applications",
+    "LLM & Agentic AI": [
+      "LLM Serving (vLLM)",
+      "LLM Gateway (LiteLLM)",
+      "AI Agents & Multi-Agent Orchestration",
+      "Agent Memory",
       "Retrieval-Augmented Generation",
-      "AI Agents",
+      "Tool Calling / Model Context Protocol",
+      "LLM Observability (Langfuse)",
       "Decision-Support Systems",
       "Human-in-the-Loop AI"
     ],
