@@ -74,7 +74,7 @@
         "Own end-to-end delivery of production ML systems for advanced memory semiconductor engineering — from problem scoping with engineers through modeling, validation, release, and post-release monitoring.",
         "Work embedded with process and equipment engineering teams across technology development and mass production as a forward-deployed AI/ML partner, turning ambiguous engineering questions into deployable model-based tools and iterating on user feedback.",
         "Build predictive and optimization models that hold up under real manufacturing conditions — tool-to-tool variation, drift, measurement noise, and scarce experimental data.",
-        "Serve self-hosted LLMs on in-house GPU supercomputing infrastructure, keeping engineering data inside controlled environments, and contribute to the team's agent-based AI for process development — LLM agents for engineering knowledge retrieval and multi-step investigations (RAG, tool calling, Model Context Protocol), traced and evaluated in production.",
+        "Serve self-hosted LLMs on in-house GPU supercomputing infrastructure, keeping engineering data inside controlled environments, and contribute to the team's agent-based AI for process development — LLM agents for engineering knowledge retrieval and multi-step investigations (RAG, tool calling, Model Context Protocol, multi-agent orchestration with long-term memory), traced and evaluated in production.",
         "Establish evaluation practice for engineering ML — held-out test sets, cross-condition comparisons, worst-case analysis, and SHAP-based interpretability — and communicate model behavior and limits to engineers through validation reports.",
         "Integrate heterogeneous manufacturing data into reusable, quality-checked ML-ready datasets, and build and operate production Python pipelines (SQL/NoSQL, Apache Airflow, HPC/GPU training, MLflow)."
       ],
@@ -1258,8 +1258,9 @@
     "LLM & Agentic AI": [
       "LLM Serving (vLLM)",
       "LLM Gateway (LiteLLM)",
-      "AI Agents & Multi-Agent Orchestration",
-      "Agent Memory",
+      "Multi-Agent Orchestration (Paperclip, Hermes Agent)",
+      "Agent Memory (Hindsight, Supermemory)",
+      "AI Coding Agents (Claude Code, OpenCode, Roo Code)",
       "Retrieval-Augmented Generation",
       "Tool Calling / Model Context Protocol",
       "LLM Observability (Langfuse)",
