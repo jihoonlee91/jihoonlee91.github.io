@@ -750,7 +750,10 @@
       "theme": "Morphing-Wing Aircraft Control"
     },
     {
-      "slug": "2019-flight-control-nonlinear-dynamic-inversion-gold",
+      "slug": "2019-flight-control-nonlinear-dynamic-inversion",
+      "old_slugs": [
+        "2019-flight-control-nonlinear-dynamic-inversion-gold"
+      ],
       "category": "int-conference",
       "title": "Flight control of asymmetric variable-span morphing aircraft using nonlinear dynamic inversion",
       "title_en": null,
@@ -761,15 +764,15 @@
       "doi": null,
       "abstract": "A cascade flight control system based on nonlinear dynamic inversion and time-scale separation is proposed for variable-span morphing aircraft. An asymmetric morphing aircraft model is developed by using an experimentally obtained damaged aircraft model. The aircraft is assumed to be able to adjust semi-span of the wing individually, and the resulting changes in the mass and aerodynamic properties due to the morphing are modeled. A set of inversion-based controllers is designed, where symmetric and asymmetric morphing variables are considered as additional control inputs. It is shown that the vehicle is capable of performing unusual maneuvers by using the conventional and morphing surfaces simultaneously. The effectiveness of the proposed scheme is demonstrated by numerical simulation.",
       "official_link": "https://search.informit.org/doi/10.3316/informit.942442757619423",
-      "pdf": "papers/pdfs/2019-flight-control-nonlinear-dynamic-inversion-gold.pdf",
+      "pdf": "papers/pdfs/2019-flight-control-nonlinear-dynamic-inversion.pdf",
       "theme": "Morphing-Wing Aircraft Control",
       "figures": [
         {
-          "src": "assets/figures/2019-flight-control-nonlinear-dynamic-inversion-gold-1.webp",
+          "src": "assets/figures/2019-flight-control-nonlinear-dynamic-inversion-1.webp",
           "caption": "Figure 2. Velocity command tracking with attitude hold."
         },
         {
-          "src": "assets/figures/2019-flight-control-nonlinear-dynamic-inversion-gold-2.webp",
+          "src": "assets/figures/2019-flight-control-nonlinear-dynamic-inversion-2.webp",
           "caption": "Figure 3. Attitude command tracking with velocity hold."
         }
       ]
