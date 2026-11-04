@@ -58,6 +58,15 @@ It is a **static site generator**, not a hand-edited site:
   `publications.html`, `cv.html`, `life.html`, `papers/<slug>.html` per paper,
   `bibtex/*.bib`, `sitemap.xml`, and `robots.txt`; it also writes `wiki.html`
   and `wiki/<slug>.html` when `wiki.json` has notes.
+- `posts/YYYY-MM-DD-<slug>.md` — blog posts (Markdown + a small `key: value`
+  front matter: `title`, `summary`, `tags`, `math`, `image`, `draft`).
+  `generate.py` writes `blog.html`, `blog/<slug>.html`, and `feed.xml`, adds a
+  Blog nav item, and lists the latest three posts on Home. Building posts
+  needs `pip install -r requirements.txt` (Python-Markdown + pymdown
+  arithmatex; KaTeX loads from jsDelivr only on posts with `math: true`).
+  Posts are public writing under the owner's name: same
+  `docs/CONTENT_POLICY.md` gate as everything else — public papers, public
+  data, and personal experiments only.
 - `viz.py` — generates four Publications insight blocks: publications per
   year, venue statistics, citations per year, and the research-focus word
   cloud. Three use inline SVG; venue statistics use semantic HTML.
@@ -114,12 +123,13 @@ standing permissions beyond what was explicitly asked for.
   wrong link is worse than a missing one.
 - Widths: content container is `1200px` max, reduced from `1600px` after a
   wide-desktop review to improve line length and information density.
-- Site language is English throughout the UI (nav, badges, section
-  headers) — the CV/papers are in English and the audience is
-  international academic readers via Google Scholar. Korean paper titles
-  stay in Korean (with an English `title_en` translation shown beneath) since
-  that's how they were actually published, but everything else on the page
-  (labels, buttons, intro copy) is English. This repo's own maintenance
+- Site language is **English only** (owner decision, 2026-11-04: the target
+  audience is US big-tech hiring teams, who never read the Korean lines).
+  `secondary_ko()` renders nothing, so `*_ko` fields in `papers.json` are
+  reference data only. Korean-language papers show their English `title_en`
+  with an "in Korean" marker; the original Korean title survives only in the
+  BibTeX `note` (needed to cite the paper correctly) and in verbatim figure
+  captions. Don't reintroduce Korean UI text. This repo's own maintenance
   docs (this file, `README.md`, `docs/*.md`) are written in Korean/English
   as fits the human maintainer — that's a separate decision from the
   site's own UI language.

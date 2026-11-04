@@ -153,6 +153,29 @@ generates Wiki pages when `wiki.json` contains notes. Generated output is
 gitignored; commit only maintained source files. `.github/workflows/build.yml`
 runs `generate.py` on every push to `main` and deploys the fresh output.
 
+## Adding a blog post
+
+Create `posts/YYYY-MM-DD-lowercase-slug.md`:
+
+```markdown
+---
+title: Post title (a colon inside the title is fine)
+summary: One or two sentences shown on Home, the Blog index, and link previews.
+tags: Tag one, Tag two
+math: true            # only if the post uses \( \) / $$ $$ math (loads KaTeX)
+image: assets/figures/og/<file>.jpg   # optional JPEG/PNG link-preview image
+draft: true           # optional; drafts are skipped
+---
+
+Markdown body. Link site pages relatively from blog/, e.g. ../papers/<slug>.html,
+and images as ../assets/....
+```
+
+Run `pip install -r requirements.txt` once, then `python generate.py`. Posts
+are public, search-indexed writing under the owner's name: apply
+`CONTENT_POLICY.md` sentence by sentence — no employer data, systems, or
+workflows; public papers, public datasets, and personal experiments only.
+
 ## Adding a public Wiki note
 
 Add a note object to `wiki.json` with a unique lowercase hyphenated `slug`,

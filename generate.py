@@ -1,5 +1,6 @@
-"""Generate the full static site (Home / Publications / CV / Wiki / Life /
-paper pages / BibTeX) from papers.json and wiki.json.
+"""Generate the full static site (Home / Blog / Publications / CV / Wiki /
+Life / paper pages / BibTeX / Atom feed) from papers.json, wiki.json, and
+the Markdown posts in posts/.
 
 Run `python generate.py` after editing papers.json (e.g. adding an
 official_link/doi, or dropping a PDF into papers/pdfs/) to rebuild the site.
@@ -30,6 +31,55 @@ with open(os.path.join(ROOT, "papers.json"), encoding="utf-8") as f:
 
 with open(os.path.join(ROOT, "wiki.json"), encoding="utf-8") as f:
     WIKI_DATA = json.load(f)
+
+# ---- Blog posts --------------------------------------------------------------
+# Markdown files in posts/ named YYYY-MM-DD-<slug>.md, each starting with a
+# small "key: value" front-matter block (title, summary, tags, math, image,
+# draft). Added 2026-11-04: the site had papers and a CV but no writing, so
+# nothing showed current engineering thinking to the hiring audience.
+POSTS_DIR = os.path.join(ROOT, "posts")
+
+
+def load_posts():
+    posts = []
+    if not os.path.isdir(POSTS_DIR):
+        return posts
+    for name in sorted(os.listdir(POSTS_DIR)):
+        if not name.endswith(".md"):
+            continue
+        name_match = re.match(r"(\d{4}-\d{2}-\d{2})-([a-z0-9-]+)\.md$", name)
+        if not name_match:
+            raise ValueError(f"posts/{name}: name must be YYYY-MM-DD-lowercase-slug.md")
+        with open(os.path.join(POSTS_DIR, name), encoding="utf-8") as f:
+            text = f.read().replace("\r\n", "\n")
+        fm_match = re.match(r"---\n(.*?)\n---\n(.*)", text, re.S)
+        if not fm_match:
+            raise ValueError(f"posts/{name}: missing front matter between --- lines")
+        meta = {}
+        for line in fm_match.group(1).splitlines():
+            if line.strip():
+                key, value = line.split(":", 1)
+                meta[key.strip()] = value.strip()
+        if meta.get("draft", "").lower() == "true":
+            continue
+        if not meta.get("title"):
+            raise ValueError(f"posts/{name}: front matter needs a title")
+        posts.append({
+            "slug": name_match.group(2),
+            "date": meta.get("date") or name_match.group(1),
+            "updated": meta.get("updated"),
+            "title": meta["title"],
+            "summary": meta.get("summary", ""),
+            "tags": [t.strip() for t in meta.get("tags", "").split(",") if t.strip()],
+            "math": meta.get("math", "").lower() == "true",
+            "image": meta.get("image"),
+            "body_md": fm_match.group(2),
+        })
+    posts.sort(key=lambda p: p["date"], reverse=True)
+    return posts
+
+
+POSTS = load_posts()
 
 NON_FINAL_SOURCE_HOSTS = {
     "doi.org",
@@ -201,8 +251,11 @@ def _short_venue_name(paper):
 
 
 def secondary_ko(value, class_name="entity-name-ko", tag="div"):
-    """Render an optional Korean name as supporting, never primary, text."""
-    return f'<{tag} class="{class_name}" lang="ko">{esc(value)}</{tag}>' if value else ""
+    """Korean secondary names are no longer rendered (owner decision,
+    2026-11-04: the audience is US hiring teams, who never read them). The
+    *_ko fields stay in papers.json as reference data; this one switch keeps
+    the timeline, CV, awards, and collaborator lists English-only."""
+    return ""
 
 
 def esc_mixed(value):
@@ -244,7 +297,7 @@ def render_common_head(page_path, title, description, base="", image=None, og_ty
     card_w, card_h = 1200, 630
     # Alt text for the preview image, read out by screen readers in apps that
     # show the card (Slack, LinkedIn, X). Describes only what the image shows.
-    card_alt = "Jihoon Lee (이지훈) — Personal homepage & CV: Aerospace GNC Researcher → Semiconductor AI Engineer"
+    card_alt = "Jihoon Lee — Personal homepage & CV: Aerospace GNC Researcher → Staff ML Engineer"
     if image and os.path.isfile(os.path.join(ROOT, image)):
         # A paper's own first figure, letterboxed to 1200x630 JPEG (LinkedIn
         # and some chat apps ignore WebP previews).
@@ -276,6 +329,8 @@ def render_common_head(page_path, title, description, base="", image=None, og_ty
         f'<meta name="twitter:image" content="{esc(card_url)}">',
         f'<meta name="twitter:image:alt" content="{esc(card_alt)}">',
     ]
+    if POSTS:
+        tags.append(f'<link rel="alternate" type="application/atom+xml" title="{esc(DATA["name"])} — Blog" href="{SITE_URL}/feed.xml">')
     return "\n".join(tags)
 
 
@@ -440,8 +495,16 @@ def parse_venue(venue):
 
 def to_bibtex(paper, key):
     is_article = paper["category"] in ("int-journal", "domestic-journal")
-    entry_type = "mastersthesis" if paper["category"] == "thesis" else ("article" if is_article else "inproceedings")
+    if paper["category"] == "thesis":
+        # The dissertation was exported as @mastersthesis until 2026-11-04.
+        entry_type = "phdthesis" if "Ph.D." in (paper.get("venue") or "") else "mastersthesis"
+    else:
+        entry_type = "article" if is_article else "inproceedings"
     primary_title, secondary_title = paper_display_titles(paper)
+    # Only Korean-language papers have an "original" Korean title; the
+    # dissertation's title_ko is a translation of an English original.
+    if not paper.get("title_en"):
+        secondary_title = ""
     lines = [f"@{entry_type}{{{key},"]
     lines.append(f'  title     = {{{primary_title}}},')
     lines.append(f'  author    = {{{paper["authors"].replace(", ", " and ")}}},')
@@ -449,7 +512,7 @@ def to_bibtex(paper, key):
         lines.append(f'  year      = {{{paper["year"]}}},')
     if paper.get("venue"):
         clean_venue, volume, number, pages = parse_venue(paper["venue"])
-        field = "journal" if is_article else ("school" if entry_type == "mastersthesis" else "booktitle")
+        field = "journal" if is_article else ("school" if entry_type in ("mastersthesis", "phdthesis") else "booktitle")
         lines.append(f'  {field:<9} = {{{clean_venue}}},')
         if volume:
             lines.append(f'  volume    = {{{volume}}},')
@@ -512,7 +575,10 @@ def render_social_links(extra_class="", links_config=None, include_cv=True):
 
 
 def render_nav(active, base=""):
-    items = [("index.html", "Home"), ("publications.html", "Publications"), ("cv.html", "CV")]
+    items = [("index.html", "Home")]
+    if POSTS:
+        items.append(("blog.html", "Blog"))
+    items += [("publications.html", "Publications"), ("cv.html", "CV")]
     if WIKI_DATA.get("notes"):
         items.append(("wiki.html", "Wiki"))
     items.append(("life.html", "Life"))
@@ -558,7 +624,7 @@ def render_profile_header():
     return f'''<section class="hero">
     {photo_html}
     <div class="hero-text">
-      <h1>{esc(DATA['name'])}{' <span class="name-ko" lang="ko">(' + esc(DATA['name_ko']) + ')</span>' if DATA.get('name_ko') else ''}</h1>
+      <h1>{esc(DATA['name'])}</h1>
       {identity_tag_html}
       {contact_html}
       {bio_html}
@@ -842,8 +908,7 @@ def render_index():
     rows = []
     for p in top_papers:
         year = p["year"] if p.get("year") else "n.d."
-        primary_title, secondary_title = paper_display_titles(p)
-        secondary_html = f'<span class="paper-title-secondary" lang="ko">{esc(secondary_title)}</span>' if secondary_title else ""
+        primary_title, _ = paper_display_titles(p)
         if paper_figures(p):
             thumb = render_thumb_stack(p)
         else:
@@ -853,8 +918,7 @@ def render_index():
         <a class="home-thumb" href="papers/{esc(p['slug'])}.html" tabindex="-1" aria-hidden="true">{thumb}</a>
         <div class="home-paper-text">
           <a href="papers/{esc(p['slug'])}.html">{esc(primary_title)}</a>
-          {secondary_html}
-          <span class="paper-sub">{esc(_venue_with_year(p['venue'], year))} &middot; {p['citations']} citations</span>
+          <span class="paper-sub">{esc(_venue_with_year(p['venue'], year))}{in_korean_note(p)} &middot; {p['citations']} citations</span>
         </div>
       </li>''')
 
@@ -864,7 +928,7 @@ def render_index():
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {THEME_INIT_SCRIPT}
-<title>{esc(DATA['name'])}{' (' + esc(DATA['name_ko']) + ')' if DATA.get('name_ko') else ''}</title>
+<title>{esc(DATA['name'])} — {esc(DATA.get('identity_tag', ''))}</title>
 <meta name="description" content="{esc(DATA['name'])} - {esc(DATA.get('tagline', ''))}">
 {render_common_head('index.html', DATA['name'], DATA.get('tagline', ''))}
 {render_person_jsonld()}
@@ -882,6 +946,7 @@ def render_index():
       </div>
       <div class="home-panel">
         {render_side_projects()}
+        {render_latest_posts()}
         <section id="highlights">
           <div class="section-head">
             <h2>Highlighted Publications</h2>
@@ -975,25 +1040,15 @@ def _abstract_paragraphs(text):
 
 
 def _render_abstract_body(p):
-    """Render English as the primary abstract and Korean as supporting text."""
-    primary = _abstract_paragraphs(p.get("abstract", ""))
-    secondary = p.get("abstract_ko", "")
-    if not secondary:
-        return primary
-    return (
-        f'{primary}<div class="abstract-secondary" lang="ko">'
-        '<div class="abstract-language-label">Korean abstract</div>'
-        f'{_abstract_paragraphs(secondary)}</div>'
-    )
+    """English abstract only. Korean abstracts (abstract_ko) stay in
+    papers.json but are not rendered since 2026-11-04 (English-only site)."""
+    return _abstract_paragraphs(p.get("abstract", ""))
 
 
-def _render_secondary_metadata(p):
-    rows = []
-    if p.get("authors_ko"):
-        rows.append(f'<span>{esc(p["authors_ko"])}</span>')
-    if p.get("venue_ko"):
-        rows.append(f'<span>{esc(p["venue_ko"])}</span>')
-    return f'<div class="paper-meta-secondary" lang="ko">{" · ".join(rows)}</div>' if rows else ""
+def in_korean_note(p):
+    """Korean-language papers keep their record (title_en is the translation);
+    a short marker tells English readers the full text is in Korean."""
+    return " &middot; in Korean" if p.get("title_en") else ""
 
 
 def paper_figures(p):
@@ -1040,9 +1095,7 @@ def _figure_size(path):
 
 def _render_paper_item(p, i):
     year = p["year"] if p.get("year") else "n.d."
-    primary_title, secondary_title = paper_display_titles(p)
-    secondary_html = f'<div class="paper-title-secondary" lang="ko">{esc(secondary_title)}</div>' if secondary_title else ""
-    secondary_meta_html = _render_secondary_metadata(p)
+    primary_title, _ = paper_display_titles(p)
     abstract_html = (
         f'<details class="paper-abstract-toggle"><summary>Abstract</summary>{_render_abstract_body(p)}</details>'
         if p.get("abstract") else ""
@@ -1054,10 +1107,8 @@ def _render_paper_item(p, i):
     return f'''        <li class="paper{' has-figure' if thumb_html else ''}">
           {thumb_html}
           <div class="paper-title"><span class="paper-index">{i}.</span> <a href="papers/{esc(p['slug'])}.html">{esc(primary_title)}</a></div>
-          {secondary_html}
           <div class="paper-meta">{esc(p['authors'])}</div>
-          <div class="paper-venue">{esc(_venue_with_year(p['venue'], year))}{f" &middot; {p['citations']} citations" if p['citations'] else ""}</div>
-          {secondary_meta_html}
+          <div class="paper-venue">{esc(_venue_with_year(p['venue'], year))}{in_korean_note(p)}{f" &middot; {p['citations']} citations" if p['citations'] else ""}</div>
           {abstract_html}
           <div class="paper-badges">{link_badges(p)}</div>
         </li>'''
@@ -1267,24 +1318,18 @@ def render_projects_section(projects):
         title = esc(proj.get("title", ""))
         if proj.get("url"):
             title = f'<a href="{esc(proj["url"])}" target="_blank" rel="noopener">{title}</a>'
-        title_ko = f'<div class="project-title-ko" lang="ko">{esc(proj["title_ko"])}</div>' if proj.get("title_ko") else ""
-        sponsor = ""
-        if proj.get("sponsor"):
-            sponsor_ko = f' <span lang="ko">({esc(proj["sponsor_ko"])})</span>' if proj.get("sponsor_ko") else ""
-            sponsor = f'<div class="project-sponsor">{esc(proj["sponsor"])}{sponsor_ko}</div>'
+        # English-only since 2026-11-04: title_ko / sponsor_ko / collaborators_ko
+        # stay in papers.json as reference data but are not rendered.
+        sponsor = f'<div class="project-sponsor">{esc(proj["sponsor"])}</div>' if proj.get("sponsor") else ""
         line = (
             '<li class="project-entry">'
             f'<div class="project-heading"><div class="project-title-en" lang="en">{title}</div>'
-            f'{title_ko}{sponsor}'
+            f'{sponsor}'
             f'<span class="project-period">{esc(proj.get("period", ""))}</span></div>'
         )
         collaborators = proj.get("collaborators") or []
         if collaborators:
-            korean_names = proj.get("collaborators_ko") or []
-            names = ", ".join(
-                f'{esc(name)} <span lang="ko">({esc(korean_names[i])})</span>' if i < len(korean_names) else esc(name)
-                for i, name in enumerate(collaborators)
-            )
+            names = ", ".join(esc(name) for name in collaborators)
             line += f'<div class="project-collaborators"><strong>Primary collaborators:</strong> {names}</div>'
         slugs = list(proj.get("related_papers") or [])
         themes = set(proj.get("related_themes") or [])
@@ -1864,8 +1909,218 @@ def render_wiki_page(note):
         f.write(html_out)
 
 
+KATEX_HEAD = """<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.querySelector('.post-body'),{delimiters:[{left:'\\\\[',right:'\\\\]',display:true},{left:'\\\\(',right:'\\\\)',display:false}],throwOnError:false})"></script>"""
+
+
+def _markdown_to_html(md_text):
+    try:
+        import markdown
+    except ImportError as exc:
+        raise SystemExit("Blog posts need Python-Markdown: pip install -r requirements.txt") from exc
+    return markdown.markdown(
+        md_text,
+        extensions=["extra", "sane_lists", "toc", "pymdownx.arithmatex"],
+        extension_configs={"pymdownx.arithmatex": {"generic": True}},
+        output_format="html",
+    )
+
+
+def _post_date(value):
+    """2026-11-04 -> Nov 4, 2026"""
+    y, m, d = (int(x) for x in value.split("-"))
+    return f'{["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][m - 1]} {d}, {y}'
+
+
+def _reading_minutes(md_text):
+    words = len(re.findall(r"[A-Za-z0-9]+", re.sub(r"```.*?```", " ", md_text, flags=re.S)))
+    return max(1, round(words / 230))
+
+
+def _post_meta_line(post):
+    updated = f' &middot; Updated {_post_date(post["updated"])}' if post.get("updated") else ""
+    return (f'<time datetime="{esc(post["date"])}">{_post_date(post["date"])}</time>'
+            f'{updated} &middot; {_reading_minutes(post["body_md"])} min read')
+
+
+def render_latest_posts(limit=3):
+    """Home-page 'Latest Writing' list — the recruiter audience sees current
+    work first, ahead of the 2015–2024 publication record."""
+    if not POSTS:
+        return ""
+    rows = "".join(f'''      <li class="paper-compact">
+        <a href="blog/{esc(p['slug'])}.html">{esc(p['title'])}</a>
+        <span class="paper-sub">{esc(p['summary'])}</span>
+        <span class="paper-sub">{_post_meta_line(p)}</span>
+      </li>''' for p in POSTS[:limit])
+    return f'''<section id="writing">
+          <div class="section-head">
+            <h2>Latest Writing</h2>
+            <a class="see-all" href="blog.html">All posts &rarr;</a>
+          </div>
+          <ul class="paper-list compact">
+{rows}
+          </ul>
+        </section>'''
+
+
+def render_blog_index():
+    cards = "".join(f'''<article class="post-card">
+        <p class="post-meta">{_post_meta_line(p)}</p>
+        <h2><a href="blog/{esc(p['slug'])}.html">{esc(p['title'])}</a></h2>
+        <p>{esc(p['summary'])}</p>
+        <div class="wiki-tags">{_wiki_tags(p['tags'])}</div>
+      </article>''' for p in POSTS)
+    description = "Notes on production ML, LLM systems, and control engineering by Jihoon Lee."
+    html_out = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{THEME_INIT_SCRIPT}
+<title>Blog - {esc(DATA['name'])}</title>
+<meta name="description" content="{esc(description)}">
+{render_common_head('blog.html', f"Blog - {DATA['name']}", description, og_type="website")}
+<link rel="stylesheet" href="style.css?v={STYLE_VERSION}">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  {render_nav("Blog")}
+  <main id="main" class="container post-index">
+    <header class="page-header">
+      <h1>Blog</h1>
+      <p class="page-intro">Notes on production ML, LLM systems, and control engineering — what worked, what broke, and why. Personal views, written from public sources and my own experiments. <a href="feed.xml">RSS</a></p>
+    </header>
+    <div class="post-list">{cards}</div>
+  </main>
+  <footer class="site-footer"></footer>
+  {THEME_TOGGLE_SCRIPT}
+</body>
+</html>
+'''
+    with open(os.path.join(ROOT, "blog.html"), "w", encoding="utf-8") as f:
+        f.write(html_out)
+
+
+def render_post(post, body_html):
+    url = f"{SITE_URL}/blog/{post['slug']}.html"
+    image = post.get("image") if post.get("image") and os.path.isfile(os.path.join(ROOT, post["image"])) else None
+    jsonld = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": post["title"][:110],
+        "description": post["summary"],
+        "datePublished": post["date"],
+        "dateModified": post.get("updated") or post["date"],
+        "author": {"@type": "Person", "name": DATA["name"], "url": f"{SITE_URL}/"},
+        "mainEntityOfPage": url,
+        "keywords": ", ".join(post["tags"]),
+    }
+    if image:
+        jsonld["image"] = f"{SITE_URL}/{image}"
+    html_out = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{THEME_INIT_SCRIPT}
+<title>{esc(post['title'])} - {esc(DATA['name'])}</title>
+<meta name="description" content="{esc(post['summary'])}">
+{render_common_head(f"blog/{post['slug']}.html", post['title'], post['summary'], base="../", image=image, og_type="article")}
+<meta property="article:published_time" content="{esc(post['date'])}">
+<script type="application/ld+json">{json.dumps(jsonld, ensure_ascii=False)}</script>
+{KATEX_HEAD if post['math'] else ""}
+<link rel="stylesheet" href="../style.css?v={STYLE_VERSION}">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  {render_nav("Blog", base="../")}
+  <main id="main" class="container post-article">
+    <p class="post-back"><a href="../blog.html">&larr; All posts</a></p>
+    <header class="post-header">
+      <p class="post-meta">{_post_meta_line(post)}</p>
+      <h1>{esc(post['title'])}</h1>
+      <p class="page-intro">{esc(post['summary'])}</p>
+      <div class="wiki-tags">{_wiki_tags(post['tags'])}</div>
+    </header>
+    <article class="post-body">
+{body_html}
+    </article>
+    <footer class="post-footer">
+      <p>Written by <a href="../index.html">{esc(DATA['name'])}</a>. Views are my own and do not describe any employer&rsquo;s systems or data. &middot; <a href="../feed.xml">RSS</a></p>
+    </footer>
+  </main>
+  {THEME_TOGGLE_SCRIPT}
+</body>
+</html>
+'''
+    with open(os.path.join(ROOT, "blog", f"{post['slug']}.html"), "w", encoding="utf-8") as f:
+        f.write(html_out)
+
+
+def render_feed(rendered):
+    """Atom feed (feed.xml) so readers and the GitHub profile README can pick
+    up new posts automatically."""
+    entries = []
+    for post in POSTS:
+        url = f"{SITE_URL}/blog/{post['slug']}.html"
+        entries.append(f'''  <entry>
+    <title>{esc(post['title'])}</title>
+    <link href="{url}"/>
+    <id>{url}</id>
+    <published>{post['date']}T00:00:00Z</published>
+    <updated>{post.get('updated') or post['date']}T00:00:00Z</updated>
+    <summary>{esc(post['summary'])}</summary>
+    <content type="html">{esc(rendered[post['slug']])}</content>
+  </entry>''')
+    updated = max((p.get("updated") or p["date"]) for p in POSTS)
+    xml = f'''<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>{esc(DATA['name'])} — Blog</title>
+  <link href="{SITE_URL}/blog.html"/>
+  <link rel="self" href="{SITE_URL}/feed.xml"/>
+  <id>{SITE_URL}/blog.html</id>
+  <updated>{updated}T00:00:00Z</updated>
+  <author><name>{esc(DATA['name'])}</name></author>
+{chr(10).join(entries)}
+</feed>
+'''
+    with open(os.path.join(ROOT, "feed.xml"), "w", encoding="utf-8") as f:
+        f.write(xml)
+
+
+def render_blog():
+    if not POSTS:
+        return
+    os.makedirs(os.path.join(ROOT, "blog"), exist_ok=True)
+    rendered = {}
+    for post in POSTS:
+        rendered[post["slug"]] = _markdown_to_html(post["body_md"])
+        render_post(post, rendered[post["slug"]])
+    render_blog_index()
+    render_feed(rendered)
+
+
+def render_slug_redirects():
+    """A renamed paper keeps its old URL alive (links in READMEs, Scholar,
+    chat history): papers/<old>.html points to the new page. Added
+    2026-11-04 when the dissertation's 'msc-thesis' slug was corrected."""
+    for p in DATA["papers"]:
+        for old in p.get("old_slugs") or []:
+            new_url = f"{SITE_URL}/papers/{p['slug']}.html"
+            with open(os.path.join(ROOT, "papers", f"{old}.html"), "w", encoding="utf-8") as f:
+                f.write(f'''<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Moved</title>
+<link rel="canonical" href="{new_url}"><meta name="robots" content="noindex">
+<meta http-equiv="refresh" content="0; url={esc(p['slug'])}.html"></head>
+<body><p>This page moved to <a href="{esc(p['slug'])}.html">{esc(p['title'])}</a>.</p></body></html>
+''')
+
+
 def render_paper_page(p):
-    primary_title, secondary_title = paper_display_titles(p)
+    primary_title, _ = paper_display_titles(p)
     # English is the primary language across visible UI, citation metadata,
     # and exports. The source-language Korean title remains supporting data.
     meta_tags = [f'<meta name="citation_title" content="{esc(primary_title)}">']
@@ -1881,8 +2136,9 @@ def render_paper_page(p):
         pdf_url = f"{SITE_URL}/{p['pdf']}"
         meta_tags.append(f'<meta name="citation_pdf_url" content="{esc(pdf_url)}">')
 
-    secondary_html = f'<p class="paper-title-secondary" lang="ko">{esc(secondary_title)}</p>' if secondary_title else ""
-    secondary_meta_html = _render_secondary_metadata(p)
+    # The original Korean title stays in the BibTeX note (needed to cite the
+    # paper correctly); the page itself only says the paper is in Korean.
+    secondary_html = '<p class="paper-title-secondary">Published in Korean (English title shown)</p>' if p.get("title_en") else ""
     abstract_html = f'<div class="abstract">{_render_abstract_body(p)}</div>' if p.get("abstract") else ""
     figure_html = ""
     figs = paper_figures(p)
@@ -1934,7 +2190,6 @@ def render_paper_page(p):
     {secondary_html}
     <p class="paper-meta">{esc(p['authors'])}</p>
     <p class="paper-venue">{esc(_venue_with_year(p['venue'], year))}{f" &middot; {p['citations']} citations" if p['citations'] else ""}</p>
-    {secondary_meta_html}
     {figure_html}
     {abstract_html}
     <div class="paper-badges large">{link_badges(p, paper_page=True)}</div>
@@ -1974,6 +2229,9 @@ def render_bibtex():
 
 def render_sitemap():
     urls = [f"{SITE_URL}/", f"{SITE_URL}/publications.html", f"{SITE_URL}/cv.html", f"{SITE_URL}/life.html"]
+    if POSTS:
+        urls.append(f"{SITE_URL}/blog.html")
+        urls.extend(f"{SITE_URL}/blog/{p['slug']}.html" for p in POSTS)
     if WIKI_DATA.get("notes"):
         urls.append(f"{SITE_URL}/wiki.html")
     for note in WIKI_DATA.get("notes", []):
@@ -2134,6 +2392,8 @@ if __name__ == "__main__":
     render_life()
     for paper in DATA["papers"]:
         render_paper_page(paper)
+    render_slug_redirects()
+    render_blog()
     render_bibtex()
     render_sitemap()
     render_robots()

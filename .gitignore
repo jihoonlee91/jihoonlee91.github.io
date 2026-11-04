@@ -12,6 +12,9 @@
 /resume.pdf
 /wiki.html
 /wiki/*.html
+/blog.html
+/blog/*.html
+/feed.xml
 /papers/*.html
 /bibtex/
 /sitemap.xml

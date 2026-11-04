@@ -1,12 +1,12 @@
 {
   "name": "Jihoon Lee",
   "name_ko": "이지훈",
-  "affiliation": "Semiconductor AI & Software Engineer",
+  "affiliation": "Staff ML Engineer, Samsung Electronics",
   "email": "jihoon91.lee@gmail.com",
   "interests": [
-    "Semiconductor AI",
-    "Software Engineering",
-    "Aerospace GNC",
+    "LLM Systems & Agents",
+    "Production ML",
+    "Uncertainty-Aware Modeling",
     "Control & Optimization"
   ],
   "photo": "assets/profile.jpg",
@@ -15,8 +15,8 @@
   "linkedin_url": "https://www.linkedin.com/in/jihoon91",
   "orcid_url": "https://orcid.org/0000-0001-5327-824X",
   "researchgate_url": "https://www.researchgate.net/profile/Jihoon-Lee-6",
-  "tagline": "Semiconductor AI & Software Engineer with an Aerospace GNC background",
-  "bio": "I build AI and software for complex engineering systems, with a current focus on semiconductor applications. My Ph.D. research in Aerospace Engineering focused on UAV guidance, flight control, and optimization. The common thread is reliable decision-making for complex physical systems.",
+  "tagline": "Staff ML Engineer building production ML, LLM systems, and AI agents for semiconductor engineering, with a Ph.D. in aerospace flight control",
+  "bio": "I build production ML, LLM systems, and AI agents for semiconductor engineering at Samsung Electronics. Before that, my Ph.D. in aerospace engineering focused on flight control, guidance, and optimization for UAVs. The common thread is reliable decisions for complex physical systems under uncertainty.",
   "citation_stats": {
     "updated": "Sep. 2026",
     "citations_all": 234,
@@ -549,7 +549,8 @@
       ]
     },
     {
-      "slug": "2023-msc-thesis-lpv-asymmetric-morphing",
+      "slug": "2023-phd-dissertation-lpv-asymmetric-morphing",
+      "old_slugs": ["2023-msc-thesis-lpv-asymmetric-morphing"],
       "category": "thesis",
       "title": "Self-Scheduled Parameter-Varying Control of Asymmetric Variable-Span Morphing Unmanned Aerial Vehicle",
       "title_en": null,
@@ -561,16 +562,16 @@
       "doi": null,
       "abstract": "In this dissertation, a novel framework for flight control of a morphing unmanned aerial vehicle (UAV) is proposed. The proposed method uses asymmetric span morphing for lateral-directional motion control considering the dynamic characteristics of the morphing actuators while exploiting the advantages of symmetric span morphing for longitudinal flight performance enhancement. The proposed control system is self-scheduled based on linear parameter-varying (LPV) methods, which guarantees stability and performance for the variations of the morphing configuration and the flight condition. Therefore, the morphing UAV is allowed to swiftly metamorphose into the optimal configuration to maximize the system-level benefit according to the maneuvering command and the flight condition. First, a high-fidelity nonlinear model of an asymmetric variable-span morphing UAV is obtained from the NASA generic transport model. The impacts of morphing on the center of mass, inertia matrix, and aerodynamic coefficients are modeled based on the asymmetrically damaged wing model. The span variation ratios of the left and right wings are decomposed into symmetric and asymmetric morphing parameters, which are considered as the scheduling parameter and the control input, respectively. The nonlinear model is decoupled and linearized to obtain point-wise linear time-invariant (LTI) models for the longitudinal and lateral-directional motions throughout the grid points over the entire rectangularized scheduling parameter domain. The LPV model of the morphing UAV is derived for the longitudinal and lateral-directional motions by associating the family of LTI models through interpolation. Second, the longitudinal and lateral-directional control augmentation systems are designed based on LPV methods to track the normal acceleration command and the angle of sideslip and the roll rate commands, respectively. The inherent dynamic characteristics of the morphing actuator, such as low bandwidth, are considered in the control design procedure through a frequency-dependent weighting filter. The span morphing strategy to assist the intended maneuver is studied considering the impacts of morphing on various aspects. Numerical simulations are performed to demonstrate the effectiveness of the proposed control scheme for pushover-pullup maneuver and high-g turn. Finally, the longitudinal and lateral-directional autopilots are designed based on LPV methods to track the airspeed and altitude commands and the angle of sideslip and roll angle commands, respectively. A nonlinear guidance law is coupled with the autopilots to enable three-dimensional trajectory tracking. Numerical simulation results for the trajectory-tracking flight show that the proposed controller shows satisfactory performance, while the closed-loop system using the conventional gain-scheduled controller may lose stability when the scheduling parameter varies rapidly or widely.",
       "official_link": "https://dcollection.snu.ac.kr/common/orgView/000000176713",
-      "pdf": "papers/pdfs/2023-msc-thesis-lpv-asymmetric-morphing.pdf",
+      "pdf": "papers/pdfs/2023-phd-dissertation-lpv-asymmetric-morphing.pdf",
       "catalog_link": "https://snu-primo.hosted.exlibrisgroup.com/primo-explore/fulldisplay?docid=82SNU_INST51891008620002591&context=L&vid=82SNU&lang=ko_KR&search_scope=ALL&adaptor=Local%20Search%20Engine&tab=all&query=any,contains,self-scheduled",
       "theme": "Morphing-Wing Aircraft Control",
       "figures": [
         {
-          "src": "assets/figures/2023-msc-thesis-lpv-asymmetric-morphing-1.webp",
+          "src": "assets/figures/2023-phd-dissertation-lpv-asymmetric-morphing-1.webp",
           "caption": "Figure 3.1 NASA GTM-T2."
         },
         {
-          "src": "assets/figures/2023-msc-thesis-lpv-asymmetric-morphing-2.webp",
+          "src": "assets/figures/2023-phd-dissertation-lpv-asymmetric-morphing-2.webp",
           "caption": "Figure 2.1 Taxonomy of dynamical systems"
         }
       ]
@@ -1206,70 +1207,62 @@
     }
   ],
   "skills": {
+    "LLM Systems & Agents": [
+      "Self-Hosted LLM Serving (vLLM) on GPU Supercomputing",
+      "LLM Gateway & Routing (LiteLLM)",
+      "Multi-Agent Orchestration & Agent Memory",
+      "Retrieval-Augmented Generation",
+      "Tool Calling / Model Context Protocol (MCP)",
+      "LLM Tracing & Evaluation (Langfuse)",
+      "Human-in-the-Loop Decision Support",
+      "AI Coding Agents (Claude Code, OpenCode)"
+    ],
+    "Production ML & MLOps": [
+      "PyTorch",
+      "scikit-learn",
+      "Predictive Modeling & Uncertainty Quantification",
+      "Model Validation, Drift & Monitoring",
+      "Training → Release → Retraining Pipelines",
+      "MLflow",
+      "Docker",
+      "HPC / GPU Clusters",
+      "TensorFlow"
+    ],
+    "Data Engineering": [
+      "PostgreSQL / MySQL",
+      "ClickHouse",
+      "MongoDB / Neo4j",
+      "Apache Airflow",
+      "Feature Engineering",
+      "Data Integration & Cleansing"
+    ],
     "Programming": [
       "Python",
-      "TypeScript / JavaScript",
       "SQL",
-      "MATLAB",
-      "C",
-      "C++",
-      "Linux / Shell",
-      "LaTeX",
-      "Simulink"
-    ],
-    "Product & Web Engineering": [
-      "React",
-      "Next.js",
-      "React Native / Expo",
-      "Node.js",
-      "Supabase / PostgreSQL",
-      "Tailwind CSS",
-      "Vite",
-      "Playwright / Vitest"
+      "C / C++",
+      "MATLAB / Simulink",
+      "TypeScript / JavaScript",
+      "Linux / Shell"
     ],
     "Domains": [
+      "Machine Learning",
       "Control",
       "Optimization",
       "Modeling & Simulation",
       "Motion Planning",
       "Filtering",
-      "Machine Learning",
       "Statistical Modeling & Time-Series Analysis"
     ],
-    "Production ML & MLOps": [
-      "scikit-learn",
-      "PyTorch / TensorFlow",
-      "Predictive & Uncertainty-Aware Modeling",
-      "Model Validation & Monitoring",
-      "Training → Release → Retraining Pipelines",
-      "MLflow",
-      "HPC / GPU Supercomputing — Training & LLM Inference",
-      "Docker"
-    ],
-    "Data Engineering": [
-      "PostgreSQL / MySQL",
-      "MongoDB / Neo4j",
-      "ClickHouse",
-      "Apache Airflow",
-      "Scheduled & Cron-Based Pipelines",
-      "Feature Engineering",
-      "Data Integration & Cleansing"
-    ],
-    "LLM & Agentic AI": [
-      "LLM Serving (vLLM)",
-      "LLM Gateway (LiteLLM)",
-      "Multi-Agent Orchestration (Paperclip, Hermes Agent)",
-      "Agent Memory (Hindsight, Supermemory)",
-      "AI Coding Agents (Claude Code, OpenCode, Roo Code)",
-      "Retrieval-Augmented Generation",
-      "Tool Calling / Model Context Protocol",
-      "LLM Observability (Langfuse)",
-      "Decision-Support Systems",
-      "Human-in-the-Loop AI"
+    "Web & Product Engineering": [
+      "React / Next.js",
+      "React Native (Expo)",
+      "Node.js",
+      "Supabase / PostgreSQL",
+      "Playwright / Vitest"
     ],
     "Languages": [
-      "Korean (Native)",
-      "English (Advanced)"
+      "English (Advanced)",
+      "Korean (Native)"
     ],
     "Methods": [
       "Guidance, Navigation & Control (GNC)",
@@ -1350,7 +1343,7 @@
                 "detail": "Korean Red Cross"
               },
               {
-                "name": "Water Rescue (수상구조사)",
+                "name": "Water Rescue Technician",
                 "detail": "Korea Coast Guard"
               }
             ]
@@ -1506,6 +1499,6 @@
     "Heein Park": "박희인",
     "Youngjun Lee": "이영준"
   },
-  "identity_tag": "Semiconductor AI & Software Engineer",
+  "identity_tag": "Staff ML Engineer · LLM Systems & AI Agents",
   "cv_url": "cv.pdf"
 }

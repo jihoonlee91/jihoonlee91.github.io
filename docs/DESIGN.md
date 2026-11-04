@@ -38,8 +38,11 @@ SVG generation).
   venue-row headers.
 - Sticky top nav (`.site-nav`) with `Home / Publications / CV / Life` links on
   the left/center and the theme toggle **in its own flex slot pinned to the far
-  right edge**. A `Wiki` link is inserted before `Life` only when `wiki.json`
-  contains at least one note. Keep the theme toggle separate from `.nav-links`
+  right edge**. A `Blog` link follows `Home` when `posts/` has at least one
+  published post (2026-11-04), and a `Wiki` link is inserted before `Life`
+  only when `wiki.json` contains at least one note. Blog pages use a 780px
+  reading column (`.post-index`, `.post-article`) instead of the 1200px
+  container. Keep the theme toggle separate from `.nav-links`
   if the nav is restructured.
 
 ## Typography

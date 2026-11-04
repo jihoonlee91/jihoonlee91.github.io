@@ -24,7 +24,10 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Generate site from papers.json
+      - name: Install build dependencies (Markdown for blog posts)
+        run: python -m pip install -r requirements.txt
+
+      - name: Generate site from papers.json and posts/
         run: python generate.py
 
       # Print the generated CV/resume pages to PDF (Chrome ships on ubuntu-latest).
