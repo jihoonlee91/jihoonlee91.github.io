@@ -22,6 +22,7 @@
   --series-3: #199e70; /* aqua   */
   --series-4: #008300; /* green  */
   --series-5: #9085e9; /* violet */
+  --series-other: #6b6a65; /* neutral "Other" bucket, outside the 5 validated slots */
   --viz-grid: #2c2c2a;
   --viz-ink: #c3c2b7;
 }
@@ -49,6 +50,7 @@
   --series-3: #1baf7a;
   --series-4: #008300;
   --series-5: #4a3aa7;
+  --series-other: #a8a7a0;
   --viz-grid: #e1e0d9;
   --viz-ink: #52514e;
 }
@@ -1458,6 +1460,57 @@ a.badge:hover {
   color: var(--muted);
 }
 
+/* Training log (Garmin summary): two charts side by side, stacked on phones */
+.training-charts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.1rem;
+}
+
+.life-training .viz-block {
+  background: var(--bg);
+}
+
+.life-training .viz-block h3 {
+  margin: 0 0 0.25rem;
+}
+
+.life-training .viz-note {
+  margin: 0 0 0.6rem;
+  font-size: 0.8rem;
+}
+
+.training-charts .viz-axis-label,
+.training-charts .viz-value-label {
+  font-size: 13px;
+}
+
+.training-avg-line {
+  stroke: var(--fg);
+  stroke-width: 1;
+  stroke-dasharray: 4 3;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* Halo in the card color so the label stays legible where it crosses bars */
+.training-avg-label {
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.life-training > .training-source {
+  margin: 0.9rem 0 0;
+}
+
+.life-stat[title] {
+  cursor: help;
+}
+
 .life-list h3 {
   margin: 1.2rem 0 0.35rem;
   font-size: 0.75rem;
@@ -1588,6 +1641,28 @@ a.badge:hover {
   .life-gallery {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.55rem;
+  }
+}
+
+.life-training .life-stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 900px) {
+  .training-charts {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .life-training .life-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* The 480-unit chart shrinks to ~0.6x on a phone; larger glyphs land near 10px on screen */
+  .training-charts .viz-axis-label,
+  .training-charts .viz-value-label {
+    font-size: 17px;
   }
 }
 

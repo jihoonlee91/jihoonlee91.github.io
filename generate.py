@@ -1600,6 +1600,7 @@ def render_cv():
 
 
 LIFE_SECTION_EMOJI = {
+    "Training log": "⌚",
     "Cycling": "🚴",
     "Triathlon": "🏅",
     "Swimming": "🏊",
@@ -1615,12 +1616,115 @@ def _render_life_highlights(highlights):
     if not highlights:
         return ""
     items = "".join(
-        f'<div class="life-stat"><span class="life-stat-value">{esc(h["value"])}</span>'
+        f'<div class="life-stat"' + (f' title="{esc(h["title"])}"' if h.get("title") else "") + '>'
+        + f'<span class="life-stat-value">{esc(h["value"])}</span>'
         + (f'<span class="life-stat-sub">{esc(h["sub"])}</span>' if h.get("sub") else "")
         + f'<span class="life-stat-label">{esc(h["label"])}</span></div>'
         for h in highlights
     )
     return f'<div class="life-stats">{items}</div>'
+
+
+# ---- Training numbers from assets/life/training.json ----
+# The file is a Garmin summary written on the owner's machine by
+# scripts/build_training_stats.py (aggregates only; the Actions build can't
+# reach Garmin). Added 2026-11-05 when Garmin was connected: the sport cards
+# only had a sentence or two each, and Rowing had no numbers at all.
+TRAINING_PATH = os.path.join(ROOT, "assets", "life", "training.json")
+# Life section title -> discipline key in training.json, plus how to say it.
+TRAINING_SECTION_KEYS = {
+    "Cycling": ("bike", "Ridden since {since}, incl. indoor trainer"),
+    "Swimming": ("swim", "Swum since {since}, pool and open water"),
+    "Running": ("run", "Run since {since}"),
+    "Rowing": ("row", "Rowed since {since}, on water and erg"),
+    "Hiking": ("hike", "Hiked since {since}"),
+}
+
+
+def load_training():
+    if not os.path.isfile(TRAINING_PATH):
+        return None
+    with open(TRAINING_PATH, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def _approx(n):
+    """Lifetime totals are rounded so they don't pretend to GPS-level precision."""
+    n = int(n)
+    if n >= 10000:
+        return f"{round(n, -2):,}"
+    if n >= 1000:
+        return f"{round(n, -1):,}"
+    return f"{n:,}"
+
+
+def _clock(seconds):
+    h, rest = divmod(int(seconds), 3600)
+    m, s = divmod(rest, 60)
+    return f"{h}:{m:02d}:{s:02d}" if h else f"{m}:{s:02d}"
+
+
+def _month_year(iso_date):
+    y, m = iso_date[:4], int(iso_date[5:7])
+    return f"{viz.MONTHS[m - 1]} {y}"
+
+
+def _training_source_title(training):
+    return f"From my Garmin Connect log, through {_month_year(training['as_of'])}"
+
+
+def training_highlights(title, training):
+    key, label = TRAINING_SECTION_KEYS.get(title, (None, None))
+    disc = (training or {}).get("disciplines", {}).get(key) if key else None
+    if not disc:
+        return []
+    source = _training_source_title(training)
+    out = [{
+        "value": f"{_approx(disc['km'])} km",
+        "sub": f"+{_approx(disc['elevation_m'])} m" if disc.get("elevation_m", 0) >= 10000 else None,
+        "label": label.format(since=disc["since"]),
+        "title": source,
+    }]
+    if key == "bike" and disc.get("longest_km"):
+        out.append({"value": f"{disc['longest_km']:.0f} km", "label": f"Longest single ride ({disc['longest_year']})", "title": source})
+    if key == "bike" and disc.get("best_20min_w"):
+        out.append({"value": f"{disc['best_20min_w']} W", "label": f"Best 20-minute power ({disc['best_20min_year']})", "title": source})
+    return out
+
+
+def training_lists(title, training):
+    disc = (training or {}).get("disciplines", {}).get("run") if title == "Running" else None
+    efforts = (disc or {}).get("best_efforts") or []
+    if not efforts:
+        return []
+    return [{
+        "title": "Best efforts (Garmin)",
+        "items": [{"name": e["label"], "detail": f"{_clock(e['seconds'])} · {e['year']}"} for e in efforts],
+    }]
+
+
+def render_training_section(training):
+    if not training:
+        return ""
+    t = training["totals"]
+    source = _training_source_title(training)
+    everests = t["elevation_m"] / 8849
+    tiles = _render_life_highlights([
+        {"value": f"{t['activities']:,}", "label": "Activities logged", "title": source},
+        {"value": f"{_approx(t['hours'])} h", "label": "Time training", "title": source},
+        {"value": f"{_approx(t['km'])} km", "label": "Distance covered", "title": source},
+        # A short value fits a phone tile; "+359,200 m" wrapped mid-number at 390px.
+        {"value": f"{everests:.0f}×", "label": f"Everests climbed (+{_approx(t['elevation_m'])} m)", "title": source},
+    ])
+    current_year = int(training["as_of"][:4])
+    charts = viz.training_year_chart(training, current_year=current_year) + viz.training_week_chart(training)
+    return f'''<section class="life-section life-section-wide life-training" id="life-training-log">
+      <h2><span class="life-icon" aria-hidden="true">{LIFE_SECTION_EMOJI["Training log"]}</span>Training log</h2>
+      <p>Every swim, ride, run, row, and mountain day since {t["since"]} is logged on a Garmin watch.</p>
+      {tiles}
+      <div class="training-charts">{charts}</div>
+      <p class="viz-note training-source">Source: my Garmin Connect log, through {_month_year(training["as_of"])}. Totals only; refreshed weekly.</p>
+    </section>'''
 
 
 def _render_life_lists(lists):
@@ -1720,7 +1824,8 @@ def render_life():
         include_cv=False,
     )
 
-    sections_html = []
+    training = load_training()
+    sections_html = [render_training_section(training)] if training else []
     for section in life.get("sections", []):
         content = section.get("content")
         body = f'<p>{esc(content)}</p>' if content else '<p class="pending">Coming soon.</p>'
@@ -1755,8 +1860,8 @@ def render_life():
                 # The link still opens the original full-resolution JPEG.
                 thumbs += f'<a class="{link_class}" href="{esc(src)}" target="_blank" rel="noopener">{img}</a>'
             gallery = f'<div class="life-gallery">{thumbs}</div>'
-        highlights_html = _render_life_highlights(section.get("highlights"))
-        lists_html = _render_life_lists(section.get("lists"))
+        highlights_html = _render_life_highlights(training_highlights(section["title"], training) + (section.get("highlights") or []))
+        lists_html = _render_life_lists((section.get("lists") or []) + training_lists(section["title"], training))
         countries = section.get("countries") or []
         if countries:
             highlights_html = _render_life_highlights([

@@ -67,6 +67,16 @@ It is a **static site generator**, not a hand-edited site:
   Posts are public writing under the owner's name: same
   `docs/CONTENT_POLICY.md` gate as everything else — public papers, public
   data, and personal experiments only.
+- `assets/life/training.json` — Garmin training summary behind the Life
+  page's "Training log" section and the distance/best-effort numbers on the
+  sport cards. **Committed data, not build output**: the Actions build can't
+  reach Garmin, so the owner's machine runs
+  `scripts/build_training_stats.py --src <Garmin activity JSON dir>` weekly
+  and pushes the result. It holds aggregates only (yearly/weekly hours,
+  lifetime totals, longest ride, best 20-min power, running best efforts) —
+  never GPS, place or activity names, start times, heart rate or other
+  health data, and Garmin-private activities are skipped. Keep it that way.
+  If the file is missing, the Life page simply renders without it.
 - `viz.py` — generates four Publications insight blocks: publications per
   year, venue statistics, citations per year, and the research-focus word
   cloud. Three use inline SVG; venue statistics use semantic HTML.

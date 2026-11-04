@@ -1,4 +1,4 @@
-"""Static visualization generation for the Publications page.
+"""Static visualization generation for the Publications and Life pages.
 
 Charts use plain inline SVG (no JS charting library), while venue statistics
 use semantic HTML. Everything stays crawlable and theme-reactive:
@@ -6,11 +6,13 @@ use semantic HTML. Everything stays crawlable and theme-reactive:
   - Publication venues, grouped by journal/conference series
   - Citations received per year
   - Top research keywords by frequency (magnitude, single hue)
+  - Life: training hours per year by discipline, and the last 52 weeks
 
 Categorical palette (5 slots) and single sequential hue were validated with
 the dataviz skill's validate_palette.js against this site's own dark
 (#0d1117) and light (#ffffff) surfaces before use — see docs/DESIGN.md.
 """
+import datetime as dt
 import html
 import math
 import re
@@ -220,6 +222,152 @@ def citation_year_chart(citation_stats, updated_label=None):
         </table>
       </details>
     </div>'''
+
+
+# ---- Life page: training charts from assets/life/training.json ----
+# Same validated 5-slot palette; the sixth bucket ("Other") is a neutral gray,
+# so color is never the only cue (legend, value labels, table view as above).
+TRAINING_ORDER = ["swim", "bike", "run", "row", "hike", "other"]
+TRAINING_LABELS = {"swim": "Swim", "bike": "Bike", "run": "Run", "row": "Row", "hike": "Hike", "other": "Other"}
+TRAINING_FILLS = {"swim": "var(--series-1)", "bike": "var(--series-2)", "run": "var(--series-3)",
+                  "row": "var(--series-5)", "hike": "var(--series-4)", "other": "var(--series-other)"}
+TRAINING_OTHER_NOTE = "strength, climbing, multisport races, paddling, walking"
+MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+# Small viewBox so the 13px labels stay readable when the chart shrinks to a phone column.
+_TW, _TH = 480, 260
+
+
+def _nice_step(max_value, ticks=4):
+    raw = max_value / ticks
+    for step in (1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500):
+        if step >= raw:
+            return step
+    return 1000
+
+
+def _y_axis(max_value, margin, plot_h, baseline, unit=""):
+    step = _nice_step(max_value)
+    top = step * math.ceil(max_value / step) or step
+    out = []
+    v = 0
+    while v <= top + 1e-9:
+        gy = baseline - plot_h * v / top
+        out.append(f'<line x1="{margin["left"]}" y1="{gy:.1f}" x2="{_TW - margin["right"]}" y2="{gy:.1f}" class="viz-grid"/>')
+        out.append(f'<text x="{margin["left"] - 6}" y="{gy + 4:.1f}" class="viz-axis-label" text-anchor="end">{v:g}{unit}</text>')
+        v += step
+    return top, out
+
+
+def training_year_chart(training, current_year=None):
+    years = training.get("years") or []
+    if not years:
+        return ""
+    totals = [sum(y["hours"].values()) for y in years]
+    margin = {"top": 26, "right": 8, "bottom": 34, "left": 40}
+    plot_w = _TW - margin["left"] - margin["right"]
+    plot_h = _TH - margin["top"] - margin["bottom"]
+    baseline = margin["top"] + plot_h
+    top, svg = _y_axis(max(totals), margin, plot_h, baseline)
+    slot_w = plot_w / len(years)
+    bar_w = slot_w * 0.62
+    scale = plot_h / top
+    for i, row in enumerate(years):
+        year, hours = row["year"], row["hours"]
+        x = margin["left"] + i * slot_w + (slot_w - bar_w) / 2
+        ytd = " (year to date)" if year == current_year else ""
+        cumulative = 0.0
+        shown = [d for d in TRAINING_ORDER if hours.get(d, 0) * scale >= 0.5]
+        for d in shown:
+            seg_h = hours[d] * scale
+            y = baseline - cumulative - seg_h
+            title = esc(f"{TRAINING_LABELS[d]}, {year}{ytd}: {hours[d]:.0f} h")
+            if d == shown[-1] and seg_h > 4:
+                svg.append(f'<path d="{_rounded_top_rect(x, y, bar_w, seg_h, 3)}" fill="{TRAINING_FILLS[d]}"><title>{title}</title></path>')
+            else:
+                svg.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{bar_w:.1f}" height="{seg_h:.1f}" fill="{TRAINING_FILLS[d]}"><title>{title}</title></rect>')
+            cumulative += seg_h
+        svg.append(f'<text x="{x + bar_w / 2:.1f}" y="{baseline - cumulative - 6:.1f}" class="viz-value-label" text-anchor="middle">{totals[i]:.0f}</text>')
+        label = f"&#8217;{str(year)[2:]}" + ("*" if ytd else "")
+        svg.append(f'<text x="{x + bar_w / 2:.1f}" y="{baseline + 20}" class="viz-axis-label" text-anchor="middle">{label}</text>')
+    other_title = f' title="{esc(TRAINING_OTHER_NOTE)}"'
+    legend = "".join(
+        f'<span class="viz-legend-item"{other_title if d == "other" else ""}>'
+        f'<span class="viz-swatch" style="background:{TRAINING_FILLS[d]}"></span>{TRAINING_LABELS[d]}</span>'
+        for d in TRAINING_ORDER
+    )
+    head = "".join(f"<th>{TRAINING_LABELS[d]}</th>" for d in TRAINING_ORDER)
+    rows = "".join(
+        f"<tr><th>{r['year']}{'*' if r['year'] == current_year else ''}</th>"
+        + "".join(f"<td>{r['hours'].get(d, 0):.0f}</td>" for d in TRAINING_ORDER)
+        + f"<td>{t:.0f}</td></tr>"
+        for r, t in zip(years, totals)
+    )
+    ytd_note = f" &middot; *{current_year} so far" if current_year and years[-1]["year"] == current_year else ""
+    return f'''<div class="viz-block">
+        <h3>Hours per year</h3>
+        <p class="viz-note">Stacked by discipline{ytd_note}</p>
+        <svg viewBox="0 0 {_TW} {_TH}" class="viz-svg" role="img" aria-label="Stacked bar chart of training hours per year by discipline, {years[0]['year']} to {years[-1]['year']}">{"".join(svg)}</svg>
+        <div class="viz-legend">{legend}</div>
+        <details class="viz-table-toggle">
+          <summary>Table view</summary>
+          <table class="viz-table">
+            <thead><tr><th>Year</th>{head}<th>Total</th></tr></thead>
+            <tbody>{rows}</tbody>
+          </table>
+          <p class="viz-note training-other-note">Other: {esc(TRAINING_OTHER_NOTE)}.</p>
+        </details>
+      </div>'''
+
+
+def training_week_chart(training):
+    weeks = training.get("weeks") or []
+    if not weeks:
+        return ""
+    hours = [w["hours"] for w in weeks]
+    avg = sum(hours) / len(hours)
+    margin = {"top": 26, "right": 8, "bottom": 34, "left": 40}
+    plot_w = _TW - margin["left"] - margin["right"]
+    plot_h = _TH - margin["top"] - margin["bottom"]
+    baseline = margin["top"] + plot_h
+    top, svg = _y_axis(max(hours), margin, plot_h, baseline, unit=" h")
+    slot_w = plot_w / len(weeks)
+    bar_w = max(slot_w - 2, 1)
+    scale = plot_h / top
+    last_label_i = -99
+    for i, w in enumerate(weeks):
+        start = dt.date.fromisoformat(w["start"])
+        x = margin["left"] + i * slot_w + (slot_w - bar_w) / 2
+        bar_h = w["hours"] * scale
+        title = esc(f"Week of {MONTHS[start.month - 1]} {start.day}, {start.year}: {w['hours']:.1f} h")
+        # A transparent full-height hit area keeps the hover tooltip usable on near-empty weeks.
+        svg.append(f'<rect x="{margin["left"] + i * slot_w:.1f}" y="{margin["top"]}" width="{slot_w:.1f}" height="{plot_h}" fill="transparent"><title>{title}</title></rect>')
+        if bar_h > 0:
+            svg.append(f'<rect x="{x:.1f}" y="{baseline - bar_h:.1f}" width="{bar_w:.1f}" height="{bar_h:.1f}" rx="1.5" fill="var(--series-1)" pointer-events="none"/>')
+        # Month tick where a month starts inside this week; skip ticks that would collide.
+        end = start + dt.timedelta(days=6)
+        if (start.day == 1 or end.month != start.month) and i - last_label_i >= 4:
+            month = end.month if end.month != start.month else start.month
+            svg.append(f'<text x="{x + bar_w / 2:.1f}" y="{baseline + 20}" class="viz-axis-label" text-anchor="middle">{MONTHS[month - 1]}</text>')
+            last_label_i = i
+    ay = baseline - avg * scale
+    svg.append(f'<line x1="{margin["left"]}" y1="{ay:.1f}" x2="{_TW - margin["right"]}" y2="{ay:.1f}" class="training-avg-line"/>')
+    svg.append(f'<text x="{_TW - margin["right"]}" y="{ay - 6:.1f}" class="viz-value-label training-avg-label" text-anchor="end">avg {avg:.1f} h</text>')
+    first = dt.date.fromisoformat(weeks[0]["start"])
+    last = dt.date.fromisoformat(weeks[-1]["start"])
+    rows = "".join(f"<tr><th>{w['start']}</th><td>{w['hours']:.1f}</td></tr>" for w in weeks)
+    return f'''<div class="viz-block">
+        <h3>Last 52 weeks</h3>
+        <p class="viz-note">Hours per week &middot; {MONTHS[first.month - 1]} {first.year} &ndash; {MONTHS[last.month - 1]} {last.year}</p>
+        <svg viewBox="0 0 {_TW} {_TH}" class="viz-svg" role="img" aria-label="Bar chart of training hours per week over the last 52 weeks, averaging {avg:.1f} hours">{"".join(svg)}</svg>
+        <details class="viz-table-toggle">
+          <summary>Table view</summary>
+          <table class="viz-table">
+            <thead><tr><th>Week starting</th><th>Hours</th></tr></thead>
+            <tbody>{rows}</tbody>
+          </table>
+        </details>
+      </div>'''
 
 
 VENUE_PATTERNS = (

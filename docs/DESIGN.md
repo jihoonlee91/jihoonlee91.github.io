@@ -97,6 +97,14 @@ every chart also ships a legend, direct value labels on segments/bars, and a
 the validator against the new surface before reusing this palette** — the
 contrast checks are surface-relative.
 
+The Life page's "Training log" (2026-11-05, from `assets/life/training.json`)
+reuses the same five slots for Swim / Bike / Run / Hike / Row and adds one
+neutral gray, `--series-other`, for the catch-all "Other" bucket — a sixth hue
+would break the validated set, and gray is the conventional "everything else"
+color. Same safeguards: legend, total labels on each bar, hover titles, and a
+table view. Its charts use a 480-unit viewBox with 13px labels (17px under
+640px) so the text stays legible when the two charts stack on a phone.
+
 ## Publication link badges
 
 Every publication, on both the Publications list and its own paper page,
