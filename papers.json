@@ -18,10 +18,10 @@
   "tagline": "Staff ML Engineer building production ML, LLM systems, and AI agents for semiconductor engineering, with a Ph.D. in aerospace flight control",
   "bio": "I build production ML, LLM systems, and AI agents for semiconductor engineering at Samsung Electronics. Before that, my Ph.D. in aerospace engineering focused on flight control, guidance, and optimization for UAVs. The common thread is reliable decisions for complex physical systems under uncertainty.",
   "citation_stats": {
-    "updated": "Sep. 2026",
-    "citations_all": 234,
-    "citations_since_2021": 215,
-    "h_index_all": 8,
+    "updated": "Nov. 2026",
+    "citations_all": 239,
+    "citations_since_2021": 220,
+    "h_index_all": 9,
     "h_index_since_2021": 8,
     "i10_index_all": 6,
     "i10_index_since_2021": 6,
@@ -32,9 +32,9 @@
       "2021": 9,
       "2022": 33,
       "2023": 29,
-      "2024": 43,
+      "2024": 44,
       "2025": 55,
-      "2026": 46
+      "2026": 50
     }
   },
   "education": [
@@ -196,7 +196,7 @@
       "authors": "Seokwon Lee, Jihoon Lee, Somang Lee, Hyunjin Choi, Youdan Kim, Seungkeun Kim, Jinyoung Suk",
       "venue": "IEEE Transactions on Aerospace and Electronic Systems, Vol. 55, No. 2, pp. 951-966",
       "year": 2019,
-      "citations": 86,
+      "citations": 87,
       "doi": "10.1109/TAES.2018.2867259",
       "abstract": "A guidance and control system is proposed for automatic carrier landing of an unmanned aerial vehicle (UAV). To this end, the position and attitude of the carrier is predicted by considering the sea state so that the UAV guidance loop can be compensated during the final approach phase. The landing kinematics and reference trajectory are determined using the predicted touchdown position. Nonlinear guidance and control laws are designed based on a sliding-mode control scheme to make the UAV robustly follow the reference trajectory.",
       "official_link": "https://ieeexplore.ieee.org/document/8447257/",
@@ -225,7 +225,7 @@
       "authors": "Jihoon Lee, Youdan Kim",
       "venue": "Proceedings of the Institution of Mechanical Engineers, Part G: Journal of Aerospace Engineering, Vol. 234, No. 10, pp. 1624-1637",
       "year": 2020,
-      "citations": 29,
+      "citations": 30,
       "doi": "10.1177/0954410019846713",
       "abstract": "A nonlinear command and stability augmentation system is designed based on feedback linearization for a morphing aircraft in the presence of different variable-span configurations. A variable-span morphing aircraft model is obtained by modifying a conventional aircraft model. Feed-forward neural networks are trained to learn the inverse dynamics in various morphing configurations and flight conditions. An attitude orientation system is designed to stabilize the airframe and track the commanded angular rates. Finally, an online adaptive mechanism is employed to compensate for inversion error. Even when the aircraft is changing the morphing configuration while maneuvering, the proposed design satisfies the desired handling quality specifications. Consequentially, the proposed design provides another degree of freedom to manipulate the morphing configuration, and therefore agility or fuel efficiency can be improved. Numerical simulation is performed to demonstrate the effectiveness of the proposed scheme.",
       "official_link": "https://journals.sagepub.com/doi/10.1177/0954410019846713",
@@ -254,7 +254,7 @@
       "authors": "Jihoon Lee, Seong-hun Kim, Seungyun Jung, Hanna Lee, Youdan Kim",
       "venue": "AIAA SciTech 2019 Forum, San Diego, CA, USA, Jan. 2019",
       "year": 2019,
-      "citations": 28,
+      "citations": 30,
       "doi": "10.2514/6.2019-0106",
       "abstract": "A pitch autopilot for variable-span and variable-sweep morphing aircraft using linear parameter-varying (LPV) control is proposed. A morphing aircraft model is developed as a nonlinear parameter-dependent dynamical system. The nonlinear model is linearized at each configuration and transformed into an LPV model. Full-order output-feedback gain-scheduled LPV controller is designed considering bounds on the parameter variation rate. The synthesized controller is also an LPV system, which is scheduled on the parameter and its rate of variation. Linear and nonlinear simulations are performed to demonstrate the effectiveness of the proposed scheme. Simulation results show that the proposed controller satisfies the performance requirement even under the maximum parameter variation rate.",
       "official_link": "https://arc.aiaa.org/doi/10.2514/6.2019-0106",
@@ -358,7 +358,7 @@
       "authors": "Jihoon Lee, Suwon Lee, Youngjun Lee, Youdan Kim, Yongjun Heo, Taedong Yoon",
       "venue": "IEEE Access, Vol. 9, pp. 30993-31009",
       "year": 2021,
-      "citations": 8,
+      "citations": 9,
       "doi": "10.1109/ACCESS.2021.3060061",
       "abstract": "A target tracking system with a laser rangefinder is developed, and the performance of the developed system is verified by a numerical simulation and field tests. To develop the target tracking system, appropriate coordinate systems, motion models, and estimation methods are selected, and a range filter is designed to compensate for the measurement errors of the laser rangefinder. The range filter independently processes the range measurements so that the target filter continuously produces the target information. The entire target tracking system development process is described in detail to facilitate future work of a similar nature. A scenario-based Monte Carlo simulation is performed to compare the performances of various state estimation methods. Experimental tests involving a low-speed fishing boat and a drone are performed to verify the performance and effectiveness of the proposed scheme. A separate performance analysis program with a graphical user interface is developed to analyze the simulation and field test results.",
       "official_link": "https://ieeexplore.ieee.org/document/9356604/",
@@ -383,7 +383,7 @@
       "authors": "Jihoon Lee, Seong-hun Kim, Seungyun Jung, Hanna Lee, Youdan Kim",
       "venue": "16th European Control Conference (ECC), Limassol, Cyprus, Jun. 2018",
       "year": 2018,
-      "citations": 8,
+      "citations": 9,
       "doi": "10.23919/ECC.2018.8550259",
       "abstract": "In this study, a sliding mode controller is designed for a longitudinal dynamic model of a span and sweep-varying morphing unmanned aerial vehicle. Changes in aerodynamic and dynamic characteristics of the morphing wing aircraft model are investigated. Controller is designed based on an input-output linearization scheme to accomplish regulation and command tracking of airspeed and altitude. Numerical simulation is performed, and the results show that nominal tracking performance of the proposed controller is maintained even in the presence of the morphing wing configuration changes.",
       "official_link": "https://ieeexplore.ieee.org/document/8550259/",
@@ -564,7 +564,9 @@
     },
     {
       "slug": "2023-phd-dissertation-lpv-asymmetric-morphing",
-      "old_slugs": ["2023-msc-thesis-lpv-asymmetric-morphing"],
+      "old_slugs": [
+        "2023-msc-thesis-lpv-asymmetric-morphing"
+      ],
       "category": "thesis",
       "title": "Self-Scheduled Parameter-Varying Control of Asymmetric Variable-Span Morphing Unmanned Aerial Vehicle",
       "title_en": null,
