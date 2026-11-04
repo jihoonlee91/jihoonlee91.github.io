@@ -45,9 +45,9 @@
 - [ ] ResearchGate 프로필에 같은 홈페이지 링크 등록.
 - [ ] 편집 권한이 있는 공개 연구실·기관 프로필에서 이 사이트로 연결.
 - [ ] 모핑 UAV 관련 공개 GitHub 저장소
-  (`gtm-lpv-control`, `gtm-morphing-sim`, `morphing-hinf-control-learning`,
+  (`morphing-uav-lpv-control`, `morphing-uav-gtm-sim`, `morphing-uav-hinf-learning`,
   `morphing-dl-gain-scheduler`, `argos-vtol-model`,
-  `morphing-flight-control-doc`) 중 특정 논문과 실제로 연결되는 것이 있다면 해당
+  `morphing-uav-flight-control-doc`) 중 특정 논문과 실제로 연결되는 것이 있다면 해당
   대응 관계를 확인. 확인 전에는 논문별 Code 링크로 추정 연결하지 않음.
 
 ## 선택 사항

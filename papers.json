@@ -5,8 +5,8 @@
   "email": "jihoon91.lee@gmail.com",
   "interests": [
     "LLM Systems & Agents",
+    "Semiconductor Manufacturing AI",
     "Production ML",
-    "Uncertainty-Aware Modeling",
     "Control & Optimization"
   ],
   "photo": "assets/profile.jpg",
@@ -755,7 +755,7 @@
       "title": "Flight control of asymmetric variable-span morphing aircraft using nonlinear dynamic inversion",
       "title_en": null,
       "authors": "Jihoon Lee, Seungyun Jung, Seong-hun Kim, Hanna Lee, Youdan Kim",
-      "venue": "11th Asia-Pacific International Symposium on Aerospace Technology (APISAT), Gold Coast, Australia, Dec. 2019 — Gold Award",
+      "venue": "11th Asia-Pacific International Symposium on Aerospace Technology (APISAT), Gold Coast, Australia, Dec. 2019",
       "year": 2019,
       "citations": 0,
       "doi": null,
@@ -1261,6 +1261,7 @@
       "Linux / Shell"
     ],
     "Domains": [
+      "Semiconductor Manufacturing (Memory)",
       "Machine Learning",
       "Control",
       "Optimization",

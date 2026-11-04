@@ -87,6 +87,6 @@ The open problem the paper ends on is choosing the *best* shape online — a lon
 
 - Paper: [Sensors 2023, 23(6), 3075](https://doi.org/10.3390/s23063075) (open access) · [paper page](../papers/2023-self-scheduled-lpv-asymmetric-morphing-uav.html)
 - Dissertation: [Self-Scheduled Parameter-Varying Control of Asymmetric Variable-Span Morphing UAV](../papers/2023-phd-dissertation-lpv-asymmetric-morphing.html) (Seoul National University, 2023)
-- Code: [`jihoonlee91/gtm-lpv-control`](https://github.com/jihoonlee91/gtm-lpv-control) — MATLAB/Simulink, built on [NASA GTM_DesignSim](https://github.com/nasa/GTM_DesignSim) and LPVTools
+- Code: [`jihoonlee91/morphing-uav-lpv-control`](https://github.com/jihoonlee91/morphing-uav-lpv-control) — MATLAB/Simulink, built on [NASA GTM_DesignSim](https://github.com/nasa/GTM_DesignSim) and LPVTools
 
 *Work done with Seong-Hun Kim, Hanna Lee, and Prof. Youdan Kim at the SNU Flight Dynamics and Control Lab, supported by the Ministry of Trade, Industry and Energy of Korea.*
