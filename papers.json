@@ -309,7 +309,21 @@
       "abstract": "A control design scheme that integrates policy-gradient-based integral reinforcement learning with an extended state observer is proposed for a morphing aircraft. A general continuous-time nonaffine system, such as a morphing aircraft, in which the morphing parameters are considered as control effectors, can be addressed by the proposed control scheme. By combining a Q-function with the policy gradient method, the optimal control problems for completely unknown and nonaffine systems can be resolved. The actor-critic parameter estimation employs the integral reinforcement learning technique. The learning-based strategy enables the prediction of optimal morphing parameters, even in the absence of a complete aerodynamic model. To estimate the disturbances derived from morphing variations, an extended state observer is designed using the knowledge of the nominal model. This approach allows for the independent design of controllers for both morphing parameters and conventional control effectors. A stability analysis shows the asymptotic stability of the closed-loop system and the optimal convergence of the Q-function. To demonstrate the effectiveness of the proposed method, a numerical simulation is performed.",
       "official_link": "https://ieeexplore.ieee.org/document/10535708/",
       "pdf": "papers/pdfs/2024-policy-gradient-irl-eso-morphing.pdf",
-      "theme": "Morphing-Wing Aircraft Control"
+      "theme": "Morphing-Wing Aircraft Control",
+      "figures": [
+        {
+          "src": "assets/figures/2024-policy-gradient-irl-eso-morphing-1.webp",
+          "caption": "Figure 1: Morphing aircraft model"
+        },
+        {
+          "src": "assets/figures/2024-policy-gradient-irl-eso-morphing-2.webp",
+          "caption": "Figure 2: Block diagram of the proposed control system"
+        },
+        {
+          "src": "assets/figures/2024-policy-gradient-irl-eso-morphing-3.webp",
+          "caption": "Figure 3: PGIRL based on the actor-critic structure"
+        }
+      ]
     },
     {
       "slug": "2019-dnn-feedback-dynamic-soaring",
