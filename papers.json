@@ -15,6 +15,8 @@
   "linkedin_url": "https://www.linkedin.com/in/jihoon91",
   "orcid_url": "https://orcid.org/0000-0001-5327-824X",
   "researchgate_url": "https://www.researchgate.net/profile/Jihoon-Lee-6",
+  "openreview_url": "https://openreview.net/profile?id=~Jihoon_Lee6",
+  "semanticscholar_url": "https://www.semanticscholar.org/author/2108586090",
   "tagline": "Staff ML Engineer building production ML, LLM systems, and AI agents for semiconductor engineering, with a Ph.D. in aerospace flight control",
   "bio": "I build production ML, LLM systems, and AI agents for semiconductor engineering at Samsung Electronics. Before that, my Ph.D. in aerospace engineering focused on flight control, guidance, and optimization for UAVs. The common thread is reliable decisions for complex physical systems under uncertainty.",
   "citation_stats": {
@@ -403,6 +405,10 @@
       "abstract": "In this study, a novel framework for the flight control of a morphing unmanned aerial vehicle (UAV) based on linear parameter-varying (LPV) methods is proposed. A high-fidelity nonlinear model and LPV model of an asymmetric variable-span morphing UAV were obtained using the NASA generic transport model. The left and right wing span variation ratios were decomposed into symmetric and asymmetric morphing parameters, which were then used as the scheduling parameter and the control input, respectively. LPV-based control augmentation systems were designed to track the normal acceleration, angle of sideslip, and roll rate commands. The span morphing strategy was investigated considering the effects of morphing on various factors to aid the intended maneuver. Autopilots were designed using LPV methods to track commands for airspeed, altitude, angle of sideslip, and roll angle. A nonlinear guidance law was coupled with the autopilots for three-dimensional trajectory tracking. A numerical simulation was performed to demonstrate the effectiveness of the proposed scheme.",
       "official_link": "https://www.mdpi.com/1424-8220/23/6/3075",
       "pdf": "papers/pdfs/2023-self-scheduled-lpv-asymmetric-morphing-uav.pdf",
+      "code": [
+        {"label": "MATLAB/Simulink", "url": "https://github.com/jihoonlee91/morphing-uav-lpv-control"},
+        {"label": "JAX", "url": "https://github.com/jihoonlee91/morphing-uav-jax"}
+      ],
       "theme": "Morphing-Wing Aircraft Control",
       "figures": [
         {
@@ -579,6 +585,9 @@
       "abstract": "In this dissertation, a novel framework for flight control of a morphing unmanned aerial vehicle (UAV) is proposed. The proposed method uses asymmetric span morphing for lateral-directional motion control considering the dynamic characteristics of the morphing actuators while exploiting the advantages of symmetric span morphing for longitudinal flight performance enhancement. The proposed control system is self-scheduled based on linear parameter-varying (LPV) methods, which guarantees stability and performance for the variations of the morphing configuration and the flight condition. Therefore, the morphing UAV is allowed to swiftly metamorphose into the optimal configuration to maximize the system-level benefit according to the maneuvering command and the flight condition. First, a high-fidelity nonlinear model of an asymmetric variable-span morphing UAV is obtained from the NASA generic transport model. The impacts of morphing on the center of mass, inertia matrix, and aerodynamic coefficients are modeled based on the asymmetrically damaged wing model. The span variation ratios of the left and right wings are decomposed into symmetric and asymmetric morphing parameters, which are considered as the scheduling parameter and the control input, respectively. The nonlinear model is decoupled and linearized to obtain point-wise linear time-invariant (LTI) models for the longitudinal and lateral-directional motions throughout the grid points over the entire rectangularized scheduling parameter domain. The LPV model of the morphing UAV is derived for the longitudinal and lateral-directional motions by associating the family of LTI models through interpolation. Second, the longitudinal and lateral-directional control augmentation systems are designed based on LPV methods to track the normal acceleration command and the angle of sideslip and the roll rate commands, respectively. The inherent dynamic characteristics of the morphing actuator, such as low bandwidth, are considered in the control design procedure through a frequency-dependent weighting filter. The span morphing strategy to assist the intended maneuver is studied considering the impacts of morphing on various aspects. Numerical simulations are performed to demonstrate the effectiveness of the proposed control scheme for pushover-pullup maneuver and high-g turn. Finally, the longitudinal and lateral-directional autopilots are designed based on LPV methods to track the airspeed and altitude commands and the angle of sideslip and roll angle commands, respectively. A nonlinear guidance law is coupled with the autopilots to enable three-dimensional trajectory tracking. Numerical simulation results for the trajectory-tracking flight show that the proposed controller shows satisfactory performance, while the closed-loop system using the conventional gain-scheduled controller may lose stability when the scheduling parameter varies rapidly or widely.",
       "official_link": "https://dcollection.snu.ac.kr/common/orgView/000000176713",
       "pdf": "papers/pdfs/2023-phd-dissertation-lpv-asymmetric-morphing.pdf",
+      "code": [
+        {"label": "MATLAB/Simulink", "url": "https://github.com/jihoonlee91/morphing-uav-lpv-control"}
+      ],
       "catalog_link": "https://snu-primo.hosted.exlibrisgroup.com/primo-explore/fulldisplay?docid=82SNU_INST51891008620002591&context=L&vid=82SNU&lang=ko_KR&search_scope=ALL&adaptor=Local%20Search%20Engine&tab=all&query=any,contains,self-scheduled",
       "theme": "Morphing-Wing Aircraft Control",
       "figures": [
@@ -707,6 +716,9 @@
       "abstract": "",
       "official_link": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE09317850",
       "pdf": "papers/pdfs/2019-asymmetric-morphing-modeling-sim-ko.pdf",
+      "code": [
+        {"label": "MATLAB/Simulink", "url": "https://github.com/jihoonlee91/morphing-uav-gtm-sim"}
+      ],
       "theme": "Morphing-Wing Aircraft Control",
       "figures": [
         {
