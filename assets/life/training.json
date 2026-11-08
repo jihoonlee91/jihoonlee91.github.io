@@ -1,11 +1,11 @@
 {
  "source": "Garmin Connect",
- "as_of": "2026-10-21",
+ "as_of": "2026-11-07",
  "totals": {
-  "activities": 3313,
+  "activities": 3314,
   "hours": 3679,
-  "km": 37422,
-  "elevation_m": 359225,
+  "km": 37428,
+  "elevation_m": 359264,
   "since": 2017
  },
  "years": [
@@ -113,7 +113,7 @@
    "hours": {
     "swim": 43.9,
     "bike": 38.9,
-    "run": 59.6,
+    "run": 60.3,
     "row": 23.2,
     "hike": 26.6,
     "other": 11.3
@@ -121,14 +121,6 @@
   }
  ],
  "weeks": [
-  {
-   "start": "2025-10-27",
-   "hours": 5.8
-  },
-  {
-   "start": "2025-11-03",
-   "hours": 11.2
-  },
   {
    "start": "2025-11-10",
    "hours": 7.3
@@ -328,6 +320,14 @@
   {
    "start": "2026-10-19",
    "hours": 0.9
+  },
+  {
+   "start": "2026-10-26",
+   "hours": 0.0
+  },
+  {
+   "start": "2026-11-02",
+   "hours": 0.7
   }
  ],
  "disciplines": {
@@ -352,10 +352,10 @@
    "best_20min_year": 2023
   },
   "run": {
-   "activities": 842,
-   "hours": 766,
-   "km": 6421,
-   "elevation_m": 55258,
+   "activities": 843,
+   "hours": 767,
+   "km": 6427,
+   "elevation_m": 55297,
    "since": 2019,
    "longest_km": 44.4,
    "longest_year": 2021,
