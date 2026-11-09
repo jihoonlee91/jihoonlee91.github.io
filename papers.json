@@ -21,9 +21,9 @@
   "bio": "I build production ML, LLM systems, and AI agents for semiconductor engineering at Samsung Electronics. Before that, my Ph.D. in aerospace engineering focused on flight control, guidance, and optimization for UAVs. The common thread is reliable decisions for complex physical systems under uncertainty.",
   "citation_stats": {
     "updated": "Nov. 2026",
-    "citations_all": 239,
-    "citations_since_2021": 220,
-    "h_index_all": 9,
+    "citations_all": 238,
+    "citations_since_2021": 219,
+    "h_index_all": 8,
     "h_index_since_2021": 8,
     "i10_index_all": 6,
     "i10_index_since_2021": 6,
@@ -35,7 +35,7 @@
       "2022": 33,
       "2023": 29,
       "2024": 44,
-      "2025": 55,
+      "2025": 54,
       "2026": 50
     }
   },
@@ -360,7 +360,7 @@
       "authors": "Jihoon Lee, Suwon Lee, Youngjun Lee, Youdan Kim, Yongjun Heo, Taedong Yoon",
       "venue": "IEEE Access, Vol. 9, pp. 30993-31009",
       "year": 2021,
-      "citations": 9,
+      "citations": 8,
       "doi": "10.1109/ACCESS.2021.3060061",
       "abstract": "A target tracking system with a laser rangefinder is developed, and the performance of the developed system is verified by a numerical simulation and field tests. To develop the target tracking system, appropriate coordinate systems, motion models, and estimation methods are selected, and a range filter is designed to compensate for the measurement errors of the laser rangefinder. The range filter independently processes the range measurements so that the target filter continuously produces the target information. The entire target tracking system development process is described in detail to facilitate future work of a similar nature. A scenario-based Monte Carlo simulation is performed to compare the performances of various state estimation methods. Experimental tests involving a low-speed fishing boat and a drone are performed to verify the performance and effectiveness of the proposed scheme. A separate performance analysis program with a graphical user interface is developed to analyze the simulation and field test results.",
       "official_link": "https://ieeexplore.ieee.org/document/9356604/",
